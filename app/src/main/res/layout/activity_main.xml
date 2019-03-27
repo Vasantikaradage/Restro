@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:padding="@dimen/dimen_5dp">
+
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="300dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/logo" />
+
+        <Button
+            android:id="@+id/btn_admin"
+            android:layout_width="250dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="35dp"
+            android:background="@color/colorPrimary"
+            android:text="Admin Login"
+            android:textColor="@color/colorwhite" />
+
+        <Button
+            android:id="@+id/btn_user"
+            android:layout_width="250dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="35dp"
+            android:background="@color/colorPrimary"
+            android:text="User Login"
+            android:textColor="@color/colorwhite" />
+
+        <Button
+            android:id="@+id/btn_kitchen"
+            android:layout_width="250dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="35dp"
+            android:background="@color/colorPrimary"
+            android:text="Kitchen Login"
+            android:textColor="@color/colorwhite" />
+
+        <Button
+            android:id="@+id/btnBarCounter"
+            android:layout_width="250dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="35dp"
+            android:background="@color/colorPrimary"
+            android:text="Bar Login"
+            android:textColor="@color/colorwhite" />
+
+
+        <!-- <TextView
+             android:id="@+id/tv_signup"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_gravity="center_horizontal"
+             android:layout_marginTop="20dp"
+             android:onClick="Signup"
+             android:fontFamily="casual"
+             android:text="Dont have an account? please register here!" />-->
+
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

@@ -1,0 +1,93 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.restrosmart.restro">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="ANDROID.PERMISSION.READ_EXTERNAL_STORAGE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher_restrosmart"
+        android:label="@string/app_name"
+        android:logo="@mipmap/ic_launcher_restrosmart"
+        android:roundIcon="@mipmap/ic_launcher_restrosmart"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:windowSoftInputMode="stateAlwaysVisible">
+        <activity android:name=".ActivitySplashScreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".Admin.AdminLogin"
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".User.ActivityUserLogin" />
+        <activity android:name=".Kitchen.ActivityKitchenLogin" />
+        <activity
+            android:name=".Admin.ActivityAdminDrawer"
+            android:label="@string/title_activity_admin_drawer"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Admin.AddCategory" />
+        <activity
+            android:name=".Admin.AdminProfile"
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".Admin.Admin_Forget_pass" />
+        <activity
+            android:name=".Admin.AddNewEmployee"
+            android:label="Employee Registration" />
+        <activity
+            android:name=".Admin.ActivityEmpolyeeProfile"
+            android:label="Profile" />
+        <activity
+            android:name=".Admin.NewOrderViewDetails"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="New Order Details"
+            android:parentActivityName=".Admin.AdminProfile"
+            android:screenOrientation="portrait"
+            android:uiOptions="splitActionBarWhenNarrow" />
+        <activity android:name=".Admin.OnGoingViewDetails" />
+        <activity android:name=".Admin.PastViewOrderDetails" />
+        <activity android:name=".User.ActivityUserHome" />
+        <activity
+            android:name=".Admin.ActivityCategoryMenu"
+            android:uiOptions="splitActionBarWhenNarrow" />
+        <activity android:name=".Admin.ActivityMenu" />
+        <activity android:name=".Admin.AddMenu" />
+        <activity android:name=".Admin.ActivityAddNewOffer" />
+        <!--
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="New Order Details"
+            android:parentActivityName=".Admin.ActivityAdminDrawer"
+            android:screenOrientation="portrait"
+            android:uiOptions="splitActionBarWhenNarrow"/>
+
+
+              android:configChanges="orientation"
+            android:screenOrientation="sensor"
+            android:theme="@style/Theme.AppCompat"
+        -->
+
+        <activity android:name=".Admin.ActivityAdminRegister" />
+        <activity android:name=".User.ActivityHotelMenu" />
+        <activity android:name=".User.ActivityCartBill" />
+        <activity android:name=".Admin.ActivityCategoryGallery" />
+        <activity android:name=".User.ActivityBillPayment" />
+        <activity android:name=".User.ActivityPaymentMethod" />
+        <activity android:name=".Admin.ActivityAddPayment" />
+        <activity android:name=".User.ActivityOrderChooser" />
+        <activity android:name=".User.ScanActivity" />
+        <activity android:name=".Kitchen.ActivityKitchenHome" />
+        <activity android:name=".Bar.ActivityBarHome"></activity>
+    </application>
+</manifest>

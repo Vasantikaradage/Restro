@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:showIn="navigation_view">
+
+    <group
+        android:id="@+id/gp_all_orders"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_all_orders"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:checkable="true"
+            android:icon="@drawable/ic_all_order"
+        android:checked="true"
+            app:itemTextColor="#ac1e1e"
+            android:title="Dashboard" />
+    </group>
+
+    <group
+        android:id="@+id/gp_menu"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_menu"
+            android:icon="@drawable/ic_add_menu"
+            app:itemBackground="@drawable/side_nav_bar"
+            app:itemTextColor="#a73636"
+            android:checkable="true"
+            android:title="Add Menu" />
+    </group>
+
+    <group
+        android:id="@+id/gp_offers"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_daily_offers"
+            android:icon="@drawable/ic_offer"
+            android:checkable="true"
+            android:title="Daily Offers" />
+    </group>
+
+
+
+
+    <group
+    android:id="@+id/add_employee"
+    android:checkableBehavior="single">
+    <item
+        android:id="@+id/nav_add_employee"
+        android:icon="@drawable/ic_workers_team"
+        android:checkable="true"
+        android:title="Employee Details" />
+</group>
+
+
+    <group
+        android:id="@+id/add_payment"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_add_payment_methods"
+            android:icon="@drawable/ic_credit_card"
+            android:checkable="true"
+            android:title="Payment Methods" />
+    </group>
+
+    <group
+        android:id="@+id/gp_reports"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_reports"
+            android:icon="@drawable/ic_growth"
+            android:checkable="true"
+            android:title="Reports" />
+    </group>
+
+
+    <group
+        android:id="@+id/gp_settings"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_settings"
+            android:checkable="true"
+            android:title="Settings" />
+    </group>
+
+
+</menu>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:padding="8dp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/ivPayModeImg"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_centerVertical="true" />
+
+    <TextView
+        android:id="@+id/tvPayModeName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="@dimen/dimen_10dp"
+        android:layout_marginEnd="40dp"
+        android:layout_toEndOf="@+id/ivPayModeImg"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:maxLines="2"
+        android:text="Payment Name"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="10dp"
+        android:src="@drawable/ic_chevron_right_black_24dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@+id/ivPayModeImg"
+        android:layout_marginLeft="@dimen/dimen_10dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="@dimen/dimen_10dp"
+        android:background="@color/colorGrey" />
+</RelativeLayout>
+
+
+

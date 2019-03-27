@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvEmployees"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/btnAddEmp"
+        android:layout_alignParentStart="true"
+        android:nestedScrollingEnabled="true"
+        android:scrollbars="vertical" />
+
+    <TextView
+        android:id="@+id/btnAddEmp"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/login_bg"
+        android:gravity="center"
+        android:scaleType="fitXY"
+        android:text="Add Employee"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
+
+</RelativeLayout>

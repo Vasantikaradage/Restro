@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".Admin.ActivityAdminDrawer">
+
+    <android.support.v7.widget.Toolbar
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@drawable/login_bg"
+
+        app:popupTheme="@style/AppTheme.PopupOverlay">
+
+    <TextView
+        android:id="@+id/tx_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Title"
+        android:textSize="18dp"
+        android:padding="10dp"
+        android:textColor="@color/white"
+        android:layout_marginTop="5dp"
+        android:visibility="visible"/>
+    <EditText
+        android:id="@+id/etx_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Title"
+        android:textSize="18dp"
+        android:textColor="@color/white"
+        android:padding="10dp"
+        android:layout_marginTop="5dp"
+        android:visibility="gone"/>
+
+
+    </android.support.v7.widget.Toolbar>
+
+</android.support.design.widget.CoordinatorLayout>

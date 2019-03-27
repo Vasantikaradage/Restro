@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/relative"
+    android:layout_height="match_parent"
+    >
+
+
+    <include
+        android:id="@+id/layout_include"
+        layout="@layout/tool_bar_admin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:id="@+id/linear_category"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_below="@+id/layout_include">
+
+  <android.support.v7.widget.CardView
+        android:id="@+id/cadr_category"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+      app:dragFromEdge="right"
+      app:cardCornerRadius="5dp"
+      >
+
+
+
+
+
+        <!-- <android.support.v7.widget.CardView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginBottom="14.4dp"
+             android:layout_marginLeft="13.4dp"
+             android:layout_marginTop="14.4dp"
+             app:cardCornerRadius="22dp"
+             app:cardBackgroundColor="@color/colorPrimary"
+             app:cardElevation="10dp">
+ -->
+        <!--<ImageView
+            android:id="@+id/circle_image"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+
+
+            android:layout_marginLeft="13.4dp"
+
+            android:src="@drawable/ic_mmenu"
+            />-->
+        <!--  </android.support.v7.widget.CardView>-->
+
+        <!--<RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/itemname1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="100dp"
+                android:text="Add New Menu"
+                android:textColor="#262628"
+                android:textSize="18sp"
+                android:textStyle="bold"  />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="7dp"
+
+                android:src="@drawable/ic_right_black_arrow" />
+
+        </RelativeLayout>-->
+  </android.support.v7.widget.CardView>
+    </LinearLayout>
+
+
+
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_menu_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_below="@+id/linear_category"
+        >
+
+    </android.support.v7.widget.RecyclerView>
+
+   <!-- <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btn_add_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+
+
+        android:layout_alignParentEnd="true"
+        android:onClick="addMenu"
+         android:layout_alignParentBottom="true"
+        android:layout_marginBottom="5dp"
+        android:layout_marginEnd="5dp"
+        android:src="@drawable/ic_action_add"
+        app:backgroundTint="@color/colorPrimary"
+        />-->
+
+
+    <!-- <Button
+         android:id="@+id/btn_add_menu"
+         android:layout_width="220dp"
+         android:layout_height="wrap_content"
+         android:text="@string/add_menu"
+
+         android:layout_centerHorizontal="true"
+         android:scaleType="fitXY"
+         android:textColor="@color/white"
+         android:layout_alignParentBottom="true"
+         android:layout_marginBottom="5dp"
+         android:background="@drawable/gradient_color"
+
+         />-->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp">
+
+
+        <FrameLayout
+            android:id="@+id/ivAddMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+
+            android:layout_margin="@dimen/fab_margin">
+
+            <ImageView
+                android:id="@+id/image_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/circle_bg_gradient" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_action_add" />
+
+        </FrameLayout>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

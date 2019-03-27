@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:padding="5dp">
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true">
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="233dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="233dp"
+                android:background="@drawable/foodimg2"
+                android:orientation="vertical"/>
+
+
+
+        </FrameLayout>
+
+
+        <LinearLayout
+            android:id="@+id/linear_profile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="15dp"
+            android:layout_marginTop="16.3dp"
+            android:background="#ffffff">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/imagehistory"
+                android:layout_width="42.3dp"
+                android:layout_height="42.3dp"
+                android:src="@drawable/ic_menu_camera"
+                />
+
+
+            <com.restrosmart.restro.customfonts.MyTextView_Roboto_Regular
+                android:id="@+id/tv1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="9.5dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:text="Profile"
+                android:textColor="#4a4a4a"
+                android:textSize="18.4sp" />
+
+            <ImageView
+                android:id="@+id/image1"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_chevron_right_black_24dp"
+                android:layout_marginTop="10dp"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/linear_privacy_policy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="15dp"
+            android:layout_marginTop="16.3dp"
+            android:background="#ffffff">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="42.3dp"
+                android:layout_height="42.3dp"
+                android:src="@drawable/ic_menu_camera"
+                />
+
+
+            <com.restrosmart.restro.customfonts.MyTextView_Roboto_Regular
+                android:id="@+id/privacy"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="9.5dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:text="Privacy Policy"
+                android:textColor="#4a4a4a"
+                android:textSize="18.4sp" />
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_chevron_right_black_24dp"
+                android:layout_marginTop="10dp"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/linear_terms_of_use"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="15dp"
+            android:layout_marginTop="16.3dp"
+            android:background="#ffffff">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="42.3dp"
+                android:layout_height="42.3dp"
+                android:src="@drawable/ic_menu_camera"
+                />
+
+
+            <com.restrosmart.restro.customfonts.MyTextView_Roboto_Regular
+
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="9.5dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:text="Terms of use"
+                android:textColor="#4a4a4a"
+                android:textSize="18.4sp" />
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_chevron_right_black_24dp"
+                android:layout_marginTop="10dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_logout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="15dp"
+            android:layout_marginTop="16.3dp"
+            android:background="#ffffff">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="42.3dp"
+                android:layout_height="42.3dp"
+                android:src="@drawable/ic_menu_camera"
+                />
+
+
+            <com.restrosmart.restro.customfonts.MyTextView_Roboto_Regular
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="9.5dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:text="Logout"
+                android:textColor="#4a4a4a"
+                android:textSize="18.4sp" />
+
+            <ImageView
+
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_chevron_right_black_24dp"
+                android:layout_marginTop="10dp"/>
+        </LinearLayout>
+
+
+
+       <!-- <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+        <TextView
+            android:id="@+id/tx_change_password"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/profile"
+            android:padding="10dp"
+            android:layout_weight="1.8"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
+
+
+            <ImageButton
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@android:drawable/list_selector_background"
+                android:src="@drawable/ic_action_right"
+                android:id="@+id/img_button1"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_weight="0.2"
+
+                android:clickable="true" />
+        </LinearLayout>-->
+
+
+       <!-- <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/cardview_dark_background"/>-->
+
+   <!-- <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <TextView
+            android:id="@+id/tx_privacy_policy"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/privacy_policy"
+            android:padding="10dp"
+            android:layout_weight="1.8"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
+
+
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@android:drawable/list_selector_background"
+            android:src="@drawable/ic_action_right"
+            android:id="@+id/img_button2"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_weight="0.2"
+
+            android:clickable="true" />
+    </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/cardview_dark_background"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+
+        <TextView
+            android:id="@+id/tx_terms_of_use"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_weight="1.8"
+            android:text="@string/terms_of_use"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
+
+
+
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@android:drawable/list_selector_background"
+            android:src="@drawable/ic_action_right"
+            android:id="@+id/img_button3"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_weight="0.2"
+
+            android:clickable="true" />
+    </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/cardview_dark_background"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+        <TextView
+            android:id="@+id/tx_logout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/logout"
+            android:layout_weight="1.8"
+            android:padding="10dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
+
+
+    <ImageButton
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/list_selector_background"
+        android:src="@drawable/ic_action_right"
+        android:id="@+id/img_button4"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_weight="0.2"
+
+        android:clickable="true" />
+</LinearLayout>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/cardview_dark_background"/>
+-->
+
+
+
+    </LinearLayout>
+
+
+    </RelativeLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+
+</android.support.design.widget.CoordinatorLayout>

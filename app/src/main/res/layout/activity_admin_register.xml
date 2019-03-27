@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Admin.ActivityAdminRegister">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#FF000000">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:alpha="0.3"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/bg_1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="30dp"
+                    android:gravity="center_horizontal"
+                    android:text="Admin Register"
+                    android:textAlignment="gravity"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                    android:textColor="@color/white"
+                    android:textSize="26sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:orientation="vertical">
+
+                    <EditText
+                        android:id="@+id/edtHotelName"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:drawableLeft="@drawable/ic_hotel_white_24dp"
+                        android:drawablePadding="@dimen/dimen_10dp"
+                        android:hint="Hotel Name"
+                        android:inputType="text"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white"
+                        android:textSize="16sp"
+                        app:backgroundTint="@color/white" />
+
+                    <EditText
+                        android:id="@+id/edtHotelAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginTop="20dp"
+                        android:drawableLeft="@drawable/ic_location_white_24dp"
+                        android:drawablePadding="@dimen/dimen_10dp"
+                        android:hint="Hotel Address"
+                        android:inputType="text"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white"
+                        android:textSize="16sp"
+                        app:backgroundTint="@color/white" />
+
+                    <EditText
+                        android:id="@+id/edtHotelMob"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:digits="0123456789"
+                        android:drawableLeft="@drawable/ic_phone_android_white_24dp"
+                        android:drawablePadding="@dimen/dimen_10dp"
+                        android:hint="Mobile Number"
+                        android:inputType="number"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white"
+                        android:textSize="16sp"
+                        app:backgroundTint="@color/white" />
+
+                    <EditText
+                        android:id="@+id/edtHotelPhone"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginTop="20dp"
+                        android:digits="0123456789"
+                        android:drawableLeft="@drawable/ic_phone_white_24dp"
+                        android:drawablePadding="@dimen/dimen_10dp"
+                        android:hint="Phone Number"
+                        android:inputType="number"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white"
+                        android:textSize="16sp"
+                        app:backgroundTint="@color/white" />
+
+                    <EditText
+                        android:id="@+id/edtHotelEmail"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:drawableLeft="@drawable/ic_mail_outline_white_24dp"
+                        android:drawablePadding="@dimen/dimen_10dp"
+                        android:hint="Email Id"
+                        android:inputType="textEmailAddress"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white"
+                        android:textSize="16sp"
+                        app:backgroundTint="@color/white" />
+
+                    <EditText
+                        android:id="@+id/edtHotelGstinNo"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginTop="20dp"
+                        android:drawableLeft="@drawable/ic_tax_white_24dp"
+                        android:drawablePadding="@dimen/dimen_10dp"
+                        android:hint="GSTIN Number"
+                        android:inputType="text"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white"
+                        android:textSize="16sp"
+                        app:backgroundTint="@color/white" />
+
+                    <EditText
+                        android:id="@+id/edtHotelPassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:drawableLeft="@drawable/ic_lock_outline_white_24dp"
+                        android:drawablePadding="@dimen/dimen_10dp"
+                        android:hint="Password"
+                        android:inputType="textPassword"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white"
+                        android:textSize="16sp"
+                        app:backgroundTint="@color/white" />
+
+                    <EditText
+                        android:id="@+id/edtHotleConfirmPassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginTop="20dp"
+                        android:drawableLeft="@drawable/ic_confirm_lock_outline_white_24dp"
+                        android:drawablePadding="@dimen/dimen_10dp"
+                        android:hint="Confirm Password"
+                        android:inputType="textPassword"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white"
+                        android:textSize="16sp"
+                        app:backgroundTint="@color/white" />
+                </LinearLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ProgressBar
+                        android:id="@+id/pbRegister"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:visibility="gone" />
+
+                    <Button
+                        android:id="@+id/btnHotelRegister"
+                        android:layout_width="300dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/dimen_10dp"
+                        android:layout_marginBottom="@dimen/dimen_20dp"
+                        android:background="@drawable/button_ripple_bg_light"
+                        android:text="Register"
+                        android:textColor="@color/colorPrimary" />
+                </FrameLayout>
+            </LinearLayout>
+        </FrameLayout>
+    </ScrollView>
+</LinearLayout>

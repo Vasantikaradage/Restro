@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/relative"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <include
+        android:id="@+id/name"
+        layout="@layout/tool_bar_admin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/name">
+
+        <LinearLayout
+            android:id="@+id/id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:weightSum="2">
+
+            <EditText
+                android:id="@+id/etx_offer_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:hint="@string/offer_name"
+                />
+
+
+
+            <Switch
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.5"/>
+
+        </LinearLayout>
+    </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/relative_from_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/relativeLayout"
+          >
+
+            <Button
+                android:id="@+id/btn_form_date"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+              android:layout_alignParentStart="true"
+                android:text="From Date"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/btn_form_date"
+                android:layout_marginEnd="17dp"
+                android:layout_toStartOf="@+id/imag_btn_from_date"
+                android:gravity="center"
+                android:text="02/08/2018" />
+
+            <ImageView
+                android:id="@+id/imag_btn_from_date"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentEnd="true"
+                android:foregroundGravity="center"
+                android:contentDescription="date"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="5dp"
+                app:srcCompat="@drawable/ic_calendarrr" />
+
+
+
+        </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relative_to_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/relative_from_date"
+        >
+
+        <Button
+            android:id="@+id/btn_to_date"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:text="To Date" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/btn_to_date"
+            android:layout_marginEnd="17dp"
+            android:layout_toStartOf="@+id/img_btn_to_date"
+            android:gravity="center"
+            android:text="02/08/2018" />
+
+        <ImageView
+            android:id="@+id/img_btn_to_date"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:foregroundGravity="center"
+            android:contentDescription="date"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="5dp"
+            app:srcCompat="@drawable/ic_calendarrr" />
+
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relative_from_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/relative_to_date"
+        >
+
+        <Button
+            android:id="@+id/btn_from_time"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:text="From Time" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/btn_from_time"
+            android:layout_marginEnd="17dp"
+            android:layout_toStartOf="@+id/img_btn_from_time"
+            android:gravity="center"
+            android:text="12:30pm" />
+
+        <ImageView
+            android:id="@+id/img_btn_from_time"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:foregroundGravity="center"
+            android:contentDescription="date"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="5dp"
+            app:srcCompat="@drawable/ic_clock" />
+
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relative_to_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/relative_from_time"
+        >
+
+        <Button
+            android:id="@+id/btn_to_time"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:text="To Time" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/btn_to_time"
+            android:layout_marginEnd="17dp"
+            android:layout_toStartOf="@+id/img_btn_to_time"
+            android:gravity="center"
+            android:text="12:30pm" />
+
+        <ImageView
+            android:id="@+id/img_btn_to_time"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:foregroundGravity="center"
+            android:contentDescription="date"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="5dp"
+            app:srcCompat="@drawable/ic_clock" />
+
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/linear_radio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/relative_to_time"
+        android:orientation="horizontal"
+        android:weightSum="3">
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Offer Value"
+        android:padding="5dp"
+        android:textStyle="bold"
+        android:layout_marginStart="5dp"
+        android:textSize="15dp"
+        android:layout_weight="2"
+        />
+
+        <RadioGroup
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:weightSum="2"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Rs">
+            </RadioButton>
+
+            <RadioButton
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="%">
+            </RadioButton>
+
+
+        </RadioGroup>
+
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/etx_offer_value"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Offer Value"
+        android:layout_below="@+id/linear_radio"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@+id/etx_offer_value">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Offer By"
+        android:textStyle="bold"
+       />
+
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Menu"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="visible"
+      >
+        <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:hintText="Parent Category">
+
+        </com.toptoche.searchablespinnerlibrary.SearchableSpinner>
+
+        <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:hintText="Sub Category"
+            android:layout_marginTop="5dp">
+
+        </com.toptoche.searchablespinnerlibrary.SearchableSpinner>
+
+
+        <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:hintText="Menu"
+            android:layout_marginTop="5dp">
+
+        </com.toptoche.searchablespinnerlibrary.SearchableSpinner>
+    </LinearLayout>
+
+
+
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Coupen"/>
+
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Others"/>
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        android:background="@drawable/gradient_color"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="5dp"/>
+    </RelativeLayout>
+
+    <!--<LinearLayoutw
+        android:id="@+id/linear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@+id/name"
+        android:padding="5dp">
+
+
+
+        <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+            android:id="@+id/sp_sub_category"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:hintText="@string/select_sub_category"
+
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+
+            android:layout_marginTop="5dp"/>
+
+
+        <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+            android:id="@+id/sp_menu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:hintText="@string/select_menu"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+
+            android:layout_marginTop="10dp"/>
+
+        <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+            android:id="@+id/sp_parent_category"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+
+
+
+            app:hintText="@string/select_parent_category" />
+
+
+
+
+
+    </LinearLayout>-->
+

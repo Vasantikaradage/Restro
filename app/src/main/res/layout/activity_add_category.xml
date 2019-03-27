@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+
+
+    <!--
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/login_bg"
+            android:orientation="vertical">
+
+            <include layout="@layout/toolbar_bar_admin_category" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="15dp"
+                android:orientation="vertical" />
+        </LinearLayout>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="150dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="100dp"
+            app:cardElevation="5dp">
+    -->
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/image_relative"
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:background="@drawable/login_bg"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/dimen_10dp">
+
+            <TextView
+                android:id="@+id/tx_add_cat"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:text="Add Category"
+                android:textColor="@color/white"
+                android:gravity="center_horizontal"
+                android:textSize="16dp"
+                android:layout_marginTop="3dp"
+                android:textStyle="bold"
+                android:visibility="gone"/>
+            <TextView
+                android:id="@+id/tx_edit_cat"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:text="Edit Category"
+                android:textColor="@color/white"
+                android:gravity="center_horizontal"
+                android:textSize="16dp"
+                android:layout_marginTop="3dp"
+                android:textStyle="bold"
+                android:visibility="gone"/>
+
+
+        <RelativeLayout
+
+            android:layout_width="wrap_content"
+            android:layout_height="170dp"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center_horizontal"
+
+
+
+            >
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/img_category"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:src="@drawable/foodimg2"
+                >
+            </de.hdodenhof.circleimageview.CircleImageView>
+
+            <FrameLayout
+                android:id="@+id/iv_select_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/img_category"
+                android:layout_marginStart="100dp"
+
+                android:layout_marginTop="30dp"
+
+                >
+
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/circle_bg_green" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_photo_camera" />
+
+            </FrameLayout>
+
+        </RelativeLayout>
+            </LinearLayout>
+
+
+
+
+
+
+
+        <!--<android.support.design.widget.FloatingActionButton
+
+    android:id="@+id/iv_select_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/card"
+            android:layout_marginEnd="60dp"
+            android:layout_marginTop="100dp"
+
+    android:backgroundTint="@color/colorPrimaryDark"
+            android:src="@drawable/ic_action_cat_camera" />-->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/image_relative"
+            >
+
+            <EditText
+                android:id="@+id/etx_category_name"
+                android:layout_width="400dp"
+                android:layout_height="40dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginEnd="10dp"
+
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="42dp"
+                android:hint="Enter Category Name">
+
+
+            </EditText>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/etx_category_name"
+                android:layout_marginBottom="25dp"
+                android:layout_marginTop="@dimen/dimen_20dp"
+                android:gravity="center">
+
+                <Button
+                    android:id="@+id/btnCancel"
+                    android:layout_width="130dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/button_outline_dark"
+                    android:text="Cancel"
+                    android:textColor="@color/colorPrimary" />
+
+                <Button
+                    android:id="@+id/btnSave"
+                    android:layout_width="130dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="@dimen/dimen_20dp"
+                    android:background="@drawable/button_outline_dark"
+                    android:text="Save"
+                    android:visibility="visible"
+                    android:textColor="@color/colorPrimary" />
+
+
+                <Button
+                    android:id="@+id/btnUpdate"
+                    android:layout_width="130dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="@dimen/dimen_20dp"
+                    android:background="@drawable/button_outline_dark"
+                    android:text="Update"
+                    android:visibility="gone"
+                    android:textColor="@color/colorPrimary"/>
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+
+
+    <!-- </android.support.v7.widget.CardView>
+ </FrameLayout>-->
+    </LinearLayout>
+</LinearLayout>
+
+
+
+

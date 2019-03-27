@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:foregroundGravity="center"
+        app:cardCornerRadius="80dp"
+        app:cardBackgroundColor="@color/colorGrey" >
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/img_category"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:foregroundGravity="center"
+        android:src="@drawable/foodimg2"
+        />
+    </android.support.v7.widget.CardView>
+
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/iv_select_image"
+        style="?buttonBarButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/card"
+        android:layout_marginEnd="126dp"
+        android:layout_marginTop="100dp"
+        android:src="@drawable/ic_action_cat_camera" />
+
+    <EditText
+        android:id="@+id/etx_category_name"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/card"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="42dp"
+        android:hint="Category Name">
+
+
+    </EditText>
+
+
+
+
+
+
+
+
+
+</RelativeLayout>

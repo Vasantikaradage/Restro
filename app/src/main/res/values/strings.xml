@@ -1,0 +1,161 @@
+<resources>
+    <string name="app_name">Restro Smart</string>
+    <string name="title_activity_admin_drawer">AdminDrawer</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="choose_image">choose image</string>
+    <string name="enter_category_name">Enter Category Name</string>
+    <string name="choose_parent_caterory">Choose Parent Category</string>
+    <string name="save">SAVE</string>
+    <string name="upload_image">Upload Image</string>
+    <string name="enter_item_name">Enter Item Name</string>
+    <string name="choose_item_category">Choose Item Category</string>
+    <string name="enter_normal_price">Enter Normal Price</string>
+    <string name="enter_offer_price">Enter Offer Price</string>
+    <string name="write_some_description">Write some description</string>
+    <string name="honey_chili_potato">Honey Chili Potato</string>
+    <string name="profile">Profile</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="terms_of_use">Terms Of Use</string>
+    <string name="logout">Logout</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="menu_name">Menu Name</string>
+    <string name="menu_qty">Menu Qty</string>
+    <string name="menu_price">Menu Price</string>
+    <string name="mobile_no">Mobile No: </string>
+    <string name="accept">Accept</string>
+    <string name="cancel">Cancel</string>
+    <string name="call">Call</string>
+
+    <string name="Rs">\u20B9</string>
+    <string name="remember_me">Remember Me</string>
+    <string name="view">View</string>
+
+    <string name="admin_name">Admin Name</string>
+    <string name="admin_email">Admin Email</string>
+    <string name="mobile_number">Mobile Number</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="old_password">Old Password</string>
+
+    <string name="order_status">Order Status:</string>
+    <string name="order_cancelled">Order Cancelled</string>
+    <string name="items">Items</string>
+    <string name="quantity">Quantity</string>
+    <string name="price">Price</string>
+    <string name="message">Message :</string>
+    <string name="hint_aadhar_number">Adhar Number</string>
+    <string name="hint_email_id">Email Address</string>
+    <string name="hint_mobile_number">Mobile Number</string>
+    <string name="hotel_name">Hotel Name</string>
+    <string name="active_status">Active Status</string>
+    <string name="employee_role">Role</string>
+    <string name="username">Username</string>
+    <string name="sub_total">Sub Total :</string>
+    <string name="delivery_fee">Delivery Fee :</string>
+    <string name="service_tax_20">+Service Tax(20%) :</string>
+    <string name="discount_20">-Discount(20%) :</string>
+    <string name="total">Total :</string>
+    <string name="cancel_order">Cancel Order</string>
+    <string name="user_name">User Name</string>
+    <string name="abc_gmail_com">abc@gmail.com</string>
+    <string name="description">Description</string>
+    <string name="parent_caterory_name">Parent Category Name</string>
+    <string name="action_logout">Logout</string>
+
+
+    <string-array name="planets_array">
+        <item>Veg</item>
+        <item>Non Veg</item>
+        <item>Liquors</item>
+    </string-array>
+
+    <string-array name="button_array">
+        <item>OFF</item>
+        <item>ON</item>
+    </string-array>
+
+
+    <string name="pref_key_transition_time" translatable="false">pref_key_transition_time</string>
+    <string name="category_discription">Category Discription</string>
+
+    <string name="menu_discription">Menu Discription</string>
+    <string name="enter_menu_name">Enter Menu Name</string>
+    <string name="enter_non_ac_rate">Enter Non Ac Rate</string>
+    <string name="select_parent_category">Select Parent Category</string>
+    <string name="select_sub_category">Select Sub Category</string>
+    <string name="select_menu">Select Menu</string>
+    <string name="offer_name">Offer Name</string>
+    <string name="add_menu">Add Menu</string>
+    <string name="add_category">Add Category</string>
+    <string name="update">Update</string>
+
+    <!--Cart activity-->
+    <string name="cart_price_details">PRICE DETAILS</string>
+    <string name="cart_sub_total">Sub Total (\u20B9)</string>
+    <string name="cart_delivery_charges">Delivery charges (\u20B9)</string>
+    <string name="cart_wallet_amount">Wallet amount (- \u20B9)</string>
+    <string name="cart_total_payable">Total Payable (\u20B9)</string>
+    <string name="cart_empty">Cart Empty</string>
+
+    <!--Remove menu from cart dialog-->
+    <string name="dialog_remove_menu">Remove Menu</string>
+    <string name="dialog_remove_menu_from_cart">Do you want to remove this menu from cart?</string>
+
+    <!--Place order confirmation dialog-->
+    <string name="dialog_place_order">Place Order</string>
+    <string name="dialog_place_order_from_cart">The placed order is confirmed?</string>
+
+    <!--order status-->
+    <string name="spinner_title">Select Order</string>
+    <string name="order_status_title_label">Check all order status according to orders</string>
+    <string name="take_image_from_gallery">Take image from gallery</string>
+    <string name="payment_type_name">Enter Payment Type Name</string>
+    <string name="bank_name">Enter Bank Name</string>
+    <string name="bank_branch_name">Enter Bank Branch Name</string>
+    <string name="enter_account_no">Enter Account No</string>
+
+    <string name="enter_name">Enter Name</string>
+    <string name="enter_mobile_no">Enter Mobile No</string>
+    <string name="enter_upi_code">Enter UPI Code</string>
+    <string name="enter_ifsc_code">Enter IFSC Code</string>
+
+    <!--Feedback dialog-->
+    <string name="feedback_title">Feedback</string>
+
+    <string name="feedback_label">Share your precious feedback \n with us !!!</string>
+    <string name="feedback_terrible">Terrible</string>
+    <string name="feedback_poor">Poor</string>
+    <string name="feedback_average">Average</string>
+    <string name="feedback_tasty">Tasty</string>
+    <string name="feedback_awesome">Awesome</string>
+    <string name="feedback_message">Message</string>
+
+    <!--Scratch card dialog-->
+    <string name="scratch_card_title">Scratch Card</string>
+    <string name="scratch_card_label">Scratch the card and win amazing food dish for your next visit</string>
+
+    <!--Payment mode dialog-->
+    <string name="payment_mode_title">Payment Mode</string>
+
+    <!--Buttons-->
+    <string name="btn_ok">OK</string>
+    <string name="btn_skip">Skip</string>
+    <string name="btn_send">Send</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="btn_confirm">Confirm</string>
+    <string name="btn_pay">Pay</string>
+
+    <!--QR Scanner-->
+    <string name="ok">OK</string>
+    <string name="grant_permission">Grant Permission</string>
+    <string name="permission_camera">This app needs camera permission to scan barcode</string>
+    <string name="low_storage_error">Face detector dependencies cannot be downloaded due to low device storage</string>
+    <string name="auto_focus">Auto Focus</string>
+    <string name="use_flash">Use Flash</string>
+    <string name="grant">Grant</string>
+</resources>
