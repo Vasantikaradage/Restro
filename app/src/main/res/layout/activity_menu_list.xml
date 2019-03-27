@@ -22,7 +22,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:background="@color/white"
-                app:srcCompat="@drawable/ic_action_btn_edit"
+                android:src="@drawable/ic_action_btn_edit"
                 android:text="Info"/>
 
             <ImageButton
@@ -30,7 +30,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:background="@color/white"
-                app:srcCompat="@drawable/ic_action_btn_delete"
+                android:src="@drawable/ic_action_btn_delete"
                 android:text="Edit"/>
 
         </LinearLayout>

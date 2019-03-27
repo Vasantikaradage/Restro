@@ -61,7 +61,7 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_gravity="center"
-                    app:srcCompat="@drawable/ic_water_bottle" />
+                    android:src="@drawable/ic_water_bottle" />
             </FrameLayout>
 
             <TextView
