@@ -149,6 +149,11 @@
     <string name="btn_cancel">Cancel</string>
     <string name="btn_confirm">Confirm</string>
     <string name="btn_pay">Pay</string>
+    <string name="water_bottle">Water Bottle</string>
+    <string name="do_you_want_to_add_water_bottle">Do you want to add water bottle?</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+    <string name="no_data_available">No data Available</string>
 
     <!--QR Scanner-->
     <string name="ok">OK</string>
@@ -158,4 +163,5 @@
     <string name="auto_focus">Auto Focus</string>
     <string name="use_flash">Use Flash</string>
     <string name="grant">Grant</string>
+
 </resources>

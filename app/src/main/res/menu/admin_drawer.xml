@@ -1,11 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_water_bottel"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_water_bottle"
+        android:title="@string/logout"
+        />
+
+
+
+
     <item
         android:id="@+id/action_logout"
        app:showAsAction="always"
         android:icon="@drawable/ic_action_logout"
         android:title="@string/logout"
         />
+
+
     
 </menu>

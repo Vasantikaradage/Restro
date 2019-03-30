@@ -15,7 +15,7 @@ import com.restrosmart.restro.R;
 public class AdminSettings extends Fragment {
 
     private  View view;
-    private LinearLayout profile, privacy, termsofuse, logout;
+    private LinearLayout changePassword, privacy, termsofuse, logout;
 
     // ImageButton btn_change_password,btn_privacy_policy,btn_terms_of_use,btn_logout;
 
@@ -24,7 +24,6 @@ public class AdminSettings extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_admin_settings, null);
-
         return view;
     }
 
@@ -32,15 +31,12 @@ public class AdminSettings extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        logout = view.findViewById(R.id.linear_logout);
-        privacy = view.findViewById(R.id.linear_privacy_policy);
-        profile = view.findViewById(R.id.linear_profile);
-        termsofuse = view.findViewById(R.id.linear_terms_of_use);
+        init();
 
-        profile.setOnClickListener(new View.OnClickListener() {
+        changePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getActivity(), AdminProfile.class);
+                Intent i = new Intent(getActivity(), ActivityChangePassword.class);
                 startActivity(i);
             }
         });
@@ -48,8 +44,8 @@ public class AdminSettings extends Fragment {
         privacy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getActivity(), ActivityCategoryMenu.class);
-                startActivity(i);
+               // Intent i = new Intent(getActivity(), ActivityCategoryMenu.class);
+               // startActivity(i);
             }
         });
 
@@ -61,5 +57,12 @@ public class AdminSettings extends Fragment {
                 startActivity(i);
             }
         });
+    }
+
+    private void init() {
+        logout = view.findViewById(R.id.linear_logout);
+        privacy = view.findViewById(R.id.linear_privacy_policy);
+        changePassword = view.findViewById(R.id.linear_change_password);
+        termsofuse = view.findViewById(R.id.linear_terms_of_use);
     }
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.CircularProgressDrawable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,6 +19,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -56,55 +59,58 @@ import static com.restrosmart.restro.Utils.Sessionmanager.BRANCH_ID;
 import static com.restrosmart.restro.Utils.Sessionmanager.HOTEL_ID;
 
 public class ActivityMenu extends AppCompatActivity implements View.OnClickListener {
+    private RecyclerView recyclerView;
+    private ArrayList<MenuDisplayForm> arrayListMenu;
+    private int Category_Id, pcId,mHotelId,mBranchId,position,menu_test;
+    private FrameLayout btnAddMenu;
+    private TextView txTitle;
+    private EditText etxCategoryNme, etxMenuNme, etxMenuPrice, etxMenuDiscrp;
+    private MenuItem edit, save;
+    private String categoryName, categoryImageName, image, imageName, mFinalImageName;
 
-    RecyclerView recyclerView;
-    ArrayList<MenuDisplayForm> arrayListMenu;
-    int Category_Id, btnId;
-    FrameLayout btnAddMenu;
-    TextView txTitle;
-    EditText etxCategoryNme, etxMenuNme, etxMenuPrice, etxMenuDiscrp;
-    MenuItem edit, save;
-    private String mHotelId, mBranchId, categoryName, categoryImageName, image, image_result, mFinalImageName;
-    private int position;
+    private AlertDialog dialog;
 
     private  RadioButton btnRadiosweet,btnRadiospicy,btnRadionull;
     private  RadioGroup radioGrpMenu;
 
     private RetrofitService mRetrofitService;
     private IResult mResultCallBack;
-    private CircleImageView circleImageView1;
+
+    private CircleImageView mCircleImageView;
     private View dialoglayout;
-    private  int menu_test;
+
+    private Toolbar mTopToolbar;
+    private ProgressBar progressBar;
+    private LinearLayout llNoMenuData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.actvity_menu_items);
-        // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        btnAddMenu = (FrameLayout) findViewById(R.id.ivAddMenu);
+        init();
 
         Intent intent = getIntent();
         Category_Id = intent.getIntExtra("Category_Id", 0);
+        pcId = intent.getIntExtra("Pc_Id", 0);
         categoryName = intent.getStringExtra("Category_Name");
         categoryImageName = intent.getStringExtra("Category_image");
 
-        Toolbar mTopToolbar = (Toolbar) findViewById(R.id.toolbar);
-        txTitle = (TextView) mTopToolbar.findViewById(R.id.tx_title);
-
-        setSupportActionBar(mTopToolbar);
-        txTitle.setText(categoryName);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
+        setupToolBar();
 
         Sessionmanager sharedPreferanceManage = new Sessionmanager(this);
         HashMap<String, String> name_info = sharedPreferanceManage.getHotelDetails();
-        mHotelId = name_info.get(HOTEL_ID);
-        mBranchId = name_info.get(BRANCH_ID);
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_menu_item);
-        arrayListMenu = new ArrayList<MenuDisplayForm>();
-        btnAddMenu.setOnClickListener(this);
-        init();
+        mHotelId = Integer.parseInt(name_info.get(HOTEL_ID));
+        mBranchId = Integer.parseInt(name_info.get(BRANCH_ID));
+
+        MenuListRetrofitServiceCall();
+    }
+
+    private void setupToolBar() {
+        txTitle = (TextView) mTopToolbar.findViewById(R.id.tx_title);
+        setSupportActionBar(mTopToolbar);
+        txTitle.setText(categoryName);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
     }
 
     @Override
@@ -124,7 +130,7 @@ public class ActivityMenu extends AppCompatActivity implements View.OnClickListe
         final AlertDialog.Builder builder = new AlertDialog.Builder(ActivityMenu.this);
         builder.setView(dialoglayout);
 
-        final AlertDialog dialog = builder.create();
+        dialog = builder.create();
 
         FrameLayout btnCamara = (FrameLayout) dialoglayout.findViewById(R.id.iv_select_image);
 
@@ -137,26 +143,23 @@ public class ActivityMenu extends AppCompatActivity implements View.OnClickListe
         TextView txTitle = dialoglayout.findViewById(R.id.tx_add_menu);
         TextView etxTitle = dialoglayout.findViewById(R.id.tx_edit_menu);
 
-        circleImageView1 = (CircleImageView) dialoglayout.findViewById(R.id.img_category);
-        radioGrpMenu=(RadioGroup)dialoglayout.findViewById(R.id.radio_grp_menu);
-        btnRadiosweet=(RadioButton)dialoglayout.findViewById(R.id.btn_radio_sweet);
-        btnRadiospicy=(RadioButton)dialoglayout.findViewById(R.id.btn_radio_spicy);
-        btnRadionull=(RadioButton)dialoglayout.findViewById(R.id.btn_radio_null);
+        mCircleImageView = (CircleImageView) dialoglayout.findViewById(R.id.img_category);
+        radioGrpMenu = (RadioGroup) dialoglayout.findViewById(R.id.radio_grp_menu);
+        btnRadiosweet = (RadioButton) dialoglayout.findViewById(R.id.btn_radio_sweet);
+        btnRadiospicy = (RadioButton) dialoglayout.findViewById(R.id.btn_radio_spicy);
+        btnRadionull = (RadioButton) dialoglayout.findViewById(R.id.btn_radio_null);
 
-
-
-
-
-       //Add Menu information
-        if (position == 0)
-        {
+        //Add Menu information
+        if (position == 0) {
             txTitle.setVisibility(View.VISIBLE);
             etxTitle.setVisibility(View.GONE);
 
             btnCamara.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(ActivityMenu.this, ActivityCategoryGallery.class);
+                    Intent intent = new Intent(ActivityMenu.this, ActivityMenuGallery.class);
+                    intent.putExtra("Category_Id", Category_Id);
+                    intent.putExtra("Pc_Id", pcId);
                     startActivityForResult(intent, IMAGE_RESULT_OK);
                 }
             });
@@ -180,15 +183,18 @@ public class ActivityMenu extends AppCompatActivity implements View.OnClickListe
             });
 
 
-
             btnSave.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    String selImage = image_result;
-                    int start = selImage.indexOf("t/");
-                    String suffix = selImage.substring(start + 1);
-                    int start1 = suffix.indexOf("/");
-                    mFinalImageName = suffix.substring(start1 + 1);
+                    if (imageName != null) {
+                        String selImage = imageName;
+                        int start = selImage.indexOf("t/");
+                        String suffix = selImage.substring(start + 1);
+                        int start1 = suffix.indexOf("/");
+                        mFinalImageName = suffix.substring(start1 + 1);
+                    } else {
+                        mFinalImageName = "null";
+                    }
                     getRetrofitDataforMenusave();
                 }
 
@@ -204,8 +210,9 @@ public class ActivityMenu extends AppCompatActivity implements View.OnClickListe
                             Category_Id,
                             menu_test,
                             etxMenuPrice.getText().toString(),
-                            Integer.parseInt(mHotelId),
-                            Integer.parseInt(mBranchId))));
+                           mHotelId,
+                           mBranchId,
+                            pcId)));
 
                     init();
                     dialog.dismiss();
@@ -224,64 +231,55 @@ public class ActivityMenu extends AppCompatActivity implements View.OnClickListe
             String cPrice = String.valueOf(arrayListMenu.get(position - 1).getNon_Ac_Rate());
             String cDisp = arrayListMenu.get(position - 1).getMenu_Descrip();
             image = arrayListMenu.get(position - 1).getMenu_Image_Name();
-            int mTeste=(arrayListMenu.get(position-1).getMenu_Test());
+            int mTeste = (arrayListMenu.get(position - 1).getMenu_Test());
 
             etxMenuNme.setText(cName);
             etxMenuPrice.setText(cPrice);
             etxMenuDiscrp.setText(cDisp);
 
-            if(mTeste==1)
-            {
+            if (mTeste == 1) {
                 btnRadiosweet.setChecked(true);
-                menu_test=1;
-            }
-            else if(mTeste==2)
-            {
+                menu_test = 1;
+            } else if (mTeste == 2) {
                 btnRadiospicy.setChecked(true);
-                menu_test=2;
+                menu_test = 2;
 
-            }else
-            {
+            } else {
                 btnRadionull.setChecked(true);
-                menu_test=3;
+                menu_test = 3;
             }
 
 
             Picasso.with(dialoglayout.getContext())
                     .load(image)
                     .resize(500, 500)
-                    .into(circleImageView1);
+                    .into(mCircleImageView);
 
             btnCamara.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(ActivityMenu.this, ActivityCategoryGallery.class);
+                    Intent intent = new Intent(ActivityMenu.this, ActivityMenuGallery.class);
+                    intent.putExtra("Category_Id", Category_Id);
+                    intent.putExtra("Pc_Id", pcId);
                     startActivityForResult(intent, IMAGE_RESULT_OK);
-
-
                 }
             });
 
             radioGrpMenu.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                 public void onCheckedChanged(RadioGroup group, int checkedId) {
                     switch (checkedId) {
-
                         case R.id.btn_radio_sweet:
-                            menu_test=1;
+                            menu_test = 1;
                             break;
                         case R.id.btn_radio_spicy:
-                            menu_test=2;
+                            menu_test = 2;
                             break;
                         case R.id.btn_radio_null:
-                            menu_test=3;
+                            menu_test = 3;
                             break;
                     }
                 }
             });
-
-
-
-
         }
 
 
@@ -292,19 +290,17 @@ public class ActivityMenu extends AppCompatActivity implements View.OnClickListe
 
                 int start, start1 = 0;
                 String suffix = null;
-
-                if (image_result == null) {
-
+                if (imageName == null) {
                     Picasso.with(dialoglayout.getContext())
                             .load(image)
                             .resize(500, 500)
-                            .into(circleImageView1);
+                            .into(mCircleImageView);
                     start = image.indexOf("t/");
                     suffix = image.substring(start + 1);
                     start1 = suffix.indexOf("/");
                     mFinalImageName = suffix.substring(start1 + 1);
                 } else {
-                    String selImage = image_result;
+                    String selImage = imageName;
                     int start2 = selImage.indexOf("t/");
                     String suffix1 = selImage.substring(start2 + 1);
                     int start3 = suffix1.indexOf("/");
@@ -314,25 +310,19 @@ public class ActivityMenu extends AppCompatActivity implements View.OnClickListe
 
                 initRetrofitCallback();
                 ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
-                //  mRetrofitService = new RetrofitService(mResultCallBack, getActivity());
                 mRetrofitService = new RetrofitService(mResultCallBack, ActivityMenu.this);
                 mRetrofitService.retrofitData(EDIT_MENU, (service.editMenu(etxMenuNme.getText().toString(),
                         etxMenuDiscrp.getText().toString(),
                         mFinalImageName,
                         menu_test,
                         etxMenuPrice.getText().toString(),
-                        (arrayListMenu.get(position - 1).getMenu_Id()),
-                        Integer.parseInt(mHotelId),
-                        Integer.parseInt(mBranchId))));
-
-                //arrayListMenu.clear();
-               // init();
+                        arrayListMenu.get(position - 1).getMenu_Id(),
+                        mHotelId,
+                        mBranchId)));
                 dialog.dismiss();
 
             }
         });
-
-
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -349,7 +339,7 @@ public class ActivityMenu extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
-        init();
+        MenuListRetrofitServiceCall();
     }
 
     @Override
@@ -359,7 +349,6 @@ public class ActivityMenu extends AppCompatActivity implements View.OnClickListe
         edit = menu.findItem(R.id.edit);
         save = menu.findItem(R.id.save);
         return true;
-
     }
 
     @Override
@@ -369,12 +358,12 @@ public class ActivityMenu extends AppCompatActivity implements View.OnClickListe
         if (id == R.id.delete) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder
-                    .setTitle("Delete Menu")
-                    .setMessage("Are you sure you want to delete this Menu ?")
+                    .setTitle("Delete Category")
+                    .setMessage("Are you sure you want to delete this Category ?")
                     .setIcon(R.drawable.ic_action_btn_delete)
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
-                            delete();
+                            deleteCategory();
                         }
                     });
             builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -418,19 +407,20 @@ public class ActivityMenu extends AppCompatActivity implements View.OnClickListe
 
         TextView txTitle = dialoglayout.findViewById(R.id.tx_edit_cat);
         txTitle.setVisibility(View.VISIBLE);
-        circleImageView1 = (CircleImageView) dialoglayout.findViewById(R.id.img_category);
+        mCircleImageView = (CircleImageView) dialoglayout.findViewById(R.id.img_category);
 
         etxCategoryNme.setText(categoryName);
 
         Picasso.with(dialoglayout.getContext())
                 .load(categoryImageName)
                 .resize(500, 500)
-                .into(circleImageView1);
+                .into(mCircleImageView);
 
         btnCamara.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ActivityMenu.this, ActivityCategoryGallery.class);
+                intent.putExtra("Pc_Id",pcId);
                 startActivityForResult(intent, IMAGE_RESULT_OK);
             }
         });
@@ -442,12 +432,12 @@ public class ActivityMenu extends AppCompatActivity implements View.OnClickListe
                 int start, start1;
                 String suffix;
 
-                if (image_result == null) {
+                if (imageName == null) {
                     start = categoryImageName.indexOf("t/");
                     suffix = categoryImageName.substring(start + 1);
                     start1 = suffix.indexOf("/");
                 } else {
-                    String selImage = image_result;
+                    String selImage = imageName;
                     start = selImage.indexOf("t/");
                     suffix = selImage.substring(start + 1);
                     start1 = suffix.indexOf("/");
@@ -464,11 +454,14 @@ public class ActivityMenu extends AppCompatActivity implements View.OnClickListe
                 initRetrofitCallback();
                 ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
                 mRetrofitService = new RetrofitService(mResultCallBack, ActivityMenu.this);
-                mRetrofitService.retrofitData(EDIT_CATEGORY, service.editCategory(etxCategoryNme.getText().toString(),
+                mRetrofitService.retrofitData(EDIT_CATEGORY, service.editCategory(
+                        categoryName,
+                        etxCategoryNme.getText().toString(),
                         mFinalImageName,
                         Category_Id,
-                        Integer.parseInt(mHotelId),
-                        Integer.parseInt(mBranchId)
+                        mHotelId,
+                        mBranchId,
+                        pcId
                 ));
             }
         });
@@ -491,39 +484,45 @@ public class ActivityMenu extends AppCompatActivity implements View.OnClickListe
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == IMAGE_RESULT_OK /*&& requestCode==IMAGE_RESULT_OK*/) {
-            image_result = data.getStringExtra("image_name");
-            Log.e("Result", image_result);
+            imageName = data.getStringExtra("image_name");
+            // Log.e("Result", imageName);
 
             Picasso.with(dialoglayout.getContext())
-                    .load(image_result)
+                    .load(imageName)
                     .resize(500, 500)
-                    .into(circleImageView1);
+                    .into(mCircleImageView);
         }
     }
 
 
     //category delete web service call
-    private void delete() {
-        //catId = arrayList.get(position).getCategory_id();
+    private void deleteCategory() {
         initRetrofitCallback();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, ActivityMenu.this);
         mRetrofitService.retrofitData(DELETE_CATEGORY, service.deleteCategory(Category_Id,
-                Integer.parseInt(mBranchId),
-                Integer.parseInt(mHotelId)));
+               mBranchId,
+               mHotelId,
+                pcId));
     }
 
     private void init() {
-        retrofitServiceCall();
+        btnAddMenu = (FrameLayout) findViewById(R.id.ivAddMenu);
+        mTopToolbar = (Toolbar) findViewById(R.id.toolbar);
+        progressBar=(ProgressBar)findViewById(R.id.progressBar);
+        llNoMenuData=findViewById(R.id.llNoMenuData);
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_menu_item);
+        arrayListMenu = new ArrayList<MenuDisplayForm>();
+        btnAddMenu.setOnClickListener(this);
     }
 
-    private void retrofitServiceCall() {
+    private void MenuListRetrofitServiceCall() {
         initRetrofitCallback();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, ActivityMenu.this);
         mRetrofitService.retrofitData(MENU_LIST, (service.getMenus(Category_Id,
-                Integer.parseInt(mBranchId),
-                Integer.parseInt(mHotelId))));
+                mBranchId,
+               mHotelId)));
     }
 
     //retrofit call
@@ -541,8 +540,9 @@ public class ActivityMenu extends AppCompatActivity implements View.OnClickListe
 
                             int status = jsonObject1.getInt("status");
                             if (status == 1) {
+                                llNoMenuData.setVisibility(View.GONE);
 
-                                JSONArray jsonArray = jsonObject1.getJSONArray("data");
+                                JSONArray jsonArray = jsonObject1.getJSONArray("submenu");
 
                                 arrayListMenu.clear();
                                 for (int i = 0; i < jsonArray.length(); i++) {
@@ -563,7 +563,8 @@ public class ActivityMenu extends AppCompatActivity implements View.OnClickListe
                                 callAdapter();
 
                             } else {
-
+                                llNoMenuData.setVisibility(View.VISIBLE);
+                                progressBar.setVisibility(View.GONE);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -574,10 +575,9 @@ public class ActivityMenu extends AppCompatActivity implements View.OnClickListe
 
                         JsonObject jsonObject1 = response.body();
                         Toast.makeText(ActivityMenu.this, "Category deleted successfully", Toast.LENGTH_LONG).show();
-
-                        Intent deleteIntent = new Intent();
-                        deleteIntent.setAction("cat_Delete");
-                        sendBroadcast(deleteIntent);
+                        Intent intent = new Intent();
+                        intent.setAction("Refresh_CategoryList");
+                        sendBroadcast(intent);
                         finish();
                         break;
 
@@ -590,9 +590,11 @@ public class ActivityMenu extends AppCompatActivity implements View.OnClickListe
                             int status = object.getInt("status");
                             if (status == 1) {
                                 Toast.makeText(ActivityMenu.this, "Item Updated Successfully", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent();
-                                intent.setAction("Update_Category");
-                                sendBroadcast(intent);
+                                Intent intent1 = new Intent();
+                                intent1.setAction("Refresh_CategoryList");
+                                sendBroadcast(intent1);
+                                finish();
+                                //  dialog.dismiss();
 
 
                             }
@@ -605,6 +607,7 @@ public class ActivityMenu extends AppCompatActivity implements View.OnClickListe
                     case ADD_MENU:
                         JsonObject jsonAddMenuObj = response.body();
                         Toast.makeText(ActivityMenu.this, "Menu Added successfully", Toast.LENGTH_LONG).show();
+                        MenuListRetrofitServiceCall();
                         break;
 
                     case EDIT_MENU:
@@ -616,9 +619,8 @@ public class ActivityMenu extends AppCompatActivity implements View.OnClickListe
                             int status = object.getInt("status");
                             if (status == 1) {
                                 Toast.makeText(ActivityMenu.this, "Item Updated Successfully", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent();
-                                intent.setAction("Update_Category");
-                                sendBroadcast(intent);
+                                MenuListRetrofitServiceCall();
+
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -633,7 +635,8 @@ public class ActivityMenu extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void notifyError(int requestId, Throwable error) {
-
+                Log.d("", "requestId" + requestId);
+                Log.d("", "RetrofitError" + error);
             }
         };
     }
@@ -644,10 +647,10 @@ public class ActivityMenu extends AppCompatActivity implements View.OnClickListe
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        AdapterDisplayAllMenus displayAllMenus = new AdapterDisplayAllMenus(this, new DeleteResult() {
+        AdapterDisplayAllMenus displayAllMenus = new AdapterDisplayAllMenus(this, pcId, new DeleteResult() {
             @Override
             public void getDeleteInfoCallBack() {
-                retrofitServiceCall();
+                MenuListRetrofitServiceCall();
             }
         }, arrayListMenu, new Category() {
             @Override
@@ -661,6 +664,7 @@ public class ActivityMenu extends AppCompatActivity implements View.OnClickListe
         {
             recyclerView.setAdapter(displayAllMenus);
         }
+        progressBar.setVisibility(View.GONE);
     }
 
 

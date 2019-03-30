@@ -89,4 +89,9 @@ public class MenuDisplayForm {
     public void setBranch_Id(int branch_Id) {
         Branch_Id = branch_Id;
     }
+
+    @Override
+    public String toString() {
+        return Menu_Name;
+    }
 }

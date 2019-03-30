@@ -2,6 +2,7 @@
 <com.restrosmart.restro.Admin.SwipeRevealLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="90dp"
+    android:id="@+id/swipeLayout"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:dragFromEdge="right">
 
@@ -39,6 +40,7 @@
    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+       android:id="@+id/frame_layout"
         android:clickable="true">
 
         <android.support.v7.widget.CardView
@@ -124,7 +126,7 @@
 
 
 
-                            <com.restrosmart.restro.customfonts.MyTextView_Roboto_Regular
+                            <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
 

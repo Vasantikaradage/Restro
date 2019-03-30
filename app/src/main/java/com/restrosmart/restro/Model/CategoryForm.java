@@ -111,4 +111,9 @@ public class CategoryForm implements Parcelable {
         dest.writeInt(Branch_Id);
         dest.writeInt(Pc_Id);
     }
+
+    @Override
+    public String toString() {
+        return Category_Name;
+    }
 }

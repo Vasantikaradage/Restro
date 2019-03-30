@@ -5,7 +5,8 @@ package com.restrosmart.restro.Model;
  */
 
 public class OfferForm {
-    private  int Offer_Id;
+    private  int Offer_Id,status;
+
     private String Menu_Name;
     private  String Menu_Descrip;
     private  String Menu_Image_Name;
@@ -76,5 +77,13 @@ public class OfferForm {
 
     public void setOffer_Value(String offer_Value) {
         Offer_Value = offer_Value;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

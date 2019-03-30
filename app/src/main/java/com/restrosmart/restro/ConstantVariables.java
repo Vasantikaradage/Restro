@@ -44,4 +44,41 @@ public class ConstantVariables {
 
     /*Activity Hotel Menu*/
     public  static  final  int WATER_BOTTLE_DETAIL=15;
+	
+	
+
+
+
+
+    public  static  final  int PARENT_CATEGORY_WITH_SUB=22;
+
+
+
+    public  static  final  int IMAGE_MENU_LIST=16;
+
+    public  static  final  int SAVE_WATER_BOTTLE=17;
+
+    public  static  final  int DISPLAY_WATER_BOTTLE=18;
+
+    public  static  final  int EDIT_WATER_BOTTLE=19;
+
+    public static  final  int SUB_CATEGORY_DISPLAY=220;
+
+    public  static  final int MENU_DISPLAY=221;
+
+    public  static  final  int ADD_NEW_OFFER=222;
+    public  static  final  int EDIT_OFFER=228;
+    public  static  final  int FORGET_PASSWORD=223;
+    public  static  final  int CHANGE_PASSWORD=224;
+    public  static  final  int EMP_EDIT_DETAILS=226;
+
+
+    public  static  final  int DELETE_OFFER=227;
+    public  static  final  int OFF_OFFER=229;
+    public  static  final  int DELETE_EMPLOYEE=228;
+    public  static  final  int FLAVOUR_DISPLAY=300;
+    public  static  final  int ADD_FLAVOUR=301;
+
+    public  static  final  int BRANCH_DETAILS=302;
+    public  static  final  int EDIT_BRANCH_DETAILS=303;
 }

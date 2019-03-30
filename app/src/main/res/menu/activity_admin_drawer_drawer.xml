@@ -53,6 +53,16 @@
         android:title="Employee Details" />
 </group>
 
+    <group
+        android:id="@+id/hotel_detail"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_hotel_details"
+            android:icon="@drawable/ic_hotel_sign"
+            android:checkable="true"
+            android:title="Hotel Details" />
+    </group>
+
 
     <group
         android:id="@+id/add_payment"

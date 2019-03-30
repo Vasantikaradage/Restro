@@ -2,6 +2,7 @@ package com.restrosmart.restro.Adapter;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
@@ -13,12 +14,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
+import com.restrosmart.restro.Admin.ActivityFlavour;
 import com.restrosmart.restro.Interfaces.ApiService;
 import com.restrosmart.restro.Interfaces.Category;
 import com.restrosmart.restro.Interfaces.DeleteResult;
@@ -56,9 +59,10 @@ public class AdapterDisplayAllMenus extends RecyclerView.Adapter<AdapterDisplayA
      Category resultPosition;
      DeleteResult  deleteResult;
      private  String mHotelId,mBranchId;
+     private  int pcId;
 
      private EditText etxMenuNme,etxMenuPrice,etxMenuDiscrp;
-     private CircleImageView circleImageView1;
+     private  CircleImageView circleImageView1;
 
    /* public AdapterDisplayAllMenus(Context context, ArrayList<MenuDisplayForm> arrayListMenu, Category  resultPosition) {
         this.context = context;
@@ -66,8 +70,9 @@ public class AdapterDisplayAllMenus extends RecyclerView.Adapter<AdapterDisplayA
         this.resultPosition=resultPosition;
     }*/
 
-    public AdapterDisplayAllMenus(Context context, DeleteResult deleteResult, ArrayList<MenuDisplayForm> arrayListMenu, Category category) {
+    public AdapterDisplayAllMenus(Context context,int pcId, DeleteResult deleteResult, ArrayList<MenuDisplayForm> arrayListMenu, Category category) {
         this.context = context;
+        this.pcId=pcId;
         this.deleteResult=deleteResult;
         this.arrayListMenu = arrayListMenu;
         this.resultPosition=category;
@@ -112,12 +117,35 @@ public class AdapterDisplayAllMenus extends RecyclerView.Adapter<AdapterDisplayA
         }
 
 
-
         Sessionmanager sharedPreferanceManage = new Sessionmanager(context);
         HashMap<String, String> name_info = sharedPreferanceManage.getHotelDetails();
 
         mHotelId=name_info.get(HOTEL_ID);
         mBranchId=name_info.get(BRANCH_ID);
+
+        if(pcId==3) {
+
+            holder.frameLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(context, ActivityFlavour.class);
+
+                    String menuname=arrayListMenu.get(position).getMenu_Name();
+                    int menuId=arrayListMenu.get(position).getMenu_Id();
+                    int PcId=pcId;
+                    int cateId=arrayListMenu.get(position).getCategory_Id();
+
+
+                    intent.putExtra("menuName",arrayListMenu.get(position).getMenu_Name());
+                   intent.putExtra("menuId",arrayListMenu.get(position).getMenu_Id());
+                   intent.putExtra("pcId",pcId);
+                   intent.putExtra("categoryId",arrayListMenu.get(position).getCategory_Id());
+                    context.startActivity(intent);
+
+                }
+            });
+        }
+
 
         holder.btnDelete.setOnClickListener(new View.OnClickListener() {
                                                 @Override
@@ -212,20 +240,9 @@ public class AdapterDisplayAllMenus extends RecyclerView.Adapter<AdapterDisplayA
                 intent.putExtra("menuDiscription",arrayListMenu.get(position).getMenu_Descrip());
                 intent.putExtra("menuImage",arrayListMenu.get(position).getMenu_Image_Name());
                 context.startActivity(intent);*/
-
-
-
             }
         });
-
-
     }
-
-
-
-
-
-
 
     @Override
     public int getItemCount() {
@@ -233,39 +250,6 @@ public class AdapterDisplayAllMenus extends RecyclerView.Adapter<AdapterDisplayA
     }
 
 
-    public static class CircleTransform implements Transformation {
-        @Override
-        public Bitmap transform(Bitmap source) {
-            int size = Math.min(source.getWidth(), source.getHeight());
-
-            int x = (source.getWidth() - size) / 2;
-            int y = (source.getHeight() - size) / 2;
-
-            Bitmap squaredBitmap = Bitmap.createBitmap(source, x, y, size, size);
-            if (squaredBitmap != source) {
-                source.recycle();
-            }
-
-            Bitmap bitmap = Bitmap.createBitmap(size, size, source.getConfig());
-
-            Canvas canvas = new Canvas(bitmap);
-            Paint paint = new Paint();
-            BitmapShader shader = new BitmapShader(squaredBitmap, BitmapShader.TileMode.CLAMP, BitmapShader.TileMode.CLAMP);
-            paint.setShader(shader);
-            paint.setAntiAlias(true);
-
-            float r = size / 2f;
-            canvas.drawCircle(r, r, r, paint);
-
-            squaredBitmap.recycle();
-            return bitmap;
-        }
-
-        @Override
-        public String key() {
-            return "circle";
-        }
-    }
 
     public class MyHolder extends RecyclerView.ViewHolder {
 
@@ -273,6 +257,7 @@ public class AdapterDisplayAllMenus extends RecyclerView.Adapter<AdapterDisplayA
         ImageButton btnEdit,btnDelete;
         private CircleImageView image;
         private  ImageView img_spicy;
+        private FrameLayout frameLayout;
 
 
         public MyHolder(View itemView) {
@@ -285,6 +270,9 @@ public class AdapterDisplayAllMenus extends RecyclerView.Adapter<AdapterDisplayA
             btnDelete=(ImageButton)itemView.findViewById(R.id.delete_button);
             mMenuTeste=(TextView)itemView.findViewById(R.id.menu_test);
             img_spicy=(ImageView)itemView.findViewById(R.id.img_spicy);
+            frameLayout=(FrameLayout) itemView.findViewById(R.id.frame_layout);
+
+
 
         }
     }

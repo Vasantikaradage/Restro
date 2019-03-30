@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/image_relative"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:background="@drawable/login_bg"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="@dimen/dimen_10dp">
+
+        <TextView
+            android:id="@+id/tx_add_cat"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:text="Add Flavour"
+            android:textColor="@color/white"
+            android:gravity="center_horizontal"
+            android:textSize="16dp"
+            android:layout_marginTop="3dp"
+            android:textStyle="bold"
+            android:visibility="gone"/>
+        <TextView
+            android:id="@+id/tx_edit_cat"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:text="Edit Flavour"
+            android:textColor="@color/white"
+            android:gravity="center_horizontal"
+            android:textSize="16dp"
+            android:layout_marginTop="3dp"
+            android:textStyle="bold"
+            android:visibility="gone"/>
+
+
+        <RelativeLayout
+
+            android:layout_width="wrap_content"
+            android:layout_height="170dp"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center_horizontal"
+
+
+
+            >
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/circle_image"
+                android:layout_width="62dp"
+                android:layout_height="160dp"
+                android:layout_marginBottom="14.4dp"
+                android:layout_marginTop="14.4dp"
+                android:layout_marginLeft="13.4dp"
+                android:src="@drawable/bottle1"
+                >
+            </de.hdodenhof.circleimageview.CircleImageView>
+
+           <!-- <FrameLayout
+                android:id="@+id/iv_select_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/img_category"
+                android:layout_marginStart="100dp"
+
+                android:layout_marginTop="30dp"
+
+                >
+
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/circle_bg_green" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_photo_camera" />
+
+            </FrameLayout>-->
+
+        </RelativeLayout>
+    </LinearLayout>
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_flavour_unit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+    </android.support.v7.widget.RecyclerView>
+
+</LinearLayout>

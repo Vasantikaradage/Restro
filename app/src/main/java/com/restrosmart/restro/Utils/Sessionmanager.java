@@ -35,8 +35,9 @@ public class Sessionmanager {
 
     // Sharedpref file name
     private static final String PREF_NAME = "Pref";
-
     public static final String TAB_POSITION = "position";
+
+    public static final String PC_ID = "pc_id";
 
     public static final String USER = "user";
     public static final String EMP_NAME = "emp_name";
@@ -65,7 +66,11 @@ public class Sessionmanager {
 
     public static final String ISLOGIN = "login";
 
-    //Add to food cart
+    public static final String REMEMBER_USER_NAME = "remember_user_name";
+    public static final String REMEMBER_PASSWORD = "remember_password";
+    public static final String REMEMBER_ME = "remember_me";
+
+    //Add to cart
     private static final String ADD_TO_FOOD_CART = "AddToFoodCart";
 
     //Add to liqour cart
@@ -77,6 +82,38 @@ public class Sessionmanager {
         pref = mContext.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
         editor = pref.edit();
     }
+
+    public boolean isRememberMe() {
+        return pref.getBoolean(REMEMBER_ME, false);
+    }
+
+    public void setRememberMe(String userID, String password) {
+
+        editor.putString(REMEMBER_USER_NAME, userID);
+        editor.putString(REMEMBER_PASSWORD, password);
+        editor.putBoolean(REMEMBER_ME, true);
+
+        // commit changes
+        editor.commit();
+    }
+
+    public HashMap<String, String> getRememberMe() {
+        HashMap<String, String> user = new HashMap<String, String>();
+        user.put(REMEMBER_USER_NAME, pref.getString(REMEMBER_USER_NAME, null));
+        user.put(REMEMBER_PASSWORD, pref.getString(REMEMBER_PASSWORD, null));
+        return user;
+    }
+
+    public void clearRememberMe() {
+        editor.remove(REMEMBER_USER_NAME);
+        editor.remove(REMEMBER_PASSWORD);
+        editor.putBoolean(REMEMBER_ME, false);
+
+        // commit changes
+        editor.commit();
+    }
+
+
 
 
     //save Login info

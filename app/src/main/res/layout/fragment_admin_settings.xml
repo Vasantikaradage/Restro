@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <FrameLayout
+       <!-- <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="233dp">
 
@@ -33,11 +33,11 @@
 
 
 
-        </FrameLayout>
+        </FrameLayout>-->
 
 
         <LinearLayout
-            android:id="@+id/linear_profile"
+            android:id="@+id/linear_change_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -47,20 +47,20 @@
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/imagehistory"
-                android:layout_width="42.3dp"
-                android:layout_height="42.3dp"
-                android:src="@drawable/ic_menu_camera"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/ic_lock"
                 />
 
 
-            <com.restrosmart.restro.customfonts.MyTextView_Roboto_Regular
+            <TextView
                 android:id="@+id/tv1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="9.5dp"
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
-                android:text="Profile"
+                android:text="Change Password"
                 android:textColor="#4a4a4a"
                 android:textSize="18.4sp" />
 
@@ -83,13 +83,13 @@
             android:background="#ffffff">
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_width="42.3dp"
-                android:layout_height="42.3dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:src="@drawable/ic_menu_camera"
                 />
 
 
-            <com.restrosmart.restro.customfonts.MyTextView_Roboto_Regular
+            <TextView
                 android:id="@+id/privacy"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -118,14 +118,13 @@
             android:background="#ffffff">
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_width="42.3dp"
-                android:layout_height="42.3dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:src="@drawable/ic_menu_camera"
                 />
 
 
-            <com.restrosmart.restro.customfonts.MyTextView_Roboto_Regular
-
+            <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="9.5dp"
@@ -152,13 +151,13 @@
             android:background="#ffffff">
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_width="42.3dp"
-                android:layout_height="42.3dp"
-                android:src="@drawable/ic_menu_camera"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/ic_logout"
                 />
 
 
-            <com.restrosmart.restro.customfonts.MyTextView_Roboto_Regular
+            <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="9.5dp"

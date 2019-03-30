@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/linear_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                >
+
+                <FrameLayout
+                    android:id="@+id/frame"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/arc">
+                </FrameLayout>
+
+                <ImageButton
+                    android:id="@+id/img_btn_edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/colorPrimary"
+                    android:src="@drawable/ic_action_edit"
+                    android:visibility="visible"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:gravity="center_horizontal">
+                    <!--  <ImageButton
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_alignParentEnd="true"
+                          android:src="@drawable/ic_action_edit"
+                          android:background="@color/colorPrimary"/>-->
+
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/circular"
+                        android:layout_width="220dp"
+                        android:layout_height="220dp"
+                        android:layout_marginTop="70dp"
+                        android:src="@drawable/bg_1"
+                        />
+
+                </RelativeLayout>
+            </RelativeLayout>
+
+
+
+
+            <TextView
+                android:id="@+id/tv_hotel_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="15dp"
+                android:text="Hotel Name"
+                android:textColor="#262628"
+                android:textSize="20dp"
+                android:textStyle="bold"/>
+
+
+            <TextView
+                android:id="@+id/tv_branch_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="5dp"
+                android:text="Branch Name"
+                android:textColor="#262628"
+                android:textSize="18dp"
+                android:textStyle="bold"/>
+
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="5dp"
+                        android:text="Pimple gurav pune"
+                        android:textColor="#262628"
+                        android:textSize="15dp"
+                        android:textStyle="normal"/>
+
+                    <EditText
+                        android:id="@+id/etv_address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="5dp"
+                        android:hint="Pimple gurav pune"
+                        android:textColor="#262628"
+                        android:textSize="15dp"
+                        android:textStyle="normal"
+                        android:visibility="gone"/>
+
+                    <TextView
+                        android:id="@+id/tv_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="5dp"
+                        android:text="abc@gmail.com"
+                        android:textColor="#262628"
+                        android:textSize="15dp"
+                        android:textStyle="normal"/>
+                    <EditText
+                        android:id="@+id/etv_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="5dp"
+                        android:hint="abc@gmail.com"
+                        android:textColor="#262628"
+                        android:textSize="15dp"
+                        android:textStyle="normal"
+                        android:visibility="gone"/>
+
+                    <TextView
+                        android:id="@+id/tv_mob"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="5dp"
+                        android:text="9999988888"
+                        android:textColor="#262628"
+                        android:textSize="15dp"
+                        android:textStyle="normal"/>
+
+                    <EditText
+                        android:id="@+id/etv_mob"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="5dp"
+                        android:hint="9999988888"
+                        android:inputType="number"
+                        android:textColor="#262628"
+                        android:textSize="15dp"
+                        android:textStyle="normal"
+                        android:visibility="gone"/>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/hotel_acc_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/linear_layout"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="15dp"
+            android:text="Hotel Account Details"
+
+            android:textColor="#262628"
+            android:textSize="16dp"
+            android:textStyle="bold"/>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/hotel_acc_details"
+            android:padding="5dp"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="2dp">
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp">
+
+                <TableRow
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="2">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="GSTN NO"
+                        android:textColor="#262628"/>
+
+                    <TextView
+                        android:id="@+id/tv_gstn_no"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Not Available"
+                        android:textColor="#262628"/>
+
+
+
+                </TableRow>
+
+
+                <TableRow
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="2">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="No of Tables"
+                        android:textColor="#262628"/>
+
+                    <TextView
+                        android:id="@+id/tv_no_of_table"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Not Available"
+                        android:textColor="#262628"/>
+
+
+
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="2">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Timing"
+                        android:textColor="#262628"/>
+
+                    <TextView
+                        android:id="@+id/tv_hotel_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Not Available"
+                        android:textColor="#262628"/>
+
+
+
+                </TableRow>
+            </TableLayout>
+
+
+        </android.support.v7.widget.CardView>
+
+    </RelativeLayout>
+
+</ScrollView>

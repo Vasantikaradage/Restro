@@ -16,38 +16,43 @@ import android.view.ViewGroup;
 import com.google.gson.JsonObject;
 import com.restrosmart.restro.Adapter.DailyOffersAdapter;
 import com.restrosmart.restro.Interfaces.ApiService;
+import com.restrosmart.restro.Interfaces.DeleteResult;
 import com.restrosmart.restro.Interfaces.IResult;
+import com.restrosmart.restro.Model.OfferForm;
 import com.restrosmart.restro.Model.OfferNameForm;
 import com.restrosmart.restro.R;
 import com.restrosmart.restro.RetrofitClientInstance;
 import com.restrosmart.restro.RetrofitService;
+import com.restrosmart.restro.Utils.Sessionmanager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import retrofit2.Response;
 
 import static com.restrosmart.restro.ConstantVariables.OFFER_TITLE;
+import static com.restrosmart.restro.Utils.Sessionmanager.BRANCH_ID;
+import static com.restrosmart.restro.Utils.Sessionmanager.HOTEL_ID;
 
 public class DailyOffers extends Fragment {
-    RecyclerView recyclerView;
-
-
-    ArrayList<OfferNameForm> arrayListOfferTitle=new ArrayList<OfferNameForm>();
-    RetrofitService mRetrofitService;
-    IResult  mResultCallBack;
-    FloatingActionButton btnAddOffer;
-
+    ArrayList<OfferForm> arrayListOfferTitle = new ArrayList<OfferForm>();
+    private RecyclerView recyclerView;
+    private RetrofitService mRetrofitService;
+    private IResult mResultCallBack;
+    private FloatingActionButton btnAddOffer;
+    private Sessionmanager sessionmanager;
+    private String hotelId, branchId;
+    private View view;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-        View view = inflater.inflate(R.layout.fragment_daily_offers,null);
-
+        view = inflater.inflate(R.layout.fragment_daily_offers, null);
         return view;
     }
 
@@ -55,83 +60,79 @@ public class DailyOffers extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        recyclerView=(RecyclerView)view.findViewById(R.id.recycler_daily_offer);
-        btnAddOffer=(FloatingActionButton)view.findViewById(R.id.btn_add_offer);
-
-
         init();
-
-      //  recyclerView=(RecyclerView)view.findViewById(R.id.recycler_daily_offer);
-
-
-
-
-
-
-    }
-
-   /* @Override
-    public void onResume() {
-        super.onResume();
-        init();
-    }*/
-
-    private void init() {
-
         btnAddOffer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), ActivityAddNewOffer.class);
-
                 startActivity(intent);
             }
         });
+        sessionmanager = new Sessionmanager(getActivity());
+        HashMap<String, String> name_info = sessionmanager.getHotelDetails();
+
+        hotelId = name_info.get(HOTEL_ID);
+        branchId = name_info.get(BRANCH_ID);
 
         initRetrofitCallback();
+        ApiService apiService = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
+        mRetrofitService = new RetrofitService(mResultCallBack, getActivity());
+        mRetrofitService.retrofitData(OFFER_TITLE, (apiService.GetOffer(Integer.parseInt(hotelId),
+                Integer.parseInt(branchId))));
+    }
 
-        ApiService apiService=RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
-
-        mRetrofitService = new RetrofitService(mResultCallBack,getActivity());
-        mRetrofitService.retrofitData(OFFER_TITLE,(apiService.GetOfferTitle(1)));
-
+    private void init() {
+        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_daily_offer);
+        btnAddOffer = (FloatingActionButton) view.findViewById(R.id.btn_add_offer);
 
     }
 
-    private void initRetrofitCallback() {
-        Log.d("","Vresponse"+"info");
+    @Override
+    public void onResume() {
+        super.onResume();
+        initRetrofitCallback();
+        ApiService apiService = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
+        mRetrofitService = new RetrofitService(mResultCallBack, getActivity());
+        mRetrofitService.retrofitData(OFFER_TITLE, (apiService.GetOffer(Integer.parseInt(hotelId),
+                Integer.parseInt(branchId))));
+    }
 
-        mResultCallBack =new IResult() {
+    private void initRetrofitCallback() {
+        Log.d("", "Vresponse" + "info");
+
+        mResultCallBack = new IResult() {
             @Override
             public void notifySuccess(int requestId, Response<JsonObject> response) {
-                Log.d("","Vresponse"+response);
-                JsonObject  jsonObject=response.body();
-                String value=jsonObject.toString();
-
+                Log.d("", "Vresponse" + response);
+                JsonObject jsonObject = response.body();
+                String value = jsonObject.toString();
                 try {
-                    JSONObject object=new JSONObject(value);
-                    int status=object.getInt("status");
-                    if(status==1)
-                    {
-                        JSONArray jsonArray=object.getJSONArray("Offer_List");
+                    JSONObject object = new JSONObject(value);
+                    int status = object.getInt("status");
+                    if (status == 1) {
+                        JSONArray jsonArray = object.getJSONArray("data");
 
                         arrayListOfferTitle.clear();
-                        for(int i=0;i<jsonArray.length();i++)
-                        {
-                            JSONObject object1=jsonArray.getJSONObject(i);
-
-                            OfferNameForm offerNameForm=new OfferNameForm();
-                            offerNameForm.setOfferId(object1.getInt("Offer_Name_Id"));
-                            offerNameForm.setOfferName(object1.getString("Offer_Name").toString());
-                            arrayListOfferTitle.add(offerNameForm);
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject object1 = jsonArray.getJSONObject(i);
+                            OfferForm offerForm = new OfferForm();
+                            offerForm.setOffer_Id(object1.getInt("Offer_Id"));
+                            offerForm.setOffer_Name(object1.getString("Offer_Name").toString());
+                            offerForm.setOffer_Value(object1.getString("Offer_Value").toString());
+                            offerForm.setOffer_From(object1.getString("Offer_From").toString());
+                            offerForm.setOffer_To(object1.getString("Offer_To").toString());
+                            offerForm.setMenu_Name(object1.getString("Menu_Name").toString());
+                            offerForm.setMenu_Descrip(object1.getString("Menu_Descrip").toString());
+                            offerForm.setMenu_Image_Name(object1.getString("Menu_Image_Name").toString());
+                            offerForm.setStatus(object1.getInt("Status"));
+                            arrayListOfferTitle.add(offerForm);
                         }
                         callAdapter();
-
                     }
 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
 
             @Override
@@ -139,39 +140,25 @@ public class DailyOffers extends Fragment {
 
             }
         };
-
     }
 
     private void callAdapter() {
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL,false);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
-          recyclerView.getLayoutManager().setMeasurementCacheEnabled(false);
-          recyclerView.setHasFixedSize(true);
+        recyclerView.getLayoutManager().setMeasurementCacheEnabled(false);
+        recyclerView.setHasFixedSize(true);
 
-          DailyOffersAdapter dailyOffersAdapter=new DailyOffersAdapter(getActivity(),arrayListOfferTitle);
-         recyclerView.setAdapter(dailyOffersAdapter);
+        DailyOffersAdapter dailyOffersAdapter = new DailyOffersAdapter(getActivity(), arrayListOfferTitle, new DeleteResult() {
+            @Override
+            public void getDeleteInfoCallBack() {
+                initRetrofitCallback();
+                ApiService apiService = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
+                mRetrofitService = new RetrofitService(mResultCallBack, getActivity());
+                mRetrofitService.retrofitData(OFFER_TITLE, (apiService.GetOffer(Integer.parseInt(hotelId),
+                        Integer.parseInt(branchId))));
+            }
+        });
+        recyclerView.setAdapter(dailyOffersAdapter);
+        dailyOffersAdapter.notifyDataSetChanged();
     }
-
-    /*@Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_add_employee,menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        int id = item.getItemId();
-
-        if (id == R.id.add) {
-            Intent intent = new Intent(getActivity(), ActivityAddNewOffer.class);
-
-            startActivity(intent);
-        }
-
-
-        return super.onOptionsItemSelected(item);
-    }*/
 }

@@ -39,12 +39,63 @@ public class GetEmployeeDetails implements Parcelable {
     @SerializedName("Hotel_Name")
     @Expose
     private String hotelName;
+    @SerializedName("Role_Id")
+    @Expose
+    private int Role_Id;
+    @SerializedName("Branch_Id")
+    @Expose
+    private int Branch_Id;
+
+
+
+    @SerializedName("Password")
+    private  String Password;
+
+    @SerializedName("Con_Pass")
+    private  String conPassword;
+    @Expose
     @SerializedName("Role")
-    @Expose
-    private String role;
-    @SerializedName("Branch_Name")
-    @Expose
-    private String branchName;
+    private  String Role;
+
+    public String getRole() {
+        return Role;
+    }
+
+    public void setRole(String role) {
+        Role = role;
+    }
+
+    public String getPassword() {
+        return Password;
+    }
+
+    public void setPassword(String password) {
+        Password = password;
+    }
+
+    public String getConPassword() {
+        return conPassword;
+    }
+
+    public void setConPassword(String conPassword) {
+        this.conPassword = conPassword;
+    }
+
+    public int getRole_Id() {
+        return Role_Id;
+    }
+
+    public void setRole_Id(int role_Id) {
+        Role_Id = role_Id;
+    }
+
+    public int getBranch_Id() {
+        return Branch_Id;
+    }
+
+    public void setBranch_Id(int branch_Id) {
+        Branch_Id = branch_Id;
+    }
 
     /**
      * No args constructor for use in serialization
@@ -59,16 +110,16 @@ public class GetEmployeeDetails implements Parcelable {
      * @param empName
      * @param empMob
      * @param hotelName
-     * @param branchName
+     * @param branchId
      * @param activeStatus
      * @param empId
-     * @param role
+
      * @param userName
      * @param empAdharId
      * @param empAddress
      * @param empImg
      */
-    public GetEmployeeDetails(Integer empId, String empName, String empImg, String empMob, String empEmail, String empAddress, String empAdharId, String userName, Integer activeStatus, String hotelName, String role, String branchName) {
+    public GetEmployeeDetails(Integer empId, String empName, String empImg, String empMob, String empEmail, String empAddress, String empAdharId, String userName, Integer activeStatus, String hotelName, int role_Id, int branchId) {
         super();
         this.empId = empId;
         this.empName = empName;
@@ -80,8 +131,8 @@ public class GetEmployeeDetails implements Parcelable {
         this.userName = userName;
         this.activeStatus = activeStatus;
         this.hotelName = hotelName;
-        this.role = role;
-        this.branchName = branchName;
+        this.Role_Id = role_Id;
+        this.Branch_Id = branchId;
     }
 
     protected GetEmployeeDetails(Parcel in) {
@@ -103,8 +154,8 @@ public class GetEmployeeDetails implements Parcelable {
             activeStatus = in.readInt();
         }
         hotelName = in.readString();
-        role = in.readString();
-        branchName = in.readString();
+        Role_Id = in.readInt();
+        Branch_Id = in.readInt();
     }
 
     public static final Creator<GetEmployeeDetails> CREATOR = new Creator<GetEmployeeDetails>() {
@@ -199,20 +250,14 @@ public class GetEmployeeDetails implements Parcelable {
         this.hotelName = hotelName;
     }
 
-    public String getRole() {
-        return role;
+
+
+    public int getBranchName() {
+        return Branch_Id;
     }
 
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public String getBranchName() {
-        return branchName;
-    }
-
-    public void setBranchName(String branchName) {
-        this.branchName = branchName;
+    public void setBranchName(int branch_Id) {
+        this.Branch_Id = branch_Id;
     }
 
     @Override
@@ -242,7 +287,7 @@ public class GetEmployeeDetails implements Parcelable {
             parcel.writeInt(activeStatus);
         }
         parcel.writeString(hotelName);
-        parcel.writeString(role);
-        parcel.writeString(branchName);
+        parcel.writeInt(Role_Id);
+        parcel.writeInt(Branch_Id);
     }
 }

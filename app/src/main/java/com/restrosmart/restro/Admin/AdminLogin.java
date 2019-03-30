@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
@@ -25,27 +26,26 @@ import com.restrosmart.restro.customfonts.MyTextView_Roboto_Regular;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+
 import retrofit2.Response;
 
 import static com.restrosmart.restro.ConstantVariables.LOGIN_ADMIN;
+import static com.restrosmart.restro.Utils.Sessionmanager.REMEMBER_PASSWORD;
+import static com.restrosmart.restro.Utils.Sessionmanager.REMEMBER_USER_NAME;
 
 public class AdminLogin extends AppCompatActivity {
 
     private EditText edtAdminUsername, edtAdminPassword;
-    private CheckBox cbAdmin;
-    private MyTextView_Roboto_Regular tvAdminForgotPassword;
+    private CheckBox cbRememberMe;
+    private TextView tvAdminForgotPassword;
     private Button btnAdminLogin, btnAdminRegister;
 
     private ProgressBar progressBar;
-
-    String mobno1, pass1;
-
-
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
-
-    Boolean savelogin;
-
+    private String mobno1, pass1;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+    private Boolean savelogin;
     private IResult mResultCallBack;
     private RetrofitService mRetrofitService;
     private Sessionmanager sessionmanager;
@@ -77,7 +77,15 @@ public class AdminLogin extends AppCompatActivity {
             }
         });
 
-        sharedPreferences = getSharedPreferences("loginref", MODE_PRIVATE);
+        if (sessionmanager.isRememberMe()) {
+            HashMap<String, String> hashMap = sessionmanager.getRememberMe();
+
+            edtAdminUsername.setText(hashMap.get(REMEMBER_USER_NAME));
+            edtAdminPassword.setText(hashMap.get(REMEMBER_PASSWORD));
+        }
+
+
+        /*sharedPreferences = getSharedPreferences("loginref", MODE_PRIVATE);
         editor = sharedPreferences.edit();
         editor.apply();
 
@@ -85,7 +93,7 @@ public class AdminLogin extends AppCompatActivity {
         if (savelogin) {
             edtAdminUsername.setText(sharedPreferences.getString("Emp_Mob1", null));
             edtAdminPassword.setText(sharedPreferences.getString("Password1", null));
-        }
+        }*/
 
         tvAdminForgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,7 +109,7 @@ public class AdminLogin extends AppCompatActivity {
         sessionmanager = new Sessionmanager(this);
         edtAdminUsername = findViewById(R.id.edtAdminUsername);
         edtAdminPassword = findViewById(R.id.edtAdminPassword);
-        cbAdmin = findViewById(R.id.cbAdmin);
+        cbRememberMe = findViewById(R.id.cbAdmin);
         tvAdminForgotPassword = findViewById(R.id.tvAdminForgotPassword);
         progressBar = findViewById(R.id.progressbar);
         btnAdminLogin = findViewById(R.id.btnAdminLogin);
@@ -155,14 +163,13 @@ public class AdminLogin extends AppCompatActivity {
                         progressBar.setVisibility(View.GONE);
                         btnAdminLogin.setVisibility(View.VISIBLE);
                     } else {
-                        Toast.makeText(AdminLogin.this, "Something went wrong. Please try again later.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AdminLogin.this, "Employee not Active.. ", Toast.LENGTH_SHORT).show();
                     }
 
-                    if (cbAdmin.isChecked()) {
-                        editor.putBoolean("savelogin1", true);
-                        editor.putString("Emp_Mob1", mobno1);
-                        editor.putString("Password1", pass1);
-                        editor.commit();
+                    if (cbRememberMe.isChecked()) {
+                        sessionmanager.setRememberMe(edtAdminUsername.getText().toString(), edtAdminPassword.getText().toString());
+                    } else {
+                        sessionmanager.clearRememberMe();
                     }
 
                 } catch (JSONException e) {
@@ -174,8 +181,7 @@ public class AdminLogin extends AppCompatActivity {
             public void notifyError(int requestId, Throwable error) {
                 progressBar.setVisibility(View.GONE);
                 btnAdminLogin.setVisibility(View.VISIBLE);
-
-                Toast.makeText(AdminLogin.this, "fail", Toast.LENGTH_LONG).show();
+                Toast.makeText(AdminLogin.this, "Something went wrong..! Please try again later.", Toast.LENGTH_LONG).show();
             }
         };
     }

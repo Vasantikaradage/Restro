@@ -113,7 +113,7 @@
                         android:textColor="@color/white"
                         android:textSize="16sp" />
 
-                    <com.restrosmart.restro.customfonts.MyTextView_Roboto_Regular
+                    <TextView
                         android:id="@+id/tvAdminForgotPassword"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

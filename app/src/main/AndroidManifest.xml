@@ -1,4 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.restrosmart.restro">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -18,14 +19,29 @@
         android:roundIcon="@mipmap/ic_launcher_restrosmart"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:windowSoftInputMode="stateAlwaysVisible">
-        <activity android:name=".ActivitySplashScreen">
+        android:windowSoftInputMode="stateAlwaysVisible"
+        tools:ignore="GoogleAppIndexingWarning">
+
+
+        <activity android:name="com.restrosmart.restro.ActivitySplashScreen">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
+
+
+       <!-- <receiver android:name="com.restrosmart.restro.Admin.MyReceiver" >
+            <intent-filter>
+                <action android:name="Add_Category" >
+                </action>
+            </intent-filter>
+        </receiver>-->
+
         <activity
             android:name=".MainActivity"
             android:windowSoftInputMode="stateHidden" />
@@ -40,31 +56,27 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Admin.AddCategory" />
         <activity
-            android:name=".Admin.AdminProfile"
+            android:name="com.restrosmart.restro.Admin.ActivityChangePassword"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".Admin.Admin_Forget_pass" />
+        <activity android:name="com.restrosmart.restro.Admin.Admin_Forget_pass" />
         <activity
-            android:name=".Admin.AddNewEmployee"
+            android:name="com.restrosmart.restro.Admin.AddNewEmployee"
             android:label="Employee Registration" />
         <activity
-            android:name=".Admin.ActivityEmpolyeeProfile"
+            android:name="com.restrosmart.restro.Admin.ActivityEmpolyeeProfile"
             android:label="Profile" />
         <activity
-            android:name=".Admin.NewOrderViewDetails"
+            android:name="com.restrosmart.restro.Admin.NewOrderViewDetails"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="New Order Details"
-            android:parentActivityName=".Admin.AdminProfile"
+            android:parentActivityName="com.restrosmart.restro.Admin.ActivityChangePassword"
             android:screenOrientation="portrait"
             android:uiOptions="splitActionBarWhenNarrow" />
-        <activity android:name=".Admin.OnGoingViewDetails" />
-        <activity android:name=".Admin.PastViewOrderDetails" />
-        <activity android:name=".User.ActivityUserHome" />
-        <activity
-            android:name=".Admin.ActivityCategoryMenu"
-            android:uiOptions="splitActionBarWhenNarrow" />
-        <activity android:name=".Admin.ActivityMenu" />
-        <activity android:name=".Admin.AddMenu" />
-        <activity android:name=".Admin.ActivityAddNewOffer" />
+        <activity android:name="com.restrosmart.restro.Admin.OnGoingViewDetails" />
+        <activity android:name="com.restrosmart.restro.Admin.PastViewOrderDetails" />
+        <activity android:name="com.restrosmart.restro.User.ActivityUserHome" />
+        <activity android:name="com.restrosmart.restro.Admin.ActivityMenu" />
+        <activity android:name="com.restrosmart.restro.Admin.ActivityAddNewOffer" />
         <!--
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="New Order Details"
@@ -77,17 +89,21 @@
             android:screenOrientation="sensor"
             android:theme="@style/Theme.AppCompat"
         -->
+        <activity android:name="com.restrosmart.restro.User.ActivityOrderChooser"/>
+        <activity android:name="com.restrosmart.restro.Admin.ActivityAdminRegister" />
+        <activity android:name="com.restrosmart.restro.User.ActivityHotelMenu" />
+        <activity android:name="com.restrosmart.restro.User.ActivityCartBill"/>
 
-        <activity android:name=".Admin.ActivityAdminRegister" />
-        <activity android:name=".User.ActivityHotelMenu" />
-        <activity android:name=".User.ActivityCartBill" />
-        <activity android:name=".Admin.ActivityCategoryGallery" />
-        <activity android:name=".User.ActivityBillPayment" />
-        <activity android:name=".User.ActivityPaymentMethod" />
-        <activity android:name=".Admin.ActivityAddPayment" />
-        <activity android:name=".User.ActivityOrderChooser" />
-        <activity android:name=".User.ScanActivity" />
-        <activity android:name=".Kitchen.ActivityKitchenHome" />
-        <activity android:name=".Bar.ActivityBarHome"></activity>
+        <activity android:name="com.restrosmart.restro.Admin.ActivityCategoryGallery"/>
+
+        <activity android:name="com.restrosmart.restro.User.ActivityBillPayment"></activity>
+
+        <activity android:name="com.restrosmart.restro.User.ActivityPaymentMethod"></activity>
+        <activity android:name="com.restrosmart.restro.Admin.ActivityAddPayment"/>
+        <activity android:name="com.restrosmart.restro.Admin.ActivityMenuGallery"/>
+
+        <activity android:name="com.restrosmart.restro.Admin.ActivityFlavour"/>
+        <activity android:name="com.restrosmart.restro.Admin.ActivityFlavourGallery"/>
+        <activity android:name="com.restrosmart.restro.Admin.ActivityAddNewBranch"/>
     </application>
 </manifest>
