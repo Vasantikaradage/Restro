@@ -3,9 +3,9 @@ package com.restrosmart.restro.Admin;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.TextView;
 
 import com.restrosmart.restro.R;
-import com.restrosmart.restro.customfonts.EditText_Roboto_Meidum;
 
 /**
  * Created by SHREE on 03/10/2018.
@@ -13,7 +13,7 @@ import com.restrosmart.restro.customfonts.EditText_Roboto_Meidum;
 
 public class AdminProfile extends AppCompatActivity {
 
-    EditText_Roboto_Meidum mOld_pass, mNew_pass,mCon_pass;
+    TextView mOld_pass, mNew_pass,mCon_pass;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

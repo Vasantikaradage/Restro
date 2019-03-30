@@ -24,8 +24,7 @@ import com.restrosmart.restro.R;
 
 import com.restrosmart.restro.RetrofitClientInstance;
 import com.restrosmart.restro.Utils.Sessionmanager;
-import com.restrosmart.restro.customfonts.MyTextView_Roboto_Light;
-import com.restrosmart.restro.customfonts.MyTextView_Roboto_Medium;
+
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

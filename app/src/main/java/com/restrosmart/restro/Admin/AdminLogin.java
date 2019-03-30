@@ -21,7 +21,6 @@ import com.restrosmart.restro.R;
 import com.restrosmart.restro.RetrofitClientInstance;
 import com.restrosmart.restro.RetrofitService;
 import com.restrosmart.restro.Utils.Sessionmanager;
-import com.restrosmart.restro.customfonts.MyTextView_Roboto_Regular;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -42,10 +41,6 @@ public class AdminLogin extends AppCompatActivity {
     private Button btnAdminLogin, btnAdminRegister;
 
     private ProgressBar progressBar;
-    private String mobno1, pass1;
-    private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor editor;
-    private Boolean savelogin;
     private IResult mResultCallBack;
     private RetrofitService mRetrofitService;
     private Sessionmanager sessionmanager;
@@ -83,17 +78,6 @@ public class AdminLogin extends AppCompatActivity {
             edtAdminUsername.setText(hashMap.get(REMEMBER_USER_NAME));
             edtAdminPassword.setText(hashMap.get(REMEMBER_PASSWORD));
         }
-
-
-        /*sharedPreferences = getSharedPreferences("loginref", MODE_PRIVATE);
-        editor = sharedPreferences.edit();
-        editor.apply();
-
-        savelogin = sharedPreferences.getBoolean("savelogin1", true);
-        if (savelogin) {
-            edtAdminUsername.setText(sharedPreferences.getString("Emp_Mob1", null));
-            edtAdminPassword.setText(sharedPreferences.getString("Password1", null));
-        }*/
 
         tvAdminForgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -15,7 +15,7 @@
         android:layout_above="@id/relative_liquor_img"
         android:layout_centerHorizontal="true">
 
-        <com.restrosmart.restro.customfonts.MyTextView_Roboto_Italic
+        <TextView
             app:backgroundTint="@color/grayIconTint"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

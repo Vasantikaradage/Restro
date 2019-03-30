@@ -9,13 +9,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.restrosmart.restro.Admin.ActivityAdminDrawer;
 import com.restrosmart.restro.Admin.Admin_Forget_pass;
 import com.restrosmart.restro.Model.UserForm;
 import com.restrosmart.restro.R;
-import com.restrosmart.restro.customfonts.MyTextView_Roboto_Regular;
 
 /**
  * Created by SHREE on 09/10/2018.
@@ -25,7 +25,7 @@ public class ActivityKitchenLogin extends AppCompatActivity {
 
     String mobno1, pass1;
     EditText mobno, pass;
-    MyTextView_Roboto_Regular mForget;
+    TextView mForget;
     CheckBox savelogincheckbox;
     Button btn_login;
 
@@ -43,7 +43,7 @@ public class ActivityKitchenLogin extends AppCompatActivity {
         mobno = findViewById(R.id.et_mob_no);
         pass = findViewById(R.id.et_pass);
         savelogincheckbox = (CheckBox) findViewById(R.id.checkbox_admin);
-        mForget = (MyTextView_Roboto_Regular) findViewById(R.id.tv_forget_pass);
+        mForget = (TextView) findViewById(R.id.tv_forget_pass);
         btn_login = findViewById(R.id.btn_login);
 
         sharedPreferences = getSharedPreferences("loginref", MODE_PRIVATE);

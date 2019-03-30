@@ -17,7 +17,6 @@ import com.restrosmart.restro.R;
 import com.restrosmart.restro.RetrofitClientInstance;
 import com.restrosmart.restro.RetrofitService;
 import com.restrosmart.restro.Utils.Sessionmanager;
-import com.restrosmart.restro.customfonts.EditText_Roboto_Meidum;
 
 import org.json.JSONException;
 import org.json.JSONObject;
