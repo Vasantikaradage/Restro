@@ -103,7 +103,7 @@
             android:layout_below="@+id/relative"
             android:layout_toStartOf="@+id/btn_view"
 
-            android:src="@drawable/ic_telephone"
+            android:src="@drawable/ic_phone_white_24dp"
             />
 
       <!--  <android.support.v7.widget.CardView

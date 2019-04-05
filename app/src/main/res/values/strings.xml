@@ -30,6 +30,7 @@
     <string name="accept">Accept</string>
     <string name="cancel">Cancel</string>
     <string name="call">Call</string>
+    <string name="water_bottle">Water Bottle</string>
 
     <string name="Rs">\u20B9</string>
     <string name="remember_me">Remember Me</string>
@@ -80,7 +81,6 @@
     </string-array>
 
 
-    <string name="pref_key_transition_time" translatable="false">pref_key_transition_time</string>
     <string name="category_discription">Category Discription</string>
 
     <string name="menu_discription">Menu Discription</string>
@@ -94,74 +94,12 @@
     <string name="add_category">Add Category</string>
     <string name="update">Update</string>
 
-    <!--Cart activity-->
-    <string name="cart_price_details">PRICE DETAILS</string>
-    <string name="cart_sub_total">Sub Total (\u20B9)</string>
-    <string name="cart_delivery_charges">Delivery charges (\u20B9)</string>
-    <string name="cart_wallet_amount">Wallet amount (- \u20B9)</string>
-    <string name="cart_total_payable">Total Payable (\u20B9)</string>
-    <string name="cart_empty">Cart Empty</string>
-
-    <!--Remove menu from cart dialog-->
-    <string name="dialog_remove_menu">Remove Menu</string>
-    <string name="dialog_remove_menu_from_cart">Do you want to remove this menu from cart?</string>
-
-    <!--Place order confirmation dialog-->
-    <string name="dialog_place_order">Place Order</string>
-    <string name="dialog_place_order_from_cart">The placed order is confirmed?</string>
-
-    <!--order status-->
-    <string name="spinner_title">Select Order</string>
-    <string name="order_status_title_label">Check all order status according to orders</string>
-    <string name="take_image_from_gallery">Take image from gallery</string>
-    <string name="payment_type_name">Enter Payment Type Name</string>
-    <string name="bank_name">Enter Bank Name</string>
-    <string name="bank_branch_name">Enter Bank Branch Name</string>
-    <string name="enter_account_no">Enter Account No</string>
-
-    <string name="enter_name">Enter Name</string>
-    <string name="enter_mobile_no">Enter Mobile No</string>
-    <string name="enter_upi_code">Enter UPI Code</string>
-    <string name="enter_ifsc_code">Enter IFSC Code</string>
-
-    <!--Feedback dialog-->
-    <string name="feedback_title">Feedback</string>
-
-    <string name="feedback_label">Share your precious feedback \n with us !!!</string>
-    <string name="feedback_terrible">Terrible</string>
-    <string name="feedback_poor">Poor</string>
-    <string name="feedback_average">Average</string>
-    <string name="feedback_tasty">Tasty</string>
-    <string name="feedback_awesome">Awesome</string>
-    <string name="feedback_message">Message</string>
-
-    <!--Scratch card dialog-->
-    <string name="scratch_card_title">Scratch Card</string>
-    <string name="scratch_card_label">Scratch the card and win amazing food dish for your next visit</string>
 
     <!--Payment mode dialog-->
     <string name="payment_mode_title">Payment Mode</string>
-
-    <!--Buttons-->
-    <string name="btn_ok">OK</string>
-    <string name="btn_skip">Skip</string>
-    <string name="btn_send">Send</string>
-    <string name="btn_cancel">Cancel</string>
-    <string name="btn_confirm">Confirm</string>
-    <string name="btn_pay">Pay</string>
-    <string name="water_bottle">Water Bottle</string>
-    <string name="do_you_want_to_add_water_bottle">Do you want to add water bottle?</string>
-    <string name="no">No</string>
-    <string name="yes">Yes</string>
     <string name="no_data_available">No data Available</string>
-
-    <!--QR Scanner-->
-    <string name="ok">OK</string>
-    <string name="grant_permission">Grant Permission</string>
-    <string name="permission_camera">This app needs camera permission to scan barcode</string>
-    <string name="low_storage_error">Face detector dependencies cannot be downloaded due to low device storage</string>
-    <string name="auto_focus">Auto Focus</string>
-    <string name="use_flash">Use Flash</string>
-    <string name="grant">Grant</string>
+    <string name="dots_8942">&#8942;</string>
+    <string name="_8942">⋮</string>
+    <string name="do_you_want_to_add_water_bottle">do_you_want_to_add_water_bottle</string>
 
 </resources>

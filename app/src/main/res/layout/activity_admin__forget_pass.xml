@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.restrosmart.restro.Admin.Admin_Forget_pass">
+    tools:context="com.restrosmart.restrohotel.Admin.Admin_Forget_pass">
 
     <FrameLayout
         android:layout_width="match_parent"

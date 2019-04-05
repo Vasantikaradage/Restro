@@ -5,6 +5,20 @@
     tools:showIn="navigation_view">
 
     <group
+        android:id="@+id/gp_dashboard"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_dashboard"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:checkable="true"
+            android:icon="@drawable/ic_all_order"
+            android:checked="true"
+            app:itemTextColor="#ac1e1e"
+            android:title="DashBoard" />
+    </group>
+
+    <group
         android:id="@+id/gp_all_orders"
         android:checkableBehavior="single">
         <item
@@ -15,8 +29,21 @@
             android:icon="@drawable/ic_all_order"
         android:checked="true"
             app:itemTextColor="#ac1e1e"
-            android:title="Dashboard" />
+            android:title="Orders" />
     </group>
+
+    <group
+        android:id="@+id/gp_toppings"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_toppings"
+            android:icon="@drawable/ic_add_menu"
+            app:itemBackground="@drawable/side_nav_bar"
+            app:itemTextColor="#a73636"
+            android:checkable="true"
+            android:title="Toppings" />
+    </group>
+
 
     <group
         android:id="@+id/gp_menu"
@@ -27,7 +54,7 @@
             app:itemBackground="@drawable/side_nav_bar"
             app:itemTextColor="#a73636"
             android:checkable="true"
-            android:title="Add Menu" />
+            android:title="Menu Card" />
     </group>
 
     <group

@@ -154,7 +154,7 @@
                         android:id="@+id/btn_img_telephone"
                         android:layout_width="45dp"
                         android:layout_height="45dp"
-                        android:src="@drawable/ic_telephone"
+                        android:src="@drawable/ic_phone_white_24dp"
                         android:layout_marginStart="5dp"
                         android:background="@drawable/ic_action_circle"/>
 

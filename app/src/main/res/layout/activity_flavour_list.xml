@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.restrosmart.restro.Admin.SwipeRevealLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.restrosmart.restrohotel.Admin.SwipeRevealLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="90dp"
     android:id="@+id/swipeLayout"
@@ -156,4 +156,4 @@
     </FrameLayout>
 
 
-</com.restrosmart.restro.Admin.SwipeRevealLayout>
+</com.restrosmart.restrohotel.Admin.SwipeRevealLayout>
