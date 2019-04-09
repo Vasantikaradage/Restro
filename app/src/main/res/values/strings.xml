@@ -101,5 +101,15 @@
     <string name="dots_8942">&#8942;</string>
     <string name="_8942">⋮</string>
     <string name="do_you_want_to_add_water_bottle">do_you_want_to_add_water_bottle</string>
+    <string name="u20b9">₹ 20</string>
+    <string name="role">Role</string>
+    <string name="active_status">Active Status</string>
+    <string name="gstn_no">GSTN NO</string>
+    <string name="no_of_tables">No Of Tables</string>
+    <string name="personal_details">Personal Details</string>
+    <string name="current_address">Current Address</string>
+    <string name="hotel_account_details">Hotel Account Details</string>
+    <string name="hotel_details">Hotel Details</string>
+    <string name="current_address">Current Address</string>
 
 </resources>

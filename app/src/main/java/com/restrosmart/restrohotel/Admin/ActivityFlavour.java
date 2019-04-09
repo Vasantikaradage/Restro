@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -74,7 +76,7 @@ public class ActivityFlavour extends AppCompatActivity {
     private RetrofitService mRetrofitService;
     private FrameLayout frameLayoutBtnAdd;
     private View dialoglayout;
-    private AlertDialog dialog;
+    private BottomSheetDialog dialog;
     private EditText tv0, tv1;
 
     private JSONArray jsonArray;
@@ -111,14 +113,14 @@ public class ActivityFlavour extends AppCompatActivity {
                 LayoutInflater li = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
                 dialoglayout = li.inflate(R.layout.activity_add_flavour, null);
-                final AlertDialog.Builder builder = new AlertDialog.Builder(ActivityFlavour.this);
-                builder.setView(dialoglayout);
+               BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(ActivityFlavour.this);
+                bottomSheetDialog.setContentView(dialoglayout);
                 arrayListUnitName.clear();
                 arrayListUnitPrice.clear();
 
-                dialog = builder.create();
+               // dialog = builder.create();
                 final EditText etflavourName = (EditText) dialoglayout.findViewById(R.id.etx_flavour_name);
-                Button btnAddUnit = (Button) dialoglayout.findViewById(R.id.btn_add_unit);
+                TextView tvAddUnit = (TextView) dialoglayout.findViewById(R.id.tv_add_unit);
                 circleImageView = (CircleImageView) dialoglayout.findViewById(R.id.img_flavour);
                 FrameLayout btnCamera = (FrameLayout) dialoglayout.findViewById(R.id.iv_select_image);
                 Button btnSaveFlavour = (Button) dialoglayout.findViewById(R.id.btnSave);
@@ -146,8 +148,7 @@ public class ActivityFlavour extends AppCompatActivity {
                         dialog.dismiss();
                     }
                 });
-
-                btnAddUnit.setOnClickListener(new View.OnClickListener() {
+                tvAddUnit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         callTableLayout();
@@ -222,7 +223,7 @@ public class ActivityFlavour extends AppCompatActivity {
                 tv0.setTextColor(getResources().getColor(R.color.Black));
                 tv0.setTextSize(18);
                 tv0.setPadding(10, 10, 30, 10);
-               // tv0.setBackground(getResources().getDrawable(R.drawable.button_outline_dark_unit));
+                // tv0.setBackground(getResources().getDrawable(R.drawable.button_outline_dark_unit));
                 tableRow.addView(tv0);
 
                 tv1 = new EditText(ActivityFlavour.this);
@@ -231,7 +232,7 @@ public class ActivityFlavour extends AppCompatActivity {
                 tv1.setTextColor(getResources().getColor(R.color.Black));
                 tv1.setTextSize(18);
                 tv1.setPadding(10, 10, 70, 10);
-              //  tv1.setBackground(getResources().getDrawable(R.drawable.button_outline_dark_unit));
+                //  tv1.setBackground(getResources().getDrawable(R.drawable.button_outline_dark_unit));
                 tableRow.addView(tv1);
 
                 ImageButton imageButton = new ImageButton(ActivityFlavour.this);

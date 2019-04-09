@@ -22,7 +22,7 @@ import retrofit2.http.POST;
 public interface ApiService {
 
 
-    String BASE_URL = "http://192.168.0.6/Restro_Smart/";
+    String BASE_URL = "http://192.168.0.9/Restro_Smart/";
 
 
     /*parent category display*/
@@ -196,6 +196,33 @@ public interface ApiService {
     @FormUrlEncoded
     Call<JsonObject> GetAllCategory(@Field("Hotel_Id") int Hotel_Id,
                                     @Field("Branch_Id") int Branch_Id);
+
+
+
+    //Toppings
+   // Toppings display
+    @POST("topping.php?topping=topping_add")
+    @FormUrlEncoded
+    Call<JsonObject>toppingDisplay(@Field("Hotel_Id") int Hotel_Id,
+                                 @Field("Branch_Id") int Branch_Id
+                                 /*@Field("Pc_Id") int pc_id*/);
+
+
+
+
+
+    //toppings add
+    @POST("topping.php?topping=topping_add")
+    @FormUrlEncoded
+    Call<JsonObject> addToppings(@Field("Topping_Name") String toppingName,
+                                 @Field("Topping_Price") int toppingPrice,
+                                 @Field("Hotel_Id") int Hotel_Id,
+                                 @Field("Branch_Id") int Branch_Id,
+                                 @Field("Pc_Id") int pc_id);
+
+
+
+
 
 /*sub category display*/
     @POST("Offer.php?offer=subcate_select")

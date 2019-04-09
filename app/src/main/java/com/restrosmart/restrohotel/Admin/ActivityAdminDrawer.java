@@ -66,6 +66,7 @@ public class ActivityAdminDrawer extends AppCompatActivity
     private Fragment fragment = null;
     private String title = "";
     private NavigationView navigationView;
+    private LinearLayout linearLayoutHeader;
     private ActionBarDrawerToggle toggle;
     private String emp_role, hotelId, branchId;
     private CircleImageView circleImageView;
@@ -111,6 +112,7 @@ public class ActivityAdminDrawer extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -119,6 +121,7 @@ public class ActivityAdminDrawer extends AppCompatActivity
         navigationView.getMenu().performIdentifierAction(R.id.screen_area, 0);
 
         View hView = navigationView.getHeaderView(0);
+        linearLayoutHeader=(LinearLayout)hView.findViewById(R.id.linear_layout);
         circleImageView = (CircleImageView) hView.findViewById(R.id.imageView);
         name = (TextView) hView.findViewById(R.id.tx_name);
         tvEmail = (TextView) hView.findViewById(R.id.tx_email);
@@ -170,6 +173,15 @@ public class ActivityAdminDrawer extends AppCompatActivity
         } else {
 
         }
+
+
+        linearLayoutHeader.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intentProfile=new Intent(ActivityAdminDrawer.this,ActivtiyProfile.class);
+                startActivity(intentProfile);
+            }
+        });
 
 
     }

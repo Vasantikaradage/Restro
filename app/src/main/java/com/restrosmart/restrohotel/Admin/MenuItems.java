@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -48,6 +49,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Response;
 
 import static com.restrosmart.restrohotel.ConstantVariables.IMAGE_RESULT_OK;
@@ -66,14 +68,15 @@ public class MenuItems extends Fragment {
     private RetrofitService mRetrofitService;
     private IResult mResultCallBack;
 
-    private String imageName, mFinalImageName;
+    private String imageName=null;
+    private String  mFinalImageName;
     private int branchId, hotelId, mPcId, btnId;
 
     private ImageView btnCategory;
     private EditText etxCategoryNme;
     private View dialoglayout;
-    private AlertDialog dialog;
-    private ImageView mCircleImageView;
+    private BottomSheetDialog dialog;
+    private CircleImageView mCircleImageView;
     private Sessionmanager sessionmanager;
 
     private CategoryViewPagerAdapter categoryViewPagerAdapter;
@@ -120,9 +123,15 @@ public class MenuItems extends Fragment {
                 LayoutInflater li = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
                 dialoglayout = li.inflate(R.layout.activity_add_category, null);
-                final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setView(dialoglayout);
-                dialog = builder.create();
+                dialog = new BottomSheetDialog(getActivity());
+
+                // builder.setView(dialoglayout);
+                // dialog = builder.create();
+
+                dialog.setContentView(dialoglayout);
+                // mBottomSheetDialog.show();
+              // dialog = builder.create();
+               // dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation_2;
 
                 FrameLayout btnCamara = (FrameLayout) dialoglayout.findViewById(R.id.iv_select_image);
 
@@ -132,9 +141,12 @@ public class MenuItems extends Fragment {
                 TextView txTitle = dialoglayout.findViewById(R.id.tx_add_cat);
                 txTitle.setVisibility(View.VISIBLE);
 
-                mCircleImageView = (ImageView) dialoglayout.findViewById(R.id.img_category);
+                mCircleImageView = (CircleImageView) dialoglayout.findViewById(R.id.img_category);
+
+
+
                 Picasso.with(dialoglayout.getContext())
-                        .load(R.drawable.foodimg2)
+                        .load(R.drawable.ic_steak)
                         .resize(500, 500)
                         .into(mCircleImageView);
 
@@ -152,15 +164,27 @@ public class MenuItems extends Fragment {
                 btnSave.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (imageName.equals("")) {
-                            mFinalImageName = null;
-                        }
 
-                        int start = imageName.indexOf("t/");
-                        String suffix = imageName.substring(start + 1);
-                        int start1 = suffix.indexOf("/");
-                        mFinalImageName = suffix.substring(start1 + 1);
-                        saveCategoryInformation();
+                        int start, start1 = 0;
+                        String suffix;
+                        Log.d("","imagename"+imageName);
+                        if (imageName ==null) {
+                            mFinalImageName = imageName;
+                            Picasso.with(dialoglayout.getContext())
+                                    .load(R.drawable.ic_steak)
+                                    .resize(500, 500)
+                                    .into(mCircleImageView);
+                            saveCategoryInformation();
+
+                        }
+                        else {
+
+                            start = imageName.indexOf("t/");
+                            suffix = imageName.substring(start + 1);
+                            start1 = suffix.indexOf("/");
+                            mFinalImageName = suffix.substring(start1 + 1);
+                            saveCategoryInformation();
+                        }
 
                     }
                 });
@@ -321,7 +345,7 @@ public class MenuItems extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == IMAGE_RESULT_OK /*&& requestCode==IMAGE_RESULT_OK*/) {
             imageName = data.getStringExtra("image_name");
-            Log.e("Result", imageName);
+            Log.e("Result for image", imageName);
 
             Picasso.with(dialoglayout.getContext())
                     .load(imageName)

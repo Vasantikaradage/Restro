@@ -3,39 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    app:behavior_hideable="true"
+    app:behavior_peekHeight="40dp"
+    android:background="@color/white"
+    app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
 
 
-    <!--
-    <FrameLayout
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/login_bg"
-            android:orientation="vertical">
-
-            <include layout="@layout/toolbar_bar_admin_category" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="15dp"
-                android:orientation="vertical" />
-        </LinearLayout>
-
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="150dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="100dp"
-            app:cardElevation="5dp">
-    -->
-
-
+        android:layout_height="wrap_content">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -45,78 +22,95 @@
             android:id="@+id/image_relative"
             android:layout_width="match_parent"
             android:layout_height="220dp"
-            android:background="@drawable/login_bg"
             android:gravity="center"
-            android:orientation="vertical"
-            android:padding="@dimen/dimen_10dp">
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tx_add_cat"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:layout_marginTop="3dp"
-                android:gravity="center_horizontal"
-                android:text="Add Flavour"
-                android:textColor="@color/white"
-                android:textSize="16dp"
-                android:textStyle="bold"
-                android:visibility="gone" />
+                android:layout_height="100dp"
+                android:orientation="vertical"
+                android:background="@drawable/login_bg">
 
-            <TextView
-                android:id="@+id/tx_edit_cat"
-                android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:layout_marginTop="3dp"
-                android:gravity="center_horizontal"
-                android:text="Edit Flavour"
-                android:textColor="@color/white"
-                android:textSize="16dp"
-                android:textStyle="bold"
-                android:visibility="gone" />
-
+                <TextView
+                    android:id="@+id/tx_add_cat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Add Flavour"
+                    android:textColor="@color/white"
+                    android:gravity="center_horizontal|center"
+                    android:textSize="18sp"
+                    android:layout_marginTop="55dp"
+                    android:textStyle="bold"
+                    android:visibility="gone"/>
+                <TextView
+                    android:id="@+id/tx_edit_cat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Add Flavour"
+                    android:textColor="@color/white"
+                    android:gravity="center_horizontal"
+                    android:textSize="18dp"
+                    android:layout_marginTop="55dp"
+                    android:textStyle="bold"
+                    android:visibility="gone"/>
+            </LinearLayout>
 
             <RelativeLayout
 
                 android:layout_width="wrap_content"
                 android:layout_height="170dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="20dp">
+                android:layout_marginTop="25dp"
+                android:layout_marginStart="15dp"
+                android:layout_gravity="center_horizontal|center_vertical">
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/img_flavour"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:src="@drawable/foodimg2">
+                <FrameLayout
+                    android:id="@+id/frame_layout"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp">
+                    <ImageView
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/circle_bg_gradient" />
 
-                </de.hdodenhof.circleimageview.CircleImageView>
-
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/img_flavour"
+                        android:layout_width="90dp"
+                        android:layout_height="90dp"
+                        android:padding="5dp"
+                        android:layout_gravity="center"
+                        >
+                    </de.hdodenhof.circleimageview.CircleImageView>
+                </FrameLayout>
                 <FrameLayout
                     android:id="@+id/iv_select_image"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/img_flavour"
-                    android:layout_marginStart="100dp"
-
-                    android:layout_marginTop="30dp"
-
-                    >
+                    android:layout_alignBottom="@+id/frame_layout"
+                    android:layout_marginStart="90dp"
+                    android:layout_marginTop="25dp">
 
                     <ImageView
                         android:layout_width="45dp"
                         android:layout_height="45dp"
                         android:layout_gravity="center"
-                        android:background="@drawable/circle_bg_green" />
+                        android:background="@drawable/circle_bg_light_gray" />
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:src="@drawable/ic_photo_camera" />
+                        android:src="@drawable/camera_bg_white_backgrnd" />
 
                 </FrameLayout>
 
             </RelativeLayout>
         </LinearLayout>
+
+
+
+
+
 
 
         <!--<android.support.design.widget.FloatingActionButton
@@ -133,171 +127,79 @@
             android:src="@drawable/ic_action_cat_camera" />-->
 
         <RelativeLayout
-            android:id="@+id/relative_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/image_relative">
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/image_relative"
+            android:padding="20dp"
+            >
 
-            <LinearLayout
-                android:id="@+id/linear_layout"
+            <TextView
+                android:id="@+id/tx_category"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:text="Flavour Name"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:padding="5dp"
+                android:textColor="@color/colorPrimary"
+                android:layout_marginStart="10dp"
+                />
+
+            <EditText
+                android:id="@+id/etx_flavour_name"
+                android:layout_width="400dp"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/texview_outline_black"
+                android:layout_marginStart="10dp"
+                android:layout_below="@+id/tx_category"
+                android:padding="10dp"
+                android:hint="Enter Flavour Name">
+            </EditText>
+
+            <TableLayout
+                android:id="@+id/tableLayout1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/etx_flavour_name"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:stretchColumns="0" />
 
 
-                <EditText
-                    android:id="@+id/etx_flavour_name"
-                    android:layout_width="400dp"
-                    android:layout_height="40dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginEnd="10dp"
-
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="42dp"
-                    android:hint="Enter Flavour Name">
 
 
-                </EditText>
 
-                <!--<TableLayout
-                    android:id="@+id/linear_unit"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/tv_add_unit"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:text="Add Unit"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:padding="5dp"
                     android:gravity="center"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="3dp"
-                    >
-                    <TableRow
-                       android:weightSum="3">
+                   android:layout_marginTop="5dp"
+                    android:drawablePadding="@dimen/dimen_10dp"
 
-                        <EditText
-                            android:id="@+id/et_unit_name"
-                            android:layout_width="match_parent"
-                            android:layout_height="43dp"
-
-                            android:background="@drawable/button_outline_dark_unit"
-                            android:hint="Unit Name"
-                           android:layout_weight="2dp"
-
-
-
-
-
-                            />
-
-                        <EditText
-                            android:id="@+id/et_unit_price"
-                            android:layout_width="wrap_content"
-                            android:layout_height="43dp"
-                            android:hint="Price"
-                            android:layout_weight="0.5dp"
-                            android:paddingStart="10dp"
-                            android:background="@drawable/button_outline_dark_unit"/>
-
-                        <ImageButton
-                            android:id="@+id/btn_image_cancel"
-                            android:layout_width="wrap_content"
-                            android:layout_height="43dp"
-                            android:background="@color/white"
-                            android:src="@drawable/ic_action_cancel"
-                            android:layout_marginStart="3dp"
-                            android:layout_weight="1"
-                            />
-
-                    </TableRow>
-
-
-
-
-
-                </TableLayout>-->
-
-                <TableLayout
-                    android:id="@+id/tableLayout1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/linear_unit"
-                    android:orientation="vertical"
-                    android:stretchColumns="0"
-                    >
-
-
-
-                </TableLayout><!--       <LinearLayout
-                        android:id="@+id/linear_unit1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginEnd="5dp"
-                        android:weightSum="2">
-
-                        <EditText
-                            android:id="@+id/et_unit_name1"
-                            android:layout_width="match_parent"
-                            android:layout_height="35dp"
-                            android:hint="Unit Name"
-                            android:layout_weight="1"
-                            android:layout_marginStart="10dp"
-                            android:padding="5dp"
-                            android:layout_marginEnd="30dp"
-                            android:background="@drawable/button_outline_dark_unit"/>
-
-                        <EditText
-                            android:id="@+id/et_unit_price1"
-                            android:layout_width="match_parent"
-                            android:layout_height="35dp"
-                            android:hint="Unit Price"
-                            android:layout_weight="1"
-                            android:layout_marginEnd="40dp"
-                            android:padding="5dp"
-                            android:background="@drawable/button_outline_dark_unit"/>
-
-                        <ImageButton
-                            android:id="@+id/btn_image_cancel1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/ic_delete_button"
-                            android:layout_marginEnd="5dp"
-                            android:background="@drawable/button_outline_dark_unit"/>
-
-
-
-
-
-                    </LinearLayout>-->
-
-                <Button
-                    android:id="@+id/btn_add_unit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_weight="1"
-                    android:text="Add Unit" />
-
-
-            </LinearLayout>
-
-
-
-
-
+                    android:drawableLeft="@drawable/ic_plus"
+                    android:layout_below="@+id/tableLayout1"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_marginStart="10dp"/>
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/linear_layout"
-                android:layout_marginBottom="25dp"
+                android:layout_below="@+id/tv_add_unit"
+                android:layout_marginBottom="10dp"
                 android:layout_marginTop="@dimen/dimen_20dp"
                 android:gravity="center">
 
                 <Button
                     android:id="@+id/btnCancel"
-                    android:layout_width="130dp"
+                    android:layout_width="110dp"
                     android:layout_height="40dp"
                     android:background="@drawable/button_outline_dark"
                     android:text="Cancel"
@@ -305,35 +207,350 @@
 
                 <Button
                     android:id="@+id/btnSave"
-                    android:layout_width="130dp"
+                    android:layout_width="110dp"
                     android:layout_height="40dp"
                     android:layout_marginLeft="@dimen/dimen_20dp"
                     android:background="@drawable/button_outline_dark"
                     android:text="Save"
-                    android:textColor="@color/colorPrimary"
-                    android:visibility="visible" />
+                    android:visibility="visible"
+                    android:textColor="@color/colorPrimary" />
 
 
                 <Button
                     android:id="@+id/btnUpdate"
-                    android:layout_width="130dp"
+                    android:layout_width="110dp"
                     android:layout_height="40dp"
                     android:layout_marginLeft="@dimen/dimen_20dp"
                     android:background="@drawable/button_outline_dark"
                     android:text="Update"
-                    android:textColor="@color/colorPrimary"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                    android:textColor="@color/colorPrimary"/>
             </LinearLayout>
 
 
         </RelativeLayout>
 
 
+
         <!-- </android.support.v7.widget.CardView>
      </FrameLayout>-->
     </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
 </LinearLayout>
 
 
 
 
+
+
+    <!--
+    <?xml version="1.0" encoding="utf-8"?>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/image_relative"
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tx_add_cat"
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:layout_marginTop="3dp"
+                    android:gravity="center_horizontal"
+                    android:text="Add Flavour"
+                    android:textColor="@color/white"
+                    android:textSize="16dp"
+                    android:background="@drawable/login_bg"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/tx_edit_cat"
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:layout_marginTop="3dp"
+                    android:background="@drawable/login_bg"
+                    android:gravity="center_horizontal"
+                    android:text="Edit Flavour"
+                    android:textColor="@color/white"
+                    android:textSize="16dp"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
+
+
+                <RelativeLayout
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="170dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="20dp">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/img_flavour"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:src="@drawable/foodimg2">
+
+                    </de.hdodenhof.circleimageview.CircleImageView>
+
+                    <FrameLayout
+                        android:id="@+id/iv_select_image"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/img_flavour"
+                        android:layout_marginStart="100dp"
+
+                        android:layout_marginTop="30dp"
+
+                        >
+
+                        <ImageView
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/circle_bg_light_gray" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:src="@drawable/camera_bg_white_backgrnd" />
+
+                    </FrameLayout>
+
+                </RelativeLayout>
+            </LinearLayout>
+
+
+            &lt;!&ndash;<android.support.design.widget.FloatingActionButton
+
+        android:id="@+id/iv_select_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignTop="@+id/card"
+                android:layout_marginEnd="60dp"
+                android:layout_marginTop="100dp"
+
+        android:backgroundTint="@color/colorPrimaryDark"
+                android:src="@drawable/ic_action_cat_camera" />&ndash;&gt;
+
+            <RelativeLayout
+                android:id="@+id/relative_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/image_relative">
+
+                <LinearLayout
+                    android:id="@+id/linear_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+
+                    <EditText
+                        android:id="@+id/etx_flavour_name"
+                        android:layout_width="400dp"
+                        android:layout_height="40dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginEnd="10dp"
+
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="42dp"
+                        android:hint="Enter Flavour Name">
+
+
+                    </EditText>
+
+                    &lt;!&ndash;<TableLayout
+                        android:id="@+id/linear_unit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="3dp"
+                        >
+                        <TableRow
+                           android:weightSum="3">
+
+                            <EditText
+                                android:id="@+id/et_unit_name"
+                                android:layout_width="match_parent"
+                                android:layout_height="43dp"
+
+                                android:background="@drawable/button_outline_dark_unit"
+                                android:hint="Unit Name"
+                               android:layout_weight="2dp"
+
+
+
+
+
+                                />
+
+                            <EditText
+                                android:id="@+id/et_unit_price"
+                                android:layout_width="wrap_content"
+                                android:layout_height="43dp"
+                                android:hint="Price"
+                                android:layout_weight="0.5dp"
+                                android:paddingStart="10dp"
+                                android:background="@drawable/button_outline_dark_unit"/>
+
+                            <ImageButton
+                                android:id="@+id/btn_image_cancel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="43dp"
+                                android:background="@color/white"
+                                android:src="@drawable/ic_action_cancel"
+                                android:layout_marginStart="3dp"
+                                android:layout_weight="1"
+                                />
+
+                        </TableRow>
+
+
+
+
+
+                    </TableLayout>&ndash;&gt;
+
+                    <TableLayout
+                        android:id="@+id/tableLayout1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/linear_unit"
+                        android:orientation="vertical"
+                        android:stretchColumns="0"
+                        >
+
+
+
+                    </TableLayout>&lt;!&ndash;       <LinearLayout
+                            android:id="@+id/linear_unit1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginEnd="5dp"
+                            android:weightSum="2">
+
+                            <EditText
+                                android:id="@+id/et_unit_name1"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:hint="Unit Name"
+                                android:layout_weight="1"
+                                android:layout_marginStart="10dp"
+                                android:padding="5dp"
+                                android:layout_marginEnd="30dp"
+                                android:background="@drawable/button_outline_dark_unit"/>
+
+                            <EditText
+                                android:id="@+id/et_unit_price1"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:hint="Unit Price"
+                                android:layout_weight="1"
+                                android:layout_marginEnd="40dp"
+                                android:padding="5dp"
+                                android:background="@drawable/button_outline_dark_unit"/>
+
+                            <ImageButton
+                                android:id="@+id/btn_image_cancel1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_delete_button"
+                                android:layout_marginEnd="5dp"
+                                android:background="@drawable/button_outline_dark_unit"/>
+
+
+
+
+
+                        </LinearLayout>&ndash;&gt;
+
+                    <Button
+                        android:id="@+id/btn_add_unit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_weight="1"
+                        android:text="Add Unit" />
+
+
+                </LinearLayout>
+
+
+
+
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/linear_layout"
+                    android:layout_marginBottom="25dp"
+                    android:layout_marginTop="@dimen/dimen_20dp"
+                    android:gravity="center">
+
+                    <Button
+                        android:id="@+id/btnCancel"
+                        android:layout_width="130dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/button_outline_dark"
+                        android:text="Cancel"
+                        android:textColor="@color/colorPrimary" />
+
+                    <Button
+                        android:id="@+id/btnSave"
+                        android:layout_width="130dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="@dimen/dimen_20dp"
+                        android:background="@drawable/button_outline_dark"
+                        android:text="Save"
+                        android:textColor="@color/colorPrimary"
+                        android:visibility="visible" />
+
+
+                    <Button
+                        android:id="@+id/btnUpdate"
+                        android:layout_width="130dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="@dimen/dimen_20dp"
+                        android:background="@drawable/button_outline_dark"
+                        android:text="Update"
+                        android:textColor="@color/colorPrimary"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
+
+            &lt;!&ndash; </android.support.v7.widget.CardView>
+         </FrameLayout>&ndash;&gt;
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+
+    -->

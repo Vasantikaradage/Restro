@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="20dp">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,15 +11,48 @@
         android:orientation="vertical"
         tools:ignore="MissingConstraints">
 
-    <RelativeLayout
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@drawable/login_bg"
+            android:weightSum="2">
+
+      <TextView
+          android:layout_width="0dp"
+          android:layout_height="60dp"
+          android:text="Menu"
+          android:textColor="@color/white"
+          android:textSize="18dp"
+          android:layout_marginStart="40dp"
+          android:layout_gravity="center"
+          android:gravity="center"
+          android:layout_weight="1.9"/>
+
+            <ImageButton
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/ic_cancel"
+               android:layout_gravity="center" />
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+        <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="10dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:src="@drawable/foodimg2"/>
 
     </RelativeLayout>
@@ -28,48 +60,51 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Menu Name"
+            android:text="Roti"
             android:layout_gravity="center"
             android:gravity="center"
             android:textSize="16sp"
+            android:textColor="@color/colorPrimary"
             android:textStyle="bold"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Price"
+            android:text="@string/u20b9"
             android:layout_gravity="center"
             android:gravity="center"
-            android:textSize="14sp"
-            android:textStyle="bold"/>
+            android:textSize="14sp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Discription"
+                android:padding="5dp"
+                android:textStyle="bold"
                 android:textColor="@color/colorPrimary"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="fddfd fgfdg dgdf gfgd fcgbc gfchfgh hfh"/>
+                android:padding="5dp"
+                android:text="fddfd fgfdg dgdf gfgd fcgbc gfchfgh hfh /n edw fsffdg gbfg"/>
 
 
-            <TextView
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Toppings"
+            android:padding="5dp"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimary" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_menu_toppings"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Toppings"
-                android:textColor="@color/colorPrimary"/>
+                android:layout_height="wrap_content">
 
 
+            </android.support.v7.widget.RecyclerView>
+        </LinearLayout>
     </LinearLayout>
 
-
-
-
-
-
-
-
-
-
-</android.support.constraint.ConstraintLayout>
+</android.support.design.widget.CoordinatorLayout>

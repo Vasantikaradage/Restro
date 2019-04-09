@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -38,6 +40,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Response;
 
 import static com.restrosmart.restrohotel.ConstantVariables.DELETE_CATEGORY;
@@ -62,9 +65,9 @@ public class TabParentCategoryFragment extends Fragment {
     private  int mHotelId,mBranchId;
     private  View dialoglayout;
     private EditText etxCategoryNme;
-    private ImageView mImageView;
+    private CircleImageView mImageView;
     private String  imageName, mFinalImageName;
-    private AlertDialog dialog;
+    private  BottomSheetDialog dialog;
 
 
 
@@ -88,6 +91,8 @@ public class TabParentCategoryFragment extends Fragment {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.getLayoutManager().setMeasurementCacheEnabled(false);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
+
         adapterDisplayAllMenu = new AdapterDisplayAllCategory(getActivity(), categoryForms, new DeleteListener() {
             @Override
             public void getDeleteListenerPosition(int position) {
@@ -107,10 +112,14 @@ public class TabParentCategoryFragment extends Fragment {
                 LayoutInflater li = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
                 dialoglayout = li.inflate(R.layout.activity_add_category, null);
-                final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setView(dialoglayout);
+               // final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                 dialog = new BottomSheetDialog(getActivity());
 
-                dialog = builder.create();
+               // builder.setView(dialoglayout);
+               // dialog = builder.create();
+
+                dialog.setContentView(dialoglayout);
+               // mBottomSheetDialog.show();
 
                 FrameLayout btnCamara = (FrameLayout) dialoglayout.findViewById(R.id.iv_select_image);
 
@@ -124,7 +133,7 @@ public class TabParentCategoryFragment extends Fragment {
 
                 TextView txTitle = dialoglayout.findViewById(R.id.tx_edit_cat);
                 txTitle.setVisibility(View.VISIBLE);
-                mImageView = (ImageView) dialoglayout.findViewById(R.id.img_category);
+                mImageView = (CircleImageView) dialoglayout.findViewById(R.id.img_category);
                 etxCategoryNme.setText(categoryForms.get(position).getCategory_Name());
 
                 Picasso.with(dialoglayout.getContext())
@@ -194,6 +203,7 @@ public class TabParentCategoryFragment extends Fragment {
 
             }
         });
+        recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setAdapter(adapterDisplayAllMenu);
         adapterDisplayAllMenu.notifyDataSetChanged();
 

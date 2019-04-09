@@ -11,10 +11,8 @@
         android:id="@+id/recycler_menu_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:paddingBottom="60dp"
-        android:clipToPadding="false"
-       >
+        android:clipToPadding="false">
 
     </android.support.v7.widget.RecyclerView>
 
