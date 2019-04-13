@@ -25,7 +25,7 @@ public interface ApiService {
 
 
     /*parent category display*/
-    @POST("PositionListener.php?category=cate_disp")
+    @POST("Category.php?category=cate_disp")
     @FormUrlEncoded
     Call<JsonObject> getParentCategory(@Field("Hotel_Id") String Hotel_Id,
                                        @Field("Branch_Id") String Branch_Id);
@@ -155,8 +155,8 @@ public interface ApiService {
 
 
 
-    /*Get PositionListener Image*/
-    @POST("PositionListener.php?category=cate_icon")
+    /*Get Category Image*/
+    @POST("Category.php?category=cate_icon")
     @FormUrlEncoded
     Call<JsonObject> getCategoryImage(@Field("Hotel_Id") int Hotel_Id,
                                       @Field("Branch_Id") int branch_id,
@@ -174,9 +174,9 @@ public interface ApiService {
 
 
 
-    /*Add PositionListener*/
+    /*Add Category*/
 
-    @POST("PositionListener.php?category=subcate_add")
+    @POST("Category.php?category=subcate_add")
     @FormUrlEncoded
     Call<JsonObject> addCategory(
 
@@ -188,7 +188,7 @@ public interface ApiService {
 
 
     /*category display*/
-    @POST("PositionListener.php?category=allmenu")
+    @POST("Category.php?category=allmenu")
     @FormUrlEncoded
     Call<JsonObject> GetAllCategory(@Field("Hotel_Id") int Hotel_Id,
                                     @Field("Branch_Id") int Branch_Id);
@@ -302,7 +302,7 @@ public interface ApiService {
 
     /*category Delete*/
     @FormUrlEncoded
-    @POST("PositionListener.php?category=subcate_delete")
+    @POST("Category.php?category=subcate_delete")
     Call<JsonObject> deleteCategory(@Field("Category_Id") int Category_Id,
                                     @Field("Branch_Id") int Branch_Id,
                                     @Field("Hotel_Id") int Hotel_Id,
@@ -330,10 +330,10 @@ public interface ApiService {
 
 
 
-    /*PositionListener Edit*/
+    /*Category Edit*/
 
     @FormUrlEncoded
-    @POST("PositionListener.php?category=subcate_edit")
+    @POST("Category.php?category=subcate_edit")
     Call<JsonObject> editCategory(
             @Field("Category_Name") String Category_Name,
             @Field("New_CateName") String Category_Name_New,
@@ -344,9 +344,6 @@ public interface ApiService {
             @Field("Pc_Id") int pcId);
 
 
-    /*  @POST("PositionListener.php?category=subcate_disp")
-      @FormUrlEncoded
-      Call<JsonObject> getMenuDelete(@Field("Menu_Id") int Menu_Id);
 
   /*add menu*/
     @POST("Menu.php?menu=menu_add")

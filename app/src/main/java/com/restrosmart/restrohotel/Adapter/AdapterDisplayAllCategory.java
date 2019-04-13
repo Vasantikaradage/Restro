@@ -7,7 +7,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
@@ -15,9 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.restrosmart.restrohotel.Admin.ActivityMenu;
@@ -38,18 +35,17 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by SHREE on 11/10/2018.
  */
 public class AdapterDisplayAllCategory extends RecyclerView.Adapter<AdapterDisplayAllCategory.MyHolder> {
-    private  Context context;
-    private  List<CategoryForm> arrayList;
+    private Context context;
+    private List<CategoryForm> arrayList;
     private EditListener editListener;
     private DeleteListener deleteListener;
-
 
 
     public AdapterDisplayAllCategory(Context activity, ArrayList<CategoryForm> arrayList, DeleteListener deleteListener, EditListener editListener) {
         this.context = activity;
         this.arrayList = arrayList;
-        this.deleteListener=deleteListener;
-        this.editListener=editListener;
+        this.deleteListener = deleteListener;
+        this.editListener = editListener;
     }
 
     @NonNull
@@ -65,54 +61,39 @@ public class AdapterDisplayAllCategory extends RecyclerView.Adapter<AdapterDispl
         holder.tx_name.setText(arrayList.get(position).getCategory_Name());
 
 
-        String image=arrayList.get(position).getC_Image_Name();
-        Log.d("","vasantiimage"+image);
+        String image = arrayList.get(position).getC_Image_Name();
+        Log.d("", "vasantiimage" + image);
 
-        if(image.equals("http://192.168.0.9/Restro_Smart/"))
-        {
+        if ((image.equals("http://192.168.0.6/Restro_Smart/null") && (arrayList.get(position).getPc_Id() == 1))) {
             Picasso.with(context)
-                    .load(R.drawable.ic_steak)
-                    .transform( new CircleTransform())
+                    .load("http://192.168.0.6/Restro_Smart/category/def_veg.png")
+                    .transform(new CircleTransform())
                     .into(holder.circleImageView);
-        }
-        else  if(image.equals("http://192.168.0.9/Restro_Smart/") )
-        {
-            Picasso.with(context)
-                    .load(R.drawable.ic_wine)
-                    .transform( new CircleTransform())
-                    .into(holder.circleImageView);
-        }
-       /* else  if(image.equals("http://192.168.0.9/Restro_Smart/") && (arrayList.get(position).getPc_Id())==2)
-        {
-            Picasso.with(context)
-                    .load(R.drawable.ic_salad)
-                    .transform( new CircleTransform())
-                    .into(holder.circleImageView);
-        }*/
-        else {
 
+        } else if ((image.equals("http://192.168.0.6/Restro_Smart/null") && (arrayList.get(position).getPc_Id() == 2))) {
+            Picasso.with(context)
+                    .load("http://192.168.0.6/Restro_Smart/category/def_non_veg.png")
+                    .transform(new CircleTransform())
+                    .into(holder.circleImageView);
+
+        } else if ((image.equals("http://192.168.0.6/Restro_Smart/null") && (arrayList.get(position).getPc_Id() == 3))) {
+            Picasso.with(context)
+                    .load("http://192.168.0.6/Restro_Smart/category/def_liq.png")
+                    .transform(new CircleTransform())
+                    .into(holder.circleImageView);
+
+        } else if ((image.equals("http://192.168.0.6/Restro_Smart/null") && (arrayList.get(position).getPc_Id() == 4))) {
+            Picasso.with(context)
+                    .load("http://192.168.0.6/Restro_Smart/category/def_dessert.png")
+                    .transform(new CircleTransform())
+                    .into(holder.circleImageView);
+
+        } else {
             Picasso.with(context)
                     .load(image)
                     .transform(new CircleTransform())
                     .into(holder.circleImageView);
         }
-       /* String categoryName = arrayList.get(position).getCategory_Name();
-
-        char first = categoryName.charAt(0);
-        holder.btnCategory.setText(String.valueOf(first));
-
-        *//*Randomly get color from list of colors*//*
-       // int[] androidColors = context.getResources().getIntArray(R.array.androidcolors);
-      //  int randomAndroidColor = androidColors[new Random().nextInt(androidColors.length)];
-
-        *//*Randomly generates color*//*
-        *//*Random rnd = new Random();
-        int randomAndroidColor = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));*//*
-
-        *//*change the drawable background color randomly*//*
-        //GradientDrawable bgShape = (GradientDrawable) holder.btnCategory.getBackground();
-        //bgShape.setColor(randomAndroidColor);
-*/
 
         holder.imagBtnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -191,23 +172,23 @@ public class AdapterDisplayAllCategory extends RecyclerView.Adapter<AdapterDispl
     public class MyHolder extends RecyclerView.ViewHolder {
         TextView tx_name;
         CircleImageView circleImageView;
-        ImageButton imgBtnEdit,imagBtnDelete;
-       // Button btnCategory;
+        ImageButton imgBtnEdit, imagBtnDelete;
+        // Button btnCategory;
 
         public MyHolder(final View itemView) {
             super(itemView);
 
-           circleImageView = (CircleImageView) itemView.findViewById(R.id.circle_image);
+            circleImageView = (CircleImageView) itemView.findViewById(R.id.circle_image);
             tx_name = (TextView) itemView.findViewById(R.id.tv_category_name);
             //btnCategory=itemView.findViewById(R.id.btnCategoryBg);
-            imgBtnEdit=itemView.findViewById(R.id.btn_edit_button);
-            imagBtnDelete=itemView.findViewById(R.id.btn_delete_button);
+            imgBtnEdit = itemView.findViewById(R.id.btn_edit_button);
+            imagBtnDelete = itemView.findViewById(R.id.btn_delete_button);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, ActivityMenu.class);
-                    intent.putExtra("Pc_Id",arrayList.get(getLayoutPosition()).getPc_Id());
+                    intent.putExtra("Pc_Id", arrayList.get(getLayoutPosition()).getPc_Id());
                     intent.putExtra("Category_Id", arrayList.get(getLayoutPosition()).getCategory_id());
                     intent.putExtra("Category_Name", arrayList.get(getLayoutPosition()).getCategory_Name());
                     intent.putExtra("Category_image", arrayList.get(getLayoutPosition()).getC_Image_Name());

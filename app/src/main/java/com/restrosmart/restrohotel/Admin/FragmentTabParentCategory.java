@@ -203,7 +203,7 @@ public class FragmentTabParentCategory extends Fragment {
                switch (requestId) {
                    case DELETE_CATEGORY:
                        JsonObject jsonObject1 = response.body();
-                       Toast.makeText(getActivity(), "PositionListener deleted successfully", Toast.LENGTH_LONG).show();
+                       Toast.makeText(getActivity(), "Category deleted successfully", Toast.LENGTH_LONG).show();
                        Intent intent = new Intent();
                        intent.setAction("Refresh_CategoryList");
                        getActivity().sendBroadcast(intent);
@@ -221,6 +221,11 @@ public class FragmentTabParentCategory extends Fragment {
                                intent1.setAction("Refresh_CategoryList");
                                getActivity().sendBroadcast(intent1);
                                dialog.dismiss();
+                           }
+                           else
+                           {
+                               Toast.makeText(getActivity(), "Try again...", Toast.LENGTH_SHORT).show();
+
                            }
                        } catch (JSONException e) {
                            e.printStackTrace();

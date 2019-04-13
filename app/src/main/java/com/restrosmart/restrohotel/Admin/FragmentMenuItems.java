@@ -155,7 +155,7 @@ public class FragmentMenuItems extends Fragment {
                         String suffix;
                         Log.d("","imagename"+imageName);
                         if (imageName ==null) {
-                            mFinalImageName = imageName;
+                            mFinalImageName = "null";
                             Picasso.with(dialoglayout.getContext())
                                     .load(R.drawable.ic_steak)
                                     .resize(500, 500)
@@ -303,14 +303,18 @@ public class FragmentMenuItems extends Fragment {
 
                         try {
                             JSONObject object = new JSONObject(saveCategory);
-                            JSONObject object1 = object.getJSONObject("data");
-                            int status=object1.getInt("status");
+                            int status=object.getInt("status");
                             if(status==1) {
-                                Toast.makeText(getActivity(), "PositionListener added successfully", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getActivity(), "Category added successfully", Toast.LENGTH_LONG).show();
                                 Intent intent = new Intent();
                                 intent.setAction("Refresh_CategoryList");
                                 getActivity().sendBroadcast(intent);
                                 dialog.dismiss();
+                            }
+                            else
+                            {
+                                Toast.makeText(getActivity(), "Try again...", Toast.LENGTH_LONG).show();
+
                             }
 
                         } catch (JSONException e) {

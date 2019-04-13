@@ -48,7 +48,7 @@ public class AdapterDisplayAllToppings extends RecyclerView.Adapter<AdapterDispl
         String price= String.valueOf(arrayList.get(i).getToppingsPrice());
       //  Typeface typeFace_Rupee = Typeface.createFromAsset(mContext.getAssets(),"fonts/Rupee.ttf");
        // String pricename=typeFace_Rupee+price;
-        myHolder.tvToppingsPrice.setText(price);
+        myHolder.tvToppingsPrice.setText( "\u20B9 "+price);
 
         myHolder.tvToppingsOptionMenu.setOnClickListener(new View.OnClickListener() {
             @Override
