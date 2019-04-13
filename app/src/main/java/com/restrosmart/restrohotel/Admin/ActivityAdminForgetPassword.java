@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-public class Admin_Forget_pass extends AppCompatActivity {
+public class ActivityAdminForgetPassword extends AppCompatActivity {
 
     EditText mEmail;
     Button mForget;
@@ -36,7 +36,7 @@ public class Admin_Forget_pass extends AppCompatActivity {
 
                 if (isValidEmaillId(mEmail.getText().toString().trim())) {
 
-                    new SweetAlertDialog(Admin_Forget_pass.this, SweetAlertDialog.SUCCESS_TYPE)
+                    new SweetAlertDialog(ActivityAdminForgetPassword.this, SweetAlertDialog.SUCCESS_TYPE)
                             .setTitleText("Forget Password")
                             .setContentText("Your new password has been sent to your email!")
                             .show();

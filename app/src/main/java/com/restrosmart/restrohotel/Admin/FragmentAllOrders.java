@@ -18,7 +18,7 @@ import com.restrosmart.restrohotel.Adapter.ViewPagerAdapter;
 import com.restrosmart.restrohotel.R;
 
 
-public class AllOrders extends Fragment {
+public class FragmentAllOrders extends Fragment {
 
     TabLayout tabLayout;
     Toolbar toolbar;

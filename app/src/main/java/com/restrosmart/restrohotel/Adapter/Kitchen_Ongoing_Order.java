@@ -89,7 +89,7 @@ public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int positi
                 @Override
                 public void onClick(View v) {
 
-                    Intent i=new Intent(context,NewOrderViewDetails.class);
+                    Intent i=new Intent(context,ActivityNewOrderViewDetails.class);
                     context.startActivity(i);
 
                 }

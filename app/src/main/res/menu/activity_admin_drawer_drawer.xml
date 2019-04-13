@@ -27,7 +27,6 @@
             android:layout_height="match_parent"
             android:checkable="true"
             android:icon="@drawable/ic_all_order"
-        android:checked="true"
             app:itemTextColor="#ac1e1e"
             android:title="Orders" />
     </group>

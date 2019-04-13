@@ -244,9 +244,9 @@ public class AddMenu extends AppCompatActivity implements View.OnClickListener{
         recyclerView.setHasFixedSize(true);
         int no_of_col=3;
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(),5);
-        RecyclerViewImageAdapter adapter = new RecyclerViewImageAdapter(this, arrayListImage,mUpdatedImage, new Category() {
+        RecyclerViewImageAdapter adapter = new RecyclerViewImageAdapter(this, arrayListImage,mUpdatedImage, new PositionListener() {
             @Override
-            public void categoryListern(int position) {
+            public void positionListern(int position) {
                 // Log.d("","CategoryPosition"+position);
                 Toast.makeText(AddMenu.this, ""+position, Toast.LENGTH_SHORT).show();
 

@@ -16,6 +16,7 @@
         android:background="@drawable/login_bg"
         android:orientation="horizontal">
     <TextView
+        android:id="@+id/tv_topping_title"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:text="Add Toppings"
@@ -25,9 +26,10 @@
         android:textColor="@color/white"
         android:layout_gravity="center"
         android:gravity="center"
-        android:visibility="visible"/>
+        android:visibility="gone"/>
 
     <TextView
+        android:id="@+id/tv_edit_toppingTitle"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:text="Edit Toppings"

@@ -32,7 +32,7 @@ import static com.restrosmart.restrohotel.ConstantVariables.LOGIN_ADMIN;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.REMEMBER_PASSWORD;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.REMEMBER_USER_NAME;
 
-public class AdminLogin extends AppCompatActivity {
+public class ActivityAdminLogin extends AppCompatActivity {
 
     private EditText edtAdminUsername, edtAdminPassword;
     private CheckBox cbRememberMe;
@@ -66,7 +66,7 @@ public class AdminLogin extends AppCompatActivity {
         btnAdminRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(AdminLogin.this, ActivityAdminRegister.class);
+                Intent intent = new Intent(ActivityAdminLogin.this, ActivityAdminRegister.class);
                 startActivity(intent);
             }
         });
@@ -81,7 +81,7 @@ public class AdminLogin extends AppCompatActivity {
         tvAdminForgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(AdminLogin.this, Admin_Forget_pass.class);
+                Intent intent = new Intent(ActivityAdminLogin.this, ActivityAdminForgetPassword.class);
                 startActivity(intent);
             }
         });
@@ -107,7 +107,7 @@ public class AdminLogin extends AppCompatActivity {
         initRetrofitCallback();
 
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
-        mRetrofitService = new RetrofitService(mResultCallBack, AdminLogin.this);
+        mRetrofitService = new RetrofitService(mResultCallBack, ActivityAdminLogin.this);
         mRetrofitService.retrofitData(LOGIN_ADMIN, (service.getLogin(edtAdminUsername.getText().toString(), edtAdminPassword.getText().toString())));
     }
 
@@ -137,16 +137,16 @@ public class AdminLogin extends AppCompatActivity {
                         sessionmanager.saveHotelDetails(hotelId, hotelName,roleId,branchId,empId);
 
                         //sessionmanager.createSession(user);
-                        Intent intent = new Intent(AdminLogin.this, ActivityAdminDrawer.class);
+                        Intent intent = new Intent(ActivityAdminLogin.this, ActivityAdminDrawer.class);
                         startActivity(intent);
 
-                        Toast.makeText(AdminLogin.this, "Login successful", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ActivityAdminLogin.this, "Login successful", Toast.LENGTH_SHORT).show();
 
 
                         progressBar.setVisibility(View.GONE);
                         btnAdminLogin.setVisibility(View.VISIBLE);
                     } else {
-                        Toast.makeText(AdminLogin.this, "Employee not Active.. ", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ActivityAdminLogin.this, "Employee not Active.. ", Toast.LENGTH_SHORT).show();
                     }
 
                     if (cbRememberMe.isChecked()) {
@@ -164,7 +164,7 @@ public class AdminLogin extends AppCompatActivity {
             public void notifyError(int requestId, Throwable error) {
                 progressBar.setVisibility(View.GONE);
                 btnAdminLogin.setVisibility(View.VISIBLE);
-                Toast.makeText(AdminLogin.this, "Something went wrong..! Please try again later.", Toast.LENGTH_LONG).show();
+                Toast.makeText(ActivityAdminLogin.this, "Something went wrong..! Please try again later.", Toast.LENGTH_LONG).show();
             }
         };
     }

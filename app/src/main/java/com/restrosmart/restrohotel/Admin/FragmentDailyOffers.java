@@ -37,7 +37,7 @@ import static com.restrosmart.restrohotel.ConstantVariables.OFFER_TITLE;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.BRANCH_ID;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.HOTEL_ID;
 
-public class DailyOffers extends Fragment {
+public class FragmentDailyOffers extends Fragment {
     ArrayList<OfferForm> arrayListOfferTitle = new ArrayList<OfferForm>();
     private RecyclerView recyclerView;
     private RetrofitService mRetrofitService;

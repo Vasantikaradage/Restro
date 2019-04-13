@@ -16,7 +16,7 @@ import android.widget.Toast;
 import com.google.gson.JsonObject;
 import com.restrosmart.restrohotel.Adapter.RVVImageAdapter;
 import com.restrosmart.restrohotel.Interfaces.ApiService;
-import com.restrosmart.restrohotel.Interfaces.Category;
+import com.restrosmart.restrohotel.Interfaces.PositionListener;
 import com.restrosmart.restrohotel.Interfaces.IResult;
 import com.restrosmart.restrohotel.Model.AddImage;
 import com.restrosmart.restrohotel.R;
@@ -152,10 +152,10 @@ public class ActivityMenuGallery extends AppCompatActivity {
     private void getImage(final ArrayList<AddImage> arrayListImage) {
         recyclerView.setHasFixedSize(true);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 4);
-        RVVImageAdapter adapter = new RVVImageAdapter(this, arrayListImage, mImageName, new Category() {
+        RVVImageAdapter adapter = new RVVImageAdapter(this, arrayListImage, mImageName, new PositionListener() {
 
             @Override
-            public void categoryListern(int position) {
+            public void positionListern(int position) {
                 Toast.makeText(ActivityMenuGallery.this, "" + position, Toast.LENGTH_SHORT).show();
                 image_name = arrayListImage.get(position).getImage();
 

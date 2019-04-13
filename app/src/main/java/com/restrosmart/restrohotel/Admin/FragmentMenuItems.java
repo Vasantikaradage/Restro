@@ -11,7 +11,6 @@ import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -30,7 +29,6 @@ import com.google.gson.JsonObject;
 import com.restrosmart.restrohotel.Adapter.CategoryViewPagerAdapter;
 
 import com.restrosmart.restrohotel.Interfaces.ApiService;
-import com.restrosmart.restrohotel.Interfaces.Category;
 import com.restrosmart.restrohotel.Interfaces.IResult;
 import com.restrosmart.restrohotel.Model.AddParentCategoryinfo;
 import com.restrosmart.restrohotel.Model.CategoryForm;
@@ -58,7 +56,7 @@ import static com.restrosmart.restrohotel.ConstantVariables.SAVE_CATEGORY;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.BRANCH_ID;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.HOTEL_ID;
 
-public class MenuItems extends Fragment {
+public class FragmentMenuItems extends Fragment {
     private TabLayout tabLayout;
     private Toolbar toolbar;
     private ViewPager viewPager;
@@ -70,7 +68,7 @@ public class MenuItems extends Fragment {
 
     private String imageName=null;
     private String  mFinalImageName;
-    private int branchId, hotelId, mPcId, btnId;
+    private int branchId, hotelId, mPcId = 1, btnId;
 
     private ImageView btnCategory;
     private EditText etxCategoryNme;
@@ -91,7 +89,6 @@ public class MenuItems extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         //setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.fragment_tab_menu, null);
-
         return view;
     }
 
@@ -124,17 +121,9 @@ public class MenuItems extends Fragment {
 
                 dialoglayout = li.inflate(R.layout.activity_add_category, null);
                 dialog = new BottomSheetDialog(getActivity());
-
-                // builder.setView(dialoglayout);
-                // dialog = builder.create();
-
                 dialog.setContentView(dialoglayout);
-                // mBottomSheetDialog.show();
-              // dialog = builder.create();
-               // dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation_2;
 
                 FrameLayout btnCamara = (FrameLayout) dialoglayout.findViewById(R.id.iv_select_image);
-
                 etxCategoryNme = dialoglayout.findViewById(R.id.etx_category_name);
                 Button btnCancel = dialoglayout.findViewById(R.id.btnCancel);
                 Button btnSave = dialoglayout.findViewById(R.id.btnSave);
@@ -142,9 +131,6 @@ public class MenuItems extends Fragment {
                 txTitle.setVisibility(View.VISIBLE);
 
                 mCircleImageView = (CircleImageView) dialoglayout.findViewById(R.id.img_category);
-
-
-
                 Picasso.with(dialoglayout.getContext())
                         .load(R.drawable.ic_steak)
                         .resize(500, 500)
@@ -155,7 +141,7 @@ public class MenuItems extends Fragment {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(getActivity(), ActivityCategoryGallery.class);
-                        intent.putExtra("Pc_Id", mPcId - 1);
+                        intent.putExtra("Pc_Id", mPcId);
                         startActivityForResult(intent, IMAGE_RESULT_OK);
                     }
                 });
@@ -203,12 +189,11 @@ public class MenuItems extends Fragment {
                 initRetrofitCallBackForCategory();
                 ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
                 mRetrofitService = new RetrofitService(mResultCallBack, getActivity());
-
                 mRetrofitService.retrofitData(SAVE_CATEGORY, service.addCategory(etxCategoryNme.getText().toString(),
                         mFinalImageName,
                         hotelId,
                         branchId,
-                        mPcId - 1));
+                        mPcId));
             }
         });
     }
@@ -296,7 +281,7 @@ public class MenuItems extends Fragment {
 
                                     arrayList.add(new ArrayList<CategoryForm>(fragmentCategoryModelArrayList));
                                     AddParentCategoryinfo addParentCategoryinfo = new AddParentCategoryinfo();
-                                    addParentCategoryinfo.setFragment(new TabParentCategoryFragment());
+                                    addParentCategoryinfo.setFragment(new FragmentTabParentCategory());
                                     addParentCategoryinfo.setCategoryForms(arrayList.get(i));
                                     addParentCategoryinfos.add(addParentCategoryinfo);
                                 }
@@ -319,11 +304,14 @@ public class MenuItems extends Fragment {
                         try {
                             JSONObject object = new JSONObject(saveCategory);
                             JSONObject object1 = object.getJSONObject("data");
-                            Toast.makeText(getActivity(), "Category added successfully", Toast.LENGTH_LONG).show();
-                            Intent intent = new Intent();
-                            intent.setAction("Refresh_CategoryList");
-                            getActivity().sendBroadcast(intent);
-                            dialog.dismiss();
+                            int status=object1.getInt("status");
+                            if(status==1) {
+                                Toast.makeText(getActivity(), "PositionListener added successfully", Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent();
+                                intent.setAction("Refresh_CategoryList");
+                                getActivity().sendBroadcast(intent);
+                                dialog.dismiss();
+                            }
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -357,13 +345,25 @@ public class MenuItems extends Fragment {
     private void setupViewPager(ViewPager viewPager) {
         tabLayout.setupWithViewPager(viewPager);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        categoryViewPagerAdapter = new CategoryViewPagerAdapter(getActivity().getSupportFragmentManager(), mFragmentTitleList, addParentCategoryinfos, new Category() {
+
+        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void categoryListern(int pcId) {
-                mPcId = pcId;
+            public void onPageScrolled(int i, float v, int i1) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                mPcId = mFragmentTitleList.get(i).getPc_id();
+                Toast.makeText(getActivity(),"id"+mPcId,Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
 
             }
         });
+        categoryViewPagerAdapter = new CategoryViewPagerAdapter(getActivity().getSupportFragmentManager(), mFragmentTitleList, addParentCategoryinfos );
         categoryViewPagerAdapter.notifyDataSetChanged();
         viewPager.setAdapter(categoryViewPagerAdapter);
     }

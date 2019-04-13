@@ -1,12 +1,9 @@
 package com.restrosmart.restrohotel.Adapter;
-
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-
-import com.restrosmart.restrohotel.Admin.TabParentCategoryFragment;
-import com.restrosmart.restrohotel.Interfaces.Category;
+import com.restrosmart.restrohotel.Admin.FragmentTabParentCategory;
 import com.restrosmart.restrohotel.Model.AddParentCategoryinfo;
 import com.restrosmart.restrohotel.Model.ParentCategoryForm;
 
@@ -23,21 +20,20 @@ public class CategoryViewPagerAdapter extends FragmentPagerAdapter {
     Context context;
     private ArrayList<ParentCategoryForm> mFragmentTitleList = new ArrayList<>();
     private List<AddParentCategoryinfo> mAddParentCategoryinfos;
-    private Category category;
 
 
-    public CategoryViewPagerAdapter(FragmentManager fm, ArrayList<ParentCategoryForm> mFragmentTitleList, List<AddParentCategoryinfo> mFragmentCategoryTitalList, Category category) {
+
+    public CategoryViewPagerAdapter(FragmentManager fm, ArrayList<ParentCategoryForm> mFragmentTitleList, List<AddParentCategoryinfo> mFragmentCategoryTitalList) {
         super(fm);
         this.mFragmentTitleList = mFragmentTitleList;
         this.mAddParentCategoryinfos = mFragmentCategoryTitalList;
-        this.category=category;
+
     }
 
     @Override
     public Fragment getItem(int position) {
         AddParentCategoryinfo addParentCategoryinfo = mAddParentCategoryinfos.get(position);
-        category.categoryListern(mFragmentTitleList.get(position).getPc_id());
-        return TabParentCategoryFragment.newInstance(addParentCategoryinfo.getCategoryForms(),position);
+        return FragmentTabParentCategory.newInstance(addParentCategoryinfo.getCategoryForms(),position);
 
     }
 

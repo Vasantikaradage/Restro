@@ -21,7 +21,7 @@ import android.widget.Toast;
 import com.google.gson.JsonObject;
 import com.restrosmart.restrohotel.Adapter.AdapterDisplayAllMenus;
 import com.restrosmart.restrohotel.Interfaces.ApiService;
-import com.restrosmart.restrohotel.Interfaces.Category;
+import com.restrosmart.restrohotel.Interfaces.PositionListener;
 import com.restrosmart.restrohotel.Interfaces.DeleteListener;
 import com.restrosmart.restrohotel.Interfaces.EditListener;
 import com.restrosmart.restrohotel.Interfaces.IResult;
@@ -502,9 +502,9 @@ public class ActivityMenu extends AppCompatActivity implements View.OnClickListe
                 ));
 
             }
-        }, arrayListMenu, new Category() {
+        }, arrayListMenu, new PositionListener() {
             @Override
-            public void categoryListern(int pos) {
+            public void positionListern(int pos) {
                 position = pos + 1;
                 AddMenuInfo();
 

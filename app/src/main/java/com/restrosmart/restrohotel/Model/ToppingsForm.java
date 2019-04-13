@@ -7,6 +7,7 @@ public class ToppingsForm implements Parcelable {
     private  String toppingsName;
     private int toppingsPrice;
     private  int pcId;
+    private  int toppingId;
 
     public ToppingsForm() {
     }
@@ -15,6 +16,7 @@ public class ToppingsForm implements Parcelable {
         toppingsName = in.readString();
         toppingsPrice = in.readInt();
         pcId = in.readInt();
+        toppingId=in.readInt();
     }
 
     public static final Creator<ToppingsForm> CREATOR = new Creator<ToppingsForm>() {
@@ -53,6 +55,14 @@ public class ToppingsForm implements Parcelable {
         this.pcId = pcId;
     }
 
+    public int getToppingId() {
+        return toppingId;
+    }
+
+    public void setToppingId(int toppingId) {
+        this.toppingId = toppingId;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -63,5 +73,6 @@ public class ToppingsForm implements Parcelable {
         parcel.writeString(toppingsName);
         parcel.writeInt(toppingsPrice);
         parcel.writeInt(pcId);
+        parcel.writeInt(toppingId);
     }
 }

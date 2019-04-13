@@ -7,18 +7,23 @@ import android.support.v7.app.AppCompatActivity;
 import com.restrosmart.restrohotel.R;
 
 /**
- * Created by SHREE on 08/10/2018.
+ * Created by SHREE on 05/10/2018.
  */
 
-public class PastViewOrderDetails extends AppCompatActivity {
+public class ActivityNewOrderViewDetails extends AppCompatActivity {
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_past_view_oredr);
-
+        setContentView(R.layout.activity_new_order_view);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
 
+
+
+
+
+    }
     @Override
     public boolean onSupportNavigateUp() {
         finish();

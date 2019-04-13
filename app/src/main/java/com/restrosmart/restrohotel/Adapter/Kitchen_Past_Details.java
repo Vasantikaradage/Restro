@@ -89,7 +89,7 @@ public class Kitchen_Past_Details extends RecyclerView.Adapter<RecyclerView.View
                 @Override
                 public void onClick(View v) {
 
-                    Intent i=new Intent(context,NewOrderViewDetails.class);
+                    Intent i=new Intent(context,ActivityNewOrderViewDetails.class);
                     context.startActivity(i);
 
                 }

@@ -2,14 +2,13 @@ package com.restrosmart.restrohotel.Admin;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.os.Build;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -19,16 +18,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
-import com.restrosmart.restrohotel.Adapter.CategoryViewPagerAdapter;
 import com.restrosmart.restrohotel.Adapter.ToppingsViewPagerAdapter;
 import com.restrosmart.restrohotel.Interfaces.ApiService;
-import com.restrosmart.restrohotel.Interfaces.Category;
 import com.restrosmart.restrohotel.Interfaces.IResult;
-import com.restrosmart.restrohotel.Model.AddParentCategoryinfo;
-import com.restrosmart.restrohotel.Model.CategoryForm;
 import com.restrosmart.restrohotel.Model.ParentCategoryForm;
 import com.restrosmart.restrohotel.Model.ParentToppingsInfo;
 import com.restrosmart.restrohotel.Model.ToppingsForm;
@@ -48,14 +44,13 @@ import java.util.List;
 import retrofit2.Response;
 
 import static com.restrosmart.restrohotel.ConstantVariables.ADD_TOPPINGS;
-import static com.restrosmart.restrohotel.ConstantVariables.PARENT_CATEGORY_WITH_SUB;
 import static com.restrosmart.restrohotel.ConstantVariables.PARENT_CATEGORY_WITH_TOPPINGS;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.BRANCH_ID;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.HOTEL_ID;
 
 public  class FragmentToppings extends Fragment {
 
-    private  View view;
+
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private  Toolbar toolbar;
@@ -64,11 +59,12 @@ public  class FragmentToppings extends Fragment {
     private IResult mResultCallBack;
     private  int hotelId,branchId;
     private  ProgressDialog progressDialog;
-    private  int mPcId;
+    private  int mPcId=1;
     private FrameLayout flAddToppings;
     private  View dialoglayout;
     private  BottomSheetDialog dialog;
     private EditText etvToppingName,etvToppingPrice;
+    private TextView tvToppingTitle;
 
     private ArrayList<ParentCategoryForm> mFragmentTitleList;
     private List<ToppingsForm> fragmentToppingsArrayList;
@@ -82,7 +78,7 @@ public  class FragmentToppings extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_toppings, null);
+       View view = inflater.inflate(R.layout.fragment_toppings, null);
         return view;
     }
 
@@ -114,6 +110,8 @@ public  class FragmentToppings extends Fragment {
                 etvToppingName=dialoglayout.findViewById(R.id.etv_topping_name);
                 etvToppingPrice=dialoglayout.findViewById(R.id.etv_topping_price);
                 Button saveTopping=dialoglayout.findViewById(R.id.btnSave);
+                tvToppingTitle=dialoglayout.findViewById(R.id.tv_topping_title);
+                tvToppingTitle.setVisibility(View.VISIBLE);
                 Button cancelTopping=dialoglayout.findViewById(R.id.btnCancel);
                 Button updateTopping=dialoglayout.findViewById(R.id.btnUpdate);
 
@@ -123,12 +121,11 @@ public  class FragmentToppings extends Fragment {
                         initRetrofitCallBackForToppings();
                         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
                         mRetrofitService = new RetrofitService(mResultCallBack, getActivity());
-
                         mRetrofitService.retrofitData(ADD_TOPPINGS, service.addToppings(etvToppingName.getText().toString(),
                                 Integer.parseInt(etvToppingPrice.getText().toString()),
                                 hotelId,
                                 branchId,
-                                1));
+                                mPcId));
                     }
                 });
                 dialog.show();
@@ -143,78 +140,18 @@ public  class FragmentToppings extends Fragment {
         });
 
 
+    }
 
-
-        /*tabLayout.addTab(tabLayout.newTab().setText("Veg"));
-        tabLayout.addTab(tabLayout.newTab().setText("Non Veg"));
-       // ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        tabLayout.setTabGravity(TabLayout.MODE_SCROLLABLE);
-
-        Pager adapter = new Pager(getActivity().getSupportFragmentManager(), tabLayout.getTabCount());
-
-        //Adding adapter to pager
-        viewPager.setAdapter(adapter);
-
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-
-
-                viewPager.setCurrentItem(tab.getPosition());
-
-                if (tab.getPosition() == 1) {
-                   // toolbar.setBackground(getContext().getResources().getDrawable(R.drawable.login_bg));
-                    tabLayout.setBackground(getContext().getResources().getDrawable(R.drawable.login_bg));
-                    //tabLayout.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorAccent));
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        getActivity().getWindow().setStatusBarColor(ContextCompat.getColor(getActivity(),
-                                R.color.colorPrimaryDark));
-                    }
-
-                } else if (tab.getPosition() == 2) {
-
-                 //   toolbar.setBackground(getContext().getResources().getDrawable(R.drawable.login_bg));
-                    tabLayout.setBackground(getContext().getResources().getDrawable(R.drawable.login_bg));
-                    //tabLayout.setBackgroundColor(ContextCompat.getColor(getActivity(), android.R.color.holo_purple));
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        getActivity().getWindow().setStatusBarColor((ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark)));
-                    }
-
-                } else {
-                  //  toolbar.setBackground(getContext().getResources().getDrawable(R.drawable.login_bg));
-                    tabLayout.setBackground(getContext().getResources().getDrawable(R.drawable.login_bg));
-                    //tabLayout.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        getActivity().getWindow().setStatusBarColor(ContextCompat.getColor(getActivity(),
-                                R.color.colorPrimaryDark));
-                    }
-                }
-
-
-                // int position =  tabLayout.getSelectedTabPosition();
-
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-                //toolbar.setBackgroundColor(ContextCompat.getColor(getActivity(),
-                   //     R.color.colorPrimary));
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-
-        //Adding onTabSelectedListener to swipe views
-        //tabLayout.addOnTabSelectedListener((TabLayout.BaseOnTabSelectedListener) getActivity());
-*/
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        initRetrofitCallBackForToppings();
+        ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
+        mRetrofitService = new RetrofitService(mResultCallBack, getActivity());
+        mRetrofitService.retrofitData(PARENT_CATEGORY_WITH_TOPPINGS, (service.toppingDisplay(hotelId,
+                (branchId))));
+       //
+        // showProgressDialog();
     }
 
     private void showProgressDialog() {
@@ -242,15 +179,15 @@ public  class FragmentToppings extends Fragment {
                           JSONObject object = new JSONObject(mParentSubcategory);
                           int status = object.getInt("status");
                           if (status == 1) {
-                              JSONObject jsonObject1 = object.getJSONObject("AllMenu");
+                              //JSONObject jsonObject1 = object.getJSONObject("AllMenu");
 
                               mFragmentTitleList.clear();
-                              JSONArray jsonArray = jsonObject1.getJSONArray("MenuList");
+                              JSONArray jsonArray = object.getJSONArray("Topping_List");
 
                               for (int i = 0; i < jsonArray.length(); i++) {
                                   fragmentToppingsArrayList.clear();
                                   JSONObject jsonObject2 = jsonArray.getJSONObject(i);
-                                  JSONArray jsonArray1 = jsonObject2.getJSONArray("Menu");
+                                  JSONArray jsonArray1 = jsonObject2.getJSONArray("Topping");
                                   //  String pcName = jsonObject2.getString("Name").toString();
                                   ParentCategoryForm parentCategoryForm = new ParentCategoryForm();
                                   parentCategoryForm.setPc_id(jsonObject2.getInt("Pc_Id"));
@@ -264,7 +201,8 @@ public  class FragmentToppings extends Fragment {
 
                                       ToppingsForm toppingsForm = new ToppingsForm();
                                       toppingsForm.setToppingsName(jsonObject3.getString("Topping_Name"));
-                                      toppingsForm.setToppingsPrice(jsonObject3.getInt("Toppingf_Price"));
+                                      toppingsForm.setToppingsPrice(jsonObject3.getInt("Topping_Price"));
+                                      toppingsForm.setToppingId(jsonObject3.getInt("Topping_Id"));
                                       toppingsForm.setPcId(jsonObject2.getInt("Pc_Id"));
                                       fragmentToppingsArrayList.add(toppingsForm);
 
@@ -272,7 +210,7 @@ public  class FragmentToppings extends Fragment {
 
                                   arrayList.add(new ArrayList<ToppingsForm>(fragmentToppingsArrayList));
                                   ParentToppingsInfo parentToppingsInfo = new ParentToppingsInfo();
-                                  parentToppingsInfo.setFragment(new TabParentToppingsFragment());
+                                  parentToppingsInfo.setFragment(new FragmentTabParentToppings());
                                   parentToppingsInfo.setToppingsFoprms(arrayList.get(i));
                                   addParentCategoryinfos.add(parentToppingsInfo);
                               }
@@ -296,10 +234,16 @@ public  class FragmentToppings extends Fragment {
                           if(status==1)
                           {
                               Toast.makeText(getActivity(),"Topping Added Successfully",Toast.LENGTH_LONG).show();
+                              Intent intent = new Intent();
+                              intent.setAction("Refresh_ToppingList");
+                              getActivity().sendBroadcast(intent);
+                              dialog.dismiss();
+
                           }
                       } catch (JSONException e) {
                           e.printStackTrace();
                       }
+                     // dialog.dismiss();
                       break;
               }
             }
@@ -313,24 +257,36 @@ public  class FragmentToppings extends Fragment {
 
     private void setupViewPager(ViewPager viewPager) {
         tabLayout.setupWithViewPager(viewPager);
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        toppingsViewPagerAdapter = new ToppingsViewPagerAdapter(getActivity().getSupportFragmentManager(), mFragmentTitleList, addParentCategoryinfos, new Category() {
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void categoryListern(int pcId) {
-                mPcId = pcId;
+            public void onPageScrolled(int i, float v, int i1) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                mPcId = mFragmentTitleList.get(i).getPc_id();
+                Toast.makeText(getActivity(),"id"+mPcId,Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
 
             }
         });
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        toppingsViewPagerAdapter = new ToppingsViewPagerAdapter(getActivity().getSupportFragmentManager(), mFragmentTitleList, addParentCategoryinfos);
         toppingsViewPagerAdapter.notifyDataSetChanged();
         viewPager.setAdapter(toppingsViewPagerAdapter);
     }
 
 
     private void init() {
-        tabLayout = (TabLayout) view.findViewById(R.id.tablayout);
-        viewPager = (ViewPager) view.findViewById(R.id.viewPager);
-        toolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        flAddToppings=view.findViewById(R.id.ivAddToppings);
+        tabLayout = (TabLayout) getActivity().findViewById(R.id.tablayout1);
+        viewPager = (ViewPager) getActivity().findViewById(R.id.viewPager1);
+        toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        flAddToppings=getActivity().findViewById(R.id.ivAddToppings);
 
         mFragmentTitleList = new ArrayList<>();
         fragmentToppingsArrayList = new ArrayList<>();

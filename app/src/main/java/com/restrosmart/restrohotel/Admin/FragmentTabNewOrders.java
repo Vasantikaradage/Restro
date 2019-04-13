@@ -10,27 +10,30 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.restrosmart.restrohotel.Adapter.AdapterPastOrder;
+import com.restrosmart.restrohotel.Adapter.Adapter_New_Order;
+import com.restrosmart.restrohotel.Adapter.KitchenAdapter_New_Order;
 import com.restrosmart.restrohotel.Model.MenuDisplayForm;
 import com.restrosmart.restrohotel.Model.Orders;
 import com.restrosmart.restrohotel.R;
 
 import java.util.ArrayList;
 
-public class Tab_PastOrders extends Fragment {
+
+public class FragmentTabNewOrders extends Fragment {
 
     ArrayList<Orders> arrayList = new ArrayList<Orders>();
 
     ArrayList<MenuDisplayForm> menu_arrayList = new ArrayList<MenuDisplayForm>();
 
-
+    String userType;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-       View view = inflater.inflate(R.layout.tab_past_orders,container,false);
+        userType = getArguments().getString("userType");
+        View view = inflater.inflate(R.layout.tab_orders, container, false);
 
-       return view;
+        return view;
     }
 
     @Override
@@ -38,24 +41,21 @@ public class Tab_PastOrders extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
 
-        for(int i=0;i<4;i++) {
+        for (int i = 0; i < 4; i++) {
 
             MenuDisplayForm menu = new MenuDisplayForm();
             menu.setMenu_Name("Dosa");
-           // menu.s("2");
+            //   menu.setMenu_qty("2");
             menu.setBranch_Id(50);
             menu_arrayList.add(menu);
         }
 
 
+        for (int i = 0; i < menu_arrayList.size(); i++) {
 
+            String qty = "Qty - " + "2";
 
-
-        for(int i=0;i<menu_arrayList.size();i++) {
-
-            String qty="Qty - "+"2";
-
-            Orders orders=new Orders();
+            Orders orders = new Orders();
             orders.setCust_mob_no("9845246171");
             orders.setOrder_id("2");
             orders.setMenu_name("Dosa");
@@ -68,32 +68,23 @@ public class Tab_PastOrders extends Fragment {
         }
 
 
+        RecyclerView recyclerView = (RecyclerView) getActivity().findViewById(R.id.recycler_new_order);
 
-
-
-
-
-
-
-        RecyclerView recyclerView = (RecyclerView)getActivity().findViewById(R.id.recycler_past_order);
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL,false);
-
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        recyclerView.setHasFixedSize(true);
-        recyclerView.getLayoutManager().setMeasurementCacheEnabled(false);
 
+        // recyclerView.getLayoutManager().setMeasurementCacheEnabled(false);
 
-            AdapterPastOrder adapterPastOrder = new AdapterPastOrder(getActivity(), arrayList);
-            recyclerView.setAdapter(adapterPastOrder);
-       /* }else
-        {
+        if (userType.equals("Admin")) {
+            Adapter_New_Order adapterNewOrder = new Adapter_New_Order(getActivity(), arrayList);
+            recyclerView.setAdapter(adapterNewOrder);
+        } else {
 
-            Kitchen_Past_Details kitchenPastOrder = new Kitchen_Past_Details(getActivity(), arrayList);
-            recyclerView.setAdapter(kitchenPastOrder);
+            KitchenAdapter_New_Order kitchenAdapterNewOrder = new KitchenAdapter_New_Order(getActivity(), arrayList);
+            recyclerView.setAdapter(kitchenAdapterNewOrder);
 
-        }*/
+        }
+
     }
-
 }

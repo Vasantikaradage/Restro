@@ -119,8 +119,8 @@ public class AdapterDisplayAllCategory extends RecyclerView.Adapter<AdapterDispl
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder
-                        .setTitle("Delete Category")
-                        .setMessage("Are you sure you want to delete this Category ?")
+                        .setTitle("Delete PositionListener")
+                        .setMessage("Are you sure you want to delete this PositionListener ?")
                         .setIcon(R.drawable.ic_action_btn_delete)
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {

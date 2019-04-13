@@ -12,7 +12,7 @@ import android.widget.LinearLayout;
 
 import com.restrosmart.restrohotel.R;
 
-public class AdminSettings extends Fragment {
+public class FragmentAdminSettings extends Fragment {
 
     private  View view;
     private LinearLayout changePassword, privacy, termsofuse, logout;
@@ -53,7 +53,7 @@ public class AdminSettings extends Fragment {
             @Override
             public void onClick(View v) {
 
-                Intent i = new Intent(getActivity(), AdminLogin.class);
+                Intent i = new Intent(getActivity(), ActivityAdminLogin.class);
                 startActivity(i);
             }
         });

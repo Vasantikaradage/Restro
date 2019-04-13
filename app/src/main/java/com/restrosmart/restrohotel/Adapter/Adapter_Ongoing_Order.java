@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.restrosmart.restrohotel.Admin.OnGoingViewDetails;
+import com.restrosmart.restrohotel.Admin.ActivityOnGoingViewDetails;
 import com.restrosmart.restrohotel.Model.Orders;
 import com.restrosmart.restrohotel.R;
 
@@ -86,7 +86,7 @@ public class Adapter_Ongoing_Order extends RecyclerView.Adapter<RecyclerView.Vie
             ((FooterViewHolder) holder).mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent i=new Intent(context,OnGoingViewDetails.class);
+                    Intent i=new Intent(context, ActivityOnGoingViewDetails.class);
                     context.startActivity(i);
 
                 }

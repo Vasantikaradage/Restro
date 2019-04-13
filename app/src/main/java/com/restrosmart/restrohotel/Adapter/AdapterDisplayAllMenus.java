@@ -16,7 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.restrosmart.restrohotel.Admin.ActivityFlavour;
-import com.restrosmart.restrohotel.Interfaces.Category;
+import com.restrosmart.restrohotel.Interfaces.PositionListener;
 import com.restrosmart.restrohotel.Interfaces.DeleteListener;
 import com.restrosmart.restrohotel.Interfaces.EditListener;
 import com.restrosmart.restrohotel.Model.MenuDisplayForm;
@@ -36,7 +36,7 @@ public class AdapterDisplayAllMenus extends RecyclerView.Adapter<AdapterDisplayA
 
     private  Context context;
     private ArrayList<MenuDisplayForm> arrayListMenu;
-    private Category resultPosition;
+    private PositionListener resultPosition;
     private DeleteListener deleteResult;
     private String mHotelId, mBranchId;
     private int pcId;
@@ -46,7 +46,7 @@ public class AdapterDisplayAllMenus extends RecyclerView.Adapter<AdapterDisplayA
 
 
 
-    public AdapterDisplayAllMenus(Context context, int pcId, DeleteListener deleteResult, ArrayList<MenuDisplayForm> arrayListMenu, Category category, EditListener editListener) {
+    public AdapterDisplayAllMenus(Context context, int pcId, DeleteListener deleteResult, ArrayList<MenuDisplayForm> arrayListMenu, PositionListener category, EditListener editListener) {
         this.context = context;
         this.pcId = pcId;
         this.deleteResult = deleteResult;
@@ -287,7 +287,7 @@ public class AdapterDisplayAllMenus extends RecyclerView.Adapter<AdapterDisplayA
       /*  holder.btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                resultPosition.categoryListern(position);
+                resultPosition.positionListern(position);
 
                *//*  Intent intent=new Intent(context,AddMenu.class);
                  intent.putExtra("menuId",arrayListMenu.get(position).getMenu_Id());

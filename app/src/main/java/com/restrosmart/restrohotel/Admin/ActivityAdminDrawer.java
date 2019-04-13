@@ -60,10 +60,11 @@ public class ActivityAdminDrawer extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private View dialoglayout;
-    private IntentFilter intentFilter;
+    private IntentFilter intentFilter,intentFilterToppings;
     private RetrofitService mRetrofitService;
     private IResult mResultCallBack;
-    private Fragment fragment = null;
+
+
     private String title = "";
     private NavigationView navigationView;
     private LinearLayout linearLayoutHeader;
@@ -81,8 +82,11 @@ public class ActivityAdminDrawer extends AppCompatActivity
     private boolean isStartup = true;
     private AlertDialog dialog;
     private Toolbar toolbar;
-   MyReceiver myReceiver;
+    MyReceiver myReceiver;
+    MyReceiverTopping myReceiverTopping;
     private  String  refresh_categoryList;
+    private  String refresh_toppingList;
+    Fragment fragment = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,11 +102,20 @@ public class ActivityAdminDrawer extends AppCompatActivity
 
         Intent intent=getIntent();
         refresh_categoryList=intent.getStringExtra("Refresh_CategoryList");
+        refresh_toppingList=intent.getStringExtra("Refresh_ToppingList");
 
         intentFilter = new IntentFilter("Refresh_CategoryList");
         intentFilter.addCategory(Intent.CATEGORY_DEFAULT);
         myReceiver = new MyReceiver();
         registerReceiver(myReceiver, intentFilter);
+
+        intentFilterToppings = new IntentFilter("Refresh_ToppingList");
+        intentFilterToppings.addCategory(Intent.CATEGORY_DEFAULT);
+        myReceiverTopping = new MyReceiverTopping();
+        registerReceiver(myReceiverTopping, intentFilterToppings);
+
+
+
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -126,11 +139,23 @@ public class ActivityAdminDrawer extends AppCompatActivity
         name = (TextView) hView.findViewById(R.id.tx_name);
         tvEmail = (TextView) hView.findViewById(R.id.tx_email);
 
-        if(refresh_categoryList!=null)
+       if(refresh_categoryList!=null)
         {
-            fragment = new MenuItems();
+            fragment = new FragmentMenuItems();
             //fragment.setArguments(args);
             title = "Menu Card";
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction ft = fragmentManager.beginTransaction();
+            ft.replace(R.id.screen_area, fragment);
+            ft.commit();
+            getSupportActionBar().setTitle(title);
+        }
+
+        else  if(refresh_toppingList!=null)
+        {
+            fragment = new FragmentToppings();
+            //fragment.setArguments(args);
+            title = "Toppings";
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction ft = fragmentManager.beginTransaction();
             ft.replace(R.id.screen_area, fragment);
@@ -445,6 +470,7 @@ public class ActivityAdminDrawer extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
+
         int id = item.getItemId();
         if (isStartup) {
             ((FrameLayout) findViewById(R.id.screen_area)).removeAllViews();
@@ -461,31 +487,31 @@ public class ActivityAdminDrawer extends AppCompatActivity
         else if (id == R.id.nav_all_orders) {
             Bundle bundle = new Bundle();
             bundle.putString("role", emp_role);
-            fragment = new AllOrders();
+            fragment = new FragmentAllOrders();
             fragment.setArguments(args);
             fragment.setArguments(bundle);
             title = "All Orders";
 
         } else if (id == R.id.nav_toppings) {
             fragment = new FragmentToppings();
-            fragment.setArguments(args);
+           // fragment.setArguments(args);
             title = "Toppings";
 
         } else if (id == R.id.nav_menu) {
-            fragment = new MenuItems();
-            fragment.setArguments(args);
+            fragment = new FragmentMenuItems();
+           // fragment.setArguments(args);
             title = "Menu Card";
 
         } else if (id == R.id.nav_daily_offers) {
 
-            fragment = new DailyOffers();
+            fragment = new FragmentDailyOffers();
             fragment.setArguments(args);
             title = "Daily Offers";
 
 
         } else if (id == R.id.nav_add_employee) {
 
-            fragment = new ViewEmployee();
+            fragment = new FragmentViewEmployee();
             fragment.setArguments(args);
             title = "Our Employees";
         } else if (id == R.id.nav_hotel_details) {
@@ -495,34 +521,40 @@ public class ActivityAdminDrawer extends AppCompatActivity
             title = "Hotel Details";
         } else if (id == R.id.nav_add_payment_methods) {
 
-            fragment = new FragPaymentMethods();
+            fragment = new FragmentPaymentMethods();
             fragment.setArguments(args);
             title = "Payment Methods";
         } else if (id == R.id.nav_reports) {
 
-            fragment = new FragReports();
+            fragment = new FragmentReports();
             fragment.setArguments(args);
             title = "Reports";
 
         } else if (id == R.id.nav_settings) {
 
-            fragment = new AdminSettings();
+            fragment = new FragmentAdminSettings();
             fragment.setArguments(args);
             title = "Settings";
 
         }
-        else if( refresh_categoryList.equals("Add_Category"))
+        /*else if( refresh_categoryList.equals("refresh_categoryList"))
         {
-            fragment = new MenuItems();
+            fragment = new FragmentMenuItems();
             fragment.setArguments(args);
             title = "Menu Card";
         }
+        else if( refresh_toppingList.equals("refresh_toppingList"))
+        {
+            fragment = new FragmentToppings();
+            fragment.setArguments(args);
+            title = "Toppings";
+        }*/
         if (fragment != null) {
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction ft = fragmentManager.beginTransaction();
             ft.replace(R.id.screen_area, fragment);
-            // ft.detach(fragment);
-            // ft.attach(fragment);
+             ft.detach(fragment);
+             ft.attach(fragment);
             ft.commit();
             getSupportActionBar().setTitle(title);
         }

@@ -18,7 +18,7 @@ import com.restrosmart.restrohotel.R;
 
 import java.util.ArrayList;
 
-public class Tab_OngoingOrders extends Fragment {
+public class FragmentTabOngoingOrders extends Fragment {
 
     ArrayList<Orders> arrayList = new ArrayList<Orders>();
 

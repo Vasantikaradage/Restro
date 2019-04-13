@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,7 +52,7 @@ import static com.restrosmart.restrohotel.Utils.Sessionmanager.HOTEL_ID;
  * Created by SHREE on 16/10/2018.
  */
 
-public class TabParentCategoryFragment extends Fragment {
+public class FragmentTabParentCategory extends Fragment {
 
     private AdapterDisplayAllCategory adapterDisplayAllMenu;
     private RecyclerView recyclerView;
@@ -69,9 +67,6 @@ public class TabParentCategoryFragment extends Fragment {
     private String  imageName, mFinalImageName;
     private  BottomSheetDialog dialog;
 
-
-
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -84,8 +79,6 @@ public class TabParentCategoryFragment extends Fragment {
         HashMap<String, String> name_info = mSessionmanager.getHotelDetails();
         mHotelId = Integer.parseInt(name_info.get(HOTEL_ID));
         mBranchId = Integer.parseInt(name_info.get(BRANCH_ID));
-
-
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -114,14 +107,8 @@ public class TabParentCategoryFragment extends Fragment {
                 dialoglayout = li.inflate(R.layout.activity_add_category, null);
                // final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                  dialog = new BottomSheetDialog(getActivity());
-
-               // builder.setView(dialoglayout);
-               // dialog = builder.create();
-
-                dialog.setContentView(dialoglayout);
-               // mBottomSheetDialog.show();
-
-                FrameLayout btnCamara = (FrameLayout) dialoglayout.findViewById(R.id.iv_select_image);
+                 dialog.setContentView(dialoglayout);
+                 FrameLayout btnCamara = (FrameLayout) dialoglayout.findViewById(R.id.iv_select_image);
 
                 etxCategoryNme = dialoglayout.findViewById(R.id.etx_category_name);
                 Button btnCancel = dialoglayout.findViewById(R.id.btnCancel);
@@ -169,8 +156,6 @@ public class TabParentCategoryFragment extends Fragment {
                         }
                         mFinalImageName = suffix.substring(start1 + 1);
                         getRetrofitDataUpdate();
-
-
                     }
 
                     //category edit web service call
@@ -217,9 +202,8 @@ public class TabParentCategoryFragment extends Fragment {
             public void notifySuccess(int requestId, Response<JsonObject> response) {
                switch (requestId) {
                    case DELETE_CATEGORY:
-
                        JsonObject jsonObject1 = response.body();
-                       Toast.makeText(getActivity(), "Category deleted successfully", Toast.LENGTH_LONG).show();
+                       Toast.makeText(getActivity(), "PositionListener deleted successfully", Toast.LENGTH_LONG).show();
                        Intent intent = new Intent();
                        intent.setAction("Refresh_CategoryList");
                        getActivity().sendBroadcast(intent);
@@ -241,7 +225,6 @@ public class TabParentCategoryFragment extends Fragment {
                        } catch (JSONException e) {
                            e.printStackTrace();
                        }
-
                        break;
                }
 
@@ -260,7 +243,7 @@ public class TabParentCategoryFragment extends Fragment {
     }
 
     public static Fragment newInstance(ArrayList<CategoryForm> menu, int position) {
-        TabParentCategoryFragment fragment = new TabParentCategoryFragment();
+        FragmentTabParentCategory fragment = new FragmentTabParentCategory();
         Bundle args = new Bundle();
         args.putParcelableArrayList("menuobj", menu);
         args.putInt("position", position);
@@ -283,11 +266,6 @@ public class TabParentCategoryFragment extends Fragment {
         }
     }
 
-    /*@Override
-    public void onPopBackStack() {
-        if (getFragmentManager().getBackStackEntryCount() > 0)
-            getFragmentManager().popBackStack();
-    }*/
 }
 
 

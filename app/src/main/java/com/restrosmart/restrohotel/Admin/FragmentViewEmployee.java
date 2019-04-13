@@ -25,7 +25,7 @@ import retrofit2.Response;
 /**
  * Created by SHREE on 10/8/2018.
  */
-public class ViewEmployee extends Fragment {
+public class FragmentViewEmployee extends Fragment {
     private RecyclerView recyclerView;
     private RVViewEmployee adapterViewAllEmployee;
     private FrameLayout btnAddEmp;
@@ -47,7 +47,7 @@ public class ViewEmployee extends Fragment {
         btnAddEmp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), AddNewEmployee.class);
+                Intent intent = new Intent(getActivity(), ActivityAddNewEmployee.class);
                 startActivity(intent);
             }
         });

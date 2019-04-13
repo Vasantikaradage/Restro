@@ -57,7 +57,7 @@ import static com.restrosmart.restrohotel.ConstantVariables.BRANCH_INFO;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.HOTEL_ID;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.ROLE_ID;
 
-public class AddNewEmployee extends AppCompatActivity {
+public class ActivityAddNewEmployee extends AppCompatActivity {
 
     AppCompatEditText mob, email, uname, adhar, pass, cpass, address;
     TextInputEditText name;
@@ -114,7 +114,7 @@ public class AddNewEmployee extends AppCompatActivity {
 
         select_image= (ImageButton)findViewById(R.id.iv_select_image);
 
-        Sessionmanager sharedPreferanceManage = new Sessionmanager(AddNewEmployee.this);
+        Sessionmanager sharedPreferanceManage = new Sessionmanager(ActivityAddNewEmployee.this);
         HashMap<String, String> name_info = sharedPreferanceManage.getHotelDetails();
         adminId = name_info.get(ROLE_ID);
         hotelId=name_info.get(HOTEL_ID);
@@ -124,7 +124,7 @@ public class AddNewEmployee extends AppCompatActivity {
 
 
        /* String[] desig = {"Select Designation", "Admin", "Employee"};
-        ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<String>(AddNewEmployee.this, android.R.layout.simple_list_item_1, desig);
+        ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<String>(ActivityAddNewEmployee.this, android.R.layout.simple_list_item_1, desig);
         stringArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         designation.setAdapter(stringArrayAdapter);*/
 
@@ -163,7 +163,7 @@ public class AddNewEmployee extends AppCompatActivity {
                 initRetrofitCallback();
 
                 ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
-                mRetrofitService = new RetrofitService(mResultCallBack, AddNewEmployee.this);
+                mRetrofitService = new RetrofitService(mResultCallBack, ActivityAddNewEmployee.this);
                 mRetrofitService.retrofitData(ADD_NEW_EMPLOYEE, (service.AddEmployee(signup)));
             }
         });
@@ -180,7 +180,7 @@ public class AddNewEmployee extends AppCompatActivity {
                 {
                     case ADD_NEW_EMPLOYEE:
                         JsonObject resp = response.body();
-                        Toast.makeText(AddNewEmployee.this, "Registered Successfully..!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ActivityAddNewEmployee.this, "Registered Successfully..!", Toast.LENGTH_SHORT).show();
                         break;
 
                     case BRANCH_INFO:
@@ -203,7 +203,7 @@ public class AddNewEmployee extends AppCompatActivity {
                                 }
 
 
-                                ArrayAdapter<BranchForm> stringArrayAdapter = new ArrayAdapter<BranchForm>(AddNewEmployee.this, android.R.layout.simple_list_item_1, arrayListBranch);
+                                ArrayAdapter<BranchForm> stringArrayAdapter = new ArrayAdapter<BranchForm>(ActivityAddNewEmployee.this, android.R.layout.simple_list_item_1, arrayListBranch);
                                 stringArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                                 branch.setAdapter(stringArrayAdapter);
                                 getSelectedBranch(arrayListBranch);
@@ -252,7 +252,7 @@ public class AddNewEmployee extends AppCompatActivity {
         initRetrofitCallback();
 
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
-        mRetrofitService = new RetrofitService(mResultCallBack, AddNewEmployee.this);
+        mRetrofitService = new RetrofitService(mResultCallBack, ActivityAddNewEmployee.this);
         mRetrofitService.retrofitData(BRANCH_INFO, (service.getBranch(Integer.parseInt(hotelId))));
 
 
@@ -264,7 +264,7 @@ public class AddNewEmployee extends AppCompatActivity {
             public void onResponse(Call<List<BranchForm>> call, Response<List<BranchForm>> response) {
                 List<BranchForm> arrayListBranch = response.body();
 
-                ArrayAdapter<BranchForm> stringArrayAdapter = new ArrayAdapter<BranchForm>(AddNewEmployee.this, android.R.layout.simple_list_item_1, arrayListBranch);
+                ArrayAdapter<BranchForm> stringArrayAdapter = new ArrayAdapter<BranchForm>(ActivityAddNewEmployee.this, android.R.layout.simple_list_item_1, arrayListBranch);
                 stringArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 designation.setAdapter(stringArrayAdapter);
                 getSelectedBranch(arrayListBranch);
@@ -310,7 +310,7 @@ public class AddNewEmployee extends AppCompatActivity {
             public void onResponse(Call<List<RoleForm>> call, Response<List<RoleForm>> response) {
                 List<RoleForm> employeeRoles = response.body();
 
-                ArrayAdapter<RoleForm> stringArrayAdapter = new ArrayAdapter<RoleForm>(AddNewEmployee.this, android.R.layout.simple_list_item_1, employeeRoles);
+                ArrayAdapter<RoleForm> stringArrayAdapter = new ArrayAdapter<RoleForm>(ActivityAddNewEmployee.this, android.R.layout.simple_list_item_1, employeeRoles);
                 stringArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 designation.setAdapter(stringArrayAdapter);
                 getSelectedRole(employeeRoles);
@@ -356,7 +356,7 @@ public class AddNewEmployee extends AppCompatActivity {
 
         final CharSequence[] options = { "Take Photo", "Choose from Gallery","Cancel" };
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(AddNewEmployee.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(ActivityAddNewEmployee.this);
 
         builder.setTitle("Add Photo!");
 

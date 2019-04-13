@@ -33,7 +33,7 @@ import static com.restrosmart.restrohotel.ConstantVariables.PAYMENT_METHODS;
  * Created by SHREE on 27/11/2018.
  */
 
-public  class FragPaymentMethods extends Fragment {
+public  class FragmentPaymentMethods extends Fragment {
 
     private Toolbar mToolbar;
     private RecyclerView rvPaymentMode;

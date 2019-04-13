@@ -48,7 +48,7 @@ public class RetrofitService {
                 @Override
                 public void onFailure(Call<JsonObject> call, Throwable t) {
 
-                    //Toast.makeText(AddNewEmployee.this, "Error Registering Employee", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(ActivityAddNewEmployee.this, "Error Registering Employee", Toast.LENGTH_SHORT).show();
 
 
                     if (mResultCallback != null)

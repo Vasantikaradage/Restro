@@ -84,4 +84,7 @@ public class ConstantVariables {
 
     public  static  final  int ADD_TOPPINGS=400;
     public  static  final  int PARENT_CATEGORY_WITH_TOPPINGS=401;
+    public  static  final  int TOPPING_DELETE=402;
+    public  static  final  int TOPPING_EDIT=403;
 }
+

@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.restrosmart.restrohotel.Admin.NewOrderViewDetails;
+import com.restrosmart.restrohotel.Admin.ActivityNewOrderViewDetails;
 import com.restrosmart.restrohotel.Model.Orders;
 import com.restrosmart.restrohotel.R;
 
@@ -78,7 +78,7 @@ public class Adapter_New_Order extends RecyclerView.Adapter<RecyclerView.ViewHol
             ((FooterViewHolder) holder).mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent i = new Intent(context, NewOrderViewDetails.class);
+                    Intent i = new Intent(context, ActivityNewOrderViewDetails.class);
                     context.startActivity(i);
                 }
             });

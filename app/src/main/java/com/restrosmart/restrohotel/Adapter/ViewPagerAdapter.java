@@ -6,10 +6,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.restrosmart.restrohotel.Admin.Tab_OngoingOrders;
-import com.restrosmart.restrohotel.Admin.Tab_PCancelledOrders;
-import com.restrosmart.restrohotel.Admin.Tab_PastOrders;
-import com.restrosmart.restrohotel.Admin.Tab_newOrders;
+import com.restrosmart.restrohotel.Admin.FragmentTabOngoingOrders;
+import com.restrosmart.restrohotel.Admin.FragmentTabPCancelledOrders;
+import com.restrosmart.restrohotel.Admin.FragmentTabPastOrders;
+import com.restrosmart.restrohotel.Admin.FragmentTabNewOrders;
 
 
 public class ViewPagerAdapter extends FragmentStatePagerAdapter {
@@ -27,28 +27,28 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                Tab_newOrders tabNewOrders = new Tab_newOrders();
+                FragmentTabNewOrders tabNewOrders = new FragmentTabNewOrders();
                 Bundle bundle = new Bundle();
                 bundle.putString("userType", userType);
                 tabNewOrders.setArguments(bundle);
                 return tabNewOrders;
 
             case 1:
-                Tab_OngoingOrders tabOngoingOrders = new Tab_OngoingOrders();
+                FragmentTabOngoingOrders tabOngoingOrders = new FragmentTabOngoingOrders();
                 Bundle bundle1 = new Bundle();
                 bundle1.putString("userType", userType);
                 tabOngoingOrders.setArguments(bundle1);
                 return tabOngoingOrders;
 
             case 2:
-                Tab_PastOrders tabPastOrders = new Tab_PastOrders();
+                FragmentTabPastOrders tabPastOrders = new FragmentTabPastOrders();
                 Bundle bundle2 = new Bundle();
                 bundle2.putString("userType", userType);
                 tabPastOrders.setArguments(bundle2);
                 return tabPastOrders;
 
             case 3:
-                Tab_PCancelledOrders tabCancelOrders = new Tab_PCancelledOrders();
+                FragmentTabPCancelledOrders tabCancelOrders = new FragmentTabPCancelledOrders();
                 Bundle bundle3 = new Bundle();
                 bundle3.putString("userType", userType);
                 tabCancelOrders.setArguments(bundle3);

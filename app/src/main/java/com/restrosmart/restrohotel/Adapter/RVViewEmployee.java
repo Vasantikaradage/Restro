@@ -143,7 +143,7 @@ public class RVViewEmployee extends RecyclerView.Adapter<RVViewEmployee.MyHolder
        /* holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(context, AddNewEmployee.class);
+                Intent intent=new Intent(context, ActivityAddNewEmployee.class);
 
                 int empbranchId=viewEmployees.get(position).getBranch_Id();
                 intent.putExtra("empId",viewEmployees.get(position).getEmpId()) ;

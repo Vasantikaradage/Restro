@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
-import com.restrosmart.restrohotel.Admin.AdminLogin;
+import com.restrosmart.restrohotel.Admin.ActivityAdminLogin;
 
 
 import com.restrosmart.restrohotel.Utils.Sessionmanager;
@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         btn_admin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, AdminLogin.class);
+                Intent i = new Intent(MainActivity.this, ActivityAdminLogin.class);
                 startActivity(i);
             }
         });

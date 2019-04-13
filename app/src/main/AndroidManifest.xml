@@ -27,7 +27,6 @@
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -46,26 +45,25 @@
             android:name="com.restrosmart.restrohotel.MainActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.restrosmart.restrohotel.Admin.AdminLogin"
+            android:name="com.restrosmart.restrohotel.Admin.ActivityAdminLogin"
             android:windowSoftInputMode="stateHidden" />
 
         <activity
             android:name="com.restrosmart.restrohotel.Admin.ActivityAdminDrawer"
             android:label="@string/title_activity_admin_drawer"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name="com.restrosmart.restrohotel.Admin.AddCategory" />
         <activity
             android:name="com.restrosmart.restrohotel.Admin.ActivityChangePassword"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name="com.restrosmart.restrohotel.Admin.Admin_Forget_pass" />
+        <activity android:name="com.restrosmart.restrohotel.Admin.ActivityAdminForgetPassword" />
         <activity
-            android:name="com.restrosmart.restrohotel.Admin.AddNewEmployee"
+            android:name="com.restrosmart.restrohotel.Admin.ActivityAddNewEmployee"
             android:label="Employee Registration" />
         <activity
             android:name="com.restrosmart.restrohotel.Admin.ActivityEmpolyeeProfile"
             android:label="Profile" />
         <activity
-            android:name="com.restrosmart.restrohotel.Admin.NewOrderViewDetails"
+            android:name="com.restrosmart.restrohotel.Admin.ActivityNewOrderViewDetails"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="New Order Details"
             android:parentActivityName="com.restrosmart.restrohotel.Admin.ActivityChangePassword"
@@ -73,8 +71,8 @@
             android:uiOptions="splitActionBarWhenNarrow" />
 
 
-        <activity android:name="com.restrosmart.restrohotel.Admin.OnGoingViewDetails" />
-        <activity android:name="com.restrosmart.restrohotel.Admin.PastViewOrderDetails" />
+        <activity android:name="com.restrosmart.restrohotel.Admin.ActivityOnGoingViewDetails" />
+        <activity android:name="com.restrosmart.restrohotel.Admin.ActivityPastViewOrderDetails" />
         <activity android:name="com.restrosmart.restrohotel.Admin.ActivityMenu" />
         <activity android:name="com.restrosmart.restrohotel.Admin.ActivityAddMenu"/>
         <activity android:name="com.restrosmart.restrohotel.Admin.ActivityAddNewOffer" />

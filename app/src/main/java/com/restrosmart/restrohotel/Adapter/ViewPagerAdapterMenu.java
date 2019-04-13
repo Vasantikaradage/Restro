@@ -27,7 +27,7 @@ public class ViewPagerAdapterMenu extends FragmentStatePagerAdapter {
     //integer to count number of tabs
     int tabCount;
     String userType;
-    Tab_PastOrders tabPastOrders;
+    FragmentTabPastOrders tabPastOrders;
 
 
     public ViewPagerAdapterMenu(FragmentManager fm, int tabCount, String user_type) {
@@ -50,14 +50,14 @@ public class ViewPagerAdapterMenu extends FragmentStatePagerAdapter {
                 return Tab_Veg;
 
 
-            case 1: Tab tabOngoingOrders = new Tab_OngoingOrders();
+            case 1: Tab tabOngoingOrders = new FragmentTabOngoingOrders();
                 Bundle bundle1=new Bundle();
                 bundle1.putString("userType",userType);
                 tabOngoingOrders.setArguments(bundle1);
                 return tabOngoingOrders;
 
             case 2:
-                tabPastOrders = new Tab_PastOrders();
+                tabPastOrders = new FragmentTabPastOrders();
                 Bundle bundle2=new Bundle();
                 bundle2.putString("userType",userType);
                 tabPastOrders.setArguments(bundle2);

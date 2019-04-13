@@ -17,23 +17,19 @@ import android.widget.Toast;
 import com.google.gson.JsonObject;
 import com.restrosmart.restrohotel.Adapter.RVVImageAdapter;
 import com.restrosmart.restrohotel.Interfaces.ApiService;
-import com.restrosmart.restrohotel.Interfaces.Category;
+import com.restrosmart.restrohotel.Interfaces.PositionListener;
 import com.restrosmart.restrohotel.Interfaces.IResult;
 import com.restrosmart.restrohotel.Model.AddImage;
 import com.restrosmart.restrohotel.R;
 import com.restrosmart.restrohotel.RetrofitClientInstance;
 import com.restrosmart.restrohotel.RetrofitService;
 import com.restrosmart.restrohotel.Utils.Sessionmanager;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import retrofit2.Response;
-
 import static com.restrosmart.restrohotel.ConstantVariables.IMAGE_LIST;
 import static com.restrosmart.restrohotel.ConstantVariables.IMAGE_RESULT_OK;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.BRANCH_ID;
@@ -157,19 +153,12 @@ public class ActivityCategoryGallery extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         int no_of_col = 3;
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 4);
-        RVVImageAdapter adapter = new RVVImageAdapter(this, arrayListImage,mImageName ,new Category() {
+        RVVImageAdapter adapter = new RVVImageAdapter(this, arrayListImage,mImageName ,new PositionListener() {
 
             @Override
-            public void categoryListern(int position) {
+            public void positionListern(int position) {
                 Toast.makeText(ActivityCategoryGallery.this, "" + position, Toast.LENGTH_SHORT).show();
                 image_name = arrayListImage.get(position).getImage();
-
-
-              /*  //  mImageName = image_name.substring(image_name.lastIndexOf('/') + 1);
-                int start = image_name.indexOf("t/");
-                String suffix = image_name.substring(start + 1);
-                int start1 = suffix.indexOf("/");
-                mImageName = suffix.substring(start1 + 1);*/
             }
         });
         recyclerView.setLayoutManager(gridLayoutManager);

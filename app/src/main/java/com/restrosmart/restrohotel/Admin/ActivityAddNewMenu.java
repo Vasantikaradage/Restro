@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.restrosmart.restrohotel.R;
 
-public class AddNewItem extends AppCompatActivity {
+public class ActivityAddNewMenu extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

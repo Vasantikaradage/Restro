@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.restrosmart.restrohotel.Admin.PastViewOrderDetails;
+import com.restrosmart.restrohotel.Admin.ActivityPastViewOrderDetails;
 import com.restrosmart.restrohotel.Model.Orders;
 import com.restrosmart.restrohotel.R;
 
@@ -86,7 +86,7 @@ public class AdapterPastOrder extends RecyclerView.Adapter<RecyclerView.ViewHold
             ((FooterViewHolder) holder).mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent i=new Intent(context,PastViewOrderDetails.class);
+                    Intent i=new Intent(context, ActivityPastViewOrderDetails.class);
                     context.startActivity(i);
 
                 }
