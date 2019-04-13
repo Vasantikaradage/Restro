@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * Created by SHREE on 25/10/2018.
  */
 
-public class AddParentCategoryinfo  {
+public class AddParentCategoryinfoModel {
 
     private Fragment fragment;
     private ArrayList<CategoryForm> categoryForms;

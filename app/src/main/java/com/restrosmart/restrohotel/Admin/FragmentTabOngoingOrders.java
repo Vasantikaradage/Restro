@@ -13,14 +13,14 @@ import android.view.ViewGroup;
 import com.restrosmart.restrohotel.Adapter.Adapter_Ongoing_Order;
 import com.restrosmart.restrohotel.Adapter.Kitchen_Ongoing_Order;
 import com.restrosmart.restrohotel.Model.MenuDisplayForm;
-import com.restrosmart.restrohotel.Model.Orders;
+import com.restrosmart.restrohotel.Model.OrderModel;
 import com.restrosmart.restrohotel.R;
 
 import java.util.ArrayList;
 
 public class FragmentTabOngoingOrders extends Fragment {
 
-    ArrayList<Orders> arrayList = new ArrayList<Orders>();
+    ArrayList<OrderModel> arrayList = new ArrayList<OrderModel>();
 
     ArrayList<MenuDisplayForm> menu_arrayList = new ArrayList<MenuDisplayForm>();
 
@@ -57,16 +57,16 @@ public class FragmentTabOngoingOrders extends Fragment {
 
             String qty="Qty - "+"2";
 
-            Orders orders=new Orders();
-            orders.setCust_mob_no("9845246171");
-            orders.setOrder_id("2");
-            orders.setMenu_name("Dosa");
-            orders.setMenu_qty(qty);
-            orders.setMenu_price("40");
-            orders.setTot_bill("80/-");
-            orders.setTime("11:00 AM");
-            orders.setMsg("Sweet");
-            arrayList.add(orders);
+            OrderModel orderModel =new OrderModel();
+            orderModel.setCust_mob_no("9845246171");
+            orderModel.setOrder_id("2");
+            orderModel.setMenu_name("Dosa");
+            orderModel.setMenu_qty(qty);
+            orderModel.setMenu_price("40");
+            orderModel.setTot_bill("80/-");
+            orderModel.setTime("11:00 AM");
+            orderModel.setMsg("Sweet");
+            arrayList.add(orderModel);
         }
 
 

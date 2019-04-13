@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.restrosmart.restrohotel.Interfaces.IResult;
-import com.restrosmart.restrohotel.Model.AddImage;
+import com.restrosmart.restrohotel.Model.ImageForm;
 import com.restrosmart.restrohotel.R;
 import com.restrosmart.restrohotel.RetrofitService;
 
@@ -29,7 +29,7 @@ public class AddMenu extends AppCompatActivity implements View.OnClickListener{
     RetrofitService mRetrofitService;
 
 
-    ArrayList<AddImage> arrayListImage = new ArrayList<AddImage>();
+    ArrayList<ImageForm> arrayListImage = new ArrayList<ImageForm>();
 
 
     private String mImageName, mMenuName, mMenuDisp, mUpdatedImage, imageNamePos;
@@ -200,7 +200,7 @@ public class AddMenu extends AppCompatActivity implements View.OnClickListener{
                             for(int i=0;i<jsonArray.length();i++)
                             {
                                 JSONObject object1=jsonArray.getJSONObject(i);
-                                AddImage addImage=new AddImage();
+                                ImageForm addImage=new ImageForm();
                                 addImage.setImage(object1.getString("image").toString());
                                 arrayListImage.add(addImage);
                             }
@@ -237,7 +237,7 @@ public class AddMenu extends AppCompatActivity implements View.OnClickListener{
 
     }
 
-    private void getImage(final ArrayList<AddImage> arrayListImage) {
+    private void getImage(final ArrayList<ImageForm> arrayListImage) {
         recyclerView=(RecyclerView)findViewById(R.id.choose_image_recycler);
 
 

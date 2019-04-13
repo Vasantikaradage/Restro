@@ -7,7 +7,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 
-public class GetEmployeeDetails implements Parcelable {
+public class EmployeeForm implements Parcelable {
 
     @SerializedName("Emp_Id")
     @Expose
@@ -101,7 +101,7 @@ public class GetEmployeeDetails implements Parcelable {
      * No args constructor for use in serialization
      *
      */
-    public GetEmployeeDetails() {
+    public EmployeeForm() {
     }
 
     /**
@@ -119,7 +119,7 @@ public class GetEmployeeDetails implements Parcelable {
      * @param empAddress
      * @param empImg
      */
-    public GetEmployeeDetails(Integer empId, String empName, String empImg, String empMob, String empEmail, String empAddress, String empAdharId, String userName, Integer activeStatus, String hotelName, int role_Id, int branchId) {
+    public EmployeeForm(Integer empId, String empName, String empImg, String empMob, String empEmail, String empAddress, String empAdharId, String userName, Integer activeStatus, String hotelName, int role_Id, int branchId) {
         super();
         this.empId = empId;
         this.empName = empName;
@@ -135,7 +135,7 @@ public class GetEmployeeDetails implements Parcelable {
         this.Branch_Id = branchId;
     }
 
-    protected GetEmployeeDetails(Parcel in) {
+    protected EmployeeForm(Parcel in) {
         if (in.readByte() == 0) {
             empId = null;
         } else {
@@ -158,15 +158,15 @@ public class GetEmployeeDetails implements Parcelable {
         Branch_Id = in.readInt();
     }
 
-    public static final Creator<GetEmployeeDetails> CREATOR = new Creator<GetEmployeeDetails>() {
+    public static final Creator<EmployeeForm> CREATOR = new Creator<EmployeeForm>() {
         @Override
-        public GetEmployeeDetails createFromParcel(Parcel in) {
-            return new GetEmployeeDetails(in);
+        public EmployeeForm createFromParcel(Parcel in) {
+            return new EmployeeForm(in);
         }
 
         @Override
-        public GetEmployeeDetails[] newArray(int size) {
-            return new GetEmployeeDetails[size];
+        public EmployeeForm[] newArray(int size) {
+            return new EmployeeForm[size];
         }
     };
 

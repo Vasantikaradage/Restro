@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.restrosmart.restrohotel.Model.Orders;
+import com.restrosmart.restrohotel.Model.OrderModel;
 import com.restrosmart.restrohotel.R;
 
 import java.util.ArrayList;
@@ -26,9 +26,9 @@ private static final int TYPE_FOOTER= 2;
 
         Context context;
 
-        ArrayList<Orders> arrayList;
+        ArrayList<OrderModel> arrayList;
 
-public Kitchen_Ongoing_Order(Context context, ArrayList<Orders> arrayList) {
+public Kitchen_Ongoing_Order(Context context, ArrayList<OrderModel> arrayList) {
 
         this.context=context;
         this.arrayList=arrayList;
@@ -198,7 +198,7 @@ private class FooterViewHolder extends RecyclerView.ViewHolder {
         return arrayList.size() + 2;
     }
 
-    private Orders getItem(int position) {
+    private OrderModel getItem(int position) {
         return arrayList.get(position);
     }
 

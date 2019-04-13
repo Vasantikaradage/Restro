@@ -11,7 +11,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.restrosmart.restrohotel.Admin.ActivityNewOrderViewDetails;
-import com.restrosmart.restrohotel.Model.Orders;
+import com.restrosmart.restrohotel.Model.OrderModel;
 import com.restrosmart.restrohotel.R;
 
 import java.util.ArrayList;
@@ -25,10 +25,10 @@ public class Adapter_New_Order extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     Context context;
 
-    ArrayList<Orders> arrayList;
+    ArrayList<OrderModel> arrayList;
 
 
-    public Adapter_New_Order(Context context, ArrayList<Orders> arrayList) {
+    public Adapter_New_Order(Context context, ArrayList<OrderModel> arrayList) {
 
         this.context = context;
         this.arrayList = arrayList;
@@ -125,7 +125,7 @@ public class Adapter_New_Order extends RecyclerView.Adapter<RecyclerView.ViewHol
         return arrayList.size() + 2;
     }
 
-    private Orders getItem(int position) {
+    private OrderModel getItem(int position) {
         return arrayList.get(position);
     }
 

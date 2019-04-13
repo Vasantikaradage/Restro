@@ -19,7 +19,7 @@ import android.widget.Toast;
 import com.google.gson.JsonObject;
 import com.restrosmart.restrohotel.Admin.ActivityEmpolyeeProfile;
 import com.restrosmart.restrohotel.Interfaces.ApiService;
-import com.restrosmart.restrohotel.Model.GetEmployeeDetails;
+import com.restrosmart.restrohotel.Model.EmployeeForm;
 import com.restrosmart.restrohotel.R;
 
 import com.restrosmart.restrohotel.RetrofitClientInstance;
@@ -44,7 +44,7 @@ import static com.restrosmart.restrohotel.Utils.Sessionmanager.HOTEL_ID;
 
 public class RVViewEmployee extends RecyclerView.Adapter<RVViewEmployee.MyHolder> {
 
-    List<GetEmployeeDetails> viewEmployees;
+    List<EmployeeForm> viewEmployees;
 
     private Context context;
 
@@ -53,7 +53,7 @@ public class RVViewEmployee extends RecyclerView.Adapter<RVViewEmployee.MyHolder
     private Sessionmanager sessionmanager;
     private String branchId, hotelId, status_value;
 
-    public RVViewEmployee(FragmentActivity activity, List<GetEmployeeDetails> getEmployee) {
+    public RVViewEmployee(FragmentActivity activity, List<EmployeeForm> getEmployee) {
 
         this.context = activity;
         this.viewEmployees = getEmployee;

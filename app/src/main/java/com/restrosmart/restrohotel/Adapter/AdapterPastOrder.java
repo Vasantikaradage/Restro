@@ -12,7 +12,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.restrosmart.restrohotel.Admin.ActivityPastViewOrderDetails;
-import com.restrosmart.restrohotel.Model.Orders;
+import com.restrosmart.restrohotel.Model.OrderModel;
 import com.restrosmart.restrohotel.R;
 
 import java.util.ArrayList;
@@ -30,11 +30,11 @@ public class AdapterPastOrder extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     Context context;
 
-    ArrayList<Orders> arrayList;
+    ArrayList<OrderModel> arrayList;
 
 
 
-    public AdapterPastOrder(Context context, ArrayList<Orders> arrayList) {
+    public AdapterPastOrder(Context context, ArrayList<OrderModel> arrayList) {
 
         this.context=context;
         this.arrayList=arrayList;
@@ -159,7 +159,7 @@ public class AdapterPastOrder extends RecyclerView.Adapter<RecyclerView.ViewHold
         return arrayList.size() + 2;
     }
 
-    private Orders getItem(int position) {
+    private OrderModel getItem(int position) {
         return arrayList.get(position);
     }
 

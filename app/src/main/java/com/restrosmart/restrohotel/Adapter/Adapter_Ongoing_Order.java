@@ -12,7 +12,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.restrosmart.restrohotel.Admin.ActivityOnGoingViewDetails;
-import com.restrosmart.restrohotel.Model.Orders;
+import com.restrosmart.restrohotel.Model.OrderModel;
 import com.restrosmart.restrohotel.R;
 
 import java.util.ArrayList;
@@ -30,11 +30,11 @@ public class Adapter_Ongoing_Order extends RecyclerView.Adapter<RecyclerView.Vie
 
     Context context;
 
-    ArrayList<Orders> arrayList;
+    ArrayList<OrderModel> arrayList;
 
 
 
-    public Adapter_Ongoing_Order(Context context, ArrayList<Orders> arrayList) {
+    public Adapter_Ongoing_Order(Context context, ArrayList<OrderModel> arrayList) {
 
         this.context=context;
         this.arrayList=arrayList;
@@ -159,7 +159,7 @@ public class Adapter_Ongoing_Order extends RecyclerView.Adapter<RecyclerView.Vie
         return arrayList.size() + 2;
     }
 
-    private Orders getItem(int position) {
+    private OrderModel getItem(int position) {
         return arrayList.get(position);
     }
 

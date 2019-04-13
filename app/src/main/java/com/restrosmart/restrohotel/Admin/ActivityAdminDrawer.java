@@ -30,7 +30,7 @@ import android.widget.Toast;
 import com.google.gson.JsonObject;
 import com.restrosmart.restrohotel.Interfaces.ApiService;
 import com.restrosmart.restrohotel.Interfaces.IResult;
-import com.restrosmart.restrohotel.Model.GetEmployeeDetails;
+import com.restrosmart.restrohotel.Model.EmployeeForm;
 import com.restrosmart.restrohotel.R;
 import com.restrosmart.restrohotel.RetrofitClientInstance;
 import com.restrosmart.restrohotel.RetrofitService;
@@ -223,16 +223,16 @@ public class ActivityAdminDrawer extends AppCompatActivity
 
     private void getEmployeeDetail() {
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
-        Call<List<GetEmployeeDetails>> call = service.getallEmployees("1", "1");
-        call.enqueue(new Callback<List<GetEmployeeDetails>>() {
+        Call<List<EmployeeForm>> call = service.getallEmployees("1", "1");
+        call.enqueue(new Callback<List<EmployeeForm>>() {
             @Override
-            public void onResponse(Call<List<GetEmployeeDetails>> call, Response<List<GetEmployeeDetails>> response) {
-                List<GetEmployeeDetails> getEmployee = response.body();
+            public void onResponse(Call<List<EmployeeForm>> call, Response<List<EmployeeForm>> response) {
+                List<EmployeeForm> getEmployee = response.body();
                 getData(getEmployee);
 
             }
 
-            private void getData(List<GetEmployeeDetails> getEmployee) {
+            private void getData(List<EmployeeForm> getEmployee) {
                 for (int i = 0; i < getEmployee.size(); i++) {
                     int roleId = getEmployee.get(i).getEmpId();
                     if (roleId == Integer.parseInt(emp_role)) {
@@ -244,7 +244,7 @@ public class ActivityAdminDrawer extends AppCompatActivity
             }
 
             @Override
-            public void onFailure(Call<List<GetEmployeeDetails>> call, Throwable t) {
+            public void onFailure(Call<List<EmployeeForm>> call, Throwable t) {
                 Toast.makeText(ActivityAdminDrawer.this, "" + t, Toast.LENGTH_SHORT).show();
             }
         });

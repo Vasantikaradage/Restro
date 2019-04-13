@@ -30,7 +30,7 @@ import com.restrosmart.restrohotel.Adapter.CategoryViewPagerAdapter;
 
 import com.restrosmart.restrohotel.Interfaces.ApiService;
 import com.restrosmart.restrohotel.Interfaces.IResult;
-import com.restrosmart.restrohotel.Model.AddParentCategoryinfo;
+import com.restrosmart.restrohotel.Model.AddParentCategoryinfoModel;
 import com.restrosmart.restrohotel.Model.CategoryForm;
 import com.restrosmart.restrohotel.Model.ParentCategoryForm;
 import com.restrosmart.restrohotel.R;
@@ -81,7 +81,7 @@ public class FragmentMenuItems extends Fragment {
 
     private ArrayList<ParentCategoryForm> mFragmentTitleList;
     private List<CategoryForm> fragmentCategoryModelArrayList;
-    private List<AddParentCategoryinfo> addParentCategoryinfos;
+    private List<AddParentCategoryinfoModel> addParentCategoryinfoModels;
     private ArrayList<ArrayList<CategoryForm>> arrayList;
 
     @Nullable
@@ -233,7 +233,7 @@ public class FragmentMenuItems extends Fragment {
 
         mFragmentTitleList = new ArrayList<>();
         fragmentCategoryModelArrayList = new ArrayList<>();
-        addParentCategoryinfos = new ArrayList<>();
+        addParentCategoryinfoModels = new ArrayList<>();
         arrayList = new ArrayList<>();
     }
 
@@ -280,10 +280,10 @@ public class FragmentMenuItems extends Fragment {
                                     }
 
                                     arrayList.add(new ArrayList<CategoryForm>(fragmentCategoryModelArrayList));
-                                    AddParentCategoryinfo addParentCategoryinfo = new AddParentCategoryinfo();
-                                    addParentCategoryinfo.setFragment(new FragmentTabParentCategory());
-                                    addParentCategoryinfo.setCategoryForms(arrayList.get(i));
-                                    addParentCategoryinfos.add(addParentCategoryinfo);
+                                    AddParentCategoryinfoModel addParentCategoryinfoModel = new AddParentCategoryinfoModel();
+                                    addParentCategoryinfoModel.setFragment(new FragmentTabParentCategory());
+                                    addParentCategoryinfoModel.setCategoryForms(arrayList.get(i));
+                                    addParentCategoryinfoModels.add(addParentCategoryinfoModel);
                                 }
 
 
@@ -363,7 +363,7 @@ public class FragmentMenuItems extends Fragment {
 
             }
         });
-        categoryViewPagerAdapter = new CategoryViewPagerAdapter(getActivity().getSupportFragmentManager(), mFragmentTitleList, addParentCategoryinfos );
+        categoryViewPagerAdapter = new CategoryViewPagerAdapter(getActivity().getSupportFragmentManager(), mFragmentTitleList, addParentCategoryinfoModels);
         categoryViewPagerAdapter.notifyDataSetChanged();
         viewPager.setAdapter(categoryViewPagerAdapter);
     }

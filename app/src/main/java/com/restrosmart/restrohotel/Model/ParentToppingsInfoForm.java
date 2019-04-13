@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 
 import java.util.ArrayList;
 
-public class ParentToppingsInfo {
+public class ParentToppingsInfoForm {
     private Fragment fragment;
     private ArrayList<ToppingsForm> ToppingsFoprms;
 

@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.restrosmart.restrohotel.Model.Orders;
+import com.restrosmart.restrohotel.Model.OrderModel;
 import com.restrosmart.restrohotel.R;
 
 import java.util.ArrayList;
@@ -26,9 +26,9 @@ public class Kitchen_Past_Details extends RecyclerView.Adapter<RecyclerView.View
 
     Context context;
 
-    ArrayList<Orders> arrayList;
+    ArrayList<OrderModel> arrayList;
 
-    public Kitchen_Past_Details(Context context, ArrayList<Orders> arrayList) {
+    public Kitchen_Past_Details(Context context, ArrayList<OrderModel> arrayList) {
 
         this.context=context;
         this.arrayList=arrayList;
@@ -198,7 +198,7 @@ public class Kitchen_Past_Details extends RecyclerView.Adapter<RecyclerView.View
         return arrayList.size() + 2;
     }
 
-    private Orders getItem(int position) {
+    private OrderModel getItem(int position) {
         return arrayList.get(position);
     }
 

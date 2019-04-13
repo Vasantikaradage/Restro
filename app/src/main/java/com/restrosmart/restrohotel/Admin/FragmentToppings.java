@@ -26,7 +26,7 @@ import com.restrosmart.restrohotel.Adapter.ToppingsViewPagerAdapter;
 import com.restrosmart.restrohotel.Interfaces.ApiService;
 import com.restrosmart.restrohotel.Interfaces.IResult;
 import com.restrosmart.restrohotel.Model.ParentCategoryForm;
-import com.restrosmart.restrohotel.Model.ParentToppingsInfo;
+import com.restrosmart.restrohotel.Model.ParentToppingsInfoForm;
 import com.restrosmart.restrohotel.Model.ToppingsForm;
 import com.restrosmart.restrohotel.R;
 import com.restrosmart.restrohotel.RetrofitClientInstance;
@@ -68,7 +68,7 @@ public  class FragmentToppings extends Fragment {
 
     private ArrayList<ParentCategoryForm> mFragmentTitleList;
     private List<ToppingsForm> fragmentToppingsArrayList;
-    private List<ParentToppingsInfo> addParentCategoryinfos;
+    private List<ParentToppingsInfoForm> addParentCategoryinfos;
     private ArrayList<ArrayList<ToppingsForm>> arrayList;
 
     private  ToppingsViewPagerAdapter toppingsViewPagerAdapter;
@@ -209,10 +209,10 @@ public  class FragmentToppings extends Fragment {
                                   }
 
                                   arrayList.add(new ArrayList<ToppingsForm>(fragmentToppingsArrayList));
-                                  ParentToppingsInfo parentToppingsInfo = new ParentToppingsInfo();
-                                  parentToppingsInfo.setFragment(new FragmentTabParentToppings());
-                                  parentToppingsInfo.setToppingsFoprms(arrayList.get(i));
-                                  addParentCategoryinfos.add(parentToppingsInfo);
+                                  ParentToppingsInfoForm parentToppingsInfoForm = new ParentToppingsInfoForm();
+                                  parentToppingsInfoForm.setFragment(new FragmentTabParentToppings());
+                                  parentToppingsInfoForm.setToppingsFoprms(arrayList.get(i));
+                                  addParentCategoryinfos.add(parentToppingsInfoForm);
                               }
 
 

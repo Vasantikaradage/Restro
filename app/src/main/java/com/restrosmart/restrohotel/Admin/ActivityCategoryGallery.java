@@ -19,7 +19,7 @@ import com.restrosmart.restrohotel.Adapter.RVVImageAdapter;
 import com.restrosmart.restrohotel.Interfaces.ApiService;
 import com.restrosmart.restrohotel.Interfaces.PositionListener;
 import com.restrosmart.restrohotel.Interfaces.IResult;
-import com.restrosmart.restrohotel.Model.AddImage;
+import com.restrosmart.restrohotel.Model.ImageForm;
 import com.restrosmart.restrohotel.R;
 import com.restrosmart.restrohotel.RetrofitClientInstance;
 import com.restrosmart.restrohotel.RetrofitService;
@@ -43,7 +43,7 @@ public class ActivityCategoryGallery extends AppCompatActivity {
     private RecyclerView recyclerView;
     private IResult mResultCallBack;
     private RetrofitService mRetrofitService;
-    private ArrayList<AddImage> arrayListImage;
+    private ArrayList<ImageForm> arrayListImage;
     private String image_name, mImageName;
     private Sessionmanager sessionmanager;
     private String hotelId, branchId;
@@ -82,7 +82,7 @@ public class ActivityCategoryGallery extends AppCompatActivity {
 
     private void init() {
         recyclerView = (RecyclerView) findViewById(R.id.recycler_category_gallery);
-        arrayListImage = new ArrayList<AddImage>();
+        arrayListImage = new ArrayList<ImageForm>();
         sessionmanager = new Sessionmanager(this);
         mTopToolbar = (Toolbar) findViewById(R.id.toolbar);
         txTitle = (TextView) mTopToolbar.findViewById(R.id.tx_title);
@@ -129,9 +129,9 @@ public class ActivityCategoryGallery extends AppCompatActivity {
                         arrayListImage.clear();
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject object1 = jsonArray.getJSONObject(i);
-                            AddImage addImage = new AddImage();
-                            addImage.setImage(object1.getString("image").toString());
-                            arrayListImage.add(addImage);
+                            ImageForm imageForm = new ImageForm();
+                            imageForm.setImage(object1.getString("image").toString());
+                            arrayListImage.add(imageForm);
                         }
                         getImage(arrayListImage);
                     }
@@ -149,7 +149,7 @@ public class ActivityCategoryGallery extends AppCompatActivity {
         };
     }
 
-    private void getImage(final ArrayList<AddImage> arrayListImage) {
+    private void getImage(final ArrayList<ImageForm> arrayListImage) {
         recyclerView.setHasFixedSize(true);
         int no_of_col = 3;
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 4);

@@ -7,7 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.restrosmart.restrohotel.Model.GetEmployeeDetails;
+import com.restrosmart.restrohotel.Model.EmployeeForm;
 import com.restrosmart.restrohotel.R;
 import com.squareup.picasso.Picasso;
 
@@ -21,7 +21,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ActivityEmpolyeeProfile extends AppCompatActivity {
 
-    ArrayList<GetEmployeeDetails> getEmployeeDetails;
+    ArrayList<EmployeeForm> employeeDetails;
 
     int emp_id;
 
@@ -40,7 +40,7 @@ public class ActivityEmpolyeeProfile extends AppCompatActivity {
         Intent intent = getIntent();
 
         /*passed complete arraylist*/
-        getEmployeeDetails = intent.getParcelableArrayListExtra("Emp_detail");
+        employeeDetails = intent.getParcelableArrayListExtra("Emp_detail");
         emp_id = intent.getIntExtra("empId", 0);
 
         Toolbar mTopToolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -78,19 +78,19 @@ public class ActivityEmpolyeeProfile extends AppCompatActivity {
 
 
         try {
-            for (int i = 0; i < getEmployeeDetails.size(); i++) {
+            for (int i = 0; i < employeeDetails.size(); i++) {
 
-                int empId = getEmployeeDetails.get(i).getEmpId();
+                int empId = employeeDetails.get(i).getEmpId();
 
                 if (emp_id == empId) {
 
-                    String status = String.valueOf(getEmployeeDetails.get(i).getActiveStatus());
-                    String imagePath = getEmployeeDetails.get(i).getEmpImg();
+                    String status = String.valueOf(employeeDetails.get(i).getActiveStatus());
+                    String imagePath = employeeDetails.get(i).getEmpImg();
 
                     Picasso.with(this).load(imagePath).into(mImage);
-                    mName.setText(getEmployeeDetails.get(i).getEmpName());
-                    mUsername.setText(getEmployeeDetails.get(i).getUserName());
-                    mRole.setText(getEmployeeDetails.get(i).getRole());
+                    mName.setText(employeeDetails.get(i).getEmpName());
+                    mUsername.setText(employeeDetails.get(i).getUserName());
+                    mRole.setText(employeeDetails.get(i).getRole());
 
 
                     //if (status.contentEquals("1"))
@@ -110,11 +110,11 @@ public class ActivityEmpolyeeProfile extends AppCompatActivity {
                     }
 
                     mStatus.setText(active);
-                    mHotelName.setText(getEmployeeDetails.get(i).getHotelName());
-                    mMobNo.setText(getEmployeeDetails.get(i).getEmpMob());
-                    mEmail.setText(getEmployeeDetails.get(i).getEmpEmail());
-                    mAdhar.setText(getEmployeeDetails.get(i).getEmpAdharId());
-                    mAddress.setText(getEmployeeDetails.get(i).getEmpAddress());
+                    mHotelName.setText(employeeDetails.get(i).getHotelName());
+                    mMobNo.setText(employeeDetails.get(i).getEmpMob());
+                    mEmail.setText(employeeDetails.get(i).getEmpEmail());
+                    mAdhar.setText(employeeDetails.get(i).getEmpAdharId());
+                    mAddress.setText(employeeDetails.get(i).getEmpAddress());
 
 
                 } else {

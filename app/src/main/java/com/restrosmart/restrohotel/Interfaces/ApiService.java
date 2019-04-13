@@ -1,11 +1,9 @@
 package com.restrosmart.restrohotel.Interfaces;
 
 import com.google.gson.JsonObject;
-import com.restrosmart.restrohotel.Model.EmployeeRole;
-import com.restrosmart.restrohotel.Model.GetEmployeeDetails;
+import com.restrosmart.restrohotel.Model.EmployeeForm;
 import com.restrosmart.restrohotel.Model.RoleForm;
 
-import org.json.JSONObject;
 
 import java.util.List;
 import java.util.Map;
@@ -14,7 +12,6 @@ import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 /**
@@ -37,8 +34,8 @@ public interface ApiService {
     /*Fetching all employee Details.*/
     @FormUrlEncoded
     @POST("Employee_Signup.php?Empcall=Get_Employee")
-    Call<List<GetEmployeeDetails>> getallEmployees(@Field("Hotel_Id") String Hotel_Id,
-                                                   @Field("Branch_Id") String Branch_Id);
+    Call<List<EmployeeForm>> getallEmployees(@Field("Hotel_Id") String Hotel_Id,
+                                             @Field("Branch_Id") String Branch_Id);
 
     /*employee delete*/
     @POST("Employee_Signup.php?Empcall=emp_delete")
@@ -175,9 +172,6 @@ public interface ApiService {
                                      @Field("Pc_Id") int pcId);
 
 
-    /*Get Employee Role */
-    @GET("Employee_Signup.php?Empcall=role")
-    Call<List<EmployeeRole>> employeeRole();
 
 
     /*Add PositionListener*/

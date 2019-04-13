@@ -18,7 +18,7 @@ import com.restrosmart.restrohotel.Adapter.RVVImageAdapter;
 import com.restrosmart.restrohotel.Interfaces.ApiService;
 import com.restrosmart.restrohotel.Interfaces.PositionListener;
 import com.restrosmart.restrohotel.Interfaces.IResult;
-import com.restrosmart.restrohotel.Model.AddImage;
+import com.restrosmart.restrohotel.Model.ImageForm;
 import com.restrosmart.restrohotel.R;
 
 import com.restrosmart.restrohotel.RetrofitClientInstance;
@@ -47,7 +47,7 @@ public class ActivityFlavourGallery extends AppCompatActivity {
     private RecyclerView recyclerView;
     private IResult mResultCallBack;
     private RetrofitService mRetrofitService;
-    private ArrayList<AddImage> arrayListImage;
+    private ArrayList<ImageForm> arrayListImage;
     private Toolbar mTopToolbar;
     private TextView txTitle;
     private String image_name, mImageName, mHotelId, mBranchId;
@@ -87,7 +87,7 @@ public class ActivityFlavourGallery extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recycler_category_gallery);
         mTopToolbar = (Toolbar) findViewById(R.id.toolbar);
         txTitle = (TextView) mTopToolbar.findViewById(R.id.tx_title);
-        arrayListImage = new ArrayList<AddImage>();
+        arrayListImage = new ArrayList<ImageForm>();
         sessionmanager = new Sessionmanager(this);
     }
 
@@ -125,9 +125,9 @@ public class ActivityFlavourGallery extends AppCompatActivity {
                     arrayListImage.clear();
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject object1 = jsonArray.getJSONObject(i);
-                        AddImage addImage = new AddImage();
-                        addImage.setImage(object1.getString("image").toString());
-                        arrayListImage.add(addImage);
+                        ImageForm imageForm = new ImageForm();
+                        imageForm.setImage(object1.getString("image").toString());
+                        arrayListImage.add(imageForm);
                     }
                     getImage(arrayListImage);
 
@@ -143,7 +143,7 @@ public class ActivityFlavourGallery extends AppCompatActivity {
         };
     }
 
-    private void getImage(final ArrayList<AddImage> arrayListImage) {
+    private void getImage(final ArrayList<ImageForm> arrayListImage) {
         recyclerView.setHasFixedSize(true);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 4);
         RVVImageAdapter adapter = new RVVImageAdapter(this, arrayListImage, mImageName, new PositionListener() {

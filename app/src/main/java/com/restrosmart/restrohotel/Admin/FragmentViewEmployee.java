@@ -13,7 +13,7 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 import com.restrosmart.restrohotel.Adapter.RVViewEmployee;
 import com.restrosmart.restrohotel.Interfaces.ApiService;
-import com.restrosmart.restrohotel.Model.GetEmployeeDetails;
+import com.restrosmart.restrohotel.Model.EmployeeForm;
 import com.restrosmart.restrohotel.R;
 import com.restrosmart.restrohotel.RetrofitClientInstance;
 
@@ -67,24 +67,24 @@ public class FragmentViewEmployee extends Fragment {
 
     private void retrofitCallBack() {
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
-        Call<List<GetEmployeeDetails>> call= service.getallEmployees("1","1");
+        Call<List<EmployeeForm>> call= service.getallEmployees("1","1");
 
-        call.enqueue(new Callback<List<GetEmployeeDetails>>() {
+        call.enqueue(new Callback<List<EmployeeForm>>() {
             @Override
-            public void onResponse(Call<List<GetEmployeeDetails>> call, Response<List<GetEmployeeDetails>> response) {
-                List<GetEmployeeDetails> getEmployee =  response.body();
+            public void onResponse(Call<List<EmployeeForm>> call, Response<List<EmployeeForm>> response) {
+                List<EmployeeForm> getEmployee =  response.body();
                 getData(getEmployee);
             }
 
             @Override
-            public void onFailure(Call<List<GetEmployeeDetails>> call, Throwable t) {
+            public void onFailure(Call<List<EmployeeForm>> call, Throwable t) {
                 Toast.makeText(getActivity(), ""+t, Toast.LENGTH_SHORT).show();
             }
         });
 
     }
 
-    private void getData(List<GetEmployeeDetails> getEmployee) {
+    private void getData(List<EmployeeForm> getEmployee) {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(linearLayoutManager);

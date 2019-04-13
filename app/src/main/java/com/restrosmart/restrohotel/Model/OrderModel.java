@@ -1,6 +1,6 @@
 package com.restrosmart.restrohotel.Model;
 
-public class Orders {
+public class OrderModel {
 
     private String cust_mob_no,order_id,tot_bill,time,menu_name,menu_qty,menu_price,msg;
 

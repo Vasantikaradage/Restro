@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.restrosmart.restrohotel.Interfaces.PositionListener;
-import com.restrosmart.restrohotel.Model.AddImage;
+import com.restrosmart.restrohotel.Model.ImageForm;
 import com.restrosmart.restrohotel.R;
 import com.squareup.picasso.Picasso;
 
@@ -22,13 +22,13 @@ import java.util.ArrayList;
 
 public class RVVImageAdapter extends RecyclerView.Adapter<RVVImageAdapter.ViewHolder>  {
     Context context;
-    ArrayList<AddImage> imageArrayList;
+    ArrayList<ImageForm> imageArrayList;
     PositionListener positionListener;
     String lastpos=null;
 
     String mImage;
 
-    public RVVImageAdapter(Context context, ArrayList<AddImage> arrayList_image, String mUpdatedImage, PositionListener positionListener) {
+    public RVVImageAdapter(Context context, ArrayList<ImageForm> arrayList_image, String mUpdatedImage, PositionListener positionListener) {
         this.context = context;
         this.imageArrayList = arrayList_image;
         this.positionListener = positionListener;
