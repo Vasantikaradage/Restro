@@ -26,6 +26,7 @@ import com.restrosmart.restrohotel.Interfaces.DeleteListener;
 import com.restrosmart.restrohotel.Interfaces.EditListener;
 import com.restrosmart.restrohotel.Interfaces.IResult;
 import com.restrosmart.restrohotel.Model.MenuDisplayForm;
+import com.restrosmart.restrohotel.Model.ToppingsForm;
 import com.restrosmart.restrohotel.R;
 import com.restrosmart.restrohotel.RetrofitClientInstance;
 import com.restrosmart.restrohotel.RetrofitService;
@@ -53,6 +54,7 @@ import static com.restrosmart.restrohotel.Utils.Sessionmanager.HOTEL_ID;
 public class ActivityMenu extends AppCompatActivity implements View.OnClickListener {
     private RecyclerView recyclerView;
     private ArrayList<MenuDisplayForm> arrayListMenu;
+    private  ArrayList<ToppingsForm> arrayListToppings;
     private int Category_Id, pcId,mHotelId,mBranchId,position,menu_test;
     private FrameLayout btnAddMenu;
     private TextView txTitle;
@@ -95,6 +97,16 @@ public class ActivityMenu extends AppCompatActivity implements View.OnClickListe
         mBranchId = Integer.parseInt(name_info.get(BRANCH_ID));
 
         MenuListRetrofitServiceCall();
+
+        btnAddMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent1=new Intent(ActivityMenu.this,ActivityAddNewMenu.class);
+                intent1.putExtra("pcId",pcId);
+                intent1.putExtra("categoryId",Category_Id);
+                startActivity(intent1);
+            }
+        });
     }
 
     private void setupToolBar() {
@@ -367,7 +379,8 @@ public class ActivityMenu extends AppCompatActivity implements View.OnClickListe
         llNoMenuData=findViewById(R.id.llNoMenuData);
         recyclerView = (RecyclerView) findViewById(R.id.recycler_menu_item);
         arrayListMenu = new ArrayList<MenuDisplayForm>();
-        btnAddMenu.setOnClickListener(this);
+        arrayListToppings=new ArrayList<>();
+       // btnAddMenu.setOnClickListener(this);
     }
 
     private void MenuListRetrofitServiceCall() {
@@ -378,6 +391,8 @@ public class ActivityMenu extends AppCompatActivity implements View.OnClickListe
                 mBranchId,
                mHotelId)));
     }
+
+
 
     //retrofit call
     private void initRetrofitCallback() {
@@ -412,6 +427,23 @@ public class ActivityMenu extends AppCompatActivity implements View.OnClickListe
                                     menuForm.setMenu_Test(jsonObject2.getInt("Menu_Test"));
                                     menuForm.setMenu_Descrip(jsonObject2.getString("Menu_Descrip"));
                                     menuForm.setHotel_Id(jsonObject2.getInt("Hotel_Id"));
+                                    //menuForm.setArrayListtoppings(jsonObject2.getJSONArray("Topping"));
+
+
+                                    JSONArray toppingArray=jsonObject2.getJSONArray("Topping");
+
+                                    arrayListToppings=new ArrayList<>();
+                                    for(int in=0; in<toppingArray.length(); in++)
+                                    {
+
+                                        JSONObject toppingsObject=toppingArray.getJSONObject(in);
+                                        ToppingsForm toppingsForm=new ToppingsForm();
+                                        toppingsForm.setToppingId(toppingsObject.getInt("Topping_Id"));
+                                        toppingsForm.setToppingsName(toppingsObject.getString("Topping_Name"));
+                                        toppingsForm.setToppingsPrice(toppingsObject.getInt("Topping_Price"));
+                                        arrayListToppings.add(toppingsForm);
+                                    }
+                                    menuForm.setArrayListtoppings(arrayListToppings);
                                     arrayListMenu.add(menuForm);
                                 }
                                 callAdapter();
@@ -480,9 +512,16 @@ public class ActivityMenu extends AppCompatActivity implements View.OnClickListe
             }
 
 
-
-
-
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        initRetrofitCallback();
+        ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
+        mRetrofitService = new RetrofitService(mResultCallBack, ActivityMenu.this);
+        mRetrofitService.retrofitData(MENU_LIST, (service.getMenus(Category_Id,
+                mBranchId,
+                mHotelId)));
+    }
 
     public void callAdapter() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);

@@ -8,6 +8,16 @@ public class ToppingsForm implements Parcelable {
     private int toppingsPrice;
     private  int pcId;
     private  int toppingId;
+    public boolean selected=false;
+
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
 
     public ToppingsForm() {
     }

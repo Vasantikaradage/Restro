@@ -1,5 +1,7 @@
 package com.restrosmart.restrohotel.Model;
 
+import java.util.ArrayList;
+
 /**
  * Created by SHREE on 29/10/2018.
  */
@@ -9,6 +11,15 @@ public class MenuDisplayForm {
     private String Menu_Name,Menu_Descrip,Menu_Image_Name;
 
     private  int Menu_Id,Category_Id,Menu_Test,Non_Ac_Rate,Hotel_Id,Branch_Id,status;
+    private ArrayList<ToppingsForm> arrayListtoppings;
+
+    public ArrayList<ToppingsForm> getArrayListtoppings() {
+        return arrayListtoppings;
+    }
+
+    public void setArrayListtoppings(ArrayList<ToppingsForm> arrayListtoppings) {
+        this.arrayListtoppings = arrayListtoppings;
+    }
 
     public int getStatus() {
         return status;

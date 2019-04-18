@@ -5,23 +5,30 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
+import android.text.style.ImageSpan;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.restrosmart.restrohotel.Admin.ActivityAddNewMenu;
 import com.restrosmart.restrohotel.Admin.ActivityFlavour;
 import com.restrosmart.restrohotel.Interfaces.PositionListener;
 import com.restrosmart.restrohotel.Interfaces.DeleteListener;
 import com.restrosmart.restrohotel.Interfaces.EditListener;
 import com.restrosmart.restrohotel.Model.MenuDisplayForm;
+import com.restrosmart.restrohotel.Model.ToppingsForm;
 import com.restrosmart.restrohotel.R;
 import com.restrosmart.restrohotel.Utils.Sessionmanager;
+import com.restrosmart.restrohotel.Utils.flowtextview.FlowTextView;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
@@ -43,6 +50,13 @@ public class AdapterDisplayAllMenus extends RecyclerView.Adapter<AdapterDisplayA
     private EditListener editListener;
     private  View dialoglayout;
     private  AlertDialog dialog;
+    private  CircleImageView mCircularImageView;
+    private  TextView menuName,menuPrice;
+
+    private  RecyclerView rvTopping;
+    private ImageButton imageBtnCancel;
+
+    private  ArrayList<ToppingsForm> arrayListToppings;
 
 
 
@@ -76,6 +90,8 @@ public class AdapterDisplayAllMenus extends RecyclerView.Adapter<AdapterDisplayA
 
         holder.mMenuName.setText(arrayListMenu.get(position).getMenu_Name());
         holder.mMenuDisp.setText(arrayListMenu.get(position).getMenu_Descrip());
+
+        arrayListToppings=arrayListMenu.get(position).getArrayListtoppings();
 
         int mTeste = arrayListMenu.get(position).getMenu_Test();
 
@@ -128,7 +144,43 @@ public class AdapterDisplayAllMenus extends RecyclerView.Adapter<AdapterDisplayA
                     final AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setView(dialoglayout);
                     dialog = builder.create();
+                   mCircularImageView=dialoglayout.findViewById(R.id.img_menu);
+                    menuName=dialoglayout.findViewById(R.id.tv_menu_name);
+                    menuPrice=dialoglayout.findViewById(R.id.tv_menu_price);
+                    FlowTextView menuDiscription=dialoglayout.findViewById(R.id.tv_menu_discription);
+                    rvTopping=dialoglayout.findViewById(R.id.rv_menu_toppings);
+                    imageBtnCancel=dialoglayout.findViewById(R.id.btn_cancel);
+
+                    menuName.setText(arrayListMenu.get(position).getMenu_Name());
+                    String price = String.valueOf(arrayListMenu.get(position).getNon_Ac_Rate());
+                   // menuPrice.setText(arrayListMenu.get(position).getNon_Ac_Rate());
+                    menuPrice.setText("\u20B9 "+price);
+
+                    //ImageSpan is = new ImageSpan(context.dialoglayout, R.drawable.bottle1);
+                  //  SpannableString spannableString=new SpannableString(arrayListMenu.get(position).getMenu_Descrip());
+                  //  spannableString.setSpan(mCircularImageView, 0, 10, 0);
+                    menuDiscription.setText(arrayListMenu.get(position).getMenu_Descrip());
+                   // menuDiscription.setText(arrayListMenu.get(position).getMenu_Descrip());
+
+                   Picasso.with(context).load(arrayListMenu.get(position).getMenu_Image_Name())
+                            .memoryPolicy(MemoryPolicy.NO_CACHE)
+                            .memoryPolicy(MemoryPolicy.NO_STORE)
+                            .into(mCircularImageView);
+
+                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
+                    rvTopping.setHasFixedSize(true);
+                    rvTopping.setLayoutManager(linearLayoutManager);
+
+                    AdapterDisplayAllMenusView adapterDisplayAllMenusView = new AdapterDisplayAllMenusView(context, arrayListMenu.get(position).getArrayListtoppings());
+                    rvTopping.setAdapter(adapterDisplayAllMenusView);
                     dialog.show();
+                    notifyDataSetChanged();
+                    imageBtnCancel.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            dialog.dismiss();
+                        }
+                    });
 
                 }
             });
@@ -149,6 +201,17 @@ public class AdapterDisplayAllMenus extends RecyclerView.Adapter<AdapterDisplayA
                         switch (item.getItemId()) {
                             case R.id.menu_edit:
                                 //handle menu1 click
+                                Intent intent=new Intent(context, ActivityAddNewMenu.class);
+                                intent.putExtra("MenuId",arrayListMenu.get(position).getMenu_Id());
+                                intent.putExtra("ImageName",arrayListMenu.get(position).getMenu_Image_Name());
+                                intent.putExtra("MenuName",arrayListMenu.get(position).getMenu_Name());
+                                intent.putExtra("Price",arrayListMenu.get(position).getNon_Ac_Rate());
+                                intent.putExtra("MenuDiscription",arrayListMenu.get(position).getMenu_Descrip());
+                                intent.putExtra("MenuTaste",arrayListMenu.get(position).getMenu_Test());
+                                intent.putParcelableArrayListExtra("ArrayListToppings",arrayListMenu.get(position).getArrayListtoppings());
+
+
+                                context.startActivity(intent);
                                 return true;
 
                             case R.id.menu_delete:
