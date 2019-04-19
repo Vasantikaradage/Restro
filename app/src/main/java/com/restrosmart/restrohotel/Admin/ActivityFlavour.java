@@ -64,7 +64,7 @@ import static com.restrosmart.restrohotel.Utils.Sessionmanager.HOTEL_ID;
 public class ActivityFlavour extends AppCompatActivity {
     private ArrayList<FlavourForm> arrayListFlavour;
     private ArrayList<FlavourUnitForm> arrayListflavourUnit;
-    private ArrayList<FlavourUnitForm> arrayList ;
+    private ArrayList<FlavourUnitForm> arrayList;
     private TableRow tableRow;
     private TableLayout tableLayout;
     private ArrayList<EditText> arrayListUnitName;
@@ -113,12 +113,12 @@ public class ActivityFlavour extends AppCompatActivity {
                 LayoutInflater li = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
                 dialoglayout = li.inflate(R.layout.activity_add_flavour, null);
-               BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(ActivityFlavour.this);
-                bottomSheetDialog.setContentView(dialoglayout);
+                dialog = new BottomSheetDialog(ActivityFlavour.this);
+                dialog.setContentView(dialoglayout);
                 arrayListUnitName.clear();
                 arrayListUnitPrice.clear();
 
-               // dialog = builder.create();
+                // dialog = builder.create();
                 final EditText etflavourName = (EditText) dialoglayout.findViewById(R.id.etx_flavour_name);
                 TextView tvAddUnit = (TextView) dialoglayout.findViewById(R.id.tv_add_unit);
                 circleImageView = (CircleImageView) dialoglayout.findViewById(R.id.img_flavour);

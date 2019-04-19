@@ -50,31 +50,28 @@ public interface ApiService {
                                            @Field("Branch_Id") String Branch_Id);
 
 
-   /*Edit employee*/
-   @POST("Employee_Signup.php?Empcall=Emp_Edit")
-   @FormUrlEncoded
-   Call<JsonObject> editEmployeeDetail(@Field("Emp_Id") int empId,
-                                       @Field("Emp_Name") String empName,
-                                       @Field("Emp_Mob") String  mobile,
-                                       @Field("Emp_Email") String empMobile,
-                                       @Field("Emp_Address") String empAddress,
-                                       @Field("User_Name") String userName,
-                                       @Field("Hotel_Id") int hotelId,
-                                       @Field("Branch_Id") int branchId,
-                                       @Field("Role_Id") int role_id,
-                                       @Field("Password") String password);
-
-
-
+    /*Edit employee*/
+    @POST("Employee_Signup.php?Empcall=Emp_Edit")
+    @FormUrlEncoded
+    Call<JsonObject> editEmployeeDetail(@Field("Emp_Id") int empId,
+                                        @Field("Emp_Name") String empName,
+                                        @Field("Emp_Mob") String mobile,
+                                        @Field("Emp_Email") String empMobile,
+                                        @Field("Emp_Address") String empAddress,
+                                        @Field("User_Name") String userName,
+                                        @Field("Hotel_Id") int hotelId,
+                                        @Field("Branch_Id") int branchId,
+                                        @Field("Role_Id") int role_id,
+                                        @Field("Password") String password);
 
 
     /*Update employee status */
     @POST("Employee_Signup.php?Empcall=status")
     @FormUrlEncoded
     Call<JsonObject> updateStatus(@Field("Emp_Id") int Emp_Id,
-                                                @Field("Active_Status") String status,
-                                                @Field("Branch_Id") int branchId,
-                                                @Field("Hotel_Id") int hotelId);
+                                  @Field("Active_Status") String status,
+                                  @Field("Branch_Id") int branchId,
+                                  @Field("Hotel_Id") int hotelId);
 
 
     /*Admin Login.*/
@@ -89,9 +86,9 @@ public interface ApiService {
     @POST("Employee_Signup.php?Empcall=forgetpass")
     @FormUrlEncoded
     Call<JsonObject> forgetPassword(@Field("Emp_Email") String email,
-                                   @Field("Emp_Mob") String emp_mob,
-                                   @Field("Hotel_id") int hotel_id,
-                                   @Field("Branch_Id") int branch_id);
+                                    @Field("Emp_Mob") String emp_mob,
+                                    @Field("Hotel_id") int hotel_id,
+                                    @Field("Branch_Id") int branch_id);
 
 
     /*Admin Register.*/
@@ -109,22 +106,22 @@ public interface ApiService {
     /*branch detail*/
     @POST("Branch.php?branch=branch_disp")
     @FormUrlEncoded
-    Call<JsonObject>getBranchDetail(@Field("Hotel_Id") int hotelId,
-                                   @Field("Branch_Id") int branchid);
+    Call<JsonObject> getBranchDetail(@Field("Hotel_Id") int hotelId,
+                                     @Field("Branch_Id") int branchid);
 
     /*branch edit detail*/
     @POST("Branch.php?branch=branch_edit")
     @FormUrlEncoded
-    Call<JsonObject>editHotelDetail(
-                                    @Field("Branch_Name") String branchName,
-                                    @Field("Branch_Address") String hotelAddress,
-                                    @Field("Branch_Email") String hotelEmail,
-                                    @Field("Branch_Mob") int hotelMob,
-                                    @Field("Branch_Gstnno") int hotelGstnNo,
-                                    @Field("Branch_Table_Count") int noOfTable,
-                                    @Field("Branch_Timing") String hotelTiming,
-                                    @Field("Hotel_Id") int hotelId,
-                                    @Field("Branch_Id") int branchid);
+    Call<JsonObject> editHotelDetail(
+            @Field("Branch_Name") String branchName,
+            @Field("Branch_Address") String hotelAddress,
+            @Field("Branch_Email") String hotelEmail,
+            @Field("Branch_Mob") int hotelMob,
+            @Field("Branch_Gstnno") int hotelGstnNo,
+            @Field("Branch_Table_Count") int noOfTable,
+            @Field("Branch_Timing") String hotelTiming,
+            @Field("Hotel_Id") int hotelId,
+            @Field("Branch_Id") int branchid);
 
     /*Employee Signup*/
     @POST("Employee_Signup.php?Empcall=signup")
@@ -153,8 +150,6 @@ public interface ApiService {
     Call<JsonObject> getBranch(@Field("Hotel_Id") int hotelId);
 
 
-
-
     /*Get Category Image*/
     @POST("Category.php?category=cate_icon")
     @FormUrlEncoded
@@ -165,7 +160,7 @@ public interface ApiService {
     /*get flavour image*/
     @POST("Flavour.php?flavour=flavour_img")
     @FormUrlEncoded
-    Call<JsonObject> getFlavourImage(@Field("Menu_Id") int  menuId,
+    Call<JsonObject> getFlavourImage(@Field("Menu_Id") int menuId,
                                      @Field("Category_Id") int categoryId,
                                      @Field("Branch_Id") int branchId,
                                      @Field("Hotel_Id") int hotelId,
@@ -194,17 +189,13 @@ public interface ApiService {
                                     @Field("Branch_Id") int Branch_Id);
 
 
-
     //Toppings
-   // Toppings display
+    // Toppings display
     @POST("topping.php?topping=topping_disp")
     @FormUrlEncoded
-    Call<JsonObject>toppingDisplay(@Field("Hotel_Id") int Hotel_Id,
-                                 @Field("Branch_Id") int Branch_Id
-                                 /*@Field("Pc_Id") int pc_id*/);
-
-
-
+    Call<JsonObject> toppingDisplay(@Field("Hotel_Id") int Hotel_Id,
+                                    @Field("Branch_Id") int Branch_Id
+            /*@Field("Pc_Id") int pc_id*/);
 
 
     //toppings add
@@ -236,10 +227,7 @@ public interface ApiService {
                                  @Field("Topping_Id") int toppingId);
 
 
-
-
-
-/*sub category display*/
+    /*sub category display*/
     @POST("Offer.php?offer=subcate_select")
     @FormUrlEncoded
     Call<JsonObject> GetSubCategory(@Field("Hotel_Id") int Hotel_Id,
@@ -247,7 +235,7 @@ public interface ApiService {
                                     @Field("Pc_Id") int Pc_Id);
 
 
-/*menu display*/
+    /*menu display*/
     @POST("Offer.php?offer=menu_select")
     @FormUrlEncoded
     Call<JsonObject> GetMenuDisplay(@Field("Hotel_Id") int Hotel_Id,
@@ -295,9 +283,9 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("Menu.php?menu=Menu_images")
     Call<JsonObject> getMenuImage(@Field("Category_Id") int Category_Id,
-                                    @Field("Branch_Id") int Branch_Id,
-                                    @Field("Hotel_Id") int Hotel_Id,
-                                    @Field("Pc_Id") int Pc_Id);
+                                  @Field("Branch_Id") int Branch_Id,
+                                  @Field("Hotel_Id") int Hotel_Id,
+                                  @Field("Pc_Id") int Pc_Id);
 
 
     /*category Delete*/
@@ -311,7 +299,7 @@ public interface ApiService {
 
     /*Flavour display*/
     @POST("Flavour.php?flavour=flavour_disp")
- @FormUrlEncoded
+    @FormUrlEncoded
     Call<JsonObject> flavourDisplay(@Field("Menu_Id") int menuId,
                                     @Field("Hotel_Id") int hotelId,
                                     @Field("Branch_Id") int branchId);
@@ -324,8 +312,8 @@ public interface ApiService {
                                 @Field("F_Image_Name") String fImageName,
                                 @Field("Menu_Id") int menuId,
                                 @Field("Hotel_Id") int hotelId,
-                                @Field("Branch_Id")int branchId,
-                                @Field("Flavarray") String  flavour);
+                                @Field("Branch_Id") int branchId,
+                                @Field("Flavarray") String flavour);
 
 
 
@@ -344,8 +332,7 @@ public interface ApiService {
             @Field("Pc_Id") int pcId);
 
 
-
-  /*add menu*/
+    /*add menu*/
     @POST("Menu.php?menu=menu_add")
     @FormUrlEncoded
     Call<JsonObject> getMenuAdd(@Field("Menu_Name") String Menu_Name,
@@ -357,7 +344,7 @@ public interface ApiService {
                                 @Field("Non_Ac_Rate") String Non_Ac_Rate,
                                 @Field("Hotel_Id") int Hotel_Id,
                                 @Field("Branch_Id") int Branch_Id,
-                                @Field("Pc_Id" )int pcId,
+                                @Field("Pc_Id") int pcId,
                                 @Field("topparraylist") String toppingList
     );
 
@@ -372,14 +359,17 @@ public interface ApiService {
                               @Field("Non_Ac_Rate") String nonAcRate,
                               @Field("Menu_Id") int menuId,
                               @Field("Hotel_Id") int Hotel_Id,
-                              @Field("Branch_Id") int Branch_Id);
+                              @Field("Branch_Id") int Branch_Id,
+                              @Field("Category_Id") int categoryId,
+                              @Field("Pc_Id") int pcId,
+                              @Field("topparraylist") String toppingList);
 
 
     /*offer display*/
     @POST("Offer.php?offer=offer_disp")
     @FormUrlEncoded
     Call<JsonObject> GetOffer(@Field("Hotel_Id") int Hotel_Id,
-                                   @Field("Branch_Id") int branchId);
+                              @Field("Branch_Id") int branchId);
 
     /*offer delete*/
     @POST("Offer.php?offer=offer_delete")
@@ -392,10 +382,9 @@ public interface ApiService {
     @POST("Offer.php?offer=offer_status")
     @FormUrlEncoded
     Call<JsonObject> offOffer(@Field("Offer_Id") int offerId,
-                                 @Field("Hotel_Id") int hotelId,
-                                 @Field("Branch_Id") int branchId,
-                                  @Field("Status") int status);
-
+                              @Field("Hotel_Id") int hotelId,
+                              @Field("Branch_Id") int branchId,
+                              @Field("Status") int status);
 
 
     /*Add new Offer*/
@@ -406,7 +395,7 @@ public interface ApiService {
                                  @Field("Offer_To") String offer_to,
                                  @Field("Offer_Value") String offer_value,
                                  @Field("Menu_Id") int menu_id,
-                                 @Field("Coupon_Code")  String coupon_code,
+                                 @Field("Coupon_Code") String coupon_code,
                                  @Field("Hotel_Id") int hotel_id,
                                  @Field("Branch_Id") int branch_id,
                                  @Field("Status") int status);
@@ -418,14 +407,11 @@ public interface ApiService {
     @FormUrlEncoded
     Call<JsonObject> editOffer(@Field("Offer_Id") int offerId,
                                @Field("Offer_Name") String offer_name,
-                                 @Field("Offer_From") String offer_form,
-                                 @Field("Offer_To") String offer_to,
-                                 @Field("Offer_Value") String offer_value,
-                                 @Field("Hotel_Id") int hotel_id,
-                                 @Field("Branch_Id") int branch_id);
-
-
-
+                               @Field("Offer_From") String offer_form,
+                               @Field("Offer_To") String offer_to,
+                               @Field("Offer_Value") String offer_value,
+                               @Field("Hotel_Id") int hotel_id,
+                               @Field("Branch_Id") int branch_id);
 
 
     /*Add payment methods*/
@@ -443,9 +429,6 @@ public interface ApiService {
                                     @Field("Hotel_Id") int hotel_id);
 
 
-
-
-
     /*Display Water Bottle*/
     @POST("User_Category.php?user_cate=water_bottle")
     @FormUrlEncoded
@@ -456,10 +439,10 @@ public interface ApiService {
     /*Display Water Bottle*/
     @POST("Menu.php?menu=Waterbottle_add")
     @FormUrlEncoded
-    Call<JsonObject> AddWaterBottle(@Field("Menu_Id")int  id,
-                                    @Field("Menu_Name")String menuName,
+    Call<JsonObject> AddWaterBottle(@Field("Menu_Id") int id,
+                                    @Field("Menu_Name") String menuName,
                                     @Field("Menu_Image_Name") String imageName,
-                                    @Field("Category_Id")int category_id,
+                                    @Field("Category_Id") int category_id,
                                     @Field("Non_Ac_Rate") int price,
                                     @Field("Branch_Id") int branch_id,
                                     @Field("Hotel_Id") int hotel_id);
@@ -467,10 +450,10 @@ public interface ApiService {
     /*edit Water Bottle*/
     @POST("Menu.php?menu=Waterbottle_edit")
     @FormUrlEncoded
-    Call<JsonObject> editWaterBottle(@Field("Menu_Name")String menuName,
-                                    @Field("Non_Ac_Rate") int price,
-                                    @Field("Branch_Id") int branch_id,
-                                    @Field("Hotel_Id") int hotel_id);
+    Call<JsonObject> editWaterBottle(@Field("Menu_Name") String menuName,
+                                     @Field("Non_Ac_Rate") int price,
+                                     @Field("Branch_Id") int branch_id,
+                                     @Field("Hotel_Id") int hotel_id);
 
 
 

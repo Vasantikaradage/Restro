@@ -7,7 +7,6 @@
     android:orientation="vertical">
 
 
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -146,8 +145,8 @@
                             android:background="@drawable/texview_outline_black"
                             android:hint="Enter Description"
                             android:inputType="textMultiLine"
-                            android:padding="5dp"
                             android:maxLines="6"
+                            android:padding="5dp"
                             android:paddingLeft="10dp" />
 
                         <TextView
@@ -196,16 +195,16 @@
                             </RadioGroup>
                         </LinearLayout>
 
-                       <!-- <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:padding="5dp"
-                            android:text="Toppings"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
--->
+                        <!-- <TextView
+                             android:layout_width="match_parent"
+                             android:layout_height="wrap_content"
+                             android:layout_marginTop="5dp"
+                             android:padding="5dp"
+                             android:text="Toppings"
+                             android:textColor="@color/colorPrimary"
+                             android:textSize="16sp"
+                             android:textStyle="bold" />
+ -->
                         <android.support.v7.widget.RecyclerView
                             android:id="@+id/rv_toppings"
                             android:layout_width="match_parent"
@@ -275,7 +274,7 @@
                             android:background="@drawable/button_outline_dark"
                             android:text="Save"
                             android:textColor="@color/colorPrimary"
-                            android:visibility="visible" />
+                            android:visibility="gone" />
 
                         <Button
                             android:id="@+id/btnUpdate"
