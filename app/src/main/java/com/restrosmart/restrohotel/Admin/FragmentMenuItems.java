@@ -83,6 +83,7 @@ public class FragmentMenuItems extends Fragment {
     private List<CategoryForm> fragmentCategoryModelArrayList;
     private List<AddParentCategoryinfoModel> addParentCategoryinfoModels;
     private ArrayList<ArrayList<CategoryForm>> arrayList;
+    private  ApiService apiService;
 
     @Nullable
     @Override
@@ -151,27 +152,12 @@ public class FragmentMenuItems extends Fragment {
                     @Override
                     public void onClick(View view) {
 
-                        int start, start1 = 0;
-                        String suffix;
-                        Log.d("","imagename"+imageName);
-                        if (imageName ==null) {
-                            mFinalImageName = "null";
-                            Picasso.with(dialoglayout.getContext())
-                                    .load(R.drawable.ic_steak)
-                                    .resize(500, 500)
-                                    .into(mCircleImageView);
-                            saveCategoryInformation();
-
-                        }
-                        else {
-
-                            start = imageName.indexOf("t/");
-                            suffix = imageName.substring(start + 1);
-                            start1 = suffix.indexOf("/");
-                            mFinalImageName = suffix.substring(start1 + 1);
-                            saveCategoryInformation();
+                        if(imageName==null)
+                        {
+                            imageName="null";
                         }
 
+                        saveCategoryInformation();
                     }
                 });
 
@@ -190,7 +176,7 @@ public class FragmentMenuItems extends Fragment {
                 ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
                 mRetrofitService = new RetrofitService(mResultCallBack, getActivity());
                 mRetrofitService.retrofitData(SAVE_CATEGORY, service.addCategory(etxCategoryNme.getText().toString(),
-                        mFinalImageName,
+                        imageName,
                         hotelId,
                         branchId,
                         mPcId));
@@ -275,6 +261,7 @@ public class FragmentMenuItems extends Fragment {
                                         categoryForm.setCategory_Name(jsonObject3.getString("Category_Name"));
                                         categoryForm.setC_Image_Name(jsonObject3.getString("C_Image_Name"));
                                         categoryForm.setPc_Id(jsonObject2.getInt("Pc_Id"));
+                                        categoryForm.setDefault_image(jsonObject2.getString("Default_Img"));
                                         fragmentCategoryModelArrayList.add(categoryForm);
 
                                     }
@@ -340,7 +327,7 @@ public class FragmentMenuItems extends Fragment {
             Log.e("Result for image", imageName);
 
             Picasso.with(dialoglayout.getContext())
-                    .load(imageName)
+                    .load(apiService.BASE_URL+imageName)
                     .resize(500, 500)
                     .into(mCircleImageView);
         }

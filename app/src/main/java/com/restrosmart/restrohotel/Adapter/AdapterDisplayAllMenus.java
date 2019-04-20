@@ -8,9 +8,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
-import android.text.SpannableString;
-import android.text.style.ImageSpan;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +20,7 @@ import android.widget.TextView;
 
 import com.restrosmart.restrohotel.Admin.ActivityAddNewMenu;
 import com.restrosmart.restrohotel.Admin.ActivityFlavour;
+import com.restrosmart.restrohotel.Interfaces.ApiService;
 import com.restrosmart.restrohotel.Interfaces.PositionListener;
 import com.restrosmart.restrohotel.Interfaces.DeleteListener;
 import com.restrosmart.restrohotel.Interfaces.EditListener;
@@ -57,6 +57,8 @@ public class AdapterDisplayAllMenus extends RecyclerView.Adapter<AdapterDisplayA
     private ImageButton imageBtnCancel;
 
     private  ArrayList<ToppingsForm> arrayListToppings;
+    Menu item;
+    private ApiService apiService;
 
 
 
@@ -83,7 +85,7 @@ public class AdapterDisplayAllMenus extends RecyclerView.Adapter<AdapterDisplayA
     @Override
     public void onBindViewHolder(@NonNull final AdapterDisplayAllMenus.MyHolder holder, final int position) {
 
-        Picasso.with(context).load(arrayListMenu.get(position).getMenu_Image_Name())
+        Picasso.with(context).load(apiService.BASE_URL+arrayListMenu.get(position).getMenu_Image_Name())
                 .memoryPolicy(MemoryPolicy.NO_CACHE)
                 .memoryPolicy(MemoryPolicy.NO_STORE)
                 .into(holder.image);
@@ -117,13 +119,6 @@ public class AdapterDisplayAllMenus extends RecyclerView.Adapter<AdapterDisplayA
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, ActivityFlavour.class);
-
-                    String menuname = arrayListMenu.get(position).getMenu_Name();
-                    int menuId = arrayListMenu.get(position).getMenu_Id();
-                    int PcId = pcId;
-                    int cateId = arrayListMenu.get(position).getCategory_Id();
-
-
                     intent.putExtra("menuName", arrayListMenu.get(position).getMenu_Name());
                     intent.putExtra("menuId", arrayListMenu.get(position).getMenu_Id());
                     intent.putExtra("pcId", pcId);
@@ -138,49 +133,7 @@ public class AdapterDisplayAllMenus extends RecyclerView.Adapter<AdapterDisplayA
             holder.llMenu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    LayoutInflater li = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-                    dialoglayout = li.inflate(R.layout.dialog_menu_display, null);
-                    final AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setView(dialoglayout);
-                    dialog = builder.create();
-                   mCircularImageView=dialoglayout.findViewById(R.id.img_menu);
-                    menuName=dialoglayout.findViewById(R.id.tv_menu_name);
-                    menuPrice=dialoglayout.findViewById(R.id.tv_menu_price);
-                    FlowTextView menuDiscription=dialoglayout.findViewById(R.id.tv_menu_discription);
-                    rvTopping=dialoglayout.findViewById(R.id.rv_menu_toppings);
-                    imageBtnCancel=dialoglayout.findViewById(R.id.btn_cancel);
-
-                    menuName.setText(arrayListMenu.get(position).getMenu_Name());
-                    String price = String.valueOf(arrayListMenu.get(position).getNon_Ac_Rate());
-                   // menuPrice.setText(arrayListMenu.get(position).getNon_Ac_Rate());
-                    menuPrice.setText("\u20B9 "+price);
-
-                    //ImageSpan is = new ImageSpan(context.dialoglayout, R.drawable.bottle1);
-                  //  SpannableString spannableString=new SpannableString(arrayListMenu.get(position).getMenu_Descrip());
-                  //  spannableString.setSpan(mCircularImageView, 0, 10, 0);
-                    menuDiscription.setText(arrayListMenu.get(position).getMenu_Descrip());
-                   // menuDiscription.setText(arrayListMenu.get(position).getMenu_Descrip());
-
-                   Picasso.with(context).load(arrayListMenu.get(position).getMenu_Image_Name())
-                            .memoryPolicy(MemoryPolicy.NO_CACHE)
-                            .memoryPolicy(MemoryPolicy.NO_STORE)
-                            .into(mCircularImageView);
-
-                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
-                    rvTopping.setHasFixedSize(true);
-                    rvTopping.setLayoutManager(linearLayoutManager);
-
-                    AdapterDisplayAllMenusView adapterDisplayAllMenusView = new AdapterDisplayAllMenusView(context, arrayListMenu.get(position).getArrayListtoppings());
-                    rvTopping.setAdapter(adapterDisplayAllMenusView);
-                    dialog.show();
-                    notifyDataSetChanged();
-                    imageBtnCancel.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            dialog.dismiss();
-                        }
-                    });
+                    viewMenuInfo(position);
 
                 }
             });
@@ -193,39 +146,47 @@ public class AdapterDisplayAllMenus extends RecyclerView.Adapter<AdapterDisplayA
                 //creating a popup menu
                 PopupMenu popup = new PopupMenu(context, holder.mMenuOption);
                 //inflating menu from xml resource
-                popup.inflate(R.menu.options_menu);
-                //adding click listener
-                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.menu_edit:
-                                //handle menu1 click
-                                Intent intent=new Intent(context, ActivityAddNewMenu.class);
-                                intent.putExtra("MenuId",arrayListMenu.get(position).getMenu_Id());
-                                intent.putExtra("ImageName",arrayListMenu.get(position).getMenu_Image_Name());
-                                intent.putExtra("MenuName",arrayListMenu.get(position).getMenu_Name());
-                                intent.putExtra("Price",arrayListMenu.get(position).getNon_Ac_Rate());
-                                intent.putExtra("MenuDiscription",arrayListMenu.get(position).getMenu_Descrip());
-                                intent.putExtra("MenuTaste",arrayListMenu.get(position).getMenu_Test());
-                                intent.putParcelableArrayListExtra("ArrayListToppings",arrayListMenu.get(position).getArrayListtoppings());
+                if (pcId == 3) {
+                    popup.inflate(R.menu.option_menu_liquors);
+
+                } else {
+                    popup.inflate(R.menu.options_menu);
+                }
+                    //adding click listener
+                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+
+                            switch (item.getItemId()) {
+                                case R.id.menu_edit:
+                                    //handle menu1 click
+                                    Intent intent = new Intent(context, ActivityAddNewMenu.class);
+                                    intent.putExtra("MenuId", arrayListMenu.get(position).getMenu_Id());
+                                    intent.putExtra("ImageName", arrayListMenu.get(position).getMenu_Image_Name());
+                                    intent.putExtra("MenuName", arrayListMenu.get(position).getMenu_Name());
+                                    intent.putExtra("Price", arrayListMenu.get(position).getNon_Ac_Rate());
+                                    intent.putExtra("MenuDiscription", arrayListMenu.get(position).getMenu_Descrip());
+                                    intent.putExtra("MenuTaste", arrayListMenu.get(position).getMenu_Test());
+                                    intent.putExtra("categoryId",arrayListMenu.get(position).getCategory_Id());
+                                    intent.putExtra("pc_Id",pcId);
+                                    intent.putParcelableArrayListExtra("ArrayListToppings", arrayListMenu.get(position).getArrayListtoppings());
 
 
-                                context.startActivity(intent);
-                                return true;
+                                    context.startActivity(intent);
+                                    return true;
 
-                            case R.id.menu_delete:
-                                //handle menu2 click
-                                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                                builder
-                                        .setTitle("Delete Menu")
-                                        .setMessage("Are you sure you want to delete this Menu ?")
-                                        .setIcon(R.drawable.ic_action_btn_delete)
-                                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                deleteResult.getDeleteListenerPosition(position);
+                                case R.id.menu_delete:
+                                    //handle menu2 click
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                                    builder
+                                            .setTitle("Delete Menu")
+                                            .setMessage("Are you sure you want to delete this Menu ?")
+                                            .setIcon(R.drawable.ic_action_btn_delete)
+                                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    deleteResult.getDeleteListenerPosition(position);
 
-                                            }
+                                                }
 
                                            /* private void removeMenu(int menu_id) {
 
@@ -238,130 +199,75 @@ public class AdapterDisplayAllMenus extends RecyclerView.Adapter<AdapterDisplayA
                                                 ));*/
 
 
-                                        });
+                                            });
 
 
-                                builder.setNegativeButton("No",new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                    }
-                                });
+                                    builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    });
 
-                                AlertDialog alert = builder.create();
-                                alert.show();
+                                    AlertDialog alert = builder.create();
+                                    alert.show();
 
-                                return true;
-                            default:
-                                return false;
+                                    return true;
+
+                                case R.id.menu_view:
+                                    viewMenuInfo(position);
+                                    return  true;
+                                default:
+                                    return false;
+
+                            }
 
                         }
-
-                    }
-                });
-                //displaying the popup
-                popup.show();
-
+                    });
+                    //displaying the popup
+                    popup.show();
             }
-
 
         });
+    }
 
+    private void viewMenuInfo(int position) {
+        LayoutInflater li = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        dialoglayout = li.inflate(R.layout.dialog_menu_display, null);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setView(dialoglayout);
+        dialog = builder.create();
+        mCircularImageView=dialoglayout.findViewById(R.id.img_menu);
+        menuName=dialoglayout.findViewById(R.id.tv_menu_name);
+        menuPrice=dialoglayout.findViewById(R.id.tv_menu_price);
+        FlowTextView menuDiscription=dialoglayout.findViewById(R.id.tv_menu_discription);
+        rvTopping=dialoglayout.findViewById(R.id.rv_menu_toppings);
+        imageBtnCancel=dialoglayout.findViewById(R.id.btn_cancel);
 
-        /*holder.btnDelete.setOnClickListener(new View.OnClickListener() {
-                                                @Override
-                                                public void onClick(View v) {
+        menuName.setText(arrayListMenu.get(position).getMenu_Name());
+        String price = String.valueOf(arrayListMenu.get(position).getNon_Ac_Rate());
+        menuPrice.setText("\u20B9 "+price);
 
-                                                    // final int pos = position;
-                                                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                                                    builder
-                                                            .setTitle("Delete Menu")
-                                                            .setMessage("Are you sure you want to delete this Menu ?")
-                                                            .setIcon(R.drawable.ic_action_btn_delete)
-                                                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                                                public void onClick(DialogInterface dialog, int which) {
-                                                                    removeMenu(arrayListMenu.get(position).getMenu_Id());
+        menuDiscription.setText(arrayListMenu.get(position).getMenu_Descrip());
+        Picasso.with(context).load(apiService.BASE_URL+arrayListMenu.get(position).getMenu_Image_Name())
+                .memoryPolicy(MemoryPolicy.NO_CACHE)
+                .memoryPolicy(MemoryPolicy.NO_STORE)
+                .into(mCircularImageView);
 
-                                                                }
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
+        rvTopping.setHasFixedSize(true);
+        rvTopping.setLayoutManager(linearLayoutManager);
 
-                                                                private void removeMenu(int menu_id) {
-
-                                                                    initRetrofitCallback();
-                                                                    ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
-                                                                    mRetrofitService = new RetrofitService(mResultCallBack,context);
-                                                                    mRetrofitService.retrofitData(MENU_DELETE,(service.getMenuDelete(menu_id,
-                                                                           Integer.parseInt ( mHotelId),
-                                                                            Integer.parseInt(mBranchId))
-                                                                           ));
-
-                                                                }
-
-                                                                private void initRetrofitCallback() {
-                                                                    mResultCallBack = new IResult() {
-                                                                        @Override
-                                                                        public void notifySuccess(int requestId, Response<JsonObject> response) {
-                                                                            JsonObject jsonObject=response.body();
-
-                                                                            String value=jsonObject.toString();
-
-                                                                            try {
-                                                                                JSONObject object=new JSONObject(value);
-                                                                                int status=object.getInt("status");
-                                                                                if(status==1)
-                                                                                {
-                                                                                    Toast.makeText(context,"Menu Deleted Successfully",Toast.LENGTH_LONG).show();
-                                                                                    notifyItemRemoved(position);
-                                                                                    notifyItemRangeChanged(position, arrayListMenu.size());
-                                                                                    notifyDataSetChanged();
-                                                                                    deleteResult.getDeleteInfoCallBack();
-
-
-                                                                                }
-                                                                            } catch (JSONException e) {
-                                                                                e.printStackTrace();
-                                                                            }
-
-
-                                                                        }
-
-                                                                        @Override
-                                                                        public void notifyError(int requestId, Throwable error) {
-
-                                                                        }
-                                                                    };
-                                                                }
-
-                                                            });
-                                                    builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                                        public void onClick(DialogInterface dialog, int which) {
-                                                            dialog.dismiss();
-                                                        }
-                                                    });
-                                                    AlertDialog alert = builder.create();
-                                                    alert.show();
-
-
-                                                }
-
-                                            }
-        );*/
-
-
-
-      /*  holder.btnEdit.setOnClickListener(new View.OnClickListener() {
+        AdapterDisplayAllMenusView adapterDisplayAllMenusView = new AdapterDisplayAllMenusView(context, arrayListMenu.get(position).getArrayListtoppings());
+        rvTopping.setAdapter(adapterDisplayAllMenusView);
+        dialog.show();
+        notifyDataSetChanged();
+        imageBtnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                resultPosition.positionListern(position);
-
-               *//*  Intent intent=new Intent(context,AddMenu.class);
-                 intent.putExtra("menuId",arrayListMenu.get(position).getMenu_Id());
-                intent.putExtra("menuName",arrayListMenu.get(position).getMenu_Name());
-                intent.putExtra("menuAcRate",arrayListMenu.get(position).getAc_Rate());
-                intent.putExtra("menuNonAcRate",arrayListMenu.get(position).getNon_Ac_Rate());
-                intent.putExtra("menuDiscription",arrayListMenu.get(position).getMenu_Descrip());
-                intent.putExtra("menuImage",arrayListMenu.get(position).getMenu_Image_Name());
-                context.startActivity(intent);*//*
+            public void onClick(View view) {
+                dialog.dismiss();
             }
-        });*/
+        });
+
     }
 
     @Override
@@ -373,7 +279,6 @@ public class AdapterDisplayAllMenus extends RecyclerView.Adapter<AdapterDisplayA
     public class MyHolder extends RecyclerView.ViewHolder {
 
         TextView mMenuName, mMenuDisp, mMenuTeste, mMenuOption;
-        // ImageButton btnEdit,btnDelete;
         private CircleImageView image;
         private ImageView img_spicy;
         private LinearLayout llMenu;
@@ -387,11 +292,8 @@ public class AdapterDisplayAllMenus extends RecyclerView.Adapter<AdapterDisplayA
             mMenuDisp = itemView.findViewById(R.id.tx_menu_disp);
             mMenuOption = itemView.findViewById(R.id.textViewOptions);
             llMenu = itemView.findViewById(R.id.llMenu);
-            // btnEdit=(ImageButton)itemView.findViewById(R.id.edit_button);
-            //  btnDelete=(ImageButton)itemView.findViewById(R.id.delete_button);
             mMenuTeste = itemView.findViewById(R.id.menu_test);
             img_spicy = itemView.findViewById(R.id.img_spicy);
-            // frameLayout=itemView.findViewById(R.id.frame_layout);
 
 
         }

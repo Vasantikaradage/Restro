@@ -9,12 +9,9 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,15 +55,8 @@ public class ActivityMenu extends AppCompatActivity implements View.OnClickListe
     private int Category_Id, pcId,mHotelId,mBranchId,position,menu_test;
     private FrameLayout btnAddMenu;
     private TextView txTitle;
-    private EditText etxMenuNme, etxMenuPrice, etxMenuDiscrp;
-
-    private String categoryName, image, imageName, mFinalImageName;
-
+    private String categoryName , imageName;
     private AlertDialog dialog;
-
-    private  RadioButton btnRadiosweet,btnRadiospicy,btnRadionull;
-    private  RadioGroup radioGrpMenu;
-
     private RetrofitService mRetrofitService;
     private IResult mResultCallBack;
 
@@ -102,7 +92,7 @@ public class ActivityMenu extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(View view) {
                 Intent intent1=new Intent(ActivityMenu.this,ActivityAddNewMenu.class);
-                intent1.putExtra("pcId",pcId);
+                intent1.putExtra("pc_Id",pcId);
                 intent1.putExtra("categoryId",Category_Id);
                 startActivity(intent1);
             }
@@ -129,219 +119,9 @@ public class ActivityMenu extends AppCompatActivity implements View.OnClickListe
 
     //Add menu  and edit menu Information
     private void AddMenuInfo() {
-
         Intent intent=new Intent(ActivityMenu.this,ActivityAddMenu.class);
         startActivity(intent);
-
-      /*  LayoutInflater li = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        dialoglayout = li.inflate(R.layout.activity_add_new_menu, null);
-        final AlertDialog.Builder builder = new AlertDialog.Builder(ActivityMenu.this);
-        builder.setView(dialoglayout);
-
-        dialog = builder.create();
-
-        FrameLayout btnCamara = (FrameLayout) dialoglayout.findViewById(R.id.iv_select_image);
-
-        etxMenuNme = dialoglayout.findViewById(R.id.etx_menu_name);
-        etxMenuPrice = dialoglayout.findViewById(R.id.etx_menu_price);
-        etxMenuDiscrp = dialoglayout.findViewById(R.id.etx_menu_discp);
-        Button btnCancel = dialoglayout.findViewById(R.id.btnCancel);
-        Button btnSave = dialoglayout.findViewById(R.id.btnSave);
-        Button btnUpadte = dialoglayout.findViewById(R.id.btnUpdate);
-        TextView txTitle = dialoglayout.findViewById(R.id.tx_add_menu);
-        TextView etxTitle = dialoglayout.findViewById(R.id.tx_edit_menu);
-
-        mCircleImageView = (CircleImageView) dialoglayout.findViewById(R.id.img_category);
-        radioGrpMenu = (RadioGroup) dialoglayout.findViewById(R.id.radio_grp_menu);
-        btnRadiosweet = (RadioButton) dialoglayout.findViewById(R.id.btn_radio_sweet);
-        btnRadiospicy = (RadioButton) dialoglayout.findViewById(R.id.btn_radio_spicy);
-        btnRadionull = (RadioButton) dialoglayout.findViewById(R.id.btn_radio_null);
-
-        //Add Menu information
-        if (position == 0) {
-            txTitle.setVisibility(View.VISIBLE);
-            etxTitle.setVisibility(View.GONE);
-
-            btnCamara.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(ActivityMenu.this, ActivityMenuGallery.class);
-                    intent.putExtra("Category_Id", Category_Id);
-                    intent.putExtra("Pc_Id", pcId);
-                    startActivityForResult(intent, IMAGE_RESULT_OK);
-                }
-            });
-
-
-            radioGrpMenu.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                public void onCheckedChanged(RadioGroup group, int checkedId) {
-                    switch (checkedId) {
-
-                        case R.id.btn_radio_sweet:
-                            menu_test=1;
-                            break;
-                        case R.id.btn_radio_spicy:
-                            menu_test=2;
-                            break;
-                        case R.id.btn_radio_null:
-                            menu_test=3;
-                            break;
-                    }
-                }
-            });
-
-
-            btnSave.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (imageName != null) {
-                        String selImage = imageName;
-                        int start = selImage.indexOf("t/");
-                        String suffix = selImage.substring(start + 1);
-                        int start1 = suffix.indexOf("/");
-                        mFinalImageName = suffix.substring(start1 + 1);
-                    } else {
-                        mFinalImageName = "null";
-                    }
-                    getRetrofitDataforMenusave();
-                }
-
-                private void getRetrofitDataforMenusave() {
-
-                    initRetrofitCallback();
-                    ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
-                    //  mRetrofitService = new RetrofitService(mResultCallBack, getActivity());
-                    mRetrofitService = new RetrofitService(mResultCallBack, ActivityMenu.this);
-                    mRetrofitService.retrofitData(ADD_MENU, (service.getMenuAdd(etxMenuNme.getText().toString(),
-                            etxMenuDiscrp.getText().toString(),
-                            mFinalImageName,
-                            Category_Id,
-                            menu_test,
-                            etxMenuPrice.getText().toString(),
-                           mHotelId,
-                           mBranchId,
-                            pcId)));
-
-                    init();
-                    dialog.dismiss();
-                }
-            });
-        }
-        //edit menu Information
-        else {
-            etxTitle.setVisibility(View.VISIBLE);
-            txTitle.setVisibility(View.GONE);
-
-            btnUpadte.setVisibility(View.VISIBLE);
-            btnSave.setVisibility(View.GONE);
-
-            String cName = arrayListMenu.get(position - 1).getMenu_Name();
-            String cPrice = String.valueOf(arrayListMenu.get(position - 1).getNon_Ac_Rate());
-            String cDisp = arrayListMenu.get(position - 1).getMenu_Descrip();
-            image = arrayListMenu.get(position - 1).getMenu_Image_Name();
-            int mTeste = (arrayListMenu.get(position - 1).getMenu_Test());
-
-            etxMenuNme.setText(cName);
-            etxMenuPrice.setText(cPrice);
-            etxMenuDiscrp.setText(cDisp);
-
-            if (mTeste == 1) {
-                btnRadiosweet.setChecked(true);
-                menu_test = 1;
-            } else if (mTeste == 2) {
-                btnRadiospicy.setChecked(true);
-                menu_test = 2;
-
-            } else {
-                btnRadionull.setChecked(true);
-                menu_test = 3;
-            }
-
-
-            Picasso.with(dialoglayout.getContext())
-                    .load(image)
-                    .resize(500, 500)
-                    .into(mCircleImageView);
-
-            btnCamara.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(ActivityMenu.this, ActivityMenuGallery.class);
-                    intent.putExtra("Category_Id", Category_Id);
-                    intent.putExtra("Pc_Id", pcId);
-                    startActivityForResult(intent, IMAGE_RESULT_OK);
-                }
-            });
-
-            radioGrpMenu.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                public void onCheckedChanged(RadioGroup group, int checkedId) {
-                    switch (checkedId) {
-                        case R.id.btn_radio_sweet:
-                            menu_test = 1;
-                            break;
-                        case R.id.btn_radio_spicy:
-                            menu_test = 2;
-                            break;
-                        case R.id.btn_radio_null:
-                            menu_test = 3;
-                            break;
-                    }
-                }
-            });
-        }
-
-
-        //edit menu btn
-        btnUpadte.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                int start, start1 = 0;
-                String suffix = null;
-                if (imageName == null) {
-                    Picasso.with(dialoglayout.getContext())
-                            .load(image)
-                            .resize(500, 500)
-                            .into(mCircleImageView);
-                    start = image.indexOf("t/");
-                    suffix = image.substring(start + 1);
-                    start1 = suffix.indexOf("/");
-                    mFinalImageName = suffix.substring(start1 + 1);
-                } else {
-                    String selImage = imageName;
-                    int start2 = selImage.indexOf("t/");
-                    String suffix1 = selImage.substring(start2 + 1);
-                    int start3 = suffix1.indexOf("/");
-                    mFinalImageName = suffix1.substring(start3 + 1);
-                }
-
-
-                initRetrofitCallback();
-                ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
-                mRetrofitService = new RetrofitService(mResultCallBack, ActivityMenu.this);
-                mRetrofitService.retrofitData(EDIT_MENU, (service.editMenu(etxMenuNme.getText().toString(),
-                        etxMenuDiscrp.getText().toString(),
-                        mFinalImageName,
-                        menu_test,
-                        etxMenuPrice.getText().toString(),
-                        arrayListMenu.get(position - 1).getMenu_Id(),
-                        mHotelId,
-                        mBranchId)));
-                dialog.dismiss();
-
-            }
-        });
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-
-            }
-
-
-        });
-        dialog.show();
-*/    }
+    }
 
 
     @Override
@@ -349,10 +129,6 @@ public class ActivityMenu extends AppCompatActivity implements View.OnClickListe
         super.onResume();
         MenuListRetrofitServiceCall();
     }
-
-
-
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

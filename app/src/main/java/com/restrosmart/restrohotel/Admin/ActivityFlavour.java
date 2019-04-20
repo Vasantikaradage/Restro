@@ -18,7 +18,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -30,6 +29,8 @@ import com.google.gson.JsonObject;
 import com.restrosmart.restrohotel.Adapter.AdapterDisplayFlavour;
 import com.restrosmart.restrohotel.Interfaces.ApiService;
 
+import com.restrosmart.restrohotel.Interfaces.DeleteListener;
+import com.restrosmart.restrohotel.Interfaces.EditListener;
 import com.restrosmart.restrohotel.Interfaces.IResult;
 
 import com.restrosmart.restrohotel.Model.FlavourForm;
@@ -83,6 +84,7 @@ public class ActivityFlavour extends AppCompatActivity {
     private CircleImageView circleImageView;
     private Toolbar mTopToolbar;
     private Intent intent;
+    private  ImageButton imageButton;
 
 
     @Override
@@ -129,7 +131,7 @@ public class ActivityFlavour extends AppCompatActivity {
                 tableRow = new TableRow(ActivityFlavour.this);
                 dialog.show();
 
-                callTableLayout();
+               // callTableLayout();
                 btnCamera.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -151,6 +153,13 @@ public class ActivityFlavour extends AppCompatActivity {
                 tvAddUnit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        /*imageButton = new ImageButton(ActivityFlavour.this);
+                        imageButton.setPadding(10, 10, 20, 10);
+                        imageButton.setBackground(getResources().getDrawable(R.drawable.ic_action_cancel));
+                        tableRow.addView(imageButton);
+                        tableLayout.addView(tableRow);*/
+
+
                         callTableLayout();
                     }
                 });
@@ -216,6 +225,7 @@ public class ActivityFlavour extends AppCompatActivity {
             private void callTableLayout() {
                 tableLayout = (TableLayout) dialoglayout.findViewById(R.id.tableLayout1);
                 tableRow = new TableRow(ActivityFlavour.this);
+                Toast.makeText(ActivityFlavour.this,"table id"+ tableRow.getChildCount(),Toast.LENGTH_LONG).show();
 
                 tv0 = new EditText(ActivityFlavour.this);
                 arrayListUnitName.add(tv0);
@@ -235,9 +245,9 @@ public class ActivityFlavour extends AppCompatActivity {
                 //  tv1.setBackground(getResources().getDrawable(R.drawable.button_outline_dark_unit));
                 tableRow.addView(tv1);
 
-                ImageButton imageButton = new ImageButton(ActivityFlavour.this);
+                imageButton = new ImageButton(ActivityFlavour.this);
                 imageButton.setPadding(10, 10, 20, 10);
-                imageButton.setBackground(getResources().getDrawable(R.drawable.ic_action_cancel));
+                imageButton.setBackground(getResources().getDrawable(R.drawable.ic_cancel_background_primary));
                 tableRow.addView(imageButton);
                 tableLayout.addView(tableRow);
             }
@@ -363,7 +373,17 @@ public class ActivityFlavour extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(linearLayoutManager);
-        AdapterDisplayFlavour adapterDisplayFlavour = new AdapterDisplayFlavour(this, arrayListFlavour, arrayListflavourUnit);
+        AdapterDisplayFlavour adapterDisplayFlavour = new AdapterDisplayFlavour(this, arrayListFlavour, arrayListflavourUnit, new EditListener() {
+            @Override
+            public void getEditListenerPosition(int position) {
+
+            }
+        }, new DeleteListener() {
+            @Override
+            public void getDeleteListenerPosition(int position) {
+
+            }
+        });
         recyclerView.setAdapter(adapterDisplayFlavour);
     }
 

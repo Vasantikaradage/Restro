@@ -14,17 +14,19 @@ public class CategoryForm implements Parcelable {
     private  int Hotel_Id;
     private  int Branch_Id;
     private  int Pc_Id;
+    private  String default_image;
 
     public CategoryForm() {
     }
 
-    public CategoryForm(int category_id, String category_Name, String c_Image_Name, int hotel_Id, int branch_Id, int pc_Id) {
+    public CategoryForm(int category_id, String category_Name, String c_Image_Name, int hotel_Id, int branch_Id, int pc_Id,String default_image) {
         Category_id = category_id;
         Category_Name = category_Name;
         C_Image_Name = c_Image_Name;
         Hotel_Id = hotel_Id;
         Branch_Id = branch_Id;
         Pc_Id = pc_Id;
+        default_image=default_image;
     }
 
     protected CategoryForm(Parcel in) {
@@ -34,6 +36,7 @@ public class CategoryForm implements Parcelable {
         Hotel_Id = in.readInt();
         Branch_Id = in.readInt();
         Pc_Id = in.readInt();
+        default_image=in.readString();
     }
 
     public static final Creator<CategoryForm> CREATOR = new Creator<CategoryForm>() {
@@ -97,6 +100,14 @@ public class CategoryForm implements Parcelable {
         Pc_Id = pc_Id;
     }
 
+    public String getDefault_image() {
+        return default_image;
+    }
+
+    public void setDefault_image(String default_image) {
+        this.default_image = default_image;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -110,6 +121,7 @@ public class CategoryForm implements Parcelable {
         dest.writeInt(Hotel_Id);
         dest.writeInt(Branch_Id);
         dest.writeInt(Pc_Id);
+        dest.writeString(default_image);
     }
 
     @Override

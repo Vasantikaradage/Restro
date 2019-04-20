@@ -18,6 +18,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.restrosmart.restrohotel.Admin.ActivityMenu;
+import com.restrosmart.restrohotel.Interfaces.ApiService;
 import com.restrosmart.restrohotel.Interfaces.DeleteListener;
 import com.restrosmart.restrohotel.Interfaces.EditListener;
 import com.restrosmart.restrohotel.Model.CategoryForm;
@@ -27,7 +28,6 @@ import com.squareup.picasso.Transformation;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -39,6 +39,7 @@ public class AdapterDisplayAllCategory extends RecyclerView.Adapter<AdapterDispl
     private List<CategoryForm> arrayList;
     private EditListener editListener;
     private DeleteListener deleteListener;
+    private ApiService apiService;
 
 
     public AdapterDisplayAllCategory(Context activity, ArrayList<CategoryForm> arrayList, DeleteListener deleteListener, EditListener editListener) {
@@ -57,40 +58,42 @@ public class AdapterDisplayAllCategory extends RecyclerView.Adapter<AdapterDispl
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull MyHolder holder,  int position) {
         holder.tx_name.setText(arrayList.get(position).getCategory_Name());
 
 
         String image = arrayList.get(position).getC_Image_Name();
         Log.d("", "vasantiimage" + image);
 
-        if ((image.equals("http://192.168.0.6/Restro_Smart/null") && (arrayList.get(position).getPc_Id() == 1))) {
+        // .load(apiService.BASE_URL+"def_veg.png")
+
+        if ((arrayList.get(position).getC_Image_Name().equalsIgnoreCase("null") && (arrayList.get(position).getPc_Id() == 1))) {
             Picasso.with(context)
-                    .load("http://192.168.0.6/Restro_Smart/category/def_veg.png")
+                    .load(apiService.BASE_URL+arrayList.get(position).getDefault_image())
                     .transform(new CircleTransform())
                     .into(holder.circleImageView);
 
-        } else if ((image.equals("http://192.168.0.6/Restro_Smart/null") && (arrayList.get(position).getPc_Id() == 2))) {
+        } else if ((image.equals("null") && (arrayList.get(position).getPc_Id() == 2))) {
             Picasso.with(context)
-                    .load("http://192.168.0.6/Restro_Smart/category/def_non_veg.png")
+                    .load(apiService.BASE_URL+arrayList.get(position).getDefault_image())
                     .transform(new CircleTransform())
                     .into(holder.circleImageView);
 
-        } else if ((image.equals("http://192.168.0.6/Restro_Smart/null") && (arrayList.get(position).getPc_Id() == 3))) {
+        } else if ((image.equals("null") && (arrayList.get(position).getPc_Id() == 3))) {
             Picasso.with(context)
-                    .load("http://192.168.0.6/Restro_Smart/category/def_liq.png")
+                    .load(apiService.BASE_URL+arrayList.get(position).getDefault_image())
                     .transform(new CircleTransform())
                     .into(holder.circleImageView);
 
-        } else if ((image.equals("http://192.168.0.6/Restro_Smart/null") && (arrayList.get(position).getPc_Id() == 4))) {
+        } else if ((image.equals("null") && (arrayList.get(position).getPc_Id() == 4))) {
             Picasso.with(context)
-                    .load("http://192.168.0.6/Restro_Smart/category/def_dessert.png")
+                    .load(apiService.BASE_URL+arrayList.get(position).getDefault_image())
                     .transform(new CircleTransform())
                     .into(holder.circleImageView);
 
         } else {
             Picasso.with(context)
-                    .load(image)
+                    .load(apiService.BASE_URL+image)
                     .transform(new CircleTransform())
                     .into(holder.circleImageView);
         }
@@ -101,11 +104,11 @@ public class AdapterDisplayAllCategory extends RecyclerView.Adapter<AdapterDispl
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder
                         .setTitle("Delete PositionListener")
-                        .setMessage("Are you sure you want to delete this PositionListener ?")
+                        .setMessage("Are you sure you want to delete this category ?")
                         .setIcon(R.drawable.ic_action_btn_delete)
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                deleteListener.getDeleteListenerPosition(position);
+                              // deleteListener.getDeleteListenerPosition(position);
 
                             }
                         });
@@ -123,7 +126,7 @@ public class AdapterDisplayAllCategory extends RecyclerView.Adapter<AdapterDispl
         holder.imgBtnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editListener.getEditListenerPosition(position);
+               // editListener.getEditListenerPosition(position);
 
             }
         });
@@ -180,7 +183,6 @@ public class AdapterDisplayAllCategory extends RecyclerView.Adapter<AdapterDispl
 
             circleImageView = (CircleImageView) itemView.findViewById(R.id.circle_image);
             tx_name = (TextView) itemView.findViewById(R.id.tv_category_name);
-            //btnCategory=itemView.findViewById(R.id.btnCategoryBg);
             imgBtnEdit = itemView.findViewById(R.id.btn_edit_button);
             imagBtnDelete = itemView.findViewById(R.id.btn_delete_button);
 

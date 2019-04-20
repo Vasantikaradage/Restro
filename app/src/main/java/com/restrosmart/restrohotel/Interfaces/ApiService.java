@@ -352,17 +352,17 @@ public interface ApiService {
     /*edit menu*/
     @POST("Menu.php?menu=menu_edit")
     @FormUrlEncoded
-    Call<JsonObject> editMenu(@Field("Menu_Name") String menuName,
+    Call<JsonObject> editMenu(@Field("New_Mname") String menuName,
                               @Field("Menu_Descrip") String menuDiscription,
                               @Field("Menu_Image_Name") String menuImageName,
                               @Field("Menu_Test") int menu_test,
-                              @Field("Non_Ac_Rate") String nonAcRate,
+                              @Field("Non_Ac_Rate") int nonAcRate,
                               @Field("Menu_Id") int menuId,
                               @Field("Hotel_Id") int Hotel_Id,
                               @Field("Branch_Id") int Branch_Id,
                               @Field("Category_Id") int categoryId,
                               @Field("Pc_Id") int pcId,
-                              @Field("topparraylist") String toppingList);
+                              @Field("topparray") String toppingList);
 
 
     /*offer display*/

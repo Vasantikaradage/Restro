@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.restrosmart.restrohotel.Interfaces.ApiService;
 import com.restrosmart.restrohotel.Interfaces.PositionListener;
 import com.restrosmart.restrohotel.Model.ImageForm;
 import com.restrosmart.restrohotel.R;
@@ -25,6 +26,7 @@ public class RVVImageAdapter extends RecyclerView.Adapter<RVVImageAdapter.ViewHo
     ArrayList<ImageForm> imageArrayList;
     PositionListener positionListener;
     String lastpos=null;
+    ApiService apiService;
 
     String mImage;
 
@@ -49,16 +51,16 @@ public class RVVImageAdapter extends RecyclerView.Adapter<RVVImageAdapter.ViewHo
         if (mImage != null) {
 
             if (mImage.equals(imageArrayList.get(position).getImage())) {
-                Picasso.with(context).load(mImage).resize(500, 500).into(holder.imageView);
+                Picasso.with(context).load(apiService.BASE_URL+mImage).resize(500, 500).into(holder.imageView);
                 Resources resources = context.getResources();
                 holder.imageView.setBackgroundColor(resources.getColor(R.color.blue_btn_bg_color));
                 // positionListener.positionListern(position);
             } else {
-                Picasso.with(context).load(imageArrayList.get(position).getImage()).resize(500, 500).into(holder.imageView);
+                Picasso.with(context).load(apiService.BASE_URL+imageArrayList.get(position).getImage()).resize(500, 500).into(holder.imageView);
             }
 
         } else {
-            Picasso.with(context).load(imageArrayList.get(position).getImage()).resize(500, 500).into(holder.imageView);
+            Picasso.with(context).load(apiService.BASE_URL+imageArrayList.get(position).getImage()).resize(500, 500).into(holder.imageView);
 
 
         }
@@ -82,30 +84,18 @@ public class RVVImageAdapter extends RecyclerView.Adapter<RVVImageAdapter.ViewHo
 
         Resources resources = context.getResources();
         holder.imageView.setBackgroundColor(resources.getColor(R.color.colorGrey));
-
         lastpos= String.valueOf(position);
-
-
-
     }
-
-
-
 
     @Override
     public int getItemCount() {
         return imageArrayList.size();
     }
-
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
-
-
         public ViewHolder(View itemView) {
             super(itemView);
             imageView = (ImageView) itemView.findViewById(R.id.category_image);
         }
-
-
     }
 }

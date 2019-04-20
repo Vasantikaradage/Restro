@@ -1,15 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.restrosmart.restrohotel.Admin.SwipeRevealLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/swipeReveal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardUseCompatPadding="true">
+
+    <LinearLayout
+        android:id="@+id/linear_category"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/circle_image"
+            android:layout_width="62dp"
+            android:layout_height="62dp"
+            android:padding="5dp"
+            android:layout_margin="5dp"
+            android:src="@drawable/foodimg2" />
+
+
+        <LinearLayout
+            android:id="@+id/llflavour"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tx_flavour_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="13.4dp"
+                    android:text="Honey Chilli Potato"
+                    android:textColor="#262628"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <!--<ImageView
+                    android:id="@+id/img_spicy"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="6dp"
+                    android:src="@drawable/ic_spicy2"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/menu_test"
+                    android:layout_width="match_parent"
+                    android:layout_height="18dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="6dp"
+                    android:text="sweet"
+                    android:visibility="gone" />-->
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tx_flavour_disp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="13.4dp"
+                android:layout_marginTop="2dp"
+                android:singleLine="true"
+                android:ellipsize="marquee"
+                android:text="spicy garlic and cholli potatoes hot and mix combination."
+                android:textColor="@color/colorDarkGray"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textViewOptions"
+            android:layout_width="30dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/colorPrimary"
+            android:text="&#8942;"
+            android:textAppearance="?android:textAppearanceLarge" />
+    </LinearLayout>
+</android.support.v7.widget.CardView>
+
+
+    <!--
+     android:text="&#8942;"
+<com.restrosmart.restro.Admin.SwipeRevealLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="90dp"
     android:id="@+id/swipeLayout"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:dragFromEdge="right">
 
-
-
-
-    <FrameLayout
+  <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent">
         <LinearLayout
@@ -26,7 +114,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:background="@color/white"
-                app:srcCompat="@drawable/ic_action_btn_edit"
+                android:src="@drawable/ic_action_btn_edit"
                 android:text="Info"/>
 
             <ImageButton
@@ -34,16 +122,16 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:background="@color/white"
-                app:srcCompat="@drawable/ic_action_btn_delete"
+                android:src="@drawable/ic_action_btn_delete"
                 android:text="Edit"/>
 
         </LinearLayout>
     </FrameLayout>
 
-    <FrameLayout
+   <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/frame_layout"
+       android:id="@+id/frame_layout"
         android:clickable="true">
 
         <android.support.v7.widget.CardView
@@ -96,27 +184,27 @@
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal">
 
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
 
-                                    android:id="@+id/tx_flavour_name"
-                                    android:layout_marginLeft="13.4dp"
-                                    android:text="Honey Chilli Potato"
-                                    android:textColor="#262628"
-                                    android:textSize="18sp"
-                                    android:textStyle="bold" />
-                                <ImageView
-                                    android:id="@+id/img_spicy"
-                                    android:layout_width="18dp"
-                                    android:layout_height="18dp"
-                                    android:layout_gravity="center_vertical"
-                                    android:layout_marginLeft="6dp"
-                                    android:src="@drawable/ic_spicy2"
-                                    android:visibility="gone"/>
+                                android:id="@+id/tx_menu_name"
+                                android:layout_marginLeft="13.4dp"
+                                android:text="Honey Chilli Potato"
+                                android:textColor="#262628"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+                            <ImageView
+                                android:id="@+id/img_spicy"
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="6dp"
+                                android:src="@drawable/ic_spicy2"
+                                android:visibility="gone"/>
 
                                 <TextView
-                                    android:id="@+id/flavour_test"
+                                    android:id="@+id/menu_test"
                                     android:layout_width="match_parent"
                                     android:layout_height="18dp"
                                     android:layout_gravity="center_vertical"
@@ -139,7 +227,7 @@
                                 android:layout_marginLeft="13.4dp"
                                 android:layout_marginTop="2dp"
                                 android:text="spicy garlic and cholli potatoes hot and mix combination."
-                                />
+                               />
                         </LinearLayout>
 
 
@@ -154,6 +242,319 @@
         </android.support.v7.widget.CardView>
 
     </FrameLayout>
+</com.restrosmart.restro.Admin.SwipeRevealLayout>-->
+
+    <!--
+    <com.restrosmart.restro.Admin.SwipeRevealLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:id="@+id/swipeLayout"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        app:dragFromEdge="right">
+
+      <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|end"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/edit_button"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@color/white"
+                    android:src="@drawable/ic_action_btn_edit"
+                    android:text="Info"/>
+
+                <ImageButton
+                    android:id="@+id/delete_button"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@color/white"
+                    android:src="@drawable/ic_action_btn_delete"
+                    android:text="Edit"/>
+
+            </LinearLayout>
+        </FrameLayout>
+
+       <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+           android:id="@+id/frame_layout"
+            android:clickable="true">
+
+            <android.support.v7.widget.CardView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                app:cardElevation="5dp"
+                app:cardCornerRadius="8dp"
+                android:layout_margin="5dp"
+                android:visibility="visible">
+
+                <FrameLayout
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="3dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
 
-</com.restrosmart.restrohotel.Admin.SwipeRevealLayout>
+                        <LinearLayout
+                            android:id="@+id/recycler_header"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+
+                            android:background="#fff">
+
+                            <de.hdodenhof.circleimageview.CircleImageView
+
+                                android:id="@+id/circle_image"
+                                android:layout_width="62dp"
+                                android:layout_height="62dp"
+                                android:layout_marginBottom="14.4dp"
+                                android:layout_marginTop="14.4dp"
+                                android:layout_marginLeft="13.4dp"
+                                android:src="@drawable/foodimg2" />
+
+                            <LinearLayout
+                                android:layout_weight="1"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:layout_gravity="center">
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+
+                                    android:id="@+id/tx_menu_name"
+                                    android:layout_marginLeft="13.4dp"
+                                    android:text="Honey Chilli Potato"
+                                    android:textColor="#262628"
+                                    android:textSize="18sp"
+                                    android:textStyle="bold" />
+                                <ImageView
+                                    android:id="@+id/img_spicy"
+                                    android:layout_width="18dp"
+                                    android:layout_height="18dp"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginLeft="6dp"
+                                    android:src="@drawable/ic_spicy2"
+                                    android:visibility="gone"/>
+
+                                    <TextView
+                                        android:id="@+id/menu_test"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="18dp"
+                                        android:layout_gravity="center_vertical"
+                                        android:layout_marginLeft="6dp"
+                                        android:text="sweet"
+                                        android:visibility="gone"/>
+                                </LinearLayout>
+
+
+
+
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+
+                                    android:id="@+id/tx_menu_disp"
+                                    android:textColor="@color/colorDarkGray"
+                                    android:textSize="12sp"
+                                    android:layout_marginLeft="13.4dp"
+                                    android:layout_marginTop="2dp"
+                                    android:text="spicy garlic and cholli potatoes hot and mix combination."
+                                   />
+                            </LinearLayout>
+
+
+
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+
+                </FrameLayout>
+
+            </android.support.v7.widget.CardView>
+
+        </FrameLayout>
+    </com.restrosmart.restro.Admin.SwipeRevealLayout>-->
+
+
+
+    <!--
+    <?xml version="1.0" encoding="utf-8"?>
+    <com.restrosmart.restrohotel.Admin.SwipeRevealLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:id="@+id/swipeLayout"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        app:dragFromEdge="right">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|end"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/edit_button"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@color/white"
+                    app:srcCompat="@drawable/ic_action_btn_edit"
+                    android:text="Info"/>
+
+                <ImageButton
+                    android:id="@+id/delete_button"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@color/white"
+                    app:srcCompat="@drawable/ic_action_btn_delete"
+                    android:text="Edit"/>
+
+            </LinearLayout>
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/frame_layout"
+            android:clickable="true">
+
+            <android.support.v7.widget.CardView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                app:cardElevation="5dp"
+                app:cardCornerRadius="8dp"
+                android:layout_margin="5dp"
+                android:visibility="visible">
+
+                <FrameLayout
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="3dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+
+                        <LinearLayout
+                            android:id="@+id/recycler_header"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+
+                            android:background="#fff">
+
+                            <de.hdodenhof.circleimageview.CircleImageView
+
+                                android:id="@+id/circle_image"
+                                android:layout_width="62dp"
+                                android:layout_height="62dp"
+                                android:layout_marginBottom="14.4dp"
+                                android:layout_marginTop="14.4dp"
+                                android:layout_marginLeft="13.4dp"
+                                android:src="@drawable/foodimg2" />
+
+                            <LinearLayout
+                                android:layout_weight="1"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:layout_gravity="center">
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+
+                                        android:id="@+id/tx_flavour_name"
+                                        android:layout_marginLeft="13.4dp"
+                                        android:text="Honey Chilli Potato"
+                                        android:textColor="#262628"
+                                        android:textSize="18sp"
+                                        android:textStyle="bold" />
+                                    <ImageView
+                                        android:id="@+id/img_spicy"
+                                        android:layout_width="18dp"
+                                        android:layout_height="18dp"
+                                        android:layout_gravity="center_vertical"
+                                        android:layout_marginLeft="6dp"
+                                        android:src="@drawable/ic_spicy2"
+                                        android:visibility="gone"/>
+
+                                    <TextView
+                                        android:id="@+id/flavour_test"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="18dp"
+                                        android:layout_gravity="center_vertical"
+                                        android:layout_marginLeft="6dp"
+                                        android:text="sweet"
+                                        android:visibility="gone"/>
+                                </LinearLayout>
+
+
+
+
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+
+                                    android:id="@+id/tx_menu_disp"
+                                    android:textColor="@color/colorDarkGray"
+                                    android:textSize="12sp"
+                                    android:layout_marginLeft="13.4dp"
+                                    android:layout_marginTop="2dp"
+                                    android:text="spicy garlic and cholli potatoes hot and mix combination."
+                                    />
+                            </LinearLayout>
+
+
+
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+
+                </FrameLayout>
+
+            </android.support.v7.widget.CardView>
+
+        </FrameLayout>
+
+
+    </com.restrosmart.restrohotel.Admin.SwipeRevealLayout>-->

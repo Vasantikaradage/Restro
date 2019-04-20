@@ -66,6 +66,7 @@ public class FragmentTabParentCategory extends Fragment {
     private CircleImageView mImageView;
     private String  imageName, mFinalImageName;
     private  BottomSheetDialog dialog;
+    private  ApiService apiService;
 
     @Nullable
     @Override
@@ -124,7 +125,7 @@ public class FragmentTabParentCategory extends Fragment {
                 etxCategoryNme.setText(categoryForms.get(position).getCategory_Name());
 
                 Picasso.with(dialoglayout.getContext())
-                        .load(categoryForms.get(position).getC_Image_Name())
+                        .load(apiService.BASE_URL+categoryForms.get(position).getC_Image_Name())
                         .resize(500, 500)
                         .into(mImageView);
 
@@ -140,21 +141,15 @@ public class FragmentTabParentCategory extends Fragment {
                 btnUpdate.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        int start, start1;
-                        String suffix;
 
-                        if (imageName == null) {
-                            start = categoryForms.get(position).getC_Image_Name().indexOf("t/");
-                            suffix = categoryForms.get(position).getC_Image_Name().substring(start + 1);
-                            start1 = suffix.indexOf("/");
-                        } else {
-                            String selImage = imageName;
-                            start = selImage.indexOf("t/");
-                            suffix = selImage.substring(start + 1);
-                            start1 = suffix.indexOf("/");
+                        String name=imageName;
+
+                        if(imageName==null)
+                        {
+                            imageName=categoryForms.get(position).getC_Image_Name();
 
                         }
-                        mFinalImageName = suffix.substring(start1 + 1);
+
                         getRetrofitDataUpdate();
                     }
 
@@ -166,7 +161,7 @@ public class FragmentTabParentCategory extends Fragment {
                         mRetrofitService.retrofitData(EDIT_CATEGORY, service.editCategory(
                                 categoryForms.get(position).getCategory_Name(),
                                 etxCategoryNme.getText().toString(),
-                                mFinalImageName,
+                                imageName,
                                 categoryForms.get(position).getCategory_id(),
                                 mHotelId,
                                 mBranchId,
@@ -265,7 +260,7 @@ public class FragmentTabParentCategory extends Fragment {
             // Log.e("Result", imageName);
 
             Picasso.with(dialoglayout.getContext())
-                    .load(imageName)
+                    .load(apiService.BASE_URL+imageName)
                     .resize(500, 500)
                     .into(mImageView);
         }

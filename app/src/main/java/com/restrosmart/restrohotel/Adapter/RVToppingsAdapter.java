@@ -43,12 +43,12 @@ public class RVToppingsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.toppings_header_item, viewGroup, false);
             return new HeaderViewHolder(itemView);
 
-        } else if (i == TYPE_ITEM) {
+        } else  {
             View itemView1 = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.topping_list_item, viewGroup, false);
             return new ItemViewHolder(itemView1);
         }
 
-        throw new RuntimeException("no match for : " + i);
+       // throw new RuntimeException("no match for : " + i);
     }
 
     @Override

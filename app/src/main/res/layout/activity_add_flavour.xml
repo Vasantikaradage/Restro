@@ -158,13 +158,29 @@
                 android:hint="Enter Flavour Name">
             </EditText>
 
+            <TextView
+                android:id="@+id/tv_units"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Units"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:padding="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/etx_flavour_name"
+                android:textColor="@color/colorPrimary"
+                android:layout_marginStart="10dp"
+                />
+
+
+
             <TableLayout
                 android:id="@+id/tableLayout1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/etx_flavour_name"
+                android:layout_below="@+id/tv_units"
                 android:orientation="vertical"
-                android:padding="10dp"
+                android:padding="5dp"
                 android:stretchColumns="0" />
 
 
@@ -181,12 +197,13 @@
                     android:padding="5dp"
                     android:gravity="center"
                    android:layout_marginTop="5dp"
-                    android:drawablePadding="@dimen/dimen_10dp"
+                    android:drawablePadding="2dp"
+                    android:layout_alignParentEnd="true"
 
-                    android:drawableLeft="@drawable/ic_plus"
+                    android:drawableLeft="@drawable/ic_action_add_unit"
                     android:layout_below="@+id/tableLayout1"
                     android:textColor="@color/colorPrimary"
-                    android:layout_marginStart="10dp"/>
+                    android:layout_marginEnd="20dp"/>
 
 
             <LinearLayout

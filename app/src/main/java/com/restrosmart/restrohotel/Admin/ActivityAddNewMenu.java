@@ -61,11 +61,13 @@ public class ActivityAddNewMenu extends AppCompatActivity {
     private RadioButton radioBtnNull, radioBtnSweet, radioBtnSpicy;
     private Button btnSaveMenu, btnCancelMenu, btnUpdateMenu;
     private int menuTeste;
-    private String imageName, mFinalImageName;
+    private String imageName;
     private Intent intent;
     private Toolbar mToolbar;
     private TextView tvTitle;
     private ArrayList<ToppingsForm> arrayListToppingsEditinfo;
+    private int pcId;
+    private  ApiService apiService;
 
 
     @Override
@@ -77,6 +79,7 @@ public class ActivityAddNewMenu extends AppCompatActivity {
         setUpToolBar();
 
         intent = getIntent();
+        pcId = intent.getIntExtra("pc_Id", 0);
 
         mSessionManager = new Sessionmanager(this);
         HashMap<String, String> name_info = mSessionManager.getHotelDetails();
@@ -86,50 +89,62 @@ public class ActivityAddNewMenu extends AppCompatActivity {
         btnUpdateMenu.setVisibility(View.GONE);
 
         if (intent.getIntExtra("MenuId", 0) != 0) {
+            pcId = intent.getIntExtra("pc_Id", 0);
+
             tvTitle.setText("Edit Menu");
             btnSaveMenu.setVisibility(View.GONE);
             btnUpdateMenu.setVisibility(View.VISIBLE);
             etxMenuName.setText(intent.getStringExtra("MenuName"));
             etxMenuDiscription.setText(intent.getStringExtra("MenuDiscription"));
-            int price = intent.getIntExtra("Price", 0);
-            etxMenuPrice.setText("\u20B9 " + price);
+            String price = String.valueOf(intent.getIntExtra("Price", 0));
+            etxMenuPrice.setText(price);
             Picasso.with(this)
-                    .load(intent.getStringExtra("ImageName"))
+                    .load(apiService.BASE_URL+intent.getStringExtra("ImageName"))
                     .resize(500, 500)
                     .into(mCircularImageView);
             int status = intent.getIntExtra("MenuTaste", 0);
             radioBtnNull.setChecked(false);
             if (status == 1) {
                 radioBtnSweet.setChecked(true);
+                menuTeste = 1;
             } else if (status == 2) {
                 radioBtnSpicy.setChecked(true);
+                menuTeste = 2;
             } else {
                 radioBtnNull.setChecked(true);
+                menuTeste = 3;
             }
 
             arrayListToppingsEditinfo = intent.getParcelableArrayListExtra("ArrayListToppings");
-
             btnUpdateMenu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
                     String ToppingList = getToppingList();
                     initRetrofitCallBack();
+
+                    if(imageName==null)
+                    {
+                        imageName=intent.getStringExtra("ImageName");
+                    }
+                    int price = Integer.parseInt(etxMenuPrice.getText().toString());
                     ApiService service1 = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
                     mRetrofitService = new RetrofitService(mResultCallBack, ActivityAddNewMenu.this);
                     mRetrofitService.retrofitData(EDIT_MENU, (service1.editMenu(etxMenuName.getText().toString(),
                             etxMenuDiscription.getText().toString(),
-                            mFinalImageName,
+                            imageName,
                             menuTeste,
-                            etxMenuPrice.getText().toString(),
-                            intent.getIntExtra("", 0),
+                            price,
+                            intent.getIntExtra("MenuId", 0),
                             hotelId,
                             branchId,
                             intent.getIntExtra("categoryId", 0),
-                            intent.getIntExtra("pcId", 0),
+                            intent.getIntExtra("pc_Id", 0),
                             ToppingList
 
                     )));
+
+
                 }
             });
 
@@ -154,7 +169,7 @@ public class ActivityAddNewMenu extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intentGallry = new Intent(ActivityAddNewMenu.this, ActivityMenuGallery.class);
                 intentGallry.putExtra("Category_Id", intent.getIntExtra("categoryId", 0));
-                intentGallry.putExtra("Pc_Id", intent.getIntExtra("pcId", 0));
+                intentGallry.putExtra("Pc_Id", pcId);
                 startActivityForResult(intentGallry, IMAGE_RESULT_OK);
             }
         });
@@ -179,14 +194,9 @@ public class ActivityAddNewMenu extends AppCompatActivity {
         btnSaveMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (imageName != null) {
-                    String selImage = imageName;
-                    int start = selImage.indexOf("t/");
-                    String suffix = selImage.substring(start + 1);
-                    int start1 = suffix.indexOf("/");
-                    mFinalImageName = suffix.substring(start1 + 1);
-                } else {
-                    mFinalImageName = "null";
+                if(imageName==null)
+                {
+                    imageName="null";
                 }
                 getRetrofitDataforMenusave();
             }
@@ -220,10 +230,10 @@ public class ActivityAddNewMenu extends AppCompatActivity {
                                     JSONArray jsonArray1 = jsonObject2.getJSONArray("Topping");
 
                                     for (int in = 0; in < jsonArray1.length(); in++) {
-                                        Log.d("", "jsonArray1.length()" + jsonArray1.length());
+                                        Log.v("", "jsonArray1.length()" + jsonArray1.length());
                                         JSONObject jsonObject3 = jsonArray1.getJSONObject(in);
                                         int pcId = jsonObject2.getInt("Pc_Id");
-                                        if (pcId == 1) {
+                                        if (pcId == intent.getIntExtra("pc_Id", 0)) {
                                             ToppingsForm toppingsForm = new ToppingsForm();
                                             toppingsForm.setToppingsName(jsonObject3.getString("Topping_Name"));
                                             toppingsForm.setToppingsPrice(jsonObject3.getInt("Topping_Price"));
@@ -251,6 +261,7 @@ public class ActivityAddNewMenu extends AppCompatActivity {
                         try {
                             JSONObject addMenuObject = new JSONObject(addMenu);
                             int status = addMenuObject.getInt("status");
+
                             if (status == 1) {
                                 Toast.makeText(ActivityAddNewMenu.this, "Menu Added Successfully..", Toast.LENGTH_LONG).show();
                                 finish();
@@ -266,6 +277,7 @@ public class ActivityAddNewMenu extends AppCompatActivity {
                     case EDIT_MENU:
                         JsonObject menuObject = response.body();
                         String editMenu = menuObject.toString();
+
                         try {
                             JSONObject addMenuObject = new JSONObject(editMenu);
                             int status = addMenuObject.getInt("status");
@@ -305,6 +317,7 @@ public class ActivityAddNewMenu extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         rvTopping.setHasFixedSize(true);
         rvTopping.setLayoutManager(linearLayoutManager);
+
         RVToppingsAdapter rvToppingsAdapter = new RVToppingsAdapter(this, arrayListToppings, arrayListToppingsEditinfo, new MarkToppingListerner() {
             @Override
             public void markToppings(ArrayList<ToppingsForm> arrayList) {
@@ -370,7 +383,7 @@ public class ActivityAddNewMenu extends AppCompatActivity {
             // Log.e("Result", imageName);
 
             Picasso.with(this)
-                    .load(imageName)
+                    .load(apiService.BASE_URL+imageName)
                     .resize(500, 500)
                     .into(mCircularImageView);
         }
@@ -385,13 +398,13 @@ public class ActivityAddNewMenu extends AppCompatActivity {
         mRetrofitService = new RetrofitService(mResultCallBack, this);
         mRetrofitService.retrofitData(ADD_MENU, (service.getMenuAdd(etxMenuName.getText().toString(),
                 etxMenuDiscription.getText().toString(),
-                mFinalImageName,
+                imageName,
                 intent.getIntExtra("categoryId", 0),
                 menuTeste,
                 etxMenuPrice.getText().toString(),
                 hotelId,
                 branchId,
-                intent.getIntExtra("pcId", 0),
+                intent.getIntExtra("pc_Id", 0),
                 ToppingList
         )));
 
