@@ -76,6 +76,7 @@
         <activity android:name="com.restrosmart.restrohotel.Admin.ActivityMenu" />
         <activity android:name="com.restrosmart.restrohotel.Admin.ActivityAddNewMenu"/>
         <activity android:name="com.restrosmart.restrohotel.Admin.ActivityAddNewOffer" />
+        <activity android:name="com.restrosmart.restrohotel.Admin.ActivityProfile"/>
         <!--
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="New Order Details"

@@ -219,6 +219,7 @@ public class ActivityMenu extends AppCompatActivity implements View.OnClickListe
                                         toppingsForm.setToppingsPrice(toppingsObject.getInt("Topping_Price"));
                                         arrayListToppings.add(toppingsForm);
                                     }
+
                                     menuForm.setArrayListtoppings(arrayListToppings);
                                     arrayListMenu.add(menuForm);
                                 }

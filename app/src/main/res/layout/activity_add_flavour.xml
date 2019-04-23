@@ -172,16 +172,53 @@
                 android:layout_marginStart="10dp"
                 />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_below="@+id/tv_units"
+                android:id="@+id/linear">
+
+           <!-- <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
 
 
-            <TableLayout
+                android:orientation="horizontal" >
+                <EditText
+                    android:id="@+id/tv_unit_name"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5"
+                    android:inputType="text"/>
+                <EditText
+                    android:id="@+id/tv_unit_price"
+                    android:layout_width="0dp"
+
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:inputType="number"
+                    android:gravity="right" />
+                <Button
+                    android:id="@+id/delete_button"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:onClick="onDelete"
+                    android:background="@android:drawable/ic_delete"
+                   />
+            </LinearLayout>-->
+            </LinearLayout>
+
+
+           <!-- <TableLayout
                 android:id="@+id/tableLayout1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_units"
                 android:orientation="vertical"
                 android:padding="5dp"
-                android:stretchColumns="0" />
+                android:stretchColumns="0" />-->
 
 
 
@@ -192,6 +229,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Add Unit"
+
                     android:textStyle="bold"
                     android:textSize="16sp"
                     android:padding="5dp"
@@ -201,7 +239,7 @@
                     android:layout_alignParentEnd="true"
 
                     android:drawableLeft="@drawable/ic_action_add_unit"
-                    android:layout_below="@+id/tableLayout1"
+                    android:layout_below="@+id/linear"
                     android:textColor="@color/colorPrimary"
                     android:layout_marginEnd="20dp"/>
 

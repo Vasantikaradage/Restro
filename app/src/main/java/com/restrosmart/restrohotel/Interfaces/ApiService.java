@@ -315,6 +315,13 @@ public interface ApiService {
                                 @Field("Branch_Id") int branchId,
                                 @Field("Flavarray") String flavour);
 
+    /*Flavour Delete*/
+    @POST("Flavour.php?flavour=flavour_delete")
+    @FormUrlEncoded
+    Call<JsonObject> flavourDelete(@Field("Hotel_Id") int hotelId,
+                                @Field("Branch_Id") int branchId,
+                                @Field("Flavour_Id") int flavourId);
+
 
 
 

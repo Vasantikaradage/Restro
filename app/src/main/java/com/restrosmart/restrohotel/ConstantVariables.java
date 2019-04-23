@@ -78,9 +78,10 @@ public class ConstantVariables {
     public  static  final  int DELETE_EMPLOYEE=228;
     public  static  final  int FLAVOUR_DISPLAY=300;
     public  static  final  int ADD_FLAVOUR=301;
+    public  static  final  int FLAVOUR_DELETE=302;
 
-    public  static  final  int BRANCH_DETAILS=302;
-    public  static  final  int EDIT_BRANCH_DETAILS=303;
+    public  static  final  int BRANCH_DETAILS=500;
+    public  static  final  int EDIT_BRANCH_DETAILS=501;
 
     public  static  final  int ADD_TOPPINGS=400;
     public  static  final  int PARENT_CATEGORY_WITH_TOPPINGS=401;

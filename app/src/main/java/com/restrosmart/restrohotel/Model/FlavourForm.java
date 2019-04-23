@@ -1,5 +1,7 @@
 package com.restrosmart.restrohotel.Model;
 
+import java.util.ArrayList;
+
 /**
  * Created by SHREE on 28/12/2018.
  */
@@ -9,6 +11,7 @@ public class FlavourForm {
     private  String flavourName;
     private String flavourImage;
     private  int flavourPrice;
+    private ArrayList<FlavourUnitForm> arrayListUnits;
 
     public int getFlavourId() {
         return flavourId;
@@ -40,5 +43,13 @@ public class FlavourForm {
 
     public void setFlavourPrice(int flavourPrice) {
         this.flavourPrice = flavourPrice;
+    }
+
+    public ArrayList<FlavourUnitForm> getArrayListUnits() {
+        return arrayListUnits;
+    }
+
+    public void setArrayListUnits(ArrayList<FlavourUnitForm> arrayListUnits) {
+        this.arrayListUnits = arrayListUnits;
     }
 }

@@ -110,6 +110,7 @@
     <string name="current_address">Current Address</string>
     <string name="hotel_account_details">Hotel Account Details</string>
     <string name="hotel_details">Hotel Details</string>
+    <string name="hotel_timing">Hotel Timing</string>
 
 
 </resources>

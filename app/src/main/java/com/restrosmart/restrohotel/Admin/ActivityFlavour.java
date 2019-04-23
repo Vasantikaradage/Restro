@@ -12,12 +12,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -35,6 +37,7 @@ import com.restrosmart.restrohotel.Interfaces.IResult;
 
 import com.restrosmart.restrohotel.Model.FlavourForm;
 import com.restrosmart.restrohotel.Model.FlavourUnitForm;
+import com.restrosmart.restrohotel.Model.UnitForm;
 import com.restrosmart.restrohotel.R;
 import com.restrosmart.restrohotel.RetrofitClientInstance;
 import com.restrosmart.restrohotel.RetrofitService;
@@ -53,8 +56,10 @@ import retrofit2.Response;
 
 
 import static com.restrosmart.restrohotel.ConstantVariables.ADD_FLAVOUR;
+import static com.restrosmart.restrohotel.ConstantVariables.FLAVOUR_DELETE;
 import static com.restrosmart.restrohotel.ConstantVariables.FLAVOUR_DISPLAY;
 import static com.restrosmart.restrohotel.ConstantVariables.IMAGE_RESULT_OK;
+import static com.restrosmart.restrohotel.ConstantVariables.MENU_DELETE;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.BRANCH_ID;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.HOTEL_ID;
 
@@ -70,21 +75,31 @@ public class ActivityFlavour extends AppCompatActivity {
     private TableLayout tableLayout;
     private ArrayList<EditText> arrayListUnitName;
     private ArrayList<EditText> arrayListUnitPrice;
+    private ArrayList<ImageButton> arrayListUnitButton;
+
+
+    private  ArrayList<UnitForm>arrayListUnit;
     private TextView txTitle;
-    private String mHotelId, mBranchId, image_result, mFinalImageName;
+    private int mHotelId, mBranchId;
     private RecyclerView recyclerView;
+    LinearLayout parentLinearLayout;
     private IResult mResultCallBack;
     private RetrofitService mRetrofitService;
     private FrameLayout frameLayoutBtnAdd;
     private View dialoglayout;
     private BottomSheetDialog dialog;
     private EditText tv0, tv1;
+    private  String image_result;
+    EditText unitName,unitPrice;
 
     private JSONArray jsonArray;
     private CircleImageView circleImageView;
     private Toolbar mTopToolbar;
     private Intent intent;
     private  ImageButton imageButton;
+    int i;
+    Button cancel;
+    int count=0;
 
 
     @Override
@@ -96,16 +111,16 @@ public class ActivityFlavour extends AppCompatActivity {
 
         Sessionmanager sharedPreferanceManage = new Sessionmanager(this);
         HashMap<String, String> name_info = sharedPreferanceManage.getHotelDetails();
-        mHotelId = name_info.get(HOTEL_ID);
-        mBranchId = name_info.get(BRANCH_ID);
+        mHotelId = Integer.parseInt(name_info.get(HOTEL_ID));
+        mBranchId = Integer.parseInt(name_info.get(BRANCH_ID));
 
         intent = getIntent();
         initRetrofitCall();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, ActivityFlavour.this);
         mRetrofitService.retrofitData(FLAVOUR_DISPLAY, service.flavourDisplay(intent.getIntExtra("menuId", 0),
-                Integer.parseInt(mHotelId),
-                Integer.parseInt(mBranchId)
+                mHotelId,
+              mBranchId
         ));
 
 
@@ -117,8 +132,10 @@ public class ActivityFlavour extends AppCompatActivity {
                 dialoglayout = li.inflate(R.layout.activity_add_flavour, null);
                 dialog = new BottomSheetDialog(ActivityFlavour.this);
                 dialog.setContentView(dialoglayout);
-                arrayListUnitName.clear();
-                arrayListUnitPrice.clear();
+                /*arrayListUnitName.clear();
+                arrayListUnitPrice.clear();*/
+
+
 
                 // dialog = builder.create();
                 final EditText etflavourName = (EditText) dialoglayout.findViewById(R.id.etx_flavour_name);
@@ -127,8 +144,13 @@ public class ActivityFlavour extends AppCompatActivity {
                 FrameLayout btnCamera = (FrameLayout) dialoglayout.findViewById(R.id.iv_select_image);
                 Button btnSaveFlavour = (Button) dialoglayout.findViewById(R.id.btnSave);
                 Button btnCancel = (Button) dialoglayout.findViewById(R.id.btnCancel);
-                tableLayout = (TableLayout) dialoglayout.findViewById(R.id.tableLayout1);
-                tableRow = new TableRow(ActivityFlavour.this);
+            //    unitName=dialoglayout.findViewById(R.id.tv_unit_name);
+             //  unitPrice=dialoglayout.findViewById(R.id.tv_unit_price);
+
+                parentLinearLayout = (LinearLayout) dialoglayout.findViewById(R.id.linear);
+             //   cancel=dialoglayout.findViewById(R.id.delete_button);
+               /* tableLayout = (TableLayout) dialoglayout.findViewById(R.id.tableLayout1);
+                tableRow = new TableRow(ActivityFlavour.this);*/
                 dialog.show();
 
                // callTableLayout();
@@ -150,9 +172,59 @@ public class ActivityFlavour extends AppCompatActivity {
                         dialog.dismiss();
                     }
                 });
+               // arrayListUnitName.add(unitName);
+               // arrayListUnitPrice.add(unitPrice);
+                arrayListUnitName.clear();
+                arrayListUnitPrice.clear();
+                arrayListUnit.clear();
+                count=0;
                 tvAddUnit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                       /* arrayListUnitName=new ArrayList<>();
+                        arrayListUnitPrice=new ArrayList<>();
+*/
+                        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                         View rowView = inflater.inflate(R.layout.field, null);
+
+                      Button  cancelname=rowView.findViewById(R.id.delete_button);
+                        unitName=rowView.findViewById(R.id.tv_unit_name);
+                        unitPrice=rowView.findViewById(R.id.tv_unit_price);
+
+
+                        // Add the new row before the add field button.
+                        parentLinearLayout.addView(rowView, parentLinearLayout.getChildCount() );
+
+
+
+                        UnitForm unitForm=new UnitForm();
+
+                        unitForm.setUnitName(unitName);
+                        unitForm.setUnitPrice(unitPrice);
+                        unitForm.setId(count);
+                        arrayListUnit.add(unitForm);
+                        count++;
+                       // arrayListUnitName.add(unitName);
+                        //arrayListUnitPrice.add(unitPrice);
+
+                        cancelname.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+                                parentLinearLayout.removeView((View) view.getParent());
+
+                                for(int i=0; i<arrayListUnit.size(); i++)
+                                {
+                                    if(arrayListUnit.get(i).getId()==view.getId())
+                                    {
+                                        arrayListUnit.remove(i);
+                                    }
+                                }
+
+                            }
+                        });
+
+
                         /*imageButton = new ImageButton(ActivityFlavour.this);
                         imageButton.setPadding(10, 10, 20, 10);
                         imageButton.setBackground(getResources().getDrawable(R.drawable.ic_action_cancel));
@@ -160,24 +232,55 @@ public class ActivityFlavour extends AppCompatActivity {
                         tableLayout.addView(tableRow);*/
 
 
-                        callTableLayout();
+
+
+                       // callTableLayout();
+                    }
+
+                 /*   public void onDelete(View v) {
+                        parentLinearLayout.removeView((View) v.getParent());
+                    }*/
+                });
+
+
+
+
+/* cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        parentLinearLayout.removeView((View) view.getParent());
                     }
                 });
+*/
+
+
+
+
+                /*for(i=0; i<arrayListUnitName.size(); i++)
+                {
+
+                    imageButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Toast.makeText(ActivityFlavour.this,"table id"+i,Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }*/
 
                 btnSaveFlavour.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (etflavourName.getText().toString().length() == 0 || arrayListUnitName.get(0).getText().toString().length() == 0 || arrayListUnitPrice.get(0).getText().toString().length() == 0) {
+                        if (etflavourName.getText().toString().length() == 0 || arrayListUnit.size()==0) {
                             alertDialog();
 
                         } else {
 
                             arrayList.clear();
-                            for (int i = 0; i < arrayListUnitName.size(); i++) {
+                            for (int i = 0; i < arrayListUnit.size(); i++) {
 
                                 FlavourUnitForm flavourUnitForm = new FlavourUnitForm();
-                                flavourUnitForm.setUnitName(arrayListUnitName.get(i).getText().toString());
-                                flavourUnitForm.setUnitPrice(Integer.parseInt(arrayListUnitPrice.get(i).getText().toString()));
+                                flavourUnitForm.setUnitName(arrayListUnit.get(i).getUnitName().getText().toString());
+                                flavourUnitForm.setUnitPrice(Integer.parseInt((arrayListUnit.get(i).getUnitPrice().getText().toString())));
                                 arrayList.add(flavourUnitForm);
                             }
 
@@ -194,8 +297,11 @@ public class ActivityFlavour extends AppCompatActivity {
                                 }
 
                             }
+                            if (image_result == null) {
+                                image_result="null";
+                            }
 
-                            if (image_result != null) {
+                           /* if (image_result != null) {
                                 String selImage = image_result;
                                 int start = selImage.indexOf("t/");
                                 String suffix = selImage.substring(start + 1);
@@ -204,15 +310,15 @@ public class ActivityFlavour extends AppCompatActivity {
                             } else {
                                 mFinalImageName = "null";
                             }
-
+*/
                             initRetrofitCall();
                             ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
                             mRetrofitService = new RetrofitService(mResultCallBack, ActivityFlavour.this);
                             mRetrofitService.retrofitData(ADD_FLAVOUR, (service.flavourAdd(etflavourName.getText().toString(),
-                                    mFinalImageName,
+                                    image_result,
                                     intent.getIntExtra("menuId", 0),
-                                    Integer.parseInt(mHotelId),
-                                    Integer.parseInt(mBranchId),
+                                   mHotelId,
+                                   mBranchId,
                                     jsonArray.toString())));
                         }
                     }
@@ -223,9 +329,10 @@ public class ActivityFlavour extends AppCompatActivity {
 
 
             private void callTableLayout() {
-                tableLayout = (TableLayout) dialoglayout.findViewById(R.id.tableLayout1);
+                //tableLayout = (TableLayout) dialoglayout.findViewById(R.id.tableLayout1);
                 tableRow = new TableRow(ActivityFlavour.this);
-                Toast.makeText(ActivityFlavour.this,"table id"+ tableRow.getChildCount(),Toast.LENGTH_LONG).show();
+                Toast.makeText(ActivityFlavour.this, "table id" + arrayListUnitName.size(), Toast.LENGTH_LONG).show();
+                // Toast.makeText(ActivityFlavour.this,"table id"tableRow.setId(dialoglayout.generateViewId()),Toast.LENGTH_LONG).show();
 
                 tv0 = new EditText(ActivityFlavour.this);
                 arrayListUnitName.add(tv0);
@@ -246,12 +353,39 @@ public class ActivityFlavour extends AppCompatActivity {
                 tableRow.addView(tv1);
 
                 imageButton = new ImageButton(ActivityFlavour.this);
+                arrayListUnitButton.add(imageButton);
+                imageButton.setId(arrayListUnitButton.size() - 1);
+                //imageButton.setId(arrayListUnitButton.get(posi));
+
                 imageButton.setPadding(10, 10, 20, 10);
                 imageButton.setBackground(getResources().getDrawable(R.drawable.ic_cancel_background_primary));
                 tableRow.addView(imageButton);
                 tableLayout.addView(tableRow);
+
+                for (i = 0; i < arrayListUnitName.size(); i++) {
+
+
+                    imageButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Toast.makeText(ActivityFlavour.this, "click" +
+                                    i, Toast.LENGTH_SHORT).show();
+
+
+                        }
+                    });
+
+                }
             }
+
+
+
+
         });
+
+
+
+
     }
 
     private void setUpToolBar() {
@@ -272,6 +406,8 @@ public class ActivityFlavour extends AppCompatActivity {
         arrayList = new ArrayList<FlavourUnitForm>();
         arrayListUnitName = new ArrayList<EditText>();
         arrayListUnitPrice = new ArrayList<EditText>();
+        arrayListUnitButton=new ArrayList<>();
+        arrayListUnit=new ArrayList<>();
     }
 
     private void alertDialog() {
@@ -311,17 +447,21 @@ public class ActivityFlavour extends AppCompatActivity {
                                     FlavourForm flavourForm = new FlavourForm();
                                     flavourForm.setFlavourName(object1.getString("Flavour_Name"));
                                     flavourForm.setFlavourImage(object1.getString("F_Image_Name"));
-                                    //flavourForm.setFlavourPrice(object1.getInt(""));
-                                    arrayListFlavour.add(flavourForm);
+                                    flavourForm.setFlavourId(object1.getInt("Flavour_Id"));
+
 
                                     JSONArray array = object1.getJSONArray("cost");
+                                    arrayListflavourUnit=new ArrayList<>();
                                     for (int j = 0; j < array.length(); j++) {
                                         JSONObject jsonObjectUnit = array.getJSONObject(j);
                                         FlavourUnitForm flavourUnitForm = new FlavourUnitForm();
+
                                         flavourUnitForm.setUnitName(jsonObjectUnit.getString("Unit_Name").toString());
                                         flavourUnitForm.setUnitPrice(jsonObjectUnit.getInt("Unit_Cost"));
                                         arrayListflavourUnit.add(flavourUnitForm);
                                     }
+                                    flavourForm.setArrayListUnits(arrayListflavourUnit);
+                                    arrayListFlavour.add(flavourForm);
                                 }
                                 callAdapter();
                             }
@@ -341,9 +481,37 @@ public class ActivityFlavour extends AppCompatActivity {
                         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
                         mRetrofitService = new RetrofitService(mResultCallBack, ActivityFlavour.this);
                         mRetrofitService.retrofitData(FLAVOUR_DISPLAY, service.flavourDisplay(intent.getIntExtra("menuId", 0),
-                                Integer.parseInt(mHotelId),
-                                Integer.parseInt(mBranchId)
+                                mHotelId,
+                               mBranchId
                         ));
+                        break;
+
+                    case FLAVOUR_DELETE:
+                        JsonObject  deleteFlavourObject=response.body();
+
+                        String deleteFlavour=deleteFlavourObject.toString();
+                        try {
+                            JSONObject object=new JSONObject(deleteFlavour);
+                            int status=object.getInt("status");
+                            if(status==1)
+                            {
+                                Toast.makeText(ActivityFlavour.this,"Flavour Deleted Successfully",Toast.LENGTH_LONG).show();
+                            }
+                            else {
+                                Toast.makeText(ActivityFlavour.this,"Try Again..",Toast.LENGTH_LONG).show();
+
+                            }
+
+                            initRetrofitCall();
+                            ApiService service1 = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
+                            mRetrofitService = new RetrofitService(mResultCallBack, ActivityFlavour.this);
+                            mRetrofitService.retrofitData(FLAVOUR_DISPLAY, service1.flavourDisplay(intent.getIntExtra("menuId", 0),
+                                    mHotelId,
+                                    mBranchId
+                            ));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                         break;
                 }
             }
@@ -381,6 +549,14 @@ public class ActivityFlavour extends AppCompatActivity {
         }, new DeleteListener() {
             @Override
             public void getDeleteListenerPosition(int position) {
+              initRetrofitCall();
+                ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
+                mRetrofitService = new RetrofitService(mResultCallBack,ActivityFlavour.this);
+                mRetrofitService.retrofitData(FLAVOUR_DELETE,(service.flavourDelete(
+                        mHotelId,
+                        mBranchId,
+                        arrayListFlavour.get(position).getFlavourId())
+                ));
 
             }
         });

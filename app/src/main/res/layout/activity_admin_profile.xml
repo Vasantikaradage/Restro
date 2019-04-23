@@ -6,13 +6,14 @@
     android:layout_height="wrap_content"
     tools:context=".Admin.ActivityEmpolyeeProfile">
     <include
-        android:id="@+id/name"
+        android:id="@+id/title_name"
         layout="@layout/tool_bar_admin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+
     <ScrollView
-        android:layout_below="@+id/name"
+        android:layout_below="@+id/title_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -32,7 +33,7 @@
                 app:civ_border_width="2dp" />
 
             <TextView
-                android:id="@+id/txt_user_name"
+                android:id="@+id/tx_user_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -83,7 +84,8 @@
                         android:padding="@dimen/dimen_10dp">
 
                         <TextView
-                            android:id="@+id/tv_username"
+                            android:id="@+id/tv_user_name"
+
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text=""
@@ -118,6 +120,7 @@
                             android:textSize="@dimen/font_large" />
 
                         <TextView
+
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/role"
@@ -532,7 +535,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/hint_email_id"
+                            android:text="@string/hotel_timing"
                             android:textSize="@dimen/font_small" />
 
                     </LinearLayout>

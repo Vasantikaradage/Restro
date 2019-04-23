@@ -51,7 +51,7 @@ public class AdapterDisplayAllMenus extends RecyclerView.Adapter<AdapterDisplayA
     private  View dialoglayout;
     private  AlertDialog dialog;
     private  CircleImageView mCircularImageView;
-    private  TextView menuName,menuPrice;
+    private  TextView menuName,menuPrice,topping_title;
 
     private  RecyclerView rvTopping;
     private ImageButton imageBtnCancel;
@@ -95,7 +95,10 @@ public class AdapterDisplayAllMenus extends RecyclerView.Adapter<AdapterDisplayA
 
         arrayListToppings=arrayListMenu.get(position).getArrayListtoppings();
 
+
         int mTeste = arrayListMenu.get(position).getMenu_Test();
+
+
 
         if (mTeste == 1) {
             holder.mMenuTeste.setVisibility(View.VISIBLE);
@@ -130,11 +133,12 @@ public class AdapterDisplayAllMenus extends RecyclerView.Adapter<AdapterDisplayA
         }
         else
         {
+
+
             holder.llMenu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     viewMenuInfo(position);
-
                 }
             });
         }
@@ -238,11 +242,11 @@ public class AdapterDisplayAllMenus extends RecyclerView.Adapter<AdapterDisplayA
         dialog = builder.create();
         mCircularImageView=dialoglayout.findViewById(R.id.img_menu);
         menuName=dialoglayout.findViewById(R.id.tv_menu_name);
+        topping_title=dialoglayout.findViewById(R.id.topping_title);
         menuPrice=dialoglayout.findViewById(R.id.tv_menu_price);
         FlowTextView menuDiscription=dialoglayout.findViewById(R.id.tv_menu_discription);
         rvTopping=dialoglayout.findViewById(R.id.rv_menu_toppings);
         imageBtnCancel=dialoglayout.findViewById(R.id.btn_cancel);
-
         menuName.setText(arrayListMenu.get(position).getMenu_Name());
         String price = String.valueOf(arrayListMenu.get(position).getNon_Ac_Rate());
         menuPrice.setText("\u20B9 "+price);
@@ -253,20 +257,27 @@ public class AdapterDisplayAllMenus extends RecyclerView.Adapter<AdapterDisplayA
                 .memoryPolicy(MemoryPolicy.NO_STORE)
                 .into(mCircularImageView);
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
-        rvTopping.setHasFixedSize(true);
-        rvTopping.setLayoutManager(linearLayoutManager);
+        if(arrayListMenu.get(position).getArrayListtoppings().size()==0)
+        {
+            topping_title.setVisibility(View.GONE);
+        }
+        else {
+            topping_title.setVisibility(View.VISIBLE);
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
+            rvTopping.setHasFixedSize(true);
+            rvTopping.setLayoutManager(linearLayoutManager);
 
-        AdapterDisplayAllMenusView adapterDisplayAllMenusView = new AdapterDisplayAllMenusView(context, arrayListMenu.get(position).getArrayListtoppings());
-        rvTopping.setAdapter(adapterDisplayAllMenusView);
-        dialog.show();
-        notifyDataSetChanged();
-        imageBtnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
+            AdapterDisplayAllMenusView adapterDisplayAllMenusView = new AdapterDisplayAllMenusView(context, arrayListMenu.get(position).getArrayListtoppings());
+            rvTopping.setAdapter(adapterDisplayAllMenusView);
+        }
+            dialog.show();
+            notifyDataSetChanged();
+            imageBtnCancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss();
+                }
+            });
 
     }
 

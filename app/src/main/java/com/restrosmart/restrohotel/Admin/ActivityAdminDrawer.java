@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -41,6 +42,7 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -53,6 +55,7 @@ import static com.restrosmart.restrohotel.ConstantVariables.DISPLAY_WATER_BOTTLE
 import static com.restrosmart.restrohotel.ConstantVariables.EDIT_WATER_BOTTLE;
 import static com.restrosmart.restrohotel.ConstantVariables.SAVE_WATER_BOTTLE;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.BRANCH_ID;
+import static com.restrosmart.restrohotel.Utils.Sessionmanager.EMP_ID;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.HOTEL_ID;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.ROLE_ID;
 
@@ -69,7 +72,7 @@ public class ActivityAdminDrawer extends AppCompatActivity
     private NavigationView navigationView;
     private LinearLayout linearLayoutHeader;
     private ActionBarDrawerToggle toggle;
-    private String emp_role, hotelId, branchId;
+    private String emp_role, hotelId, branchId,empId;
     private CircleImageView circleImageView;
     private TextView name;
     private TextView tvEmail, tvBottlePrice, textInfo, textTitlePrice;
@@ -87,6 +90,8 @@ public class ActivityAdminDrawer extends AppCompatActivity
     private  String  refresh_categoryList;
     private  String refresh_toppingList;
     Fragment fragment = null;
+    List<EmployeeForm> employeeList;
+    HashMap<String, String> name_info;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,12 +100,13 @@ public class ActivityAdminDrawer extends AppCompatActivity
         init();
 
         Sessionmanager sharedPreferanceManage = new Sessionmanager(ActivityAdminDrawer.this);
-        HashMap<String, String> name_info = sharedPreferanceManage.getHotelDetails();
+        name_info = sharedPreferanceManage.getHotelDetails();
         emp_role = name_info.get(ROLE_ID);
         hotelId = name_info.get(HOTEL_ID);
         branchId = name_info.get(BRANCH_ID);
+        empId= name_info.get(EMP_ID);
 
-        Intent intent=getIntent();
+        final Intent intent=getIntent();
         refresh_categoryList=intent.getStringExtra("Refresh_CategoryList");
         refresh_toppingList=intent.getStringExtra("Refresh_ToppingList");
 
@@ -203,7 +209,10 @@ public class ActivityAdminDrawer extends AppCompatActivity
         linearLayoutHeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intentProfile=new Intent(ActivityAdminDrawer.this,ActivtiyProfile.class);
+                Intent intentProfile=new Intent(ActivityAdminDrawer.this, ActivityProfile.class);
+               intentProfile.putParcelableArrayListExtra("employeeList", (ArrayList<? extends Parcelable>) employeeList);
+
+                intentProfile.putExtra("empId",Integer.parseInt(empId));
                 startActivity(intentProfile);
             }
         });
@@ -219,6 +228,7 @@ public class ActivityAdminDrawer extends AppCompatActivity
     }
 
     private void init() {
+        employeeList=new ArrayList<>();
     }
 
     private void getEmployeeDetail() {
@@ -227,15 +237,15 @@ public class ActivityAdminDrawer extends AppCompatActivity
         call.enqueue(new Callback<List<EmployeeForm>>() {
             @Override
             public void onResponse(Call<List<EmployeeForm>> call, Response<List<EmployeeForm>> response) {
-                List<EmployeeForm> getEmployee = response.body();
-                getData(getEmployee);
+                employeeList = response.body();
+                getData(employeeList);
 
             }
 
             private void getData(List<EmployeeForm> getEmployee) {
                 for (int i = 0; i < getEmployee.size(); i++) {
-                    int roleId = getEmployee.get(i).getEmpId();
-                    if (roleId == Integer.parseInt(emp_role)) {
+                    int id = getEmployee.get(i).getEmpId();
+                    if (Integer.parseInt(empId )== id) {
                         name.setText(getEmployee.get(i).getEmpName());
                         tvEmail.setText(getEmployee.get(i).getEmpEmail());
                         Picasso.with(ActivityAdminDrawer.this).load(getEmployee.get(i).getEmpImg()).resize(500, 500).into(circleImageView);

@@ -41,7 +41,7 @@ public class Sessionmanager {
     public static final String EMP_UNAME = "emp_uname";
     public static final String EMP_ACT_STATUS = "emp_status";
     public static final String EMP_ADD = "emp_add";
-    public static final String EMP_ID = "emp_id";
+    public static final String EMP_ID = "empId";
 
     //public static final String HOTEL_ID = "hotel_id";
     public static final String EMP_ADHAR = "emp_adhar";
