@@ -92,5 +92,6 @@ public class ConstantVariables {
     public  static  final  int ADD_TABLE_DETAILS=600;
     public  static  final  int TABLE_DETAILS=601;
     public  static  final  int UPDATE_AREA=602;
+    public  static  final  int UPDATE_AREA_STATUS=603;
 }
 

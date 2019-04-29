@@ -253,11 +253,22 @@ public interface ApiService {
                                @Field("Branch_Id") int Branch_Id);
 
     //update Area
-    @POST("Table.php?table=table_disp")
+    @POST("Table.php?table=Area_edit")
     @FormUrlEncoded
     Call<JsonObject> UpdateArea(@Field("Area_Name") String areaName,
+                                @Field("Area_Id") int areaId,
                                 @Field("Hotel_Id") int Hotel_Id,
                                 @Field("Branch_Id") int Branch_Id);
+
+    //Area status
+    @POST("Table.php?table=area_status")
+    @FormUrlEncoded
+    Call<JsonObject> AreaStatus(@Field("Area_Status") int areaStatus,
+                                @Field("Area_Id") int areaId,
+                                @Field("Hotel_Id") int Hotel_Id,
+                                @Field("Branch_Id") int Branch_Id);
+
+
 
 
 

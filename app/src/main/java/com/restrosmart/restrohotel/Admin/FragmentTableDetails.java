@@ -24,6 +24,7 @@ import com.restrosmart.restrohotel.Adapter.RVTableDetailsAdapter;
 import com.restrosmart.restrohotel.Interfaces.ApiService;
 import com.restrosmart.restrohotel.Interfaces.EditListener;
 import com.restrosmart.restrohotel.Interfaces.IResult;
+import com.restrosmart.restrohotel.Interfaces.StatusListener;
 import com.restrosmart.restrohotel.Model.TableForm;
 import com.restrosmart.restrohotel.Model.TableFormId;
 import com.restrosmart.restrohotel.R;
@@ -41,9 +42,9 @@ import java.util.HashMap;
 import retrofit2.Response;
 
 import static com.restrosmart.restrohotel.ConstantVariables.ADD_TABLE_DETAILS;
-import static com.restrosmart.restrohotel.ConstantVariables.ADD_TOPPINGS;
 import static com.restrosmart.restrohotel.ConstantVariables.TABLE_DETAILS;
 import static com.restrosmart.restrohotel.ConstantVariables.UPDATE_AREA;
+import static com.restrosmart.restrohotel.ConstantVariables.UPDATE_AREA_STATUS;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.BRANCH_ID;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.HOTEL_ID;
 
@@ -206,6 +207,28 @@ public class FragmentTableDetails extends Fragment {
 
 
                         break;
+                    case UPDATE_AREA:
+                        JsonObject updateObject=response.body();
+                        String valueUpdate=updateObject.toString();
+                        JSONObject jsonObject= null;
+                        try {
+                            jsonObject = new JSONObject(valueUpdate);
+
+                        int status=jsonObject.getInt("status");
+                            if(status==1){
+                                Toast.makeText(getActivity(), "Area Updated Successfully", Toast.LENGTH_LONG).show();
+
+                            }
+                            else
+                            {
+                                Toast.makeText(getActivity(), "Try Again..", Toast.LENGTH_LONG).show();
+
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                                break;
+
 
                 }
 
@@ -228,9 +251,19 @@ public class FragmentTableDetails extends Fragment {
         rvTableDetails.setLayoutManager(linearLayoutManager);
         rvTableDetails.setHasFixedSize(true);
         rvTableDetails.getLayoutManager().setMeasurementCacheEnabled(false);
-         rvTableDetailsAdapter=new RVTableDetailsAdapter(getActivity(),arrayListTable, new EditListener() {
+         rvTableDetailsAdapter=new RVTableDetailsAdapter(getActivity(),arrayListTable, new StatusListener() {
              @Override
-             public void getEditListenerPosition(int position) {
+             public void statusListern(int position,int status) {
+                 initRetrofitCallBack();
+                 ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
+                 mRetrofitService = new RetrofitService(mResultCallBack, getActivity());
+                 mRetrofitService.retrofitData(UPDATE_AREA_STATUS, service.AreaStatus(status,arrayListTable.get(position).getAreaId(),hotelId,
+                         branchId));
+
+             }
+         }, new EditListener() {
+             @Override
+             public void getEditListenerPosition(final int position) {
                  mAreaId=position;
                  LayoutInflater li = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                  dialoglayout = li.inflate(R.layout.dialog_add_table_details, null);
@@ -246,6 +279,7 @@ public class FragmentTableDetails extends Fragment {
                  saveTable.setVisibility(View.GONE);
                  tvTableCount.setVisibility(View.GONE);
                  etvTableCount.setVisibility(View.GONE);
+                 updateTable.setVisibility(View.VISIBLE);
 
                  etvAreaName.setText(arrayListTable.get(position).getAreaName());
 
@@ -271,7 +305,7 @@ public class FragmentTableDetails extends Fragment {
                          ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
                          mRetrofitService = new RetrofitService(mResultCallBack, getActivity());
                          mRetrofitService.retrofitData(UPDATE_AREA, service.UpdateArea(etvAreaName.getText().toString(),
-
+                                 arrayListTable.get(position).getAreaId(),
                                  hotelId,
                                  branchId));
 
