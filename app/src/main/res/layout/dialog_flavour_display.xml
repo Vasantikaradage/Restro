@@ -61,9 +61,10 @@
             </RelativeLayout>
 
             <TextView
+                android:id="@+id/unit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Toppings"
+                android:text="Units"
                 android:textColor="@color/colorPrimary"
                 android:textStyle="bold" />
 

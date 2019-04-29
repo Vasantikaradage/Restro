@@ -79,6 +79,7 @@ public class ConstantVariables {
     public  static  final  int FLAVOUR_DISPLAY=300;
     public  static  final  int ADD_FLAVOUR=301;
     public  static  final  int FLAVOUR_DELETE=302;
+    public  static  final  int FLAVOUR_EDIT=303;
 
     public  static  final  int BRANCH_DETAILS=500;
     public  static  final  int EDIT_BRANCH_DETAILS=501;
@@ -87,5 +88,9 @@ public class ConstantVariables {
     public  static  final  int PARENT_CATEGORY_WITH_TOPPINGS=401;
     public  static  final  int TOPPING_DELETE=402;
     public  static  final  int TOPPING_EDIT=403;
+
+    public  static  final  int ADD_TABLE_DETAILS=600;
+    public  static  final  int TABLE_DETAILS=601;
+    public  static  final  int UPDATE_AREA=602;
 }
 

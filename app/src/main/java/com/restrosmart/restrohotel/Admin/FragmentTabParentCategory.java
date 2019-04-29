@@ -121,6 +121,7 @@ public class FragmentTabParentCategory extends Fragment {
 
                 TextView txTitle = dialoglayout.findViewById(R.id.tx_edit_cat);
                 txTitle.setVisibility(View.VISIBLE);
+                dialog.show();
                 mImageView = (CircleImageView) dialoglayout.findViewById(R.id.img_category);
                 etxCategoryNme.setText(categoryForms.get(position).getCategory_Name());
 
@@ -149,7 +150,6 @@ public class FragmentTabParentCategory extends Fragment {
                             imageName=categoryForms.get(position).getC_Image_Name();
 
                         }
-
                         getRetrofitDataUpdate();
                     }
 

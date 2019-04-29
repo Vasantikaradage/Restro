@@ -32,7 +32,7 @@
                 android:background="@drawable/login_bg">
 
                 <TextView
-                    android:id="@+id/tx_add_cat"
+                    android:id="@+id/tx_add_flavour"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Add Flavour"
@@ -43,10 +43,10 @@
                     android:textStyle="bold"
                     android:visibility="gone"/>
                 <TextView
-                    android:id="@+id/tx_edit_cat"
+                    android:id="@+id/tx_edit_flavour"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Add Flavour"
+                    android:text="Edit Flavour"
                     android:textColor="@color/white"
                     android:gravity="center_horizontal"
                     android:textSize="18dp"
@@ -221,6 +221,14 @@
                 android:stretchColumns="0" />-->
 
 
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_units"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_units">
+
+            </android.support.v7.widget.RecyclerView>
+
 
 
 
@@ -239,7 +247,7 @@
                     android:layout_alignParentEnd="true"
 
                     android:drawableLeft="@drawable/ic_action_add_unit"
-                    android:layout_below="@+id/linear"
+                    android:layout_below="@+id/rv_units"
                     android:textColor="@color/colorPrimary"
                     android:layout_marginEnd="20dp"/>
 

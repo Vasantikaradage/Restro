@@ -4,8 +4,8 @@ import android.widget.EditText;
 
 public class UnitForm {
     private  int id;
-    private EditText unitName;
-    private  EditText unitPrice;
+    private String unitName;
+    private  String unitPrice;
 
     public int getId() {
         return id;
@@ -15,19 +15,19 @@ public class UnitForm {
         this.id = id;
     }
 
-    public EditText getUnitName() {
+    public String getUnitName() {
         return unitName;
     }
 
-    public void setUnitName(EditText unitName) {
+    public void setUnitName(String unitName) {
         this.unitName = unitName;
     }
 
-    public EditText getUnitPrice() {
+    public String getUnitPrice() {
         return unitPrice;
     }
 
-    public void setUnitPrice(EditText unitPrice) {
+    public void setUnitPrice(String unitPrice) {
         this.unitPrice = unitPrice;
     }
 }

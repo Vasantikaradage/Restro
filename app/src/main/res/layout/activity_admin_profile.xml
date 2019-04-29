@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     tools:context=".Admin.ActivityEmpolyeeProfile">
+
     <include
         android:id="@+id/title_name"
         layout="@layout/tool_bar_admin"
@@ -13,9 +14,9 @@
 
 
     <ScrollView
-        android:layout_below="@+id/title_name"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title_name">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -47,22 +48,57 @@
                 android:orientation="horizontal"
                 android:weightSum="2">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/personal_details"
-                android:textColor="@color/colorPrimary"
-                android:padding="5dp"
-                android:layout_weight="1.9"
-                android:textStyle="bold" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.5"
+                    android:padding="5dp"
+                    android:text="@string/personal_details"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold" />
 
-                <ImageButton
-                    android:layout_width="30dp"
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="30dp"
-                    android:background="@color/white"
-                    android:layout_weight="0.1"
-                    android:layout_gravity="end"
-                    android:src="@drawable/ic_action_editbtn"/>
+                    android:layout_weight="0.5"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/btn_update_emp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="end"
+                        android:background="@color/white"
+                        android:src="@drawable/ic_correct_signal"
+                        android:visibility="gone" />
+
+                    <ImageButton
+                        android:id="@+id/btn_cancel_emp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="end"
+
+                        android:background="@color/white"
+                        android:src="@drawable/ic_cancel_background_primary"
+                        android:visibility="gone" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageButton
+                            android:id="@+id/btn_edit_emp"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_gravity="end"
+                            android:layout_marginEnd="10dp"
+                            android:background="@color/white"
+                            android:src="@drawable/ic_action_editbtn" />
+                    </RelativeLayout>
+                </LinearLayout>
+
+
             </LinearLayout>
 
             <android.support.v7.widget.CardView
@@ -75,7 +111,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:padding="10dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -85,12 +122,21 @@
 
                         <TextView
                             android:id="@+id/tv_user_name"
-
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text=""
                             android:textColor="@color/colorAccent"
-                            android:textSize="@dimen/font_large" />
+                            android:textSize="@dimen/font_large"
+                            android:visibility="gone" />
+
+                        <EditText
+                            android:id="@+id/etv_user_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:focusable="true"
+                            android:hint="User Name"
+                            android:visibility="gone" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -102,9 +148,12 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
                         android:background="@color/colorDarkGray">
 
                     </View>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -117,7 +166,17 @@
                             android:layout_height="wrap_content"
                             android:text=""
                             android:textColor="@color/colorAccent"
-                            android:textSize="@dimen/font_large" />
+                            android:textSize="@dimen/font_large"
+                            android:visibility="gone" />
+
+                        <!--   <EditText
+                               android:id="@+id/etv_role"
+                               android:layout_width="match_parent"
+                               android:layout_height="wrap_content"
+                               android:textColor="@color/colorAccent"
+                              android:hint="Role"
+                               android:background="@null"
+                               android:visibility="gone" />-->
 
                         <TextView
 
@@ -130,9 +189,12 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
                         android:background="@color/colorDarkGray">
 
                     </View>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -145,7 +207,20 @@
                             android:layout_height="wrap_content"
                             android:text=""
                             android:textColor="@color/colorAccent"
-                            android:textSize="@dimen/font_large" />
+                            android:textSize="@dimen/font_large"
+                            android:visibility="gone" />
+
+                        <!--  <EditText
+                              android:id="@+id/etv_Active_status"
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:hint="Active Status"
+                              android:background="@null"
+                              android:inputType="number"
+                              android:textColor="@color/colorAccent"
+                              android:visibility="gone"
+
+                              />-->
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -157,6 +232,8 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
                         android:background="@color/colorDarkGray">
 
                     </View>
@@ -174,7 +251,20 @@
                             android:layout_height="wrap_content"
                             android:text=""
                             android:textColor="@color/colorAccent"
-                            android:textSize="@dimen/font_large" />
+                            android:textSize="@dimen/font_large"
+                            android:visibility="gone" />
+
+                        <EditText
+                            android:id="@+id/etv_emp_mobno"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:focusable="true"
+
+                            android:hint="Mobile"
+                            android:inputType="number"
+
+                            android:visibility="gone" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -186,6 +276,8 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
                         android:background="@color/colorDarkGray">
 
                     </View>
@@ -202,7 +294,17 @@
                             android:layout_height="wrap_content"
                             android:text=""
                             android:textColor="@color/colorAccent"
-                            android:textSize="@dimen/font_large" />
+                            android:textSize="@dimen/font_large"
+                            android:visibility="gone" />
+
+                        <EditText
+                            android:id="@+id/etv_emp_email"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:hint="Email"
+
+                            android:visibility="gone" />
 
 
                         <TextView
@@ -216,6 +318,8 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
                         android:background="@color/colorDarkGray">
 
                     </View>
@@ -232,7 +336,18 @@
                             android:layout_height="wrap_content"
                             android:text=""
                             android:textColor="@color/colorAccent"
-                            android:textSize="@dimen/font_large" />
+                            android:textSize="@dimen/font_large"
+                            android:visibility="gone" />
+
+                        <EditText
+                            android:id="@+id/etv_emp_aadhar_number"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:hint="Adhar No"
+                            android:inputType="number"
+
+                            android:visibility="gone" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -240,35 +355,49 @@
                             android:text="@string/hint_aadhar_number"
                             android:textSize="@dimen/font_small" />
                     </LinearLayout>
+
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
                         android:background="@color/colorDarkGray">
 
                     </View>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="@dimen/dimen_10dp">
-
-
-                <TextView
-                        android:id="@+id/tv_emp_address"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:lines="2"
-                        android:text=""
-                        android:textColor="@color/colorAccent"
-                        android:textSize="@dimen/font_large" />
+                        android:orientation="vertical"
+                        android:padding="@dimen/dimen_10dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/current_address"
-                        android:textSize="@dimen/font_small" />
-                </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tv_emp_address"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:maxLines="2"
+                            android:text=""
+                            android:textColor="@color/colorAccent"
+                            android:textSize="@dimen/font_large"
+                            android:visibility="gone" />
+
+                        <EditText
+                            android:id="@+id/etv_emp_address"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:hint="Address"
+                            android:maxLines="2"
+
+                            android:visibility="gone" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/current_address"
+                            android:textSize="@dimen/font_small" />
+                    </LinearLayout>
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
@@ -281,19 +410,53 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1.5"
+                    android:padding="5dp"
                     android:text="@string/hotel_details"
                     android:textColor="@color/colorPrimary"
-                    android:padding="5dp"
-                    android:layout_weight="1.9"
                     android:textStyle="bold" />
 
-                <ImageButton
-                    android:layout_width="30dp"
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="30dp"
-                    android:background="@color/white"
-                    android:layout_weight="0.1"
-                    android:layout_gravity="end"
-                    android:src="@drawable/ic_action_editbtn"/>
+                    android:layout_weight="0.5"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/btn_update_branch"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="end"
+                        android:background="@color/white"
+                        android:src="@drawable/ic_correct_signal"
+                        android:visibility="gone" />
+
+                    <ImageButton
+                        android:id="@+id/btn_cancel_branch"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="end"
+
+                        android:background="@color/white"
+                        android:src="@drawable/ic_cancel_background_primary"
+                        android:visibility="gone" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageButton
+                            android:id="@+id/btn_edit_branch"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_gravity="end"
+                            android:layout_marginEnd="10dp"
+                            android:background="@color/white"
+                            android:src="@drawable/ic_action_editbtn" />
+                    </RelativeLayout>
+                </LinearLayout>
             </LinearLayout>
 
 
@@ -323,6 +486,14 @@
                             android:textColor="@color/colorAccent"
                             android:textSize="@dimen/font_large" />
 
+                        <EditText
+                            android:id="@+id/etv_hotel_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:hint="Hotel Name"
+                            android:visibility="gone" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -333,6 +504,44 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="@color/colorDarkGray" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="@dimen/dimen_10dp">
+
+                        <TextView
+                            android:id="@+id/tv_branch_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:textColor="@color/colorAccent"
+                            android:textSize="@dimen/font_large" />
+
+                        <EditText
+                            android:id="@+id/etv_branch_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:hint="Branch Name"
+                            android:visibility="gone" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Branch Name"
+                            android:textSize="@dimen/font_small" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
                         android:background="@color/colorDarkGray">
 
                     </View>
@@ -345,12 +554,21 @@
                         android:padding="@dimen/dimen_10dp">
 
                         <TextView
-                            android:id="@+id/tv_hotel_mobno"
+                            android:id="@+id/tv_branch_mobno"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text=""
                             android:textColor="@color/colorAccent"
                             android:textSize="@dimen/font_large" />
+
+                        <EditText
+                            android:id="@+id/etv_branch_mobno"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:hint="Mobile No"
+                            android:inputType="number"
+                            android:visibility="gone" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -362,6 +580,8 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
                         android:background="@color/colorDarkGray">
 
                     </View>
@@ -373,12 +593,58 @@
                         android:padding="@dimen/dimen_10dp">
 
                         <TextView
-                            android:id="@+id/tv_hotel_email"
+                            android:id="@+id/tv_branch_phone"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:inputType="number"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="@dimen/font_large" />
+
+                        <EditText
+                            android:id="@+id/etv_branch_phone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:hint="Phone No"
+                            android:inputType="number"
+                            android:visibility="gone" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Phone No"
+                            android:textSize="@dimen/font_small" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="@color/colorDarkGray"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="@dimen/dimen_10dp">
+
+                        <TextView
+                            android:id="@+id/tv_branch_email"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text=""
                             android:textColor="@color/colorAccent"
                             android:textSize="@dimen/font_large" />
+
+                        <EditText
+                            android:id="@+id/etv_branch_email"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:hint="Email Address"
+                            android:visibility="gone" />
 
 
                         <TextView
@@ -392,10 +658,11 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
                         android:background="@color/colorDarkGray">
 
                     </View>
-
 
 
                     <LinearLayout
@@ -406,13 +673,22 @@
 
 
                         <TextView
-                            android:id="@+id/tv_hotel_address"
+                            android:id="@+id/tv_branch_address"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:lines="2"
+                            android:maxLines="2"
                             android:text=""
                             android:textColor="@color/colorAccent"
                             android:textSize="@dimen/font_large" />
+
+                        <EditText
+                            android:id="@+id/etv_branch_address"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:hint="Current Address"
+                            android:visibility="gone" />
+
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -432,19 +708,54 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1.5"
+                    android:padding="5dp"
                     android:text="@string/hotel_account_details"
                     android:textColor="@color/colorPrimary"
-                    android:padding="5dp"
-                    android:layout_weight="1.9"
                     android:textStyle="bold" />
 
-                <ImageButton
-                    android:layout_width="30dp"
+
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="30dp"
-                    android:background="@color/white"
-                    android:layout_weight="0.1"
-                    android:layout_gravity="end"
-                    android:src="@drawable/ic_action_editbtn"/>
+                    android:layout_weight="0.5"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/btn_update_branch_account"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="end"
+                        android:background="@color/white"
+                        android:src="@drawable/ic_correct_signal"
+                        android:visibility="gone" />
+
+                    <ImageButton
+                        android:id="@+id/btn_cancel_branch_account"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="end"
+
+                        android:background="@color/white"
+                        android:src="@drawable/ic_cancel_background_primary"
+                        android:visibility="gone" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageButton
+                            android:id="@+id/btn_edit_branch_account"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_gravity="end"
+                            android:layout_marginEnd="10dp"
+                            android:background="@color/white"
+                            android:src="@drawable/ic_action_editbtn" />
+                    </RelativeLayout>
+                </LinearLayout>
             </LinearLayout>
 
 
@@ -460,48 +771,71 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <LinearLayout
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/dimen_10dp">
+
+                    <TextView
+                        android:id="@+id/tv_gstn_no"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textColor="@color/colorAccent"
+                        android:textSize="@dimen/font_large" />
+
+                    <EditText
+                        android:id="@+id/etv_gstn_no"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="@dimen/dimen_10dp">
-
-                        <TextView
-                            android:id="@+id/tv_gstn_no"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text=""
-                            android:textColor="@color/colorAccent"
-                            android:textSize="@dimen/font_large" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/gstn_no"
-                            android:textSize="@dimen/font_small" />
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.5dp"
-                        android:background="@color/colorDarkGray">
-
-                    </View>
+                        android:background="@null"
+                        android:hint="GSTN No"
+                        android:visibility="gone" />
 
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="@dimen/dimen_10dp">
+                        android:text="@string/gstn_no"
+                        android:textSize="@dimen/font_small" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@color/colorDarkGray">
+
+                </View>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/dimen_10dp">
+
+
 
                         <TextView
                             android:id="@+id/tv_no_of_tables"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:text=""
                             android:textColor="@color/colorAccent"
                             android:textSize="@dimen/font_large" />
+
+                        <EditText
+                            android:id="@+id/etv_no_of_tables"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:hint="No Of Tables"
+                            android:inputType="number"
+                            android:visibility="gone" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -513,6 +847,8 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
                         android:background="@color/colorDarkGray">
 
                     </View>
@@ -523,13 +859,62 @@
                         android:orientation="vertical"
                         android:padding="@dimen/dimen_10dp">
 
-                        <TextView
-                            android:id="@+id/tv_hotel_timing"
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:id="@+id/time_tv_liner"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:weightSum="2">
+
+                        <TextView
+                            android:id="@+id/tv_branch_start_time"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:text=""
                             android:textColor="@color/colorAccent"
                             android:textSize="@dimen/font_large" />
+                            <TextView
+                                android:id="@+id/tv_branch_end_time"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text=""
+                                android:textColor="@color/colorAccent"
+                                android:textSize="@dimen/font_large" />
+                        </LinearLayout>
+
+                        <!--<LinearLayout
+                            android:id="@+id/time_etv_liner"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:weightSum="2"
+                            >
+
+                        <TextView
+                            android:id="@+id/etv_branch_start"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textSize="19sp"
+
+                            android:hint="Start time"
+                            android:visibility="gone"
+                            />
+                            <TextView
+                                android:id="@+id/etv_branch_end"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:textSize="19sp"
+
+                                android:hint="End Time"
+                                android:visibility="gone"
+                                />
+
+                        </LinearLayout>-->
+
 
 
                         <TextView

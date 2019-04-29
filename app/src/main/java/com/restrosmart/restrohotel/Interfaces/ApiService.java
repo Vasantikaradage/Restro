@@ -21,7 +21,7 @@ import retrofit2.http.POST;
 public interface ApiService {
 
 
-    String BASE_URL = "http://192.168.0.10/Restro_Smart/";
+    String BASE_URL = "http://192.168.0.13/Restro_Smart/";
 
 
     /*parent category display*/
@@ -112,16 +112,27 @@ public interface ApiService {
     /*branch edit detail*/
     @POST("Branch.php?branch=branch_edit")
     @FormUrlEncoded
-    Call<JsonObject> editHotelDetail(
+    Call<JsonObject> editBranchDetails(
             @Field("Branch_Name") String branchName,
             @Field("Branch_Address") String hotelAddress,
             @Field("Branch_Email") String hotelEmail,
             @Field("Branch_Mob") int hotelMob,
-            @Field("Branch_Gstnno") int hotelGstnNo,
+            @Field("Branch_Phone") int branchPhone,
+            @Field("Branch_Gstnno") String hotelGstnNo,
             @Field("Branch_Table_Count") int noOfTable,
-            @Field("Branch_Timing") String hotelTiming,
+            @Field("Start_Time") String hotelstartTime,
+            @Field("End_Time") String hotelendTime,
             @Field("Hotel_Id") int hotelId,
             @Field("Branch_Id") int branchid);
+
+
+
+
+
+
+
+  //  Branch_Phone:2323
+
 
     /*Employee Signup*/
     @POST("Employee_Signup.php?Empcall=signup")
@@ -227,6 +238,35 @@ public interface ApiService {
                                  @Field("Topping_Id") int toppingId);
 
 
+    //table add
+    @POST("Table.php?table=table_add")
+    @FormUrlEncoded
+    Call<JsonObject> addtables(@Field("Area_Name") String areaName,
+                                 @Field("Table_Count") int tableCount,
+                                 @Field("Hotel_Id") int Hotel_Id,
+                                 @Field("Branch_Id") int Branch_Id);
+
+    //table display
+    @POST("Table.php?table=table_disp")
+    @FormUrlEncoded
+    Call<JsonObject> tableDisplay(@Field("Hotel_Id") int Hotel_Id,
+                               @Field("Branch_Id") int Branch_Id);
+
+    //update Area
+    @POST("Table.php?table=table_disp")
+    @FormUrlEncoded
+    Call<JsonObject> UpdateArea(@Field("Area_Name") String areaName,
+                                @Field("Hotel_Id") int Hotel_Id,
+                                @Field("Branch_Id") int Branch_Id);
+
+
+
+
+
+
+
+
+
     /*sub category display*/
     @POST("Offer.php?offer=subcate_select")
     @FormUrlEncoded
@@ -314,6 +354,19 @@ public interface ApiService {
                                 @Field("Hotel_Id") int hotelId,
                                 @Field("Branch_Id") int branchId,
                                 @Field("Flavarray") String flavour);
+
+    /*Flavour edit*/
+    @POST("Flavour.php?flavour=flavour_edit")
+    @FormUrlEncoded
+    Call<JsonObject> flavourEdit(@Field("Flavour_Name") String flavourName,
+                                @Field("F_Image_Name") String fImageName,
+                                @Field("Flavour_Id") int flavourId,
+                                @Field("Hotel_Id") int hotelId,
+                                @Field("Branch_Id") int branchId,
+                                @Field("flavunit") String flavour);
+
+
+
 
     /*Flavour Delete*/
     @POST("Flavour.php?flavour=flavour_delete")
@@ -443,11 +496,10 @@ public interface ApiService {
                                         @Field("Hotel_Id") int hotel_id);
 
 
-    /*Display Water Bottle*/
+    /*Add  Water Bottle*/
     @POST("Menu.php?menu=Waterbottle_add")
     @FormUrlEncoded
-    Call<JsonObject> AddWaterBottle(@Field("Menu_Id") int id,
-                                    @Field("Menu_Name") String menuName,
+    Call<JsonObject> AddWaterBottle(@Field("Menu_Name") String menuName,
                                     @Field("Menu_Image_Name") String imageName,
                                     @Field("Category_Id") int category_id,
                                     @Field("Non_Ac_Rate") int price,

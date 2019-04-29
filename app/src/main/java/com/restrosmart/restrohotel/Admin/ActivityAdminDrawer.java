@@ -63,7 +63,7 @@ public class ActivityAdminDrawer extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private View dialoglayout;
-    private IntentFilter intentFilter,intentFilterToppings;
+    private IntentFilter intentFilter,intentFilterToppings,intentFilterAdminProfile;
     private RetrofitService mRetrofitService;
     private IResult mResultCallBack;
 
@@ -87,8 +87,10 @@ public class ActivityAdminDrawer extends AppCompatActivity
     private Toolbar toolbar;
     MyReceiver myReceiver;
     MyReceiverTopping myReceiverTopping;
+
     private  String  refresh_categoryList;
     private  String refresh_toppingList;
+    private  String refresh_adminProfile;
     Fragment fragment = null;
     List<EmployeeForm> employeeList;
     HashMap<String, String> name_info;
@@ -110,6 +112,8 @@ public class ActivityAdminDrawer extends AppCompatActivity
         refresh_categoryList=intent.getStringExtra("Refresh_CategoryList");
         refresh_toppingList=intent.getStringExtra("Refresh_ToppingList");
 
+
+
         intentFilter = new IntentFilter("Refresh_CategoryList");
         intentFilter.addCategory(Intent.CATEGORY_DEFAULT);
         myReceiver = new MyReceiver();
@@ -119,9 +123,6 @@ public class ActivityAdminDrawer extends AppCompatActivity
         intentFilterToppings.addCategory(Intent.CATEGORY_DEFAULT);
         myReceiverTopping = new MyReceiverTopping();
         registerReceiver(myReceiverTopping, intentFilterToppings);
-
-
-
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -178,6 +179,7 @@ public class ActivityAdminDrawer extends AppCompatActivity
         MenuItem nav_report = menu.findItem(R.id.nav_reports);
         MenuItem nav_topins=menu.findItem(R.id.nav_toppings);
         MenuItem nav_dashborad=menu.findItem(R.id.nav_dashboard);
+        MenuItem nav_tables=menu.findItem(R.id.nav_table);
 
         getEmployeeDetail();
         if (emp_role.equals("2")) {
@@ -189,6 +191,7 @@ public class ActivityAdminDrawer extends AppCompatActivity
             nav_report.setVisible(true);
             nav_topins.setVisible(true);
             nav_dashborad.setVisible(true);
+            nav_tables.setVisible(true);
 
         } else if (emp_role.equals("1")) {
 
@@ -200,6 +203,7 @@ public class ActivityAdminDrawer extends AppCompatActivity
             nav_report.setVisible(true);
             nav_topins.setVisible(false);
             nav_dashborad.setVisible(true);
+            nav_tables.setVisible(true);
 
         } else {
 
@@ -276,6 +280,12 @@ public class ActivityAdminDrawer extends AppCompatActivity
     }
 
     @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        getEmployeeDetail();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.admin_drawer, menu);
@@ -333,15 +343,14 @@ public class ActivityAdminDrawer extends AppCompatActivity
                         JsonObject jsonObject1 = response.body();
                         String value = jsonObject1.toString();
                         try {
-                            JSONObject object = new JSONObject(value);
-                            int status = object.getInt("status");
+                            JSONObject object = new JSONObject(value);int status = object.getInt("status");
                             if (status == 1) {
-                                menuId = object.getInt("Menu_Id");
-                                menuPrice = object.getInt("Non_Ac_Rate");
-                                if (menuId == 1) {
-                                    dailogWaterBottle();
-                                }
-                            } else {
+                               // menuId = object.getInt("Menu_Id");
+                               menuPrice = object.getInt("Non_Ac_Rate");
+                                dailogWaterBottle();
+                            }
+                            else
+                            {
                                 dailogWaterBottle();
                             }
                         } catch (JSONException e) {
@@ -351,7 +360,26 @@ public class ActivityAdminDrawer extends AppCompatActivity
 
                     case EDIT_WATER_BOTTLE:
                         JsonObject jsonObject2 = response.body();
-                        Toast.makeText(ActivityAdminDrawer.this, "Edit the water Bottle Successfully..", Toast.LENGTH_LONG).show();
+                        String valueinfo=jsonObject2.toString();
+                        try {
+                            JSONObject object=new JSONObject(valueinfo);
+
+                            int status=object.getInt("status");
+                            if(status==1)
+                            {
+                                Toast.makeText(ActivityAdminDrawer.this, "Edit the water Bottle Successfully..", Toast.LENGTH_LONG).show();
+                                 dialog.dismiss();
+                            }
+                            else
+                            {
+                                Toast.makeText(ActivityAdminDrawer.this, "Try Again..", Toast.LENGTH_LONG).show();
+                                dialog.dismiss();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
                         break;
                 }
             }
@@ -381,7 +409,7 @@ public class ActivityAdminDrawer extends AppCompatActivity
         textTitlePrice = dialoglayout.findViewById(R.id.txTitlePrice);
         imageBtnEdit = (ImageView) dialoglayout.findViewById(R.id.imageBtn_edit);
 
-        if (menuId == 1) {
+      //  if (menuPrice != 0) {
             linearLayout.setVisibility(View.VISIBLE);
             imageBtnEdit.setVisibility(View.VISIBLE);
             tvBottlePrice.setVisibility(View.VISIBLE);
@@ -391,9 +419,9 @@ public class ActivityAdminDrawer extends AppCompatActivity
             textInfo.setVisibility(View.GONE);
             btnEdit.setVisibility(View.GONE);
 
-            String price = String.valueOf(menuPrice);
+           String price = String.valueOf(menuPrice);
             tvBottlePrice.setText(price);
-
+        dialog.show();
             imageBtnEdit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -426,6 +454,8 @@ public class ActivityAdminDrawer extends AppCompatActivity
 
                         }
                     });
+                    dialog.show();
+
                     btnCancel.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -433,8 +463,9 @@ public class ActivityAdminDrawer extends AppCompatActivity
                         }
                     });
                 }
+
             });
-        } else {
+     /*   } else {
             btnSave.setVisibility(View.VISIBLE);
             editTextPrice.setVisibility(View.VISIBLE);
             textInfo.setVisibility(View.VISIBLE);
@@ -451,7 +482,6 @@ public class ActivityAdminDrawer extends AppCompatActivity
                     ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
                     mRetrofitService = new RetrofitService(mResultCallBack, ActivityAdminDrawer.this);
                     mRetrofitService.retrofitData(SAVE_WATER_BOTTLE, service.AddWaterBottle(
-                            1,
                             "Water Bottle",
                             "water.png",
                             0,
@@ -462,7 +492,7 @@ public class ActivityAdminDrawer extends AppCompatActivity
                 }
 
 
-            });
+            });*/
             btnCancel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -470,8 +500,8 @@ public class ActivityAdminDrawer extends AppCompatActivity
                 }
             });
         }
-        dialog.show();
-    }
+
+
 
     private void logout() {
         AlertUtils.AlertDialoge(this, android.R.drawable.ic_dialog_alert, "Logout", "Are you sure You want to logout?");
@@ -501,6 +531,9 @@ public class ActivityAdminDrawer extends AppCompatActivity
             fragment.setArguments(args);
             fragment.setArguments(bundle);
             title = "All Orders";
+        }else  if(id == R.id.nav_table){
+            fragment=new FragmentTableDetails();
+            title="Table Details";
 
         } else if (id == R.id.nav_toppings) {
             fragment = new FragmentToppings();

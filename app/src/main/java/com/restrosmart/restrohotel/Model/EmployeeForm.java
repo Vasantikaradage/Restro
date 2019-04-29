@@ -119,7 +119,7 @@ public class EmployeeForm implements Parcelable {
      * @param empAddress
      * @param empImg
      */
-    public EmployeeForm(Integer empId, String empName, String empImg, String empMob, String empEmail, String empAddress, String empAdharId, String userName, Integer activeStatus, String hotelName, int role_Id, int branchId,String role) {
+    public EmployeeForm(Integer empId, String empName, String empImg, String empMob, String empEmail, String empAddress, String empAdharId, String userName, Integer activeStatus, String hotelName, int role_Id, int branchId,String role,String password) {
         super();
         this.empId = empId;
         this.empName = empName;
@@ -134,6 +134,7 @@ public class EmployeeForm implements Parcelable {
         this.Role_Id = role_Id;
         this.Branch_Id = branchId;
         this.Role=role;
+        this.Password=password;
     }
 
     protected EmployeeForm(Parcel in) {
@@ -158,6 +159,7 @@ public class EmployeeForm implements Parcelable {
         Role_Id = in.readInt();
         Branch_Id = in.readInt();
         Role=in.readString();
+        Password=in.readString();
     }
 
     public static final Creator<EmployeeForm> CREATOR = new Creator<EmployeeForm>() {
@@ -292,5 +294,6 @@ public class EmployeeForm implements Parcelable {
         parcel.writeInt(Role_Id);
         parcel.writeInt(Branch_Id);
         parcel.writeString(Role);
+        parcel.writeString(Password);
     }
 }

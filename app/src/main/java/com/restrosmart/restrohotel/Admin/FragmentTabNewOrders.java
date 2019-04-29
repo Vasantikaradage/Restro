@@ -10,8 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.restrosmart.restrohotel.Adapter.Adapter_New_Order;
-import com.restrosmart.restrohotel.Adapter.KitchenAdapter_New_Order;
+import com.restrosmart.restrohotel.Adapter.AdapterNewOrder;
 import com.restrosmart.restrohotel.Model.MenuDisplayForm;
 import com.restrosmart.restrohotel.Model.OrderModel;
 import com.restrosmart.restrohotel.R;
@@ -30,7 +29,7 @@ public class FragmentTabNewOrders extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        userType = getArguments().getString("userType");
+       // userType = getArguments().getString("userType");
         View view = inflater.inflate(R.layout.tab_orders, container, false);
 
         return view;
@@ -76,15 +75,15 @@ public class FragmentTabNewOrders extends Fragment {
 
         // recyclerView.getLayoutManager().setMeasurementCacheEnabled(false);
 
-        if (userType.equals("Admin")) {
-            Adapter_New_Order adapterNewOrder = new Adapter_New_Order(getActivity(), arrayList);
+       // if (userType.equals("Admin")) {
+            AdapterNewOrder adapterNewOrder = new AdapterNewOrder(getActivity(), arrayList);
             recyclerView.setAdapter(adapterNewOrder);
-        } else {
+        /*} else {
 
             KitchenAdapter_New_Order kitchenAdapterNewOrder = new KitchenAdapter_New_Order(getActivity(), arrayList);
             recyclerView.setAdapter(kitchenAdapterNewOrder);
 
-        }
+        }*/
 
     }
 }

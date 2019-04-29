@@ -92,6 +92,7 @@ private ApiService apiService;
                dialog = builder.create();
                mCircularImageView=dialoglayout.findViewById(R.id.img_menu);
                flavourName=dialoglayout.findViewById(R.id.flavour_name);
+               TextView unit=dialoglayout.findViewById(R.id.unit);
 
                rvFlavourDisplay=dialoglayout.findViewById(R.id.rv_flavour);
                imageBtnCancel=dialoglayout.findViewById(R.id.btn_cancel);
@@ -103,14 +104,22 @@ private ApiService apiService;
                        .memoryPolicy(MemoryPolicy.NO_STORE)
                        .into(mCircularImageView);
 
-               LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
-               rvFlavourDisplay.setHasFixedSize(true);
-               rvFlavourDisplay.setLayoutManager(linearLayoutManager);
+               if( flavourFormArrayList.get(position).getArrayListUnits().size()==0)
+               {
+                   unit.setVisibility(View.GONE);
+               }
+               else {
+                   unit.setVisibility(View.VISIBLE);
 
-               AdapterDisplayAllFlavourView adapterDisplayAllFlavourView  = new AdapterDisplayAllFlavourView(context, flavourFormArrayList.get(position).getArrayListUnits());
-               rvFlavourDisplay.setAdapter(adapterDisplayAllFlavourView);
+                   LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
+                   rvFlavourDisplay.setHasFixedSize(true);
+                   rvFlavourDisplay.setLayoutManager(linearLayoutManager);
+
+                   AdapterDisplayAllFlavourView adapterDisplayAllFlavourView = new AdapterDisplayAllFlavourView(context, flavourFormArrayList.get(position).getArrayListUnits());
+                   rvFlavourDisplay.setAdapter(adapterDisplayAllFlavourView);
+                   notifyDataSetChanged();
+               }
                dialog.show();
-               notifyDataSetChanged();
                imageBtnCancel.setOnClickListener(new View.OnClickListener() {
                    @Override
                    public void onClick(View view) {

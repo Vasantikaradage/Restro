@@ -16,24 +16,18 @@ import com.restrosmart.restrohotel.R;
 
 import java.util.ArrayList;
 
-public class Adapter_New_Order extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class AdapterNewOrder extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
     private static final int TYPE_FOOTER = 2;
-    //ArrayList<T_Attendance_Form> formArrayList;
+    private Context context;
+    private ArrayList<OrderModel> arrayList;
 
-    Context context;
-
-    ArrayList<OrderModel> arrayList;
-
-
-    public Adapter_New_Order(Context context, ArrayList<OrderModel> arrayList) {
-
+    public AdapterNewOrder(Context context, ArrayList<OrderModel> arrayList) {
         this.context = context;
         this.arrayList = arrayList;
     }
-
 
     @NonNull
     @Override
@@ -59,15 +53,15 @@ public class Adapter_New_Order extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof HeaderViewHolder) {
-            ((HeaderViewHolder) holder).mCustNo.setText(arrayList.get(position).getCust_mob_no());
+            ((HeaderViewHolder) holder).mCustNo.setText("9845246171");
             ((HeaderViewHolder) holder).mOrderId.setText(arrayList.get(position).getOrder_id());
             ((HeaderViewHolder) holder).mDateTime.setText(arrayList.get(position).getTime());
-            ((HeaderViewHolder) holder).mTotal.setText(context.getResources().getString(R.string.Rs) + " " + arrayList.get(position).getTot_bill());
+            //((HeaderViewHolder) holder).mTotal.setText(context.getResources().getString(R.string.Rs) + " " + arrayList.get(position).getTot_bill());
 
         } else if (holder instanceof FooterViewHolder) {
 
             ((FooterViewHolder) holder).suggestion.setText(arrayList.get(position - 2).getMsg());
-            ((FooterViewHolder) holder).mCall.setOnClickListener(new View.OnClickListener() {
+            /*((FooterViewHolder) holder).mCall.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
@@ -82,7 +76,7 @@ public class Adapter_New_Order extends RecyclerView.Adapter<RecyclerView.ViewHol
                     context.startActivity(i);
                 }
             });
-
+*/
 
            /* ((FooterViewHolder) holder).mCancel.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -125,6 +119,7 @@ public class Adapter_New_Order extends RecyclerView.Adapter<RecyclerView.ViewHol
         return arrayList.size() + 2;
     }
 
+
     private OrderModel getItem(int position) {
         return arrayList.get(position);
     }
@@ -132,12 +127,6 @@ public class Adapter_New_Order extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public int getItemViewType(int position) {
-       /* if (isPositionItem(position))
-
-            return TYPE_HEADER;
-        return TYPE_ITEM;
-       // return TYPE_FOOTER;*/
-
         if (position == 0) {
             return TYPE_HEADER;
         } else if (position == arrayList.size()) {
@@ -148,6 +137,7 @@ public class Adapter_New_Order extends RecyclerView.Adapter<RecyclerView.ViewHol
         return TYPE_ITEM;
 
     }
+
 
 
     private boolean isPositionItem(int position) {
@@ -161,11 +151,10 @@ public class Adapter_New_Order extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         public HeaderViewHolder(View itemView) {
             super(itemView);
-
             mCustNo = (TextView) itemView.findViewById(R.id.tv_cust_mobno);
             mDateTime = (TextView) itemView.findViewById(R.id.tv_date_time);
             mOrderId = (TextView) itemView.findViewById(R.id.order_id);
-            mTotal = (TextView) itemView.findViewById(R.id.total);
+           // mTotal = (TextView) itemView.findViewById(R.id.total);
         }
     }
 
@@ -174,7 +163,6 @@ public class Adapter_New_Order extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         public ItemViewHolder(View itemView1) {
             super(itemView1);
-
             menu_name = (TextView) itemView1.findViewById(R.id.tx_menu_name);
             menu_qty = (TextView) itemView1.findViewById(R.id.tx_menu_qty);
             menu_price = (TextView) itemView1.findViewById(R.id.tx_menu_price);
@@ -184,7 +172,7 @@ public class Adapter_New_Order extends RecyclerView.Adapter<RecyclerView.ViewHol
     private class FooterViewHolder extends RecyclerView.ViewHolder {
 
         TextView suggestion;
-        ImageButton mPrint, mCall, mView, mCancel;
+       // ImageButton mPrint, mCall, mView, mCancel;
         // Button mCancel,mAcept;
 
 
@@ -193,67 +181,12 @@ public class Adapter_New_Order extends RecyclerView.Adapter<RecyclerView.ViewHol
 
             suggestion = (TextView) itemView1.findViewById(R.id.suggestion);
 
-            mCall = (ImageButton) itemView1.findViewById(R.id.btn_call_cust);
-            mView = (ImageButton) itemView1.findViewById(R.id.btn_view);
-            mCancel = (ImageButton) itemView1.findViewById(R.id.btn_cancel_order);
+          //  mCall = (ImageButton) itemView1.findViewById(R.id.btn_call_cust);
+           // mView = (ImageButton) itemView1.findViewById(R.id.btn_view);
+           // mCancel = (ImageButton) itemView1.findViewById(R.id.btn_cancel_order);
             //  mAcept = (Button)itemView1.findViewById(R.id.btn_accept_order);
         }
     }
-
-
-    /*Context context;
-    ArrayList<Orders> arrayList;
-
-    public Adapter_New_Order(FragmentActivity activity, ArrayList<Orders> arrayList) {
-
-        this.context = activity;
-        this.arrayList =arrayList;
-        }
-
-
-    @NonNull
-    @Override
-    public MyHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        final View view = LayoutInflater.from(context).inflate(R.layout.new_order_list, parent, false);
-        return new MyHolder(view);
-
-
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull MyHolder holder, int position) {
-
-
-
-    }
-
-
-    @Override
-    public int getItemCount() {
-        return arrayList.size();
-    }
-
-    public class MyHolder extends RecyclerView.ViewHolder{
-
-        TextView mCustNo,mDateTime,mOrderId,mTotal,suggestion;
-
-        Button mPrint,mCall,mCancel,mAcept;
-
-        public MyHolder(View itemView) {
-            super(itemView);
-
-            mCustNo = (TextView)itemView.findViewById(R.id.tv_cust_mobno);
-            mDateTime = (TextView)itemView.findViewById(R.id.tv_date_time);
-            mOrderId = (TextView)itemView.findViewById(R.id.tv_order_id);
-            mTotal = (TextView)itemView.findViewById(R.id.tv_total);
-            suggestion = (TextView)itemView.findViewById(R.id.tv_suggestion);
-
-            mCall = (Button)itemView.findViewById(R.id.btn_call_cust);
-            mPrint = (Button)itemView.findViewById(R.id.btn_print);
-            mCancel = (Button)itemView.findViewById(R.id.btn_cancel_order);
-            mAcept = (Button)itemView.findViewById(R.id.btn_accept_order);
-        }
-    }*/
 }
 
 

@@ -72,19 +72,19 @@ public class ActivityAddNewBranch extends AppCompatActivity {
             btnUpdate.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    initRetrofitCallback();
+                   /* initRetrofitCallback();
                     ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
                     mRetrofitService = new RetrofitService(mResultCallBack, ActivityAddNewBranch.this);
-                    mRetrofitService.retrofitData(EDIT_BRANCH_DETAILS, (service.editHotelDetail(
+                    mRetrofitService.retrofitData(EDIT_BRANCH_DETAILS, (service.editBranchDetails(
                             etvBranchName.getText().toString(),
                             etvAddress.getText().toString(),
                             etvEmail.getText().toString(),
                             Integer.parseInt(etvMob.getText().toString()),
                             Integer.parseInt(etvGstnNo.getText().toString()),
                             Integer.parseInt(etvTblNo.getText().toString()),
-                            etvHotelTiming.getText().toString(),
+                           etvBra,
                             Integer.parseInt(mHotelId),
-                            Integer.parseInt(mBranchId))));
+                            Integer.parseInt(mBranchId))));*/
                 }
             });
         } else {
@@ -105,6 +105,7 @@ public class ActivityAddNewBranch extends AppCompatActivity {
         etvHotelTiming = (EditText) findViewById(R.id.etv_hotel_time);
         btnUpdate = (Button) findViewById(R.id.btn_edit_branch);
         btnSave = (Button) findViewById(R.id.btn_save_branch);
+
     }
 
     private void initRetrofitCallback() {

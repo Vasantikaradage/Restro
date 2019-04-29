@@ -18,7 +18,7 @@
             android:title="DashBoard" />
     </group>
 
-    <group
+       <group
         android:id="@+id/gp_all_orders"
         android:checkableBehavior="single">
         <item
@@ -30,6 +30,20 @@
             app:itemTextColor="#ac1e1e"
             android:title="Orders" />
     </group>
+
+    <group
+        android:id="@+id/gp_all_tables"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_table"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:checkable="true"
+            android:icon="@drawable/ic_all_order"
+            app:itemTextColor="#ac1e1e"
+            android:title="Table Deatails" />
+    </group>
+
 
     <group
         android:id="@+id/gp_toppings"

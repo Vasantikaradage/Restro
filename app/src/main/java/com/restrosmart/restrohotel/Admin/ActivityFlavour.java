@@ -12,7 +12,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -20,7 +19,6 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,6 +27,7 @@ import com.google.gson.JsonObject;
 
 
 import com.restrosmart.restrohotel.Adapter.AdapterDisplayFlavour;
+import com.restrosmart.restrohotel.Adapter.RVAdapterUnitView;
 import com.restrosmart.restrohotel.Interfaces.ApiService;
 
 import com.restrosmart.restrohotel.Interfaces.DeleteListener;
@@ -58,8 +57,8 @@ import retrofit2.Response;
 import static com.restrosmart.restrohotel.ConstantVariables.ADD_FLAVOUR;
 import static com.restrosmart.restrohotel.ConstantVariables.FLAVOUR_DELETE;
 import static com.restrosmart.restrohotel.ConstantVariables.FLAVOUR_DISPLAY;
+import static com.restrosmart.restrohotel.ConstantVariables.FLAVOUR_EDIT;
 import static com.restrosmart.restrohotel.ConstantVariables.IMAGE_RESULT_OK;
-import static com.restrosmart.restrohotel.ConstantVariables.MENU_DELETE;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.BRANCH_ID;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.HOTEL_ID;
 
@@ -72,13 +71,14 @@ public class ActivityFlavour extends AppCompatActivity {
     private ArrayList<FlavourUnitForm> arrayListflavourUnit;
     private ArrayList<FlavourUnitForm> arrayList;
     private TableRow tableRow;
-    private TableLayout tableLayout;
+
     private ArrayList<EditText> arrayListUnitName;
     private ArrayList<EditText> arrayListUnitPrice;
     private ArrayList<ImageButton> arrayListUnitButton;
+    private ApiService apiService;
 
 
-    private  ArrayList<UnitForm>arrayListUnit;
+    private ArrayList<FlavourUnitForm> arrayListUnit;
     private TextView txTitle;
     private int mHotelId, mBranchId;
     private RecyclerView recyclerView;
@@ -86,20 +86,22 @@ public class ActivityFlavour extends AppCompatActivity {
     private IResult mResultCallBack;
     private RetrofitService mRetrofitService;
     private FrameLayout frameLayoutBtnAdd;
-    private View dialoglayout;
+    private View dialoglayout, dialogLayoutField;
     private BottomSheetDialog dialog;
+    private AlertDialog alertDialog;
     private EditText tv0, tv1;
-    private  String image_result;
-    EditText unitName,unitPrice;
+    private String image_result;
+    EditText unitName, unitPrice;
 
     private JSONArray jsonArray;
     private CircleImageView circleImageView;
     private Toolbar mTopToolbar;
     private Intent intent;
-    private  ImageButton imageButton;
+    private ImageButton imageButton;
     int i;
-    Button cancel;
-    int count=0;
+
+    int count = 0;
+    private RecyclerView rvUnit;
 
 
     @Override
@@ -120,186 +122,154 @@ public class ActivityFlavour extends AppCompatActivity {
         mRetrofitService = new RetrofitService(mResultCallBack, ActivityFlavour.this);
         mRetrofitService.retrofitData(FLAVOUR_DISPLAY, service.flavourDisplay(intent.getIntExtra("menuId", 0),
                 mHotelId,
-              mBranchId
+                mBranchId
         ));
 
 
         frameLayoutBtnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                callAddMethod();
+            }
+        });
+
+
+    }
+
+    private void callAddMethod() {
+        LayoutInflater li = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        dialoglayout = li.inflate(R.layout.dialog_add_flavour, null);
+        dialog = new BottomSheetDialog(ActivityFlavour.this);
+        dialog.setContentView(dialoglayout);
+
+
+        // dialog = builder.create();
+        final EditText etflavourName = (EditText) dialoglayout.findViewById(R.id.etx_flavour_name);
+        TextView tvAddUnit = (TextView) dialoglayout.findViewById(R.id.tv_add_unit);
+        circleImageView = (CircleImageView) dialoglayout.findViewById(R.id.img_flavour);
+        FrameLayout btnCamera = (FrameLayout) dialoglayout.findViewById(R.id.iv_select_image);
+        Button btnSaveFlavour = (Button) dialoglayout.findViewById(R.id.btnSave);
+        Button btnCancel = (Button) dialoglayout.findViewById(R.id.btnCancel);
+        TextView tvTitle=dialoglayout.findViewById(R.id.tx_add_flavour);
+        tvTitle.setVisibility(View.VISIBLE);
+        rvUnit = dialoglayout.findViewById(R.id.rv_units);
+        dialog.show();
+
+        // callTableLayout();
+        btnCamera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent flavourIntent = new Intent(ActivityFlavour.this, ActivityFlavourGallery.class);
+                // intent.putExtra("Flavour_Name", "1");
+                flavourIntent.putExtra("categoryId", intent.getIntExtra("categoryId", 0));
+                flavourIntent.putExtra("pcId", intent.getIntExtra("pcId", 0));
+                flavourIntent.putExtra("menuId", intent.getIntExtra("menuId", 0));
+                startActivityForResult(flavourIntent, IMAGE_RESULT_OK);
+
+            }
+        });
+
+        Picasso.with(dialoglayout.getContext())
+                .load(apiService.BASE_URL + image_result)
+                .resize(500, 500)
+                .into(circleImageView);
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        arrayListUnitName.clear();
+        arrayListUnitPrice.clear();
+        arrayListUnit.clear();
+        count = 0;
+        tvAddUnit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 LayoutInflater li = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-                dialoglayout = li.inflate(R.layout.activity_add_flavour, null);
-                dialog = new BottomSheetDialog(ActivityFlavour.this);
-                dialog.setContentView(dialoglayout);
-                /*arrayListUnitName.clear();
-                arrayListUnitPrice.clear();*/
+                dialogLayoutField = li.inflate(R.layout.unit_diaplay_fields, null);
+                final AlertDialog.Builder builder = new AlertDialog.Builder(ActivityFlavour.this);
+                builder.setView(dialogLayoutField);
+                alertDialog = builder.create();
 
 
+                Button save = dialogLayoutField.findViewById(R.id.btnSave);
+                Button cancel = dialogLayoutField.findViewById(R.id.btnCancel);
 
-                // dialog = builder.create();
-                final EditText etflavourName = (EditText) dialoglayout.findViewById(R.id.etx_flavour_name);
-                TextView tvAddUnit = (TextView) dialoglayout.findViewById(R.id.tv_add_unit);
-                circleImageView = (CircleImageView) dialoglayout.findViewById(R.id.img_flavour);
-                FrameLayout btnCamera = (FrameLayout) dialoglayout.findViewById(R.id.iv_select_image);
-                Button btnSaveFlavour = (Button) dialoglayout.findViewById(R.id.btnSave);
-                Button btnCancel = (Button) dialoglayout.findViewById(R.id.btnCancel);
-            //    unitName=dialoglayout.findViewById(R.id.tv_unit_name);
-             //  unitPrice=dialoglayout.findViewById(R.id.tv_unit_price);
+                unitName = dialogLayoutField.findViewById(R.id.etv_unit_name);
+                unitPrice = dialogLayoutField.findViewById(R.id.etv_unit_price);
 
-                parentLinearLayout = (LinearLayout) dialoglayout.findViewById(R.id.linear);
-             //   cancel=dialoglayout.findViewById(R.id.delete_button);
-               /* tableLayout = (TableLayout) dialoglayout.findViewById(R.id.tableLayout1);
-                tableRow = new TableRow(ActivityFlavour.this);*/
-                dialog.show();
-
-               // callTableLayout();
-                btnCamera.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent flavourIntent = new Intent(ActivityFlavour.this, ActivityFlavourGallery.class);
-                        // intent.putExtra("Flavour_Name", "1");
-                        flavourIntent.putExtra("categoryId", intent.getIntExtra("categoryId", 0));
-                        flavourIntent.putExtra("pcId", intent.getIntExtra("pcId", 0));
-                        flavourIntent.putExtra("menuId", intent.getIntExtra("menuId", 0));
-                        startActivityForResult(flavourIntent, IMAGE_RESULT_OK);
-
-                    }
-                });
-                btnCancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
-               // arrayListUnitName.add(unitName);
-               // arrayListUnitPrice.add(unitPrice);
-                arrayListUnitName.clear();
-                arrayListUnitPrice.clear();
-                arrayListUnit.clear();
-                count=0;
-                tvAddUnit.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                       /* arrayListUnitName=new ArrayList<>();
-                        arrayListUnitPrice=new ArrayList<>();
-*/
-                        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                         View rowView = inflater.inflate(R.layout.field, null);
-
-                      Button  cancelname=rowView.findViewById(R.id.delete_button);
-                        unitName=rowView.findViewById(R.id.tv_unit_name);
-                        unitPrice=rowView.findViewById(R.id.tv_unit_price);
-
-
-                        // Add the new row before the add field button.
-                        parentLinearLayout.addView(rowView, parentLinearLayout.getChildCount() );
-
-
-
-                        UnitForm unitForm=new UnitForm();
-
-                        unitForm.setUnitName(unitName);
-                        unitForm.setUnitPrice(unitPrice);
-                        unitForm.setId(count);
-                        arrayListUnit.add(unitForm);
-                        count++;
-                       // arrayListUnitName.add(unitName);
-                        //arrayListUnitPrice.add(unitPrice);
-
-                        cancelname.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-
-                                parentLinearLayout.removeView((View) view.getParent());
-
-                                for(int i=0; i<arrayListUnit.size(); i++)
-                                {
-                                    if(arrayListUnit.get(i).getId()==view.getId())
-                                    {
-                                        arrayListUnit.remove(i);
-                                    }
-                                }
-
-                            }
-                        });
-
-
-                        /*imageButton = new ImageButton(ActivityFlavour.this);
-                        imageButton.setPadding(10, 10, 20, 10);
-                        imageButton.setBackground(getResources().getDrawable(R.drawable.ic_action_cancel));
-                        tableRow.addView(imageButton);
-                        tableLayout.addView(tableRow);*/
-
-
-
-
-                       // callTableLayout();
-                    }
-
-                 /*   public void onDelete(View v) {
-                        parentLinearLayout.removeView((View) v.getParent());
-                    }*/
-                });
-
-
-
-
-/* cancel.setOnClickListener(new View.OnClickListener() {
+                save.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        parentLinearLayout.removeView((View) view.getParent());
+                        FlavourUnitForm unitForm = new FlavourUnitForm();
+                        unitForm.setUnitName(unitName.getText().toString());
+                        unitForm.setUnitPrice(Integer.parseInt(unitPrice.getText().toString()));
+                        arrayListUnit.add(unitForm);
+                        alertDialog.dismiss();
                     }
                 });
-*/
 
-
-
-
-                /*for(i=0; i<arrayListUnitName.size(); i++)
-                {
-
-                    imageButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Toast.makeText(ActivityFlavour.this,"table id"+i,Toast.LENGTH_LONG).show();
-                        }
-                    });
-                }*/
-
-                btnSaveFlavour.setOnClickListener(new View.OnClickListener() {
+                cancel.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
-                        if (etflavourName.getText().toString().length() == 0 || arrayListUnit.size()==0) {
-                            alertDialog();
+                    public void onClick(View view) {
+                        alertDialog.dismiss();
+                    }
+                });
+                alertDialog.show();
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ActivityFlavour.this, LinearLayoutManager.VERTICAL, false);
+                rvUnit.setHasFixedSize(true);
+                rvUnit.setLayoutManager(linearLayoutManager);
+                RVAdapterUnitView adapterUnitView = new RVAdapterUnitView(getApplicationContext(), arrayListUnit, new DeleteListener() {
+                    @Override
+                    public void getDeleteListenerPosition(int position) {
+                        arrayListUnit.remove(position);
+                    }
+                });
+                rvUnit.setAdapter(adapterUnitView);
+                adapterUnitView.notifyDataSetChanged();
 
-                        } else {
+            }
+        });
 
-                            arrayList.clear();
-                            for (int i = 0; i < arrayListUnit.size(); i++) {
 
-                                FlavourUnitForm flavourUnitForm = new FlavourUnitForm();
-                                flavourUnitForm.setUnitName(arrayListUnit.get(i).getUnitName().getText().toString());
-                                flavourUnitForm.setUnitPrice(Integer.parseInt((arrayListUnit.get(i).getUnitPrice().getText().toString())));
-                                arrayList.add(flavourUnitForm);
-                            }
+        btnSaveFlavour.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (etflavourName.getText().toString().length() == 0 || arrayListUnit.size() == 0) {
+                    alertDialog();
 
-                            jsonArray = new JSONArray();
-                            for (int x = 0; x < arrayList.size(); x++) {
-                                try {
-                                    JSONObject object = new JSONObject();
-                                    object.put("UnitName", arrayList.get(x).getUnitName());
-                                    object.put("UnitPrice", arrayList.get(x).getUnitPrice());
-                                    jsonArray.put(object);
+                } else {
 
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
+                    arrayList.clear();
+                    for (int i = 0; i < arrayListUnit.size(); i++) {
 
-                            }
-                            if (image_result == null) {
-                                image_result="null";
-                            }
+                        FlavourUnitForm flavourUnitForm = new FlavourUnitForm();
+                        flavourUnitForm.setUnitName(arrayListUnit.get(i).getUnitName());
+                        flavourUnitForm.setUnitPrice(arrayListUnit.get(i).getUnitPrice());
+                        arrayList.add(flavourUnitForm);
+                    }
+
+                    jsonArray = new JSONArray();
+                    for (int x = 0; x < arrayList.size(); x++) {
+                        try {
+                            JSONObject object = new JSONObject();
+                            object.put("UnitName", arrayList.get(x).getUnitName());
+                            object.put("UnitPrice", arrayList.get(x).getUnitPrice());
+                            jsonArray.put(object);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                    if (image_result == null) {
+                        image_result = "null";
+                    }
 
                            /* if (image_result != null) {
                                 String selImage = image_result;
@@ -311,80 +281,20 @@ public class ActivityFlavour extends AppCompatActivity {
                                 mFinalImageName = "null";
                             }
 */
-                            initRetrofitCall();
-                            ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
-                            mRetrofitService = new RetrofitService(mResultCallBack, ActivityFlavour.this);
-                            mRetrofitService.retrofitData(ADD_FLAVOUR, (service.flavourAdd(etflavourName.getText().toString(),
-                                    image_result,
-                                    intent.getIntExtra("menuId", 0),
-                                   mHotelId,
-                                   mBranchId,
-                                    jsonArray.toString())));
-                        }
-                    }
-
-
-                });
-            }
-
-
-            private void callTableLayout() {
-                //tableLayout = (TableLayout) dialoglayout.findViewById(R.id.tableLayout1);
-                tableRow = new TableRow(ActivityFlavour.this);
-                Toast.makeText(ActivityFlavour.this, "table id" + arrayListUnitName.size(), Toast.LENGTH_LONG).show();
-                // Toast.makeText(ActivityFlavour.this,"table id"tableRow.setId(dialoglayout.generateViewId()),Toast.LENGTH_LONG).show();
-
-                tv0 = new EditText(ActivityFlavour.this);
-                arrayListUnitName.add(tv0);
-                tv0.setHint("Unit Name");
-                tv0.setTextColor(getResources().getColor(R.color.Black));
-                tv0.setTextSize(18);
-                tv0.setPadding(10, 10, 30, 10);
-                // tv0.setBackground(getResources().getDrawable(R.drawable.button_outline_dark_unit));
-                tableRow.addView(tv0);
-
-                tv1 = new EditText(ActivityFlavour.this);
-                arrayListUnitPrice.add(tv1);
-                tv1.setHint("Price");
-                tv1.setTextColor(getResources().getColor(R.color.Black));
-                tv1.setTextSize(18);
-                tv1.setPadding(10, 10, 70, 10);
-                //  tv1.setBackground(getResources().getDrawable(R.drawable.button_outline_dark_unit));
-                tableRow.addView(tv1);
-
-                imageButton = new ImageButton(ActivityFlavour.this);
-                arrayListUnitButton.add(imageButton);
-                imageButton.setId(arrayListUnitButton.size() - 1);
-                //imageButton.setId(arrayListUnitButton.get(posi));
-
-                imageButton.setPadding(10, 10, 20, 10);
-                imageButton.setBackground(getResources().getDrawable(R.drawable.ic_cancel_background_primary));
-                tableRow.addView(imageButton);
-                tableLayout.addView(tableRow);
-
-                for (i = 0; i < arrayListUnitName.size(); i++) {
-
-
-                    imageButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Toast.makeText(ActivityFlavour.this, "click" +
-                                    i, Toast.LENGTH_SHORT).show();
-
-
-                        }
-                    });
-
+                    initRetrofitCall();
+                    ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
+                    mRetrofitService = new RetrofitService(mResultCallBack, ActivityFlavour.this);
+                    mRetrofitService.retrofitData(ADD_FLAVOUR, (service.flavourAdd(etflavourName.getText().toString(),
+                            image_result,
+                            intent.getIntExtra("menuId", 0),
+                            mHotelId,
+                            mBranchId,
+                            jsonArray.toString())));
                 }
             }
 
 
-
-
         });
-
-
-
 
     }
 
@@ -406,8 +316,8 @@ public class ActivityFlavour extends AppCompatActivity {
         arrayList = new ArrayList<FlavourUnitForm>();
         arrayListUnitName = new ArrayList<EditText>();
         arrayListUnitPrice = new ArrayList<EditText>();
-        arrayListUnitButton=new ArrayList<>();
-        arrayListUnit=new ArrayList<>();
+        arrayListUnitButton = new ArrayList<>();
+        arrayListUnit = new ArrayList<>();
     }
 
     private void alertDialog() {
@@ -451,7 +361,7 @@ public class ActivityFlavour extends AppCompatActivity {
 
 
                                     JSONArray array = object1.getJSONArray("cost");
-                                    arrayListflavourUnit=new ArrayList<>();
+                                    arrayListflavourUnit = new ArrayList<>();
                                     for (int j = 0; j < array.length(); j++) {
                                         JSONObject jsonObjectUnit = array.getJSONObject(j);
                                         FlavourUnitForm flavourUnitForm = new FlavourUnitForm();
@@ -482,25 +392,52 @@ public class ActivityFlavour extends AppCompatActivity {
                         mRetrofitService = new RetrofitService(mResultCallBack, ActivityFlavour.this);
                         mRetrofitService.retrofitData(FLAVOUR_DISPLAY, service.flavourDisplay(intent.getIntExtra("menuId", 0),
                                 mHotelId,
-                               mBranchId
+                                mBranchId
                         ));
                         break;
 
                     case FLAVOUR_DELETE:
-                        JsonObject  deleteFlavourObject=response.body();
+                        JsonObject deleteFlavourObject = response.body();
 
-                        String deleteFlavour=deleteFlavourObject.toString();
+                        String deleteFlavour = deleteFlavourObject.toString();
                         try {
-                            JSONObject object=new JSONObject(deleteFlavour);
-                            int status=object.getInt("status");
-                            if(status==1)
-                            {
-                                Toast.makeText(ActivityFlavour.this,"Flavour Deleted Successfully",Toast.LENGTH_LONG).show();
-                            }
-                            else {
-                                Toast.makeText(ActivityFlavour.this,"Try Again..",Toast.LENGTH_LONG).show();
+                            JSONObject object = new JSONObject(deleteFlavour);
+                            int status = object.getInt("status");
+                            if (status == 1) {
+                                Toast.makeText(ActivityFlavour.this, "Flavour Deleted Successfully", Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(ActivityFlavour.this, "Try Again..", Toast.LENGTH_LONG).show();
 
                             }
+
+                            initRetrofitCall();
+                            ApiService service1 = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
+                            mRetrofitService = new RetrofitService(mResultCallBack, ActivityFlavour.this);
+                            mRetrofitService.retrofitData(FLAVOUR_DISPLAY, service1.flavourDisplay(intent.getIntExtra("menuId", 0),
+                                    mHotelId,
+                                    mBranchId
+                            ));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        break;
+
+                    case FLAVOUR_EDIT:
+                        JsonObject editFlavourObject = response.body();
+
+                        String editFlavour = editFlavourObject.toString();
+                        try {
+                            JSONObject object = new JSONObject(editFlavour);
+                            int status = object.getInt("status");
+                            if (status == 1) {
+                                Toast.makeText(ActivityFlavour.this, "Flavour Updaetd Successfully", Toast.LENGTH_LONG).show();
+                                dialog.dismiss();
+                            } else {
+                                Toast.makeText(ActivityFlavour.this, "Try Again..", Toast.LENGTH_LONG).show();
+
+                            }
+
+
 
                             initRetrofitCall();
                             ApiService service1 = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
@@ -526,13 +463,13 @@ public class ActivityFlavour extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-       /* initRetrofitCall();
+        initRetrofitCall();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, ActivityFlavour.this);
         mRetrofitService.retrofitData(FLAVOUR_DISPLAY, service.flavourDisplay(intent.getIntExtra("menuId", 0),
-                Integer.parseInt(mHotelId),
-                Integer.parseInt(mBranchId)
-        ));*/
+                mHotelId,
+                mBranchId
+        ));
 
     }
 
@@ -544,15 +481,15 @@ public class ActivityFlavour extends AppCompatActivity {
         AdapterDisplayFlavour adapterDisplayFlavour = new AdapterDisplayFlavour(this, arrayListFlavour, arrayListflavourUnit, new EditListener() {
             @Override
             public void getEditListenerPosition(int position) {
-
+             callAddMethod(position);
             }
         }, new DeleteListener() {
             @Override
             public void getDeleteListenerPosition(int position) {
-              initRetrofitCall();
+                initRetrofitCall();
                 ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
-                mRetrofitService = new RetrofitService(mResultCallBack,ActivityFlavour.this);
-                mRetrofitService.retrofitData(FLAVOUR_DELETE,(service.flavourDelete(
+                mRetrofitService = new RetrofitService(mResultCallBack, ActivityFlavour.this);
+                mRetrofitService.retrofitData(FLAVOUR_DELETE, (service.flavourDelete(
                         mHotelId,
                         mBranchId,
                         arrayListFlavour.get(position).getFlavourId())
@@ -561,6 +498,194 @@ public class ActivityFlavour extends AppCompatActivity {
             }
         });
         recyclerView.setAdapter(adapterDisplayFlavour);
+    }
+
+    private void callAddMethod(final int position) {
+
+            LayoutInflater li = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+            dialoglayout = li.inflate(R.layout.dialog_add_flavour, null);
+            dialog = new BottomSheetDialog(ActivityFlavour.this);
+            dialog.setContentView(dialoglayout);
+
+
+            // dialog = builder.create();
+            final EditText etflavourName = (EditText) dialoglayout.findViewById(R.id.etx_flavour_name);
+            TextView tvAddUnit = (TextView) dialoglayout.findViewById(R.id.tv_add_unit);
+            circleImageView = (CircleImageView) dialoglayout.findViewById(R.id.img_flavour);
+            FrameLayout btnCamera = (FrameLayout) dialoglayout.findViewById(R.id.iv_select_image);
+            Button btnSaveFlavour = (Button) dialoglayout.findViewById(R.id.btnSave);
+           Button btnUpdateFlavour=dialoglayout.findViewById(R.id.btnUpdate);
+        btnUpdateFlavour.setVisibility(View.VISIBLE);
+            Button btnCancel = (Button) dialoglayout.findViewById(R.id.btnCancel);
+            TextView tvTitle=dialoglayout.findViewById(R.id.tx_edit_flavour);
+            tvTitle.setVisibility(View.VISIBLE);
+            rvUnit = dialoglayout.findViewById(R.id.rv_units);
+            btnSaveFlavour.setVisibility(View.GONE);
+            dialog.show();
+
+        etflavourName.setText(arrayListFlavour.get(position).getFlavourName());
+
+            // callTableLayout();
+            btnCamera.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent flavourIntent = new Intent(ActivityFlavour.this, ActivityFlavourGallery.class);
+                    // intent.putExtra("Flavour_Name", "1");
+                    flavourIntent.putExtra("categoryId", intent.getIntExtra("categoryId", 0));
+                    flavourIntent.putExtra("pcId", intent.getIntExtra("pcId", 0));
+                    flavourIntent.putExtra("menuId", intent.getIntExtra("menuId", 0));
+                    startActivityForResult(flavourIntent, IMAGE_RESULT_OK);
+
+                }
+            });
+
+            if(image_result==null)
+            {
+                Picasso.with(dialoglayout.getContext())
+                        .load(apiService.BASE_URL + arrayListFlavour.get(position).getFlavourImage())
+                        .resize(500, 500)
+                        .into(circleImageView);
+            }
+            else {
+
+                Picasso.with(dialoglayout.getContext())
+                        .load(apiService.BASE_URL + image_result)
+                        .resize(500, 500)
+                        .into(circleImageView);
+            }
+            btnCancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+
+
+           // arrayListUnit.clear();
+          //  count = 0;
+        arrayListUnit=(arrayListFlavour.get(position).getArrayListUnits());
+
+        tvAddUnit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    LayoutInflater li = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+                    dialogLayoutField = li.inflate(R.layout.unit_diaplay_fields, null);
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(ActivityFlavour.this);
+                    builder.setView(dialogLayoutField);
+                    alertDialog = builder.create();
+
+
+                    Button save = dialogLayoutField.findViewById(R.id.btnSave);
+                    Button cancel = dialogLayoutField.findViewById(R.id.btnCancel);
+
+                    unitName = dialogLayoutField.findViewById(R.id.etv_unit_name);
+                    unitPrice = dialogLayoutField.findViewById(R.id.etv_unit_price);
+
+
+                   save.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            FlavourUnitForm unitForm = new FlavourUnitForm();
+                            unitForm.setUnitName(unitName.getText().toString());
+                            String price=unitPrice.getText().toString();
+                            unitForm.setUnitPrice(Integer.parseInt(price));
+                            arrayListUnit.add(unitForm);
+                            alertDialog.dismiss();
+
+                            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ActivityFlavour.this, LinearLayoutManager.VERTICAL, false);
+                            rvUnit.setHasFixedSize(true);
+                            rvUnit.setLayoutManager(linearLayoutManager);
+                            RVAdapterUnitView adapterUnitView = new RVAdapterUnitView(getApplicationContext(), arrayListUnit, new DeleteListener() {
+                                @Override
+                                public void getDeleteListenerPosition(int position) {
+                                    arrayListUnit.remove(position);
+                                }
+                            });
+                            rvUnit.setAdapter(adapterUnitView);
+                            adapterUnitView.notifyDataSetChanged();
+                        }
+                    });
+
+                    cancel.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            alertDialog.dismiss();
+                        }
+                    });
+                    alertDialog.show();
+
+
+                }
+            });
+
+        if(arrayListUnit.size()!=0)
+        {
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ActivityFlavour.this, LinearLayoutManager.VERTICAL, false);
+            rvUnit.setHasFixedSize(true);
+            rvUnit.setLayoutManager(linearLayoutManager);
+            RVAdapterUnitView adapterUnitView = new RVAdapterUnitView(getApplicationContext(), arrayListUnit, new DeleteListener() {
+                @Override
+                public void getDeleteListenerPosition(int position) {
+                    arrayListUnit.remove(position);
+                }
+            });
+            rvUnit.setAdapter(adapterUnitView);
+            adapterUnitView.notifyDataSetChanged();
+        }
+
+        btnUpdateFlavour.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (etflavourName.getText().toString().length() == 0 || arrayListUnit.size() == 0) {
+                        alertDialog();
+
+                    } else {
+
+                        arrayList.clear();
+                        for (int i = 0; i < arrayListUnit.size(); i++) {
+
+                            FlavourUnitForm flavourUnitForm = new FlavourUnitForm();
+                            flavourUnitForm.setUnitName(arrayListUnit.get(i).getUnitName());
+                            flavourUnitForm.setUnitPrice((arrayListUnit.get(i).getUnitPrice()));
+                            arrayList.add(flavourUnitForm);
+                        }
+
+                        jsonArray = new JSONArray();
+                        for (int x = 0; x < arrayList.size(); x++) {
+                            try {
+                                JSONObject object = new JSONObject();
+                                object.put("Unit_Name", arrayList.get(x).getUnitName());
+                                object.put("Unit_Cost", arrayList.get(x).getUnitPrice());
+                                jsonArray.put(object);
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                        if (image_result == null) {
+                            image_result = arrayListFlavour.get(position).getFlavourImage();
+                        }
+
+
+                        initRetrofitCall();
+                        ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
+                        mRetrofitService = new RetrofitService(mResultCallBack, ActivityFlavour.this);
+                        mRetrofitService.retrofitData(FLAVOUR_EDIT, (service.flavourEdit(etflavourName.getText().toString(),
+                                image_result,
+                                arrayListFlavour.get(position).getFlavourId(),
+                                mHotelId,
+                                mBranchId,
+                                jsonArray.toString())));
+
+                    }
+                }
+
+
+            });
+
     }
 
     @Override
@@ -578,7 +703,7 @@ public class ActivityFlavour extends AppCompatActivity {
             // Log.e("Result", image_result);
 
             Picasso.with(dialoglayout.getContext())
-                    .load(image_result)
+                    .load(apiService.BASE_URL + image_result)
                     .resize(500, 500)
                     .into(circleImageView);
         }

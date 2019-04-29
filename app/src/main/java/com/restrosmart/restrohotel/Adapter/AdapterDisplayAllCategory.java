@@ -58,7 +58,7 @@ public class AdapterDisplayAllCategory extends RecyclerView.Adapter<AdapterDispl
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyHolder holder,  int position) {
+    public void onBindViewHolder(@NonNull MyHolder holder,int position) {
         holder.tx_name.setText(arrayList.get(position).getCategory_Name());
 
 
@@ -123,13 +123,7 @@ public class AdapterDisplayAllCategory extends RecyclerView.Adapter<AdapterDispl
             }
         });
 
-        holder.imgBtnEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               // editListener.getEditListenerPosition(position);
 
-            }
-        });
     }
 
     @Override
@@ -195,6 +189,14 @@ public class AdapterDisplayAllCategory extends RecyclerView.Adapter<AdapterDispl
                     intent.putExtra("Category_Name", arrayList.get(getLayoutPosition()).getCategory_Name());
                     intent.putExtra("Category_image", arrayList.get(getLayoutPosition()).getC_Image_Name());
                     context.startActivity(intent);
+
+                }
+            });
+
+           imgBtnEdit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    editListener.getEditListenerPosition(getAdapterPosition());
 
                 }
             });

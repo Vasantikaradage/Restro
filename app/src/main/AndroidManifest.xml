@@ -51,17 +51,23 @@
         <activity
             android:name="com.restrosmart.restrohotel.Admin.ActivityAdminDrawer"
             android:label="@string/title_activity_admin_drawer"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation|screenSize"/>
         <activity
             android:name="com.restrosmart.restrohotel.Admin.ActivityChangePassword"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name="com.restrosmart.restrohotel.Admin.ActivityAdminForgetPassword" />
         <activity
             android:name="com.restrosmart.restrohotel.Admin.ActivityAddNewEmployee"
-            android:label="Employee Registration" />
+            android:label="Employee Registration"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation|screenSize"/>
         <activity
             android:name="com.restrosmart.restrohotel.Admin.ActivityEmpolyeeProfile"
-            android:label="Profile" />
+            android:label="Profile"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation|screenSize"/>
         <activity
             android:name="com.restrosmart.restrohotel.Admin.ActivityNewOrderViewDetails"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -71,12 +77,24 @@
             android:uiOptions="splitActionBarWhenNarrow" />
 
 
-        <activity android:name="com.restrosmart.restrohotel.Admin.ActivityOnGoingViewDetails" />
-        <activity android:name="com.restrosmart.restrohotel.Admin.ActivityPastViewOrderDetails" />
-        <activity android:name="com.restrosmart.restrohotel.Admin.ActivityMenu" />
-        <activity android:name="com.restrosmart.restrohotel.Admin.ActivityAddNewMenu"/>
-        <activity android:name="com.restrosmart.restrohotel.Admin.ActivityAddNewOffer" />
-        <activity android:name="com.restrosmart.restrohotel.Admin.ActivityProfile"/>
+        <activity android:name="com.restrosmart.restrohotel.Admin.ActivityOnGoingViewDetails"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation|screenSize"/>
+        <activity android:name="com.restrosmart.restrohotel.Admin.ActivityPastViewOrderDetails"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation|screenSize"/>
+        <activity android:name="com.restrosmart.restrohotel.Admin.ActivityMenu"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation|screenSize"/>
+        <activity android:name="com.restrosmart.restrohotel.Admin.ActivityAddNewMenu"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation|screenSize"/>
+        <activity android:name="com.restrosmart.restrohotel.Admin.ActivityAddNewOffer"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation|screenSize"/>
+        <activity android:name="com.restrosmart.restrohotel.Admin.ActivityProfile"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation|screenSize"/>
         <!--
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="New Order Details"
@@ -89,16 +107,27 @@
             android:screenOrientation="sensor"
             android:theme="@style/Theme.AppCompat"
         -->
-        <activity android:name="com.restrosmart.restrohotel.Admin.ActivityAdminRegister" />
+        <activity android:name="com.restrosmart.restrohotel.Admin.ActivityAdminRegister"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation|screenSize"/>
 
-        <activity android:name="com.restrosmart.restrohotel.Admin.ActivityCategoryGallery"/>
+        <activity android:name="com.restrosmart.restrohotel.Admin.ActivityCategoryGallery"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation|screenSize"/>
 
 
         <activity android:name="com.restrosmart.restrohotel.Admin.ActivityAddPayment"/>
-        <activity android:name="com.restrosmart.restrohotel.Admin.ActivityMenuGallery"/>
+        <activity android:name="com.restrosmart.restrohotel.Admin.ActivityMenuGallery"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation|screenSize"/>
 
-        <activity android:name="com.restrosmart.restrohotel.Admin.ActivityFlavour"/>
-        <activity android:name="com.restrosmart.restrohotel.Admin.ActivityFlavourGallery"/>
-        <activity android:name="com.restrosmart.restrohotel.Admin.ActivityAddNewBranch"/>
+        <activity android:name="com.restrosmart.restrohotel.Admin.ActivityFlavour"
+           />
+        <activity android:name="com.restrosmart.restrohotel.Admin.ActivityFlavourGallery"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation|screenSize"/>
+        <activity android:name="com.restrosmart.restrohotel.Admin.ActivityAddNewBranch"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation|screenSize"/>
     </application>
 </manifest>

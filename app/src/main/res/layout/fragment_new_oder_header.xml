@@ -1,140 +1,128 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="5dp">
-
-
 
 
     <android.support.v7.widget.CardView
         android:id="@+id/card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/colorLight"
         app:cardCornerRadius="3dp"
-       app:cardBackgroundColor="@color/colorLight"
         app:cardElevation="3dp"
-
         app:cardPreventCornerOverlap="true"
-        >
+        tools:ignore="MissingConstraints">
 
-    <RelativeLayout
-        android:id="@+id/recycler_header"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:id="@+id/recycler_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/circle_image"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_centerVertical="true"
-            android:layout_margin="5dp"
-            android:gravity="center"
-            android:textColor="@color/colorwhite"
-            android:text="32"
-            android:textStyle="bold"
-            android:textSize="25dp"
-            android:background="@drawable/circular_img" />
+            <TextView
+                android:id="@+id/circle_image"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerVertical="true"
+                android:layout_margin="5dp"
+                android:background="@drawable/circular_img"
+                android:gravity="center"
+                android:text="32"
+                android:textColor="@color/colorwhite"
+                android:textSize="25dp"
+                android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/tv_cust_mobno"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="11dp"
-            android:layout_marginStart="5dp"
-            android:layout_toEndOf="@id/circle_image"
-            android:text="9845246171"
-            android:textSize="15dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+            <TextView
+                android:id="@+id/tv_cust_mobno"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="11dp"
+                android:layout_toEndOf="@id/circle_image"
+                android:text="9845246171"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textSize="15dp" />
 
-      <!--  <TextView
-            android:id="@+id/tv_cust_mobno"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="11dp"
-            android:layout_toEndOf="@id/tv_cust_mob"
-            android:text=" 98452516171"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+            <!--  <TextView
+                  android:id="@+id/tv_cust_mobno"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_alignParentTop="true"
+                  android:layout_marginTop="11dp"
+                  android:layout_toEndOf="@id/tv_cust_mob"
+                  android:text=" 98452516171"
+                  android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+      -->
+
+
+
+
+            <TextView
+                android:id="@+id/tv_order_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_toStartOf="@id/order_id"
+                android:text="Order Id: "
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+            <TextView
+                android:id="@+id/order_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="5dp"
+                android:maxWidth="70dp"
+                android:text="12356"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+            <TextView
+                android:id="@+id/tv_date_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/order_id"
+                android:layout_alignParentEnd="true"
+                android:text="Today : 12.40AM" />
+            <!--<TextView
+                android:id="@+id/tv_total"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_order_id"
+                android:layout_margin="5dp"
+                android:layout_toStartOf="@id/total"
+                android:text="Total: "
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+            <TextView
+                android:id="@+id/total"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/order_id"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:maxWidth="70dp"
+
+                android:text="123"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
 -->
-
-
-        <TextView
-            android:id="@+id/tv_date_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/tv_total"
-            android:layout_alignBottom="@+id/tv_total"
-            android:layout_alignStart="@+id/tv_cust_mobno"
-
-            android:text="Today : 12.40AM" />
-
-        <TextView
-            android:id="@+id/tv_order_id"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:layout_toStartOf="@id/order_id"
-            android:text="Order Id: "
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
-
-        <TextView
-            android:id="@+id/order_id"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginBottom="5dp"
-            android:maxWidth="70dp"
-            android:text="12356"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
-
-
-        <TextView
-            android:id="@+id/tv_total"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tv_order_id"
-            android:layout_margin="5dp"
-            android:layout_toStartOf="@id/total"
-            android:text="Total: "
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
-
-        <TextView
-            android:id="@+id/total"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/order_id"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="5dp"
-            android:maxWidth="70dp"
-           
-            android:text="123"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
-
-
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_below="@+id/tv_date_time"
-            android:layout_marginTop="5dp"
-            android:background="@color/cardview_dark_background"/>
-    </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/tv_date_time"
+                android:layout_marginTop="5dp"
+                android:background="@color/cardview_dark_background" />
+        </RelativeLayout>
 
     </android.support.v7.widget.CardView>
-
-
-
-
-
-
 
 
 </android.support.constraint.ConstraintLayout>
