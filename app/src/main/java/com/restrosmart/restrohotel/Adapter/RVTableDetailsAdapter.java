@@ -1,8 +1,11 @@
 package com.restrosmart.restrohotel.Adapter;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -89,11 +92,77 @@ public class RVTableDetailsAdapter extends RecyclerView.Adapter<RVTableDetailsAd
 
                             case R.id.table_status:
                                 status_info = 1;
-                                statusListener.statusListern(i, status_info);
+
+                                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                                builder
+                                        .setTitle("Active Status")
+                                        .setMessage("Are you sure you want to Active this Table ?")
+                                        .setIcon(R.drawable.ic_action_btn_delete)
+                                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                statusListener.statusListern(i, status_info);
+                                            }
+
+                                           /* private void removeMenu(int menu_id) {
+
+                                                initRetrofitCallback();
+                                                ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
+                                                mRetrofitService = new RetrofitService(mResultCallBack,context);
+                                                mRetrofitService.retrofitData(MENU_DELETE,(service.getMenuDelete(menu_id,
+                                                        Integer.parseInt ( mHotelId),
+                                                        Integer.parseInt(mBranchId))
+                                                ));*/
+
+
+                                        });
+
+
+                                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                });
+
+                                AlertDialog alert = builder.create();
+                                alert.show();
+                               // statusListener.statusListern(i, status_info);
                                 break;
+
                             case R.id.table_inactive:
                                 status_info = 0;
-                                statusListener.statusListern(i, status_info);
+                                AlertDialog.Builder builder1 = new AlertDialog.Builder(mContext);
+                                builder1
+                                        .setTitle("Active Status")
+                                        .setMessage("Are you sure you want to InActive this Table ?")
+                                        .setIcon(R.drawable.ic_action_btn_delete)
+                                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                statusListener.statusListern(i, status_info);
+                                            }
+
+                                           /* private void removeMenu(int menu_id) {
+
+                                                initRetrofitCallback();
+                                                ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
+                                                mRetrofitService = new RetrofitService(mResultCallBack,context);
+                                                mRetrofitService.retrofitData(MENU_DELETE,(service.getMenuDelete(menu_id,
+                                                        Integer.parseInt ( mHotelId),
+                                                        Integer.parseInt(mBranchId))
+                                                ));*/
+
+
+                                        });
+
+
+                                builder1.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                });
+
+                                AlertDialog alert1 = builder1.create();
+                                alert1.show();
+                                //statusListener.statusListern(i, status_info);
                                 break;
 
                             default:
@@ -136,8 +205,8 @@ public class RVTableDetailsAdapter extends RecyclerView.Adapter<RVTableDetailsAd
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(mContext, ActivityTableInformation.class);
-                    //  intent.putExtra("totalCount",arrayListTableDeatils.get(getAdapterPosition()).getTableCount());
-                    mContext.startActivity(intent);
+                      intent.putExtra("tableIds", arrayListTableDeatils.get(getAdapterPosition()).getArrayTableFormIds());
+                   mContext.startActivity(intent);
                 }
             });
 

@@ -18,7 +18,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.restrosmart.restrohotel.Adapter.RVTableDetailsAdapter;
 import com.restrosmart.restrohotel.Interfaces.ApiService;
@@ -147,6 +146,12 @@ public class FragmentTableDetails extends Fragment {
                         if (status == 1) {
                             Toast.makeText(getActivity(), "Area Added Successfully", Toast.LENGTH_LONG).show();
 
+                            initRetrofitCallBack();
+                            ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
+                            mRetrofitService = new RetrofitService(mResultCallBack, getActivity());
+                            mRetrofitService.retrofitData(TABLE_DETAILS, service.tableDisplay(hotelId,
+                                    branchId));
+
                         } else {
                             Toast.makeText(getActivity(), "Try Again..", Toast.LENGTH_LONG).show();
 
@@ -169,6 +174,7 @@ public class FragmentTableDetails extends Fragment {
                             {
 
                                 JSONArray jsonArray=jsonObject.getJSONArray("table");
+                                arrayListTable.clear();
                                 for(int i=0; i<jsonArray.length(); i++) {
                                     JSONObject jsonObject1 = jsonArray.getJSONObject(i);
                                     TableForm tableForm = new TableForm();
@@ -185,6 +191,7 @@ public class FragmentTableDetails extends Fragment {
                                         JSONObject jsonObject2=array.getJSONObject(in);
                                         TableFormId tableFormId=new TableFormId();
                                         tableFormId.setTableId(jsonObject2.getInt("Table_Id"));
+                                        tableFormId.setTableStatus(jsonObject2.getInt("Table_Status"));
                                         arrayListtTableId.add(tableFormId);
                                     }
                                     tableForm.setArrayTableFormIds(arrayListtTableId);
@@ -218,6 +225,13 @@ public class FragmentTableDetails extends Fragment {
                             if(status==1){
                                 Toast.makeText(getActivity(), "Area Updated Successfully", Toast.LENGTH_LONG).show();
 
+                                initRetrofitCallBack();
+                                ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
+                                mRetrofitService = new RetrofitService(mResultCallBack, getActivity());
+                                mRetrofitService.retrofitData(TABLE_DETAILS, service.tableDisplay(hotelId,
+                                        branchId));
+
+
                             }
                             else
                             {
@@ -228,6 +242,33 @@ public class FragmentTableDetails extends Fragment {
                             e.printStackTrace();
                         }
                                 break;
+
+                    case UPDATE_AREA_STATUS:
+                        JsonObject object1=response.body();
+                        String updateStatus=object1.toString();
+
+                        try {
+                            JSONObject jsonObject1=new JSONObject(updateStatus);
+                            int status=jsonObject1.getInt("status");
+                            if(status==1)
+                            {
+                                Toast.makeText(getActivity(), "Status Updated Successfully", Toast.LENGTH_LONG).show();
+
+                                initRetrofitCallBack();
+                                ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
+                                mRetrofitService = new RetrofitService(mResultCallBack, getActivity());
+                                mRetrofitService.retrofitData(TABLE_DETAILS, service.tableDisplay(hotelId,
+                                        branchId));
+                            }
+                            else
+                            {
+                                Toast.makeText(getActivity(), "Try Again..", Toast.LENGTH_LONG).show();
+
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        break;
 
 
                 }
