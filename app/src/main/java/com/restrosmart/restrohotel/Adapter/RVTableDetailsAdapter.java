@@ -206,6 +206,7 @@ public class RVTableDetailsAdapter extends RecyclerView.Adapter<RVTableDetailsAd
                 public void onClick(View view) {
                     Intent intent = new Intent(mContext, ActivityTableInformation.class);
                       intent.putExtra("tableIds", arrayListTableDeatils.get(getAdapterPosition()).getArrayTableFormIds());
+                      intent.putExtra("position",getAdapterPosition());
                    mContext.startActivity(intent);
                 }
             });

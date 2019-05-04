@@ -1,5 +1,6 @@
 package com.restrosmart.restrohotel.Adapter;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
@@ -7,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ImageView;
 
 import com.restrosmart.restrohotel.Interfaces.ApiService;
@@ -96,6 +98,8 @@ public class RVVImageAdapter extends RecyclerView.Adapter<RVVImageAdapter.ViewHo
         public ViewHolder(View itemView) {
             super(itemView);
             imageView = (ImageView) itemView.findViewById(R.id.category_image);
+
+
         }
     }
 }

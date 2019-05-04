@@ -128,7 +128,16 @@ public class FragmentTableDetails extends Fragment {
             }
         });
 
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        initRetrofitCallBack();
+        ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
+        mRetrofitService = new RetrofitService(mResultCallBack, getActivity());
+        mRetrofitService.retrofitData(TABLE_DETAILS, service.tableDisplay(hotelId,
+                branchId));
     }
 
     private void initRetrofitCallBack() {
@@ -358,6 +367,8 @@ public class FragmentTableDetails extends Fragment {
              }
          });
         rvTableDetails.setAdapter(rvTableDetailsAdapter);
+      //  rvTableDetailsAdapter.notifyDataSetChanged();
+
     }
 
     private void init() {
