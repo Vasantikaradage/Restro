@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
+import com.restrosmart.restrohotel.Admin.ActivityAddNewEmployee;
 import com.restrosmart.restrohotel.Admin.ActivityEmpolyeeProfile;
 import com.restrosmart.restrohotel.Interfaces.ApiService;
 import com.restrosmart.restrohotel.Model.EmployeeForm;
@@ -75,6 +76,7 @@ public class RVViewEmployee extends RecyclerView.Adapter<RVViewEmployee.MyHolder
 
         holder.mName.setText(viewEmployees.get(position).getEmpName());
         holder.mDesignation.setText(viewEmployees.get(position).getRole());
+        holder.mPhoneNo.setText(viewEmployees.get(position).getEmpMob());
         status1 = (viewEmployees.get(position).getActiveStatus());
 
         sessionmanager = new Sessionmanager(context);
@@ -174,7 +176,7 @@ public class RVViewEmployee extends RecyclerView.Adapter<RVViewEmployee.MyHolder
 
         CircleImageView circleImageView;
 
-        TextView mName;
+        TextView mName,mPhoneNo;
         TextView mDesignation;
 
         RelativeLayout relativeLayout;
@@ -190,6 +192,7 @@ public class RVViewEmployee extends RecyclerView.Adapter<RVViewEmployee.MyHolder
             mName = (TextView) itemView.findViewById(R.id.tv_emp_name);
             //imageView = (ImageView)itemView.findViewById(R.id.btn_edit);
             status = (Switch) itemView.findViewById(R.id.switch_status);
+            mPhoneNo=(TextView)itemView.findViewById(R.id.tv_emp_mob);
             relativeLayout = (RelativeLayout) itemView.findViewById(R.id.relative_employee);
         }
     }

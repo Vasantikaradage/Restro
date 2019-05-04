@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -27,6 +28,7 @@ import com.google.gson.JsonObject;
 import com.restrosmart.restrohotel.Interfaces.ApiService;
 import com.restrosmart.restrohotel.Interfaces.IResult;
 import com.restrosmart.restrohotel.Model.BranchForm;
+import com.restrosmart.restrohotel.Model.EmployeeForm;
 import com.restrosmart.restrohotel.Model.RoleForm;
 import com.restrosmart.restrohotel.R;
 import com.restrosmart.restrohotel.RetrofitClientInstance;
@@ -66,8 +68,13 @@ public class ActivityAddNewEmployee extends AppCompatActivity {
 
     Spinner designation,branch;
     Button register;
-    ImageButton select_image;
+    FrameLayout select_image;
     String roleId,hotelId,branchId,adminId;
+
+    private  ArrayList<EmployeeForm> employeeDetails;
+
+    private  int emp_id;
+
 
     private static final int TAKE_PICTURE = 1;
     private Uri imageUri;
@@ -81,7 +88,14 @@ public class ActivityAddNewEmployee extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_employee);
-       // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+
+        Intent intent=getIntent();
+        employeeDetails = intent.getParcelableArrayListExtra("Emp_detail");
+        emp_id = intent.getIntExtra("empId", 0);
+
+        // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Toolbar mTopToolbar = (Toolbar) findViewById(R.id.toolbar);
         TextView toolBarTitle=(TextView)mTopToolbar.findViewById(R.id.tx_title);
         toolBarTitle.setText("Add New Employee");
@@ -112,7 +126,7 @@ public class ActivityAddNewEmployee extends AppCompatActivity {
         designation = (Spinner) findViewById(R.id.sp_designation);
         branch=(Spinner)findViewById(R.id.sp_branch);
 
-        select_image= (ImageButton)findViewById(R.id.iv_select_image);
+        select_image= (FrameLayout) findViewById(R.id.iv_select_image);
 
         Sessionmanager sharedPreferanceManage = new Sessionmanager(ActivityAddNewEmployee.this);
         HashMap<String, String> name_info = sharedPreferanceManage.getHotelDetails();
@@ -180,7 +194,23 @@ public class ActivityAddNewEmployee extends AppCompatActivity {
                 {
                     case ADD_NEW_EMPLOYEE:
                         JsonObject resp = response.body();
-                        Toast.makeText(ActivityAddNewEmployee.this, "Registered Successfully..!", Toast.LENGTH_SHORT).show();
+                        String valueInfo=resp.toString();
+                        try {
+                            JSONObject  jsonObject=new JSONObject(valueInfo);
+                            int status=jsonObject.getInt("status");
+                            if(status==1)
+                            {
+                                Toast.makeText(ActivityAddNewEmployee.this, "Registered Successfully..!", Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
+                            else  {
+                                Toast.makeText(ActivityAddNewEmployee.this, "Try again..!", Toast.LENGTH_SHORT).show();
+
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
                         break;
 
                     case BRANCH_INFO:

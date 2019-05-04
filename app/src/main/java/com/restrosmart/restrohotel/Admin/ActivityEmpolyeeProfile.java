@@ -2,11 +2,15 @@ package com.restrosmart.restrohotel.Admin;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.restrosmart.restrohotel.MainActivity;
 import com.restrosmart.restrohotel.Model.EmployeeForm;
 import com.restrosmart.restrohotel.R;
 import com.squareup.picasso.Picasso;
@@ -65,6 +69,7 @@ public class ActivityEmpolyeeProfile extends AppCompatActivity {
         mEmail = (TextView) findViewById(R.id.tv_emp_email);
         mAdhar = (TextView) findViewById(R.id.tv_emp_aadhar_number);
         mAddress = (TextView) findViewById(R.id.tv_emp_address);
+
 
        /* Name = mName.getText().toString();
         Username = mUsername.getText().toString();
@@ -132,4 +137,32 @@ public class ActivityEmpolyeeProfile extends AppCompatActivity {
         finish();
         return true;
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_edit_employee, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.edit_employee) {
+           Intent intent=new Intent(ActivityEmpolyeeProfile.this,ActivityAddNewEmployee.class);
+            intent.putParcelableArrayListExtra("Emp_detail", (ArrayList<? extends Parcelable>) employeeDetails );
+            intent.putExtra("empId",emp_id);
+
+            startActivity(intent);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 }

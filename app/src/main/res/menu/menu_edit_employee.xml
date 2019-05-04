@@ -5,8 +5,8 @@
     tools:context=".Admin.ActivityAddNewEmployee">
 
     <item
-        android:id="@+id/add_new_employee"
-        android:icon="@drawable/ic_action_add"
-        android:title="Add Employee"
+        android:id="@+id/edit_employee"
+        android:icon="@drawable/ic_action_edit"
+        android:title="Edit Employee"
         app:showAsAction="always" />
 </menu>
