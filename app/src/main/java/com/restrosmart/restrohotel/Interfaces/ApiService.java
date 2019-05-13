@@ -21,7 +21,7 @@ import retrofit2.http.POST;
 public interface ApiService {
 
 
-    String BASE_URL = "http://192.168.0.17/Restro_Smart/";
+    String BASE_URL = "http://192.168.0.14/Restro_Smart/";
 
 
     /*parent category display*/
@@ -126,12 +126,7 @@ public interface ApiService {
             @Field("Branch_Id") int branchid);
 
 
-
-
-
-
-
-  //  Branch_Phone:2323
+    //  Branch_Phone:2323
 
 
     /*Employee Signup*/
@@ -242,15 +237,15 @@ public interface ApiService {
     @POST("Table.php?table=table_add")
     @FormUrlEncoded
     Call<JsonObject> addtables(@Field("Area_Name") String areaName,
-                                 @Field("Table_Count") int tableCount,
-                                 @Field("Hotel_Id") int Hotel_Id,
-                                 @Field("Branch_Id") int Branch_Id);
+                               @Field("Table_Count") int tableCount,
+                               @Field("Hotel_Id") int Hotel_Id,
+                               @Field("Branch_Id") int Branch_Id);
 
     //table display
     @POST("Table.php?table=table_disp")
     @FormUrlEncoded
     Call<JsonObject> tableDisplay(@Field("Hotel_Id") int Hotel_Id,
-                               @Field("Branch_Id") int Branch_Id);
+                                  @Field("Branch_Id") int Branch_Id);
 
     //update Area
     @POST("Table.php?table=Area_edit")
@@ -273,18 +268,9 @@ public interface ApiService {
     @POST("Table.php?table=table_status")
     @FormUrlEncoded
     Call<JsonObject> TableStatus(@Field("Table_Status") int areaStatus,
-                                @Field("Table_Id") int areaId,
-                                @Field("Hotel_Id") int Hotel_Id,
-                                @Field("Branch_Id") int Branch_Id);
-
-
-
-
-
-
-
-
-
+                                 @Field("Table_Id") int areaId,
+                                 @Field("Hotel_Id") int Hotel_Id,
+                                 @Field("Branch_Id") int Branch_Id);
 
 
     /*sub category display*/
@@ -379,21 +365,19 @@ public interface ApiService {
     @POST("Flavour.php?flavour=flavour_edit")
     @FormUrlEncoded
     Call<JsonObject> flavourEdit(@Field("Flavour_Name") String flavourName,
-                                @Field("F_Image_Name") String fImageName,
-                                @Field("Flavour_Id") int flavourId,
-                                @Field("Hotel_Id") int hotelId,
-                                @Field("Branch_Id") int branchId,
-                                @Field("flavunit") String flavour);
-
-
+                                 @Field("F_Image_Name") String fImageName,
+                                 @Field("Flavour_Id") int flavourId,
+                                 @Field("Hotel_Id") int hotelId,
+                                 @Field("Branch_Id") int branchId,
+                                 @Field("flavunit") String flavour);
 
 
     /*Flavour Delete*/
     @POST("Flavour.php?flavour=flavour_delete")
     @FormUrlEncoded
     Call<JsonObject> flavourDelete(@Field("Hotel_Id") int hotelId,
-                                @Field("Branch_Id") int branchId,
-                                @Field("Flavour_Id") int flavourId);
+                                   @Field("Branch_Id") int branchId,
+                                   @Field("Flavour_Id") int flavourId);
 
 
 
@@ -535,13 +519,20 @@ public interface ApiService {
                                      @Field("Hotel_Id") int hotel_id);
 
 
+    /*CAPTAIN END*/
 
-    /*offer delete*/
-/*
-@POST("")
-@FormUrlEncoded
-Call<JsonObject> getOfferDelete(@Field(""),);
-*/
+    /*Scan table list*/
+    @POST("Captain_Table.php?captables=scan_tablelist")
+    @FormUrlEncoded
+    Call<JsonObject> getScanTable(@Field("Hotel_Id") int hotel_id,
+                                  @Field("Branch_Id") int branch_id);
 
-
+    /*Scan table confirm*/
+    @POST("Captain_Table.php?captables=conf_tablelist")
+    @FormUrlEncoded
+    Call<JsonObject> scanConfirmTable(@Field("Hotel_Id") int hotel_id,
+                                      @Field("Branch_Id") int branch_id,
+                                      @Field("Table_Id") int Table_Id,
+                                      @Field("Area_Id") int Area_Id,
+                                      @Field("Table_conf_Status") int Table_conf_Status);
 }

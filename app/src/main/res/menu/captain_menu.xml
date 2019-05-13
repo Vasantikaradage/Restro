@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/captain_home"
+        android:icon="@drawable/ic_home"
+        android:title="Home"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/swap_table"
+        android:icon="@drawable/ic_swap_table"
+        android:title="Swap Table"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/captain_profile"
+        android:icon="@drawable/ic_profile"
+        android:title="Captain Profile"
+        app:showAsAction="always" />
+</menu>

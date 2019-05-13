@@ -9,11 +9,13 @@ import android.widget.Button;
 import com.restrosmart.restrohotel.Admin.ActivityAdminLogin;
 
 
+import com.restrosmart.restrohotel.Captain.Activities.ActivityCaptainLogin;
+import com.restrosmart.restrohotel.SuperAdmin.Activities.ActivitySuperAdminLogin;
 import com.restrosmart.restrohotel.Utils.Sessionmanager;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Button btn_user, btn_admin, btn_kitchen, btnBarCounter;
+    private Button btn_captain, btn_admin, btnSuperAdmin;
     private Sessionmanager sessionmanager;
 
     @Override
@@ -25,43 +27,32 @@ public class MainActivity extends AppCompatActivity {
         /*sessionmanager = new Sessionmanager(this);
         sessionmanager.CheckLogin();*/
 
-
-        btn_user = findViewById(R.id.btn_user);
+        btn_captain = findViewById(R.id.btn_captain);
         btn_admin = findViewById(R.id.btn_admin);
-        btn_kitchen = findViewById(R.id.btn_kitchen);
-        btnBarCounter = findViewById(R.id.btnBarCounter);
+        btnSuperAdmin = findViewById(R.id.btnSuperAdmin);
 
-        /*btn_user.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, ActivityUserLogin.class);
-                startActivity(i);
-            }
-        });*/
+        btnSuperAdmin.setOnClickListener(this);
+        btn_admin.setOnClickListener(this);
+        btn_captain.setOnClickListener(this);
+    }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btnSuperAdmin:
+                Intent intentSuperAdmin = new Intent(MainActivity.this, ActivitySuperAdminLogin.class);
+                startActivity(intentSuperAdmin);
+                break;
 
-        btn_admin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, ActivityAdminLogin.class);
-                startActivity(i);
-            }
-        });
+            case R.id.btn_admin:
+                Intent intentAdmin = new Intent(MainActivity.this, ActivityAdminLogin.class);
+                startActivity(intentAdmin);
+                break;
 
-       /* btn_kitchen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, ActivityKitchenLogin.class);
-                startActivity(i);
-            }
-        });
-
-        btnBarCounter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this, ActivityBarHome.class);
-                startActivity(i);
-            }
-        });*/
+            case R.id.btn_captain:
+                Intent intentCaptain = new Intent(MainActivity.this, ActivityCaptainLogin.class);
+                startActivity(intentCaptain);
+                break;
+        }
     }
 }

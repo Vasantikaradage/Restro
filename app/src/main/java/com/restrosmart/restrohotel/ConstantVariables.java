@@ -18,9 +18,6 @@ public class ConstantVariables {
     public static final int SAVE_CATEGORY = 6;
     public static final int ADD_MENU = 7;
 
-
-
-
     public  static  final  int EMPLOYEE_DETAILS=12;
     public  static  final  int SELECT_EMP_ROLE=13;
     public  static  final  int ADD_NEW_EMPLOYEE=14;
@@ -44,15 +41,8 @@ public class ConstantVariables {
 
     /*Activity Hotel Menu*/
     public  static  final  int WATER_BOTTLE_DETAIL=15;
-	
-	
-
-
-
 
     public  static  final  int PARENT_CATEGORY_WITH_SUB=22;
-
-
 
     public  static  final  int IMAGE_MENU_LIST=16;
 
@@ -94,5 +84,9 @@ public class ConstantVariables {
     public  static  final  int UPDATE_AREA=602;
     public  static  final  int UPDATE_AREA_STATUS=603;
     public  static  final  int UPDATE_TABLE_STATUS=604;
+
+    /*Captain*/
+    public  static  final  int SCAN_TABLE=700;
+    public  static  final  int TABLE_CONF_STATUS=701;
 }
 
