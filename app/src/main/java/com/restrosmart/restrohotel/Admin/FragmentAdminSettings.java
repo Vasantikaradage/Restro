@@ -8,14 +8,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.restrosmart.restrohotel.R;
 
 public class FragmentAdminSettings extends Fragment {
 
     private  View view;
-    private LinearLayout changePassword, privacy, termsofuse, logout;
+    private RelativeLayout changePassword, privacyPolicy, termsAndCondition, userGuide,helpSupport;
 
     // ImageButton btn_change_password,btn_privacy_policy,btn_terms_of_use,btn_logout;
 
@@ -23,7 +23,7 @@ public class FragmentAdminSettings extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_admin_settings, null);
+        view = inflater.inflate(R.layout.fragment_settings, null);
         return view;
     }
 
@@ -41,7 +41,7 @@ public class FragmentAdminSettings extends Fragment {
             }
         });
 
-        privacy.setOnClickListener(new View.OnClickListener() {
+        privacyPolicy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                // Intent i = new Intent(getActivity(), ActivityCategoryMenu.class);
@@ -49,20 +49,35 @@ public class FragmentAdminSettings extends Fragment {
             }
         });
 
-        logout.setOnClickListener(new View.OnClickListener() {
+        userGuide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+/*
                 Intent i = new Intent(getActivity(), ActivityAdminLogin.class);
-                startActivity(i);
+                startActivity(i);*/
+            }
+        });
+
+        termsAndCondition.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                
+            }
+        });
+        
+        helpSupport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                
             }
         });
     }
 
     private void init() {
-        logout = view.findViewById(R.id.linear_logout);
-        privacy = view.findViewById(R.id.linear_privacy_policy);
-        changePassword = view.findViewById(R.id.linear_change_password);
-        termsofuse = view.findViewById(R.id.linear_terms_of_use);
+        userGuide = view.findViewById(R.id.rlUserGuide);
+        privacyPolicy = view.findViewById(R.id.rlPrivacy);
+        helpSupport=view.findViewById(R.id.rlSupport);
+        changePassword = view.findViewById(R.id.rlChangePassword);
+        termsAndCondition = view.findViewById(R.id.rlTermsConditions);
     }
 }

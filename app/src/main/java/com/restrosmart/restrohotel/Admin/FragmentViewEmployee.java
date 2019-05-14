@@ -47,7 +47,7 @@ public class FragmentViewEmployee extends Fragment {
         btnAddEmp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ActivityAddNewEmployee.class);
+                Intent intent = new Intent(getActivity(), ActivityNewAddEmployee.class);
                 startActivity(intent);
             }
         });

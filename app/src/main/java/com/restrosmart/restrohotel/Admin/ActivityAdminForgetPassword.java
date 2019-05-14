@@ -38,7 +38,7 @@ public class ActivityAdminForgetPassword extends AppCompatActivity {
 
                     new SweetAlertDialog(ActivityAdminForgetPassword.this, SweetAlertDialog.SUCCESS_TYPE)
                             .setTitleText("Forget Password")
-                            .setContentText("Your new password has been sent to your email!")
+                            .setContentText("Your new password has been sent to your etEmail!")
                             .show();
 
                 } else {

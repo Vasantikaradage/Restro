@@ -10,14 +10,19 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.restrosmart.restrohotel.MainActivity;
+import com.restrosmart.restrohotel.Interfaces.ApiService;
 import com.restrosmart.restrohotel.Model.EmployeeForm;
 import com.restrosmart.restrohotel.R;
+import com.restrosmart.restrohotel.RetrofitClientInstance;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by SHREE on 10/9/2018.
@@ -25,7 +30,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ActivityEmpolyeeProfile extends AppCompatActivity {
 
-    ArrayList<EmployeeForm> employeeDetails;
+    List<EmployeeForm> employeeDetails;
 
     int emp_id;
 
@@ -44,21 +49,29 @@ public class ActivityEmpolyeeProfile extends AppCompatActivity {
         Intent intent = getIntent();
 
         /*passed complete arraylist*/
-        employeeDetails = intent.getParcelableArrayListExtra("Emp_detail");
+        // employeeDetails = intent.getParcelableArrayListExtra("Emp_detail");
         emp_id = intent.getIntExtra("empId", 0);
 
         Toolbar mTopToolbar = (Toolbar) findViewById(R.id.toolbar);
-        TextView toolBarTitle=(TextView)mTopToolbar.findViewById(R.id.tx_title);
+        TextView toolBarTitle = (TextView) mTopToolbar.findViewById(R.id.tx_title);
         toolBarTitle.setText("Employee Profile");
 
         setSupportActionBar(mTopToolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
+        init();
+        retrofitCallBack();
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        retrofitCallBack();
+    }
 
-
-        mImage = (CircleImageView)findViewById(R.id.img_user_photo);
+    private void init() {
+        mImage = (CircleImageView) findViewById(R.id.img_user_photo);
 
         mName = (TextView) findViewById(R.id.txt_user_name);
         mUsername = (TextView) findViewById(R.id.tv_username);
@@ -69,18 +82,28 @@ public class ActivityEmpolyeeProfile extends AppCompatActivity {
         mEmail = (TextView) findViewById(R.id.tv_emp_email);
         mAdhar = (TextView) findViewById(R.id.tv_emp_aadhar_number);
         mAddress = (TextView) findViewById(R.id.tv_emp_address);
+    }
 
+    private void retrofitCallBack() {
+        ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
+        Call<List<EmployeeForm>> call = service.getallEmployees("1", "1");
 
-       /* Name = mName.getText().toString();
-        Username = mUsername.getText().toString();
-        Role = mRole.getText().toString();
-        Status = mStatus.getText().toString();
-        HotelName = mHotelName.getText().toString();
-        MobNo = mMobNo.getText().toString();
-        Email = mEmail.getText().toString();
-        Adhar = mAdhar.getText().toString();
-        Address = mAddress.getText().toString();*/
+        call.enqueue(new Callback<List<EmployeeForm>>() {
+            @Override
+            public void onResponse(Call<List<EmployeeForm>> call, Response<List<EmployeeForm>> response) {
+                employeeDetails = response.body();
+                getData(employeeDetails);
+            }
 
+            @Override
+            public void onFailure(Call<List<EmployeeForm>> call, Throwable t) {
+                Toast.makeText(ActivityEmpolyeeProfile.this, "" + t, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    private void getData(List<EmployeeForm> employeeDetails) {
 
         try {
             for (int i = 0; i < employeeDetails.size(); i++) {
@@ -154,10 +177,9 @@ public class ActivityEmpolyeeProfile extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.edit_employee) {
-           Intent intent=new Intent(ActivityEmpolyeeProfile.this,ActivityAddNewEmployee.class);
-            intent.putParcelableArrayListExtra("Emp_detail", (ArrayList<? extends Parcelable>) employeeDetails );
-            intent.putExtra("empId",emp_id);
-
+            Intent intent = new Intent(ActivityEmpolyeeProfile.this, ActivityNewAddEmployee.class);
+            intent.putParcelableArrayListExtra("Emp_detail", (ArrayList<? extends Parcelable>) employeeDetails);
+            intent.putExtra("empId", emp_id);
             startActivity(intent);
             return true;
         }

@@ -45,6 +45,8 @@
         <activity
             android:name=".Admin.ActivityAdminLogin"
             android:windowSoftInputMode="stateHidden" />
+
+        <activity android:name=".Admin.ActivityNewAddEmployee"/>
         <activity
             android:name=".Admin.ActivityAdminDrawer"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -55,11 +57,6 @@
             android:name=".Admin.ActivityChangePassword"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".Admin.ActivityAdminForgetPassword" />
-        <activity
-            android:name=".Admin.ActivityAddNewEmployee"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:label="Employee Registration"
-            android:screenOrientation="portrait" />
         <activity
             android:name=".Admin.ActivityEmpolyeeProfile"
             android:configChanges="keyboardHidden|orientation|screenSize"

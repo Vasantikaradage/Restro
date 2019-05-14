@@ -112,8 +112,11 @@
     <string name="hotel_details">Hotel Details</string>
     <string name="hotel_timing">Hotel Timing</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="change_password">Change Password</string>
+    <string name="help_support">Help &#38; Support</string>
+    <string name="user_guide">User Guide</string>
+    <string name="terms_conditions">Terms Of Service</string>
 
 
 </resources>

@@ -79,7 +79,7 @@ public class ActivityAddNewBranch extends AppCompatActivity {
                             etvBranchName.getText().toString(),
                             etvAddress.getText().toString(),
                             etvEmail.getText().toString(),
-                            Integer.parseInt(etvMob.getText().toString()),
+                            Integer.parseInt(etMob.getText().toString()),
                             Integer.parseInt(etvGstnNo.getText().toString()),
                             Integer.parseInt(etvTblNo.getText().toString()),
                            etvBra,
