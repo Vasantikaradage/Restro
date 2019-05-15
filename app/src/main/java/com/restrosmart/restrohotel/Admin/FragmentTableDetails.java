@@ -23,6 +23,7 @@ import com.restrosmart.restrohotel.Adapter.RVTableDetailsAdapter;
 import com.restrosmart.restrohotel.Interfaces.ApiService;
 import com.restrosmart.restrohotel.Interfaces.EditListener;
 import com.restrosmart.restrohotel.Interfaces.IResult;
+import com.restrosmart.restrohotel.Interfaces.PositionListener;
 import com.restrosmart.restrohotel.Interfaces.StatusListener;
 import com.restrosmart.restrohotel.Model.TableForm;
 import com.restrosmart.restrohotel.Model.TableFormId;
@@ -301,7 +302,16 @@ public class FragmentTableDetails extends Fragment {
         rvTableDetails.setLayoutManager(linearLayoutManager);
         rvTableDetails.setHasFixedSize(true);
         rvTableDetails.getLayoutManager().setMeasurementCacheEnabled(false);
-         rvTableDetailsAdapter=new RVTableDetailsAdapter(getActivity(),arrayListTable, new StatusListener() {
+         rvTableDetailsAdapter=new RVTableDetailsAdapter(getActivity(),arrayListTable, new PositionListener() {
+             @Override
+             public void positionListern(int position) {
+                 initRetrofitCallBack();
+                 ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
+                 mRetrofitService = new RetrofitService(mResultCallBack, getActivity());
+                 mRetrofitService.retrofitData(TABLE_DETAILS, service.tableDisplay(hotelId,
+                         branchId));
+             }
+         }, new StatusListener() {
              @Override
              public void statusListern(int position,int status) {
                  initRetrofitCallBack();

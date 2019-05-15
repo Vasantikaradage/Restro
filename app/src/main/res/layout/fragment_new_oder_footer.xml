@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -11,7 +12,7 @@
         app:cardCornerRadius="3dp"
         app:cardElevation="5dp"
         app:cardBackgroundColor="@color/cardview_light_background"        app:cardPreventCornerOverlap="true"
-        >
+        tools:ignore="MissingConstraints">
 
         <View
             android:layout_width="match_parent"
@@ -33,7 +34,8 @@
             android:id="@+id/tv_suggestion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5dp"
+           android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
             android:text="Suggestion :"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
@@ -58,7 +60,7 @@
         android:layout_below="@+id/relative"
         android:weightSum="3.5">-->
 
-        <ImageButton
+       <!-- <ImageButton
             android:id="@+id/btn_cancel_order"
             android:layout_width="45dp"
             android:layout_height="45dp"
@@ -71,13 +73,13 @@
             android:layout_below="@+id/relative"
             android:background="@drawable/ic_action_circle"
             android:src="@drawable/ic_delete_button" />
+-->
 
 
 
 
 
-
-        <ImageButton
+       <!-- <ImageButton
             android:id="@+id/btn_view"
             android:layout_width="45dp"
             android:layout_height="45dp"
@@ -90,9 +92,9 @@
 
 
          android:background="@drawable/ic_action_circle"
-           android:src="@drawable/ic_invoice" />
+           android:src="@drawable/ic_invoice" />-->
 
-       <ImageButton
+      <!-- <ImageButton
             android:id="@+id/btn_call_cust"
             android:layout_width="45dp"
             android:layout_height="45dp"
@@ -104,7 +106,7 @@
             android:layout_toStartOf="@+id/btn_view"
 
             android:src="@drawable/ic_phone_white_24dp"
-            />
+            />-->
 
       <!--  <android.support.v7.widget.CardView
             android:layout_width="wrap_content"

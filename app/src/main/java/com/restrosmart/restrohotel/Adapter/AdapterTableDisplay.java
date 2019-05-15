@@ -21,11 +21,11 @@ import java.util.ArrayList;
 
 public class AdapterTableDisplay extends RecyclerView.Adapter<AdapterTableDisplay.MyHolder>{
    private  Context mContext;
-   private  ArrayList<? extends TableFormId> arrayListTableId;
+   private  ArrayList<TableFormId> arrayListTableId;
    private  StatusListener statusListener;
    private  Dialog dialog;
 
-    public AdapterTableDisplay(Context context, ArrayList<? extends TableFormId> arrayListTableIds, StatusListener statusListener) {
+    public AdapterTableDisplay(Context context, ArrayList<TableFormId> arrayListTableIds, StatusListener statusListener) {
    this.mContext=context;
    this.arrayListTableId=arrayListTableIds;
    this.statusListener=statusListener;
@@ -57,63 +57,7 @@ public class AdapterTableDisplay extends RecyclerView.Adapter<AdapterTableDispla
           myHolder.imageView.setBackgroundResource(R.drawable.ic_table_gray);
       }
 
-      /*myHolder.frameLayout.setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View view) {
-              dialog = new Dialog(mContext);
-              dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-              dialog.setCancelable(false);
-              dialog.setCanceledOnTouchOutside(false);
-              dialog.setContentView(R.layout.dialog_active_table);
 
-              // set the custom dialog components - text, image and button
-              ImageView ivCloseDialog = dialog.findViewById(R.id.ivCloseDialog);
-              ImageView ivActive=dialog.findViewById(R.id.ivActiveIcon);
-              ImageView ivInActive=dialog.findViewById(R.id.ivInActvieIcon);
-              RelativeLayout tvActive = dialog.findViewById(R.id.tvActive);
-              RelativeLayout tvInActive = dialog.findViewById(R.id.tvInActive);
-
-              tvActive.setOnClickListener(new View.OnClickListener() {
-                  @Override
-                  public void onClick(View view) {
-                      statusListener.statusListern(i,1);
-                      dialog.dismiss();
-                  }
-              });
-
-              tvInActive.setOnClickListener(new View.OnClickListener() {
-                  @Override
-                  public void onClick(View view) {
-                      statusListener.statusListern(i,0);
-                      dialog.dismiss();
-
-                  }
-              });
-
-
-
-              ivCloseDialog.setOnClickListener(new View.OnClickListener() {
-                  @Override
-                  public void onClick(View view) {
-                      dialog.dismiss();
-                  }
-              });
-
-              if(arrayListTableId.get(i).getTableStatus()==1)
-              {
-                  ivActive.setVisibility(View.VISIBLE);
-                  ivInActive.setVisibility(View.GONE);
-              }
-              else
-              {
-                  ivActive.setVisibility(View.GONE);
-                  ivInActive.setVisibility(View.VISIBLE);
-              }
-              dialog.show();
-          }
-      });
-
-*/
     }
 
     @Override

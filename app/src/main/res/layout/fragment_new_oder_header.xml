@@ -89,6 +89,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/order_id"
                 android:layout_alignParentEnd="true"
+                android:layout_marginEnd="5dp"
                 android:text="Today : 12.40AM" />
             <!--<TextView
                 android:id="@+id/tv_total"
@@ -118,7 +119,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_below="@+id/tv_date_time"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="15dp"
                 android:background="@color/cardview_dark_background" />
         </RelativeLayout>
 

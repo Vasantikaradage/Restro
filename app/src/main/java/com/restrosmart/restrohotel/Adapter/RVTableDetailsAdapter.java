@@ -2,10 +2,9 @@ package com.restrosmart.restrohotel.Adapter;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,27 +14,55 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.restrosmart.restrohotel.Admin.ActivityTableInformation;
+import android.widget.Toast;
+
+import com.google.gson.JsonObject;
+import com.restrosmart.restrohotel.Interfaces.ApiService;
 import com.restrosmart.restrohotel.Interfaces.EditListener;
+import com.restrosmart.restrohotel.Interfaces.IResult;
+import com.restrosmart.restrohotel.Interfaces.PositionListener;
 import com.restrosmart.restrohotel.Interfaces.StatusListener;
 import com.restrosmart.restrohotel.Model.TableForm;
+import com.restrosmart.restrohotel.Model.TableFormId;
 import com.restrosmart.restrohotel.R;
+import com.restrosmart.restrohotel.RetrofitClientInstance;
+import com.restrosmart.restrohotel.RetrofitService;
+import com.restrosmart.restrohotel.Utils.Sessionmanager;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+
+import retrofit2.Response;
+
+import static com.restrosmart.restrohotel.ConstantVariables.UPDATE_TABLE_STATUS;
+import static com.restrosmart.restrohotel.Utils.Sessionmanager.BRANCH_ID;
+import static com.restrosmart.restrohotel.Utils.Sessionmanager.HOTEL_ID;
 
 public class RVTableDetailsAdapter extends RecyclerView.Adapter<RVTableDetailsAdapter.MyHolder> {
     private Context mContext;
     private ArrayList<TableForm> arrayListTableDeatils;
     private EditListener editListener;
-    private int staus, status_info;
+    private int staus, status_info, tableStatus, position, mHotelId, mBranchId;
     private Menu menuOpts;
     private StatusListener statusListener;
 
-    public RVTableDetailsAdapter(Context context, ArrayList<TableForm> arrayListTable, StatusListener statusListener, EditListener editListener) {
+    private AdapterTableDisplay adapterTableDisplay;
+    private RetrofitService mRetrofitService;
+    private IResult mResultCallBack;
+    //private ArrayList<TableFormId> arrayListTable;
+    private ArrayList<TableFormId> arrayListTable;
+    private PositionListener positionListener;
+
+
+    public RVTableDetailsAdapter(Context context, ArrayList<TableForm> arrayListTable, PositionListener positionListener, StatusListener statusListener, EditListener editListener) {
         this.mContext = context;
         this.arrayListTableDeatils = arrayListTable;
         this.editListener = editListener;
         this.statusListener = statusListener;
+        this.positionListener = positionListener;
     }
 
     @NonNull
@@ -46,11 +73,12 @@ public class RVTableDetailsAdapter extends RecyclerView.Adapter<RVTableDetailsAd
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final RVTableDetailsAdapter.MyHolder myHolder, final int i) {
+    public void onBindViewHolder(@NonNull final RVTableDetailsAdapter.MyHolder myHolder, int i) {
         myHolder.tvAreaName.setText(arrayListTableDeatils.get(i).getAreaName());
 
         String count = String.valueOf(arrayListTableDeatils.get(i).getTableCount());
-        myHolder.tvTableCount.setText(count);
+        myHolder.tvTableCount.setText("(" + count + "T" + ")");
+
 
         staus = arrayListTableDeatils.get(i).getArea_Status();
         if (staus == 1) {
@@ -60,6 +88,37 @@ public class RVTableDetailsAdapter extends RecyclerView.Adapter<RVTableDetailsAd
             myHolder.imageActive.setVisibility(View.GONE);
             myHolder.imageInActive.setVisibility(View.VISIBLE);
         }
+
+
+        Sessionmanager sharedPreferanceManage = new Sessionmanager(mContext);
+        HashMap<String, String> name_info = sharedPreferanceManage.getHotelDetails();
+        mHotelId = Integer.parseInt(name_info.get(HOTEL_ID));
+        mBranchId = Integer.parseInt(name_info.get(BRANCH_ID));
+
+
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 4);
+
+
+        myHolder.mRecyclerView.setLayoutManager(gridLayoutManager);
+        myHolder.mRecyclerView.setHasFixedSize(true);
+        myHolder.mRecyclerView.getLayoutManager().setMeasurementCacheEnabled(false);
+        adapterTableDisplay = new AdapterTableDisplay(mContext, arrayListTableDeatils.get(myHolder.getAdapterPosition()).getArrayTableFormIds(), new StatusListener() {
+            @Override
+            public void statusListern(int position1, int status) {
+
+                initRetrofitCallBack(arrayListTableDeatils.get(myHolder.getAdapterPosition()).getArrayTableFormIds());
+                tableStatus = status;
+                position = position1;
+
+                ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
+                mRetrofitService = new RetrofitService(mResultCallBack, mContext);
+                mRetrofitService.retrofitData(UPDATE_TABLE_STATUS, service.TableStatus(tableStatus, arrayListTableDeatils.get(myHolder.getAdapterPosition()).getArrayTableFormIds().get(position).getTableId(), mHotelId,
+                        mBranchId));
+            }
+        });
+
+        myHolder.mRecyclerView.setAdapter(adapterTableDisplay);
+
 
         myHolder.tvTableOptionMenu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,7 +130,7 @@ public class RVTableDetailsAdapter extends RecyclerView.Adapter<RVTableDetailsAd
                 popup.inflate(R.menu.table_option_menu);
 
                 menuOpts = popup.getMenu();
-                if (arrayListTableDeatils.get(i).getArea_Status() == 1) {
+                if (arrayListTableDeatils.get(myHolder.getAdapterPosition()).getArea_Status() == 1) {
                     menuOpts.getItem(1).setVisible(false);
                     menuOpts.getItem(2).setVisible(true);
 
@@ -87,7 +146,7 @@ public class RVTableDetailsAdapter extends RecyclerView.Adapter<RVTableDetailsAd
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.table_edit:
-                                editListener.getEditListenerPosition(i);
+                                editListener.getEditListenerPosition(myHolder.getAdapterPosition());
                                 break;
 
                             case R.id.table_status:
@@ -100,7 +159,7 @@ public class RVTableDetailsAdapter extends RecyclerView.Adapter<RVTableDetailsAd
                                         .setIcon(R.drawable.ic_action_btn_delete)
                                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int which) {
-                                                statusListener.statusListern(i, status_info);
+                                                statusListener.statusListern(myHolder.getAdapterPosition(), status_info);
                                             }
 
                                            /* private void removeMenu(int menu_id) {
@@ -125,7 +184,7 @@ public class RVTableDetailsAdapter extends RecyclerView.Adapter<RVTableDetailsAd
 
                                 AlertDialog alert = builder.create();
                                 alert.show();
-                               // statusListener.statusListern(i, status_info);
+                                // statusListener.statusListern(i, status_info);
                                 break;
 
                             case R.id.table_inactive:
@@ -137,7 +196,7 @@ public class RVTableDetailsAdapter extends RecyclerView.Adapter<RVTableDetailsAd
                                         .setIcon(R.drawable.ic_action_btn_delete)
                                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int which) {
-                                                statusListener.statusListern(i, status_info);
+                                                statusListener.statusListern(myHolder.getAdapterPosition(), status_info);
                                             }
 
                                            /* private void removeMenu(int menu_id) {
@@ -181,6 +240,47 @@ public class RVTableDetailsAdapter extends RecyclerView.Adapter<RVTableDetailsAd
         });
     }
 
+    private void initRetrofitCallBack(ArrayList<TableFormId> arrayListids) {
+        arrayListTable = arrayListids;
+        mResultCallBack = new IResult() {
+            @Override
+            public void notifySuccess(int requestId, Response<JsonObject> response) {
+
+                switch (requestId) {
+                    case UPDATE_TABLE_STATUS:
+
+                        JsonObject object = response.body();
+                        String value = object.toString();
+
+                        try {
+                            JSONObject jsonObject = new JSONObject(value);
+                            int status = jsonObject.getInt("status");
+                            if (status == 1) {
+                                Toast.makeText(mContext, "Table Status Updated Successfully", Toast.LENGTH_LONG).show();
+
+
+                                arrayListTable.get(position).setTableStatus(tableStatus);
+                                adapterTableDisplay.notifyDataSetChanged();
+                                positionListener.positionListern(position);
+                                // adapterTableDisplay.refreshList(arrayListTable);
+                            } else {
+                                Toast.makeText(mContext, "Try Again..", Toast.LENGTH_LONG).show();
+
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                }
+            }
+
+            @Override
+            public void notifyError(int requestId, Throwable error) {
+
+            }
+        };
+    }
+
 
     @Override
     public int getItemCount() {
@@ -190,6 +290,7 @@ public class RVTableDetailsAdapter extends RecyclerView.Adapter<RVTableDetailsAd
     public class MyHolder extends RecyclerView.ViewHolder {
         private TextView tvAreaName, tvTableCount, tvTableOptionMenu;
         private ImageView imageActive, imageInActive;
+        private RecyclerView mRecyclerView;
 
         public MyHolder(@NonNull View itemView) {
             super(itemView);
@@ -199,18 +300,7 @@ public class RVTableDetailsAdapter extends RecyclerView.Adapter<RVTableDetailsAd
             tvTableOptionMenu = itemView.findViewById(R.id.tv_table_option);
             imageActive = itemView.findViewById(R.id.img_active);
             imageInActive = itemView.findViewById(R.id.img_inactive);
-
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(mContext, ActivityTableInformation.class);
-                      intent.putExtra("tableIds", arrayListTableDeatils.get(getAdapterPosition()).getArrayTableFormIds());
-                      intent.putExtra("position",getAdapterPosition());
-                   mContext.startActivity(intent);
-                }
-            });
-
+            mRecyclerView = itemView.findViewById(R.id.recycler_table_details);
         }
     }
 }
