@@ -99,7 +99,6 @@
         <activity android:name=".Admin.ActivityScratchCard"/>
         <activity android:name=".Admin.ActivityRushHours"/>
         <activity android:name=".Admin.ActivityPromoCode"/>
-
         <activity android:name=".Captain.Activities.ActivityTableOrders"/>
 
         <!--
