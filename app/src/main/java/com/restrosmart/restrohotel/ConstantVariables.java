@@ -85,8 +85,25 @@ public class ConstantVariables {
     public  static  final  int UPDATE_AREA_STATUS=603;
     public  static  final  int UPDATE_TABLE_STATUS=604;
 
+
+
+
+    public  static  final  int ORDER_DETAILS=703;
+    public static  final  int TOPPING_IMAGE=705;
+
+    public  static  final  int PICK_GALLERY_IMAGE=706;
+    public static final int REQUEST_PERMISSION = 707;
+    public  static  final  int USER_RATING=708;
+    public  static  final int ACTIVE_TABLE=709;
+
+
     /*Captain*/
-    public  static  final  int SCAN_TABLE=700;
-    public  static  final  int TABLE_CONF_STATUS=701;
+    public  static  final  int SCAN_TABLE=800;
+    public  static  final  int TABLE_CONF_STATUS=801;
+    public  static  final  int GET_CAPTAIN_PROFILE=802;
+    public  static  final  int GET_BOOKED_TABLE=803;
+    public  static  final  int SWAP_TABLE=804;
+    public  static  final  int GET_TABLE_ORDERS=805;
+
 }
 

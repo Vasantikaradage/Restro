@@ -23,7 +23,7 @@
         android:windowSoftInputMode="stateAlwaysVisible"
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".SuperAdmin.Activities.ActivitySuperAdminLogin"></activity>
-        <activity android:name=".Captain.Activities.ActivityCaptainLogin" />
+        <activity android:name=".Captain.Activities.ActivityCaptainDash" />
         <activity android:name=".ActivitySplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -93,6 +93,15 @@
             android:name=".Admin.ActivityProfile"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait" />
+        <activity android:name=".Admin.ActivityImageTopping"/>
+
+        <activity android:name=".Admin.ActivityDailyOffer"/>
+        <activity android:name=".Admin.ActivityScratchCard"/>
+        <activity android:name=".Admin.ActivityRushHours"/>
+        <activity android:name=".Admin.ActivityPromoCode"/>
+
+        <activity android:name=".Captain.Activities.ActivityTableOrders"/>
+
         <!--
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="New Order Details"

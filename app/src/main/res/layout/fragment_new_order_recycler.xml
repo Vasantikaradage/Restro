@@ -3,16 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+
     android:padding="5dp">
 
     <android.support.v7.widget.CardView
         android:id="@+id/card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/cardview_light_background"
-        app:cardCornerRadius="3dp"
-
-        >
+        app:cardBackgroundColor="@color/cardview_light_background">
 
 
     <LinearLayout
@@ -62,7 +60,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
         </LinearLayout>-->
--->
+
    <LinearLayout
         android:id="@+id/linear"
         android:layout_width="match_parent"
@@ -76,10 +74,15 @@
             android:id="@+id/tx_menu_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="1.6"
             android:maxLines="2"
 
             android:gravity="start"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:fontFamily="sans-serif"
+            android:layout_marginStart="5dp"
+
 
             android:text="@string/menu_name"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
@@ -89,11 +92,12 @@
             android:id="@+id/tx_menu_qty"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="0.7"
             android:gravity="center"
-
-            android:text="@string/menu_qty"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+            android:textColor="@color/gray"
+            android:textSize="14sp"
+            android:fontFamily="sans-serif"
+            android:text="@string/menu_qty"/>
 
 
 
@@ -104,13 +108,24 @@
             android:id="@+id/tx_menu_price"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="0.7"
             android:layout_marginEnd="5dp"
             android:gravity="end"
-            android:text="@string/menu_price"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
+
+            android:text="@string/menu_price"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:fontFamily="sans-serif"/>
    </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvOrderTopping"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp">
+
+        </android.support.v7.widget.RecyclerView>
 
 
     </LinearLayout>

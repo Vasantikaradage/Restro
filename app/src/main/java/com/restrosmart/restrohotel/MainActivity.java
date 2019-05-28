@@ -9,7 +9,7 @@ import android.widget.Button;
 import com.restrosmart.restrohotel.Admin.ActivityAdminLogin;
 
 
-import com.restrosmart.restrohotel.Captain.Activities.ActivityCaptainLogin;
+import com.restrosmart.restrohotel.Captain.Activities.ActivityCaptainDash;
 import com.restrosmart.restrohotel.SuperAdmin.Activities.ActivitySuperAdminLogin;
 import com.restrosmart.restrohotel.Utils.Sessionmanager;
 
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.btn_captain:
-                Intent intentCaptain = new Intent(MainActivity.this, ActivityCaptainLogin.class);
+                Intent intentCaptain = new Intent(MainActivity.this, ActivityCaptainDash.class);
                 startActivity(intentCaptain);
                 break;
         }

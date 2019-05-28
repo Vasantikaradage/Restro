@@ -15,10 +15,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
-import com.restrosmart.restrohotel.Captain.Activities.ActivityCaptainLogin;
 import com.restrosmart.restrohotel.Captain.Adapters.ScanTableRVAdapter;
 import com.restrosmart.restrohotel.Captain.Models.AreaTableModel;
 import com.restrosmart.restrohotel.Captain.Models.ScanTableModel;
@@ -44,6 +44,7 @@ public class HomeFragment extends Fragment {
     private View view;
 
     private RecyclerView rvScanTable;
+    private LinearLayout llNoTables;
 
     private Sessionmanager mSessionmanager;
     private RetrofitService mRetrofitService;
@@ -157,13 +158,21 @@ public class HomeFragment extends Fragment {
                                     areaTableModelArrayList.add(areaTableModel);
                                 }
 
-                                ScanTableRVAdapter scanTableRVAdapter = new ScanTableRVAdapter(getContext(), areaTableModelArrayList);
+                                if (areaTableModelArrayList != null && areaTableModelArrayList.size() > 0) {
+                                    ScanTableRVAdapter scanTableRVAdapter = new ScanTableRVAdapter(getContext(), areaTableModelArrayList);
 
-                                rvScanTable.setHasFixedSize(true);
-                                rvScanTable.setNestedScrollingEnabled(false);
-                                rvScanTable.setLayoutManager(new GridLayoutManager(getContext(), 1));
-                                rvScanTable.setItemAnimator(new DefaultItemAnimator());
-                                rvScanTable.setAdapter(scanTableRVAdapter);
+                                    rvScanTable.setHasFixedSize(true);
+                                    rvScanTable.setNestedScrollingEnabled(false);
+                                    rvScanTable.setLayoutManager(new GridLayoutManager(getContext(), 1));
+                                    rvScanTable.setItemAnimator(new DefaultItemAnimator());
+                                    rvScanTable.setAdapter(scanTableRVAdapter);
+
+                                    rvScanTable.setVisibility(View.VISIBLE);
+                                    llNoTables.setVisibility(View.GONE);
+                                } else {
+                                    rvScanTable.setVisibility(View.GONE);
+                                    llNoTables.setVisibility(View.VISIBLE);
+                                }
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -201,5 +210,6 @@ public class HomeFragment extends Fragment {
         mSessionmanager = new Sessionmanager(getContext());
 
         rvScanTable = view.findViewById(R.id.rvScanTable);
+        llNoTables = view.findViewById(R.id.llNoTables);
     }
 }

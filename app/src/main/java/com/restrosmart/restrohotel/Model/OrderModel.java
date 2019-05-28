@@ -1,31 +1,39 @@
 package com.restrosmart.restrohotel.Model;
 
-public class OrderModel {
+import android.os.Parcel;
+import android.os.Parcelable;
 
-    private String cust_mob_no,order_id,tot_bill,time,menu_name,menu_qty,menu_price,msg;
+import java.util.ArrayList;
 
-    public String getCust_mob_no() {
+public class OrderModel  implements Parcelable {
+
+    private int  cust_mob_no,order_id,tableId;
+    private  String time;
+    private ArrayList<MenuForm> arrayList;
+
+
+    public int getCust_mob_no() {
         return cust_mob_no;
     }
 
-    public void setCust_mob_no(String cust_mob_no) {
+    public void setCust_mob_no(int cust_mob_no) {
         this.cust_mob_no = cust_mob_no;
     }
 
-    public String getOrder_id() {
+    public int getOrder_id() {
         return order_id;
     }
 
-    public void setOrder_id(String order_id) {
+    public void setOrder_id(int order_id) {
         this.order_id = order_id;
     }
 
-    public String getTot_bill() {
-        return tot_bill;
+    public int getTableId() {
+        return tableId;
     }
 
-    public void setTot_bill(String tot_bill) {
-        this.tot_bill = tot_bill;
+    public void setTableId(int tableId) {
+        this.tableId = tableId;
     }
 
     public String getTime() {
@@ -36,35 +44,47 @@ public class OrderModel {
         this.time = time;
     }
 
-    public String getMenu_name() {
-        return menu_name;
+    public ArrayList<MenuForm> getArrayList() {
+        return arrayList;
     }
 
-    public void setMenu_name(String menu_name) {
-        this.menu_name = menu_name;
+    public void setArrayList(ArrayList<MenuForm> arrayList) {
+        this.arrayList = arrayList;
     }
 
-    public String getMenu_qty() {
-        return menu_qty;
+    public OrderModel() {
     }
 
-    public void setMenu_qty(String menu_qty) {
-        this.menu_qty = menu_qty;
+
+    protected OrderModel(Parcel in) {
+        cust_mob_no = in.readInt();
+        order_id = in.readInt();
+        tableId = in.readInt();
+        time = in.readString();
     }
 
-    public String getMenu_price() {
-        return menu_price;
+    public static final Creator<OrderModel> CREATOR = new Creator<OrderModel>() {
+        @Override
+        public OrderModel createFromParcel(Parcel in) {
+            return new OrderModel(in);
+        }
+
+        @Override
+        public OrderModel[] newArray(int size) {
+            return new OrderModel[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
-    public void setMenu_price(String menu_price) {
-        this.menu_price = menu_price;
-    }
-
-    public String getMsg() {
-        return msg;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(cust_mob_no);
+        parcel.writeInt(order_id);
+        parcel.writeInt(tableId);
+        parcel.writeString(time);
     }
 }

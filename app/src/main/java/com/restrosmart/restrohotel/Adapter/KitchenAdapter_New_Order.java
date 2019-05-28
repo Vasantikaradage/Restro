@@ -75,7 +75,7 @@ public class KitchenAdapter_New_Order extends RecyclerView.Adapter<RecyclerView.
         }else  if(holder instanceof FooterViewHolder)
         {
 
-            ((FooterViewHolder) holder).suggestion.setText(arrayList.get(position-2).getMsg());
+           // ((FooterViewHolder) holder).suggestion.setText(arrayList.get(position-2).getMsg());
             /*((FooterViewHolder) holder).mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -120,11 +120,11 @@ public class KitchenAdapter_New_Order extends RecyclerView.Adapter<RecyclerView.
 
             Resources res = context.getResources();
             String format = res.getString(R.string.Rs);
-            ((ItemViewHolder) holder).menu_name.setText(arrayList.get(position-1).getMenu_name());
+           /* ((ItemViewHolder) holder).menu_name.setText(arrayList.get(position-1).getMenu_name());
             ((ItemViewHolder) holder).menu_qty.setText(arrayList.get(position-1).getMenu_qty());
             ((ItemViewHolder) holder).menu_price.setText(format+" "+arrayList.get(position-1).getMenu_price());
 
-
+*/
 
 
         }

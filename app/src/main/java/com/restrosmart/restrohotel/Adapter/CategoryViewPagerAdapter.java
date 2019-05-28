@@ -45,5 +45,10 @@ public class CategoryViewPagerAdapter extends FragmentPagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         return  mFragmentTitleList.get(position).getName();
+
     }
+
+
+
+
 }

@@ -74,7 +74,7 @@ public class Adapter_Ongoing_Order extends RecyclerView.Adapter<RecyclerView.Vie
             ((HeaderViewHolder) holder).mDateTime.setText(arrayList.get(position).getTime());
             Resources res = context.getResources();
             String format = res.getString(R.string.Rs);
-            ((HeaderViewHolder) holder).mTotal.setText(format+" "+arrayList.get(position).getTot_bill());
+          //  ((HeaderViewHolder) holder).mTotal.setText(format+" "+arrayList.get(position).getTot_bill());
 
 
 
@@ -127,11 +127,11 @@ public class Adapter_Ongoing_Order extends RecyclerView.Adapter<RecyclerView.Vie
 
             Resources res = context.getResources();
             String format = res.getString(R.string.Rs);
-            ((ItemViewHolder) holder).menu_name.setText(arrayList.get(position-1).getMenu_name());
+          /*  ((ItemViewHolder) holder).menu_name.setText(arrayList.get(position-1).getMenu_name());
             ((ItemViewHolder) holder).menu_qty.setText(arrayList.get(position-1).getMenu_qty());
             ((ItemViewHolder) holder).menu_price.setText(format+" "+arrayList.get(position-1).getMenu_price());
 
-
+*/
 
 
         }

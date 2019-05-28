@@ -10,19 +10,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.restrosmart.restrohotel.Captain.Models.AreaTableModel;
+import com.restrosmart.restrohotel.Captain.Models.AreaSwapModel;
 import com.restrosmart.restrohotel.R;
 
 import java.util.ArrayList;
 
-public class RVOrderTablesAdapter extends RecyclerView.Adapter<RVOrderTablesAdapter.ItemViewHolder> {
+public class RVSwapBookedAreaAdapter extends RecyclerView.Adapter<RVSwapBookedAreaAdapter.ItemViewHolder> {
 
     private Context mContext;
-    private ArrayList<AreaTableModel> arrayList;
+    private ArrayList<AreaSwapModel> arrayList, mFreeAreaSwapArrayList;
+    private RVSwapBookedTablesAdapter rvTableDetailAdapter;
 
-    public RVOrderTablesAdapter(Context context, ArrayList<AreaTableModel> areaTableModelArrayList) {
+    public RVSwapBookedAreaAdapter(Context context, ArrayList<AreaSwapModel> areaSwapModelArrayList, ArrayList<AreaSwapModel> freeAreaSwapArrayList) {
         this.mContext = context;
-        this.arrayList = areaTableModelArrayList;
+        this.arrayList = areaSwapModelArrayList;
+        this.mFreeAreaSwapArrayList = freeAreaSwapArrayList;
     }
 
     @NonNull
@@ -36,12 +38,12 @@ public class RVOrderTablesAdapter extends RecyclerView.Adapter<RVOrderTablesAdap
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
         holder.tvAreaName.setText(arrayList.get(position).getAreaName());
 
-        RVTableDetailAdapter rvTableDetailAdapter = new RVTableDetailAdapter(mContext, arrayList.get(position).getScanTableModelArrayList(), arrayList.get(position).getAreaId());
-        holder.rvScannedTable.setHasFixedSize(true);
-        holder.rvScannedTable.setNestedScrollingEnabled(false);
-        holder.rvScannedTable.setLayoutManager(new GridLayoutManager(mContext, 4));
-        holder.rvScannedTable.setItemAnimator(new DefaultItemAnimator());
-        holder.rvScannedTable.setAdapter(rvTableDetailAdapter);
+        rvTableDetailAdapter = new RVSwapBookedTablesAdapter(mContext, arrayList.get(position).getTableSwapModelArrayList(), mFreeAreaSwapArrayList);
+        holder.rvBookedTable.setHasFixedSize(true);
+        holder.rvBookedTable.setNestedScrollingEnabled(false);
+        holder.rvBookedTable.setLayoutManager(new GridLayoutManager(mContext, 4));
+        holder.rvBookedTable.setItemAnimator(new DefaultItemAnimator());
+        holder.rvBookedTable.setAdapter(rvTableDetailAdapter);
     }
 
     @Override
@@ -52,13 +54,17 @@ public class RVOrderTablesAdapter extends RecyclerView.Adapter<RVOrderTablesAdap
     class ItemViewHolder extends RecyclerView.ViewHolder {
 
         private TextView tvAreaName;
-        private RecyclerView rvScannedTable;
+        private RecyclerView rvBookedTable;
 
         ItemViewHolder(@NonNull View itemView) {
             super(itemView);
 
             tvAreaName = itemView.findViewById(R.id.tvAreaName);
-            rvScannedTable = itemView.findViewById(R.id.rvScannedTable);
+            rvBookedTable = itemView.findViewById(R.id.rvScannedTable);
         }
+    }
+
+    public void onDestroyFragment(){
+        rvTableDetailAdapter.onDestroyReceiver();
     }
 }

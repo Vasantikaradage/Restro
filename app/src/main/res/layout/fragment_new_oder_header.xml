@@ -4,22 +4,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="5dp">
+    >
 
 
     <android.support.v7.widget.CardView
         android:id="@+id/card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/colorLight"
-        app:cardCornerRadius="3dp"
-        app:cardElevation="3dp"
+
+        app:cardCornerRadius="5dp"
+        app:cardElevation="5dp"
+        app:cardUseCompatPadding="true"
         app:cardPreventCornerOverlap="true"
         tools:ignore="MissingConstraints">
 
         <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <RelativeLayout
             android:id="@+id/recycler_header"
             android:layout_width="match_parent"
+
             android:layout_height="wrap_content">
 
             <TextView
@@ -28,7 +34,7 @@
                 android:layout_height="50dp"
                 android:layout_centerVertical="true"
                 android:layout_margin="5dp"
-                android:background="@drawable/circular_img"
+                android:background="@drawable/bg_yellow_circle"
                 android:gravity="center"
                 android:text="32"
                 android:textColor="@color/colorwhite"
@@ -46,6 +52,15 @@
                 android:text="9845246171"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                 android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/tv_date_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/order_id"
+                android:layout_toEndOf="@+id/circle_image"
+              android:padding="5dp"
+                android:text="12.40AM" />
 
             <!--  <TextView
                   android:id="@+id/tv_cust_mobno"
@@ -66,7 +81,7 @@
                 android:id="@+id/tv_order_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
+                android:layout_marginTop="11dp"
                 android:layout_toStartOf="@id/order_id"
                 android:text="Order Id: "
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
@@ -76,21 +91,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="5dp"
+                android:layout_marginTop="11dp"
+                android:layout_marginEnd="10dp"
                 android:layout_marginBottom="5dp"
                 android:maxWidth="70dp"
                 android:text="12356"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
-            <TextView
-                android:id="@+id/tv_date_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/order_id"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="5dp"
-                android:text="Today : 12.40AM" />
+
             <!--<TextView
                 android:id="@+id/tv_total"
                 android:layout_width="wrap_content"
@@ -119,8 +127,56 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_below="@+id/tv_date_time"
-                android:layout_marginTop="15dp"
-                android:background="@color/cardview_dark_background" />
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="5dp"
+                android:background="@color/gainsboro"/>
+
+        </RelativeLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/recycler_header">
+        </android.support.v7.widget.RecyclerView>
+
+            <View
+                android:id="@+id/view2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/recycler"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/gainsboro"/>
+
+            <RelativeLayout
+                android:id="@+id/relative"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/view2">
+
+                <ImageView
+                    android:id="@+id/tv_suggestion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                   android:padding="5dp"
+                    android:src="@drawable/ic_pointing_right"
+           />
+
+                <TextView
+                    android:id="@+id/suggestion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/tv_suggestion"
+                    android:padding="5dp"
+                    android:textSize="12sp"
+                    android:maxLines="3"
+                    android:text="thttrhtt yjyjyjyjyj tyyryy eterrr ututryu ertertrtrt tuyuutt rtrryrytry"
+                   />
+
+
+            </RelativeLayout>
         </RelativeLayout>
 
     </android.support.v7.widget.CardView>

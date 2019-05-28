@@ -32,6 +32,7 @@ import com.restrosmart.restrohotel.R;
 import com.restrosmart.restrohotel.RetrofitClientInstance;
 import com.restrosmart.restrohotel.RetrofitService;
 import com.restrosmart.restrohotel.Utils.Sessionmanager;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,9 +42,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Response;
 
 import static com.restrosmart.restrohotel.ConstantVariables.ADD_TOPPINGS;
+import static com.restrosmart.restrohotel.ConstantVariables.IMAGE_RESULT_OK;
 import static com.restrosmart.restrohotel.ConstantVariables.PARENT_CATEGORY_WITH_TOPPINGS;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.BRANCH_ID;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.HOTEL_ID;
@@ -63,6 +66,9 @@ public  class FragmentToppings extends Fragment {
     private FrameLayout flAddToppings;
     private  View dialoglayout;
     private  BottomSheetDialog dialog;
+    private String imageName;
+    private  ApiService apiService;
+    private CircleImageView mCircleImageView;
     private EditText etvToppingName,etvToppingPrice;
     private TextView tvToppingTitle;
 
@@ -114,21 +120,44 @@ public  class FragmentToppings extends Fragment {
                 tvToppingTitle.setVisibility(View.VISIBLE);
                 Button cancelTopping=dialoglayout.findViewById(R.id.btnCancel);
                 Button updateTopping=dialoglayout.findViewById(R.id.btnUpdate);
+                mCircleImageView=dialoglayout.findViewById(R.id.img_toppings);
+                FrameLayout frameLayoutImage=dialoglayout.findViewById(R.id.iv_select_image);
+                frameLayoutImage.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent  imageIntent=new Intent(getActivity(),ActivityImageTopping.class);
+                        imageIntent.putExtra("pcId", mPcId);
+                        startActivityForResult(imageIntent, IMAGE_RESULT_OK);
+                    }
+                });
 
                 saveTopping.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+
+                        if(imageName==null)
+                        {
+                            imageName="null";
+                        }
+
+                        saveToppingInformation();
+
+                    }
+
+
+                    private void saveToppingInformation() {
                         initRetrofitCallBackForToppings();
                         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
                         mRetrofitService = new RetrofitService(mResultCallBack, getActivity());
                         mRetrofitService.retrofitData(ADD_TOPPINGS, service.addToppings(etvToppingName.getText().toString(),
+                                imageName,
                                 Integer.parseInt(etvToppingPrice.getText().toString()),
                                 hotelId,
                                 branchId,
                                 mPcId));
                     }
                 });
-                dialog.show();
+
 
                 cancelTopping.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -136,6 +165,7 @@ public  class FragmentToppings extends Fragment {
                         dialog.dismiss();
                     }
                 });
+                dialog.show();
             }
         });
 
@@ -203,6 +233,8 @@ public  class FragmentToppings extends Fragment {
                                       toppingsForm.setToppingsName(jsonObject3.getString("Topping_Name"));
                                       toppingsForm.setToppingsPrice(jsonObject3.getInt("Topping_Price"));
                                       toppingsForm.setToppingId(jsonObject3.getInt("Topping_Id"));
+                                      toppingsForm.setImage(jsonObject3.getString("Topping_Img").toString());
+
                                       toppingsForm.setPcId(jsonObject2.getInt("Pc_Id"));
                                       fragmentToppingsArrayList.add(toppingsForm);
 
@@ -292,5 +324,18 @@ public  class FragmentToppings extends Fragment {
         fragmentToppingsArrayList = new ArrayList<>();
         addParentCategoryinfos = new ArrayList<>();
         arrayList = new ArrayList<>();
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == IMAGE_RESULT_OK /*&& requestCode==IMAGE_RESULT_OK*/) {
+            imageName = data.getStringExtra("image_name");
+            Log.e("Result for image", imageName);
+
+            Picasso.with(dialoglayout.getContext())
+                    .load(apiService.BASE_URL+imageName)
+                    .resize(500, 500)
+                    .into(mCircleImageView);
+        }
     }
 }

@@ -46,7 +46,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:text="Jignesh"
+                        android:text="-"
                         android:textColor="@color/colorAccent"
                         android:textSize="@dimen/font_large" />
 
@@ -70,11 +70,11 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/tv_emp_role"
+                        android:id="@+id/tvEmpRole"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:text="Captain"
+                        android:text="-"
                         android:textColor="@color/colorAccent"
                         android:textSize="@dimen/font_large" />
 
@@ -98,11 +98,11 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/tv_emp_status"
+                        android:id="@+id/tvEmpStatus"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:text="Active"
+                        android:text="-"
                         android:textColor="@color/colorAccent"
                         android:textSize="@dimen/font_large" />
 
@@ -136,10 +136,10 @@
                     android:padding="@dimen/dimen_10dp">
 
                     <TextView
-                        android:id="@+id/tv_hotel_name"
+                        android:id="@+id/tvHotelName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Krishna Pure Veg Hotel"
+                        android:text="-"
                         android:textColor="@color/colorAccent"
                         android:textSize="@dimen/font_large" />
 
@@ -162,10 +162,36 @@
                     android:padding="@dimen/dimen_10dp">
 
                     <TextView
-                        android:id="@+id/tv_emp_mobno"
+                        android:id="@+id/tvCapName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="9988776600"
+                        android:text="-"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="@dimen/font_large" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/emp_name"
+                        android:textSize="@dimen/font_small" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/colorDarkGray" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/dimen_10dp">
+
+                    <TextView
+                        android:id="@+id/tvEmpMobno"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="-"
                         android:textColor="@color/colorAccent"
                         android:textSize="@dimen/font_large" />
 
@@ -188,10 +214,10 @@
                     android:padding="@dimen/dimen_10dp">
 
                     <TextView
-                        android:id="@+id/tv_emp_email"
+                        android:id="@+id/tvEmpEmail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="jignesh132@gmail.com"
+                        android:text="-"
                         android:textColor="@color/colorAccent"
                         android:textSize="@dimen/font_large" />
 
@@ -214,10 +240,10 @@
                     android:padding="@dimen/dimen_10dp">
 
                     <TextView
-                        android:id="@+id/tv_emp_aadhar_number"
+                        android:id="@+id/tvEmpAadharNo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="7123 4567 7896"
+                        android:text="-"
                         android:textColor="@color/colorAccent"
                         android:textSize="@dimen/font_large" />
 
@@ -240,10 +266,10 @@
                     android:padding="@dimen/dimen_10dp">
 
                     <TextView
-                        android:id="@+id/tv_emp_address"
+                        android:id="@+id/tvEmpAddress"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Pimple gurav, pune - 411015"
+                        android:text="-"
                         android:textColor="@color/colorAccent"
                         android:textSize="@dimen/font_large" />
 
@@ -273,12 +299,12 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="LOGOUT"
-                    android:gravity="center"
-                    android:drawableLeft="@drawable/ic_logout"
                     android:layout_gravity="center"
-                    android:textColor="@android:color/black"
+                    android:drawableLeft="@drawable/ic_logout"
                     android:drawablePadding="@dimen/dimen_10dp"
+                    android:gravity="center"
+                    android:text="LOGOUT"
+                    android:textColor="@android:color/black"
                     android:textSize="@dimen/font_large" />
             </LinearLayout>
         </android.support.v7.widget.CardView>

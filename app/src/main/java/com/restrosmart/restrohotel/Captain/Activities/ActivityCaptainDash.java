@@ -7,14 +7,13 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.restrosmart.restrohotel.Captain.Fragments.CaptainProfileFragment;
 import com.restrosmart.restrohotel.Captain.Fragments.HomeFragment;
 import com.restrosmart.restrohotel.Captain.Fragments.SwapTableFragment;
 import com.restrosmart.restrohotel.R;
 
-public class ActivityCaptainLogin extends AppCompatActivity {
+public class ActivityCaptainDash extends AppCompatActivity {
 
     private Toolbar mToolbar;
     private MenuItem menuCapHome, menuSwapTable, menuCapProfile;
@@ -22,15 +21,10 @@ public class ActivityCaptainLogin extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_captain_login);
+        setContentView(R.layout.activity_captain_dash);
 
         init();
         setupToolbar();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
         loadFragment(0);
     }
 

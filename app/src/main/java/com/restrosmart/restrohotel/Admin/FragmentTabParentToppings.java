@@ -31,6 +31,7 @@ import com.restrosmart.restrohotel.R;
 import com.restrosmart.restrohotel.RetrofitClientInstance;
 import com.restrosmart.restrohotel.RetrofitService;
 import com.restrosmart.restrohotel.Utils.Sessionmanager;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,8 +39,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Response;
 
+import static com.restrosmart.restrohotel.ConstantVariables.IMAGE_RESULT_OK;
 import static com.restrosmart.restrohotel.ConstantVariables.TOPPING_DELETE;
 import static com.restrosmart.restrohotel.ConstantVariables.TOPPING_EDIT;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.BRANCH_ID;
@@ -58,7 +61,11 @@ public class FragmentTabParentToppings extends Fragment {
      private  View dialoglayout;
      private  BottomSheetDialog dialog;
      private TextView tvToppingTitle;
+    private CircleImageView mImageView;
      private EditText etvToppingName,etvToppingPrice;
+     private  ApiService apiService;
+     private    ArrayList<ToppingsForm> toppingsForms;
+    private String  imageName;
 
 
 
@@ -69,7 +76,7 @@ public class FragmentTabParentToppings extends Fragment {
 
         init();
         Bundle bundle = getArguments();
-        final ArrayList<ToppingsForm>  toppingsForms = bundle.getParcelableArrayList("toppingObject");
+        toppingsForms = bundle.getParcelableArrayList("toppingObject");
 
         HashMap<String, String> name_info = mSessionmanager.getHotelDetails();
         mHotelId = Integer.parseInt(name_info.get(HOTEL_ID));
@@ -99,25 +106,57 @@ public class FragmentTabParentToppings extends Fragment {
                 Button btnCancel = dialoglayout.findViewById(R.id.btnCancel);
                 Button btnSave = dialoglayout.findViewById(R.id.btnSave);
                 Button btnUpdate=dialoglayout.findViewById(R.id.btnUpdate);
+                mImageView=dialoglayout.findViewById(R.id.img_toppings);
                 tvToppingTitle=dialoglayout.findViewById(R.id.tv_edit_toppingTitle);
                 tvToppingTitle.setVisibility(View.VISIBLE);
                 etvToppingName.setText(toppingsForms.get(position).getToppingsName());
                 String price= String.valueOf(toppingsForms.get(position).getToppingsPrice());
                 etvToppingPrice.setText(price);
+
+                Picasso.with(dialoglayout.getContext())
+                        .load(apiService.BASE_URL+toppingsForms.get(position).getImage())
+                        .resize(500, 500)
+                        .into(mImageView);
+
+                btnCamara.setOnClickListener(new View.OnClickListener() {
+                                                 @Override
+                                                 public void onClick(View v) {
+                                                     Intent intent = new Intent(getActivity(), ActivityImageTopping.class);
+                                                     intent.putExtra("pcId", toppingsForms.get(position).getPcId());
+                                                     startActivityForResult(intent, IMAGE_RESULT_OK);
+                                                 }
+                                             });
+
                 dialog.show();
                 btnSave.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+
+                        String name=imageName;
+
+                        if(imageName==null)
+                        {
+                            imageName=toppingsForms.get(position).getImage();
+
+                        }
                         initRetrofitCallBack();
                         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
                         mRetrofitService = new RetrofitService(mResultCallBack, getActivity());
 
                         mRetrofitService.retrofitData(TOPPING_EDIT, service.toppingEdit(etvToppingName.getText().toString(),
+                               imageName,
                                 Integer.parseInt(etvToppingPrice.getText().toString()),
                                 mHotelId,
                                 mBranchId,
                                 toppingsForms.get(position).getPcId(),
                                 toppingsForms.get(position).getToppingId()));
+                    }
+                });
+
+                btnCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
                     }
                 });
 
@@ -223,5 +262,20 @@ public class FragmentTabParentToppings extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == IMAGE_RESULT_OK /*&& requestCode==IMAGE_RESULT_OK*/) {
+            imageName = data.getStringExtra("image_name");
+            // Log.e("Result", imageName);
+
+            Picasso.with(dialoglayout.getContext())
+                    .load(apiService.BASE_URL+imageName)
+                    .resize(500, 500)
+                    .into(mImageView);
+        }
+    }
+
 }
 

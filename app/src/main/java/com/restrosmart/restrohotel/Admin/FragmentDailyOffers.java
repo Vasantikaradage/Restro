@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.google.gson.JsonObject;
 import com.restrosmart.restrohotel.Adapter.DailyOffersAdapter;
@@ -47,6 +48,8 @@ public class FragmentDailyOffers extends Fragment {
     private String hotelId, branchId;
     private View view;
 
+    private RelativeLayout rlDailyOffer,rlPromoCode,rlScratchCard,rlRushHours;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -60,7 +63,46 @@ public class FragmentDailyOffers extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         init();
-        btnAddOffer.setOnClickListener(new View.OnClickListener() {
+
+        rlDailyOffer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intentDailyOffer=new Intent(getActivity(),ActivityDailyOffer.class);
+                startActivity(intentDailyOffer);
+
+            }
+        });
+
+
+
+        rlPromoCode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intentPromoCode=new Intent(getActivity(), ActivityPromoCode.class);
+                startActivity(intentPromoCode);
+
+            }
+        });
+
+        rlScratchCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intentScratchCard= new Intent(getActivity(),ActivityScratchCard.class);
+                startActivity(intentScratchCard);
+
+            }
+        });
+
+        rlRushHours.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intentRushHours=new Intent(getActivity(), ActivityRushHours.class);
+                startActivity(intentRushHours);
+            }
+        });
+       /* btnAddOffer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), ActivityAddNewOffer.class);
@@ -159,5 +201,13 @@ public class FragmentDailyOffers extends Fragment {
         });
         recyclerView.setAdapter(dailyOffersAdapter);
         dailyOffersAdapter.notifyDataSetChanged();
+    }*/
+    }
+
+    private void init() {
+        rlDailyOffer= view.findViewById(R.id.relative_daily_offer);
+        rlPromoCode=view.findViewById(R.id.relative_promo_code);
+        rlRushHours=view.findViewById(R.id.relative_rush_hours);
+        rlScratchCard=view.findViewById(R.id.relative_scratch_card);
     }
 }

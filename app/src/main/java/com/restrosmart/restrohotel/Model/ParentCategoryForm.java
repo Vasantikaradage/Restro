@@ -7,6 +7,7 @@ package com.restrosmart.restrohotel.Model;
 public class ParentCategoryForm {
     private  int Pc_id;
     private  String Name;
+    private  String image;
 
     public int getPc_id() {
         return Pc_id;
@@ -22,6 +23,14 @@ public class ParentCategoryForm {
 
     public void setName(String name) {
         Name = name;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     @Override

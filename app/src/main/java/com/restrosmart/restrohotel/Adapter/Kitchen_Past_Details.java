@@ -120,12 +120,12 @@ public class Kitchen_Past_Details extends RecyclerView.Adapter<RecyclerView.View
 
             Resources res = context.getResources();
             String format = res.getString(R.string.Rs);
-            ((ItemViewHolder) holder).menu_name.setText(arrayList.get(position-1).getMenu_name());
+            /*((ItemViewHolder) holder).menu_name.setText(arrayList.get(position-1).getMenu_name());
             ((ItemViewHolder) holder).menu_qty.setText(arrayList.get(position-1).getMenu_qty());
             ((ItemViewHolder) holder).menu_price.setText(format+" "+arrayList.get(position-1).getMenu_price());
 
 
-
+*/
 
         }
         else {

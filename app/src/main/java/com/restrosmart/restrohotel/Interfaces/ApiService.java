@@ -21,7 +21,7 @@ import retrofit2.http.POST;
 public interface ApiService {
 
 
-    String BASE_URL = "http://192.168.0.17/Restro_Smart/";
+    String BASE_URL = "http://192.168.0.14/Restro_Smart/";
 
 
     /*parent category display*/
@@ -203,11 +203,19 @@ public interface ApiService {
                                     @Field("Branch_Id") int Branch_Id
             /*@Field("Pc_Id") int pc_id*/);
 
+    /*display topping image*/
+    @POST("topping.php?topping=topping_img")
+    @FormUrlEncoded
+    Call<JsonObject> toppingImage(@Field("Hotel_Id") int Hotel_Id,
+                                  @Field("Branch_Id") int Branch_Id,
+                                  @Field("Pc_Id") int pc_id);
+
 
     //toppings add
     @POST("topping.php?topping=topping_add")
     @FormUrlEncoded
     Call<JsonObject> addToppings(@Field("Topping_Name") String toppingName,
+                                 @Field("Topping_Img") String image,
                                  @Field("Topping_Price") int toppingPrice,
                                  @Field("Hotel_Id") int Hotel_Id,
                                  @Field("Branch_Id") int Branch_Id,
@@ -226,6 +234,7 @@ public interface ApiService {
     @POST("topping.php?topping=topping_edit")
     @FormUrlEncoded
     Call<JsonObject> toppingEdit(@Field("Topping_Name") String toppingName,
+                                 @Field("Topping_Img") String image,
                                  @Field("Topping_Price") int toppingPrice,
                                  @Field("Hotel_Id") int hotelId,
                                  @Field("Branch_Id") int branchId,
@@ -535,4 +544,50 @@ public interface ApiService {
                                       @Field("Table_Id") int Table_Id,
                                       @Field("Area_Id") int Area_Id,
                                       @Field("Table_conf_Status") int Table_conf_Status);
+
+    /*new Order*/
+    @POST("Admin_Order.php?order=order_disp")
+    @FormUrlEncoded
+    Call<JsonObject> Order(@Field("Hotel_Id") int hotel_id,
+                           @Field("Branch_Id") int branch_id);
+
+    /*active table*/
+    @POST("Admin_Dashboard.php?admin_dash=Active_Table")
+    @FormUrlEncoded
+    Call<JsonObject> activeTable(@Field("Hotel_Id") int hotel_id,
+                                 @Field("Branch_Id") int branch_id);
+
+    /*Get Captain Profile*/
+    @POST("Employee_Signup.php?Empcall=Emp_Profile")
+    @FormUrlEncoded
+    Call<JsonObject> getCaptainProfile(@Field("Hotel_Id") int hotel_id,
+                                       @Field("Branch_Id") int branch_id,
+                                       @Field("Emp_Id") int emp_id);
+
+
+    /*Get booked table */
+    @POST("Captain_Table.php?captables=book_free_table")
+    @FormUrlEncoded
+    Call<JsonObject> getBookedTable(@Field("Hotel_Id") int hotel_id,
+                                    @Field("Branch_Id") int branch_id);
+
+    /*Swap tables*/
+    @POST("Captain_Table.php?captables=swap_table")
+    @FormUrlEncoded
+    Call<JsonObject> swapTable(@Field("Hotel_Id") int hotel_id,
+                               @Field("Branch_Id") int branch_id,
+                               @Field("Old_TableNo") int oldtable_id,
+                               @Field("New_TableNo") int newtable_id,
+                               @Field("Cust_Id") int cust_id);
+
+    /*Get table orders*/
+    @POST("Captain_Table.php?captables=table_order")
+    @FormUrlEncoded
+    Call<JsonObject> getTableOrders(@Field("Hotel_Id") int hotel_id,
+                                    @Field("Branch_Id") int branch_id,
+                                    @Field("Order_Id") int order_id,
+                                    @Field("Cust_Id") int cust_id);
+
+
 }
+

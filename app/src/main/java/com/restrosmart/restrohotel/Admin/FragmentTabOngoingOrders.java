@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.restrosmart.restrohotel.Adapter.AdapterNewOrder;
 import com.restrosmart.restrohotel.Adapter.Adapter_Ongoing_Order;
 import com.restrosmart.restrohotel.Adapter.Kitchen_Ongoing_Order;
 import com.restrosmart.restrohotel.Model.MenuDisplayForm;
@@ -25,10 +26,12 @@ public class FragmentTabOngoingOrders extends Fragment {
     ArrayList<MenuDisplayForm> menu_arrayList = new ArrayList<MenuDisplayForm>();
 
     String userType;
+    private  ArrayList<OrderModel> arraylistOrderAccepted;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        arraylistOrderAccepted  = getArguments().getParcelableArrayList("OrderArrayListAccepted");
 
         userType=getArguments().getString("userType");
         View view = inflater.inflate(R.layout.tab_ongoing_orders,container,false);
@@ -40,7 +43,7 @@ public class FragmentTabOngoingOrders extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        for(int i=0;i<4;i++) {
+       /* for(int i=0;i<4;i++) {
 
             MenuDisplayForm menu = new MenuDisplayForm();
             menu.setMenu_Name("Dosa");
@@ -48,12 +51,13 @@ public class FragmentTabOngoingOrders extends Fragment {
             menu.setBranch_Id(50);
             menu_arrayList.add(menu);
         }
+*/
 
 
 
 
 
-        for(int i=0;i<menu_arrayList.size();i++) {
+/*  for(int i=0;i<menu_arrayList.size();i++) {
 
             String qty="Qty - "+"2";
 
@@ -67,8 +71,7 @@ public class FragmentTabOngoingOrders extends Fragment {
             orderModel.setTime("11:00 AM");
             orderModel.setMsg("Sweet");
             arrayList.add(orderModel);
-        }
-
+        }*/
 
 
 
@@ -85,8 +88,10 @@ public class FragmentTabOngoingOrders extends Fragment {
 
         recyclerView.setHasFixedSize(true);
         recyclerView.getLayoutManager().setMeasurementCacheEnabled(false);
+        AdapterNewOrder adapterNewOrder = new AdapterNewOrder(getActivity(), arraylistOrderAccepted);
+        recyclerView.setAdapter(adapterNewOrder);
 
-        if(userType.equals("Admin")) {
+       /* if(userType.equals("Admin")) {
             Adapter_Ongoing_Order adapterNewOrder = new Adapter_Ongoing_Order(getActivity(), arrayList);
             recyclerView.setAdapter(adapterNewOrder);
         }
@@ -94,7 +99,7 @@ public class FragmentTabOngoingOrders extends Fragment {
         {
             Kitchen_Ongoing_Order kitchen_ongoing_order=new Kitchen_Ongoing_Order(getActivity(),arrayList);
             recyclerView.setAdapter(kitchen_ongoing_order);
-        }
+        }*/
     }
     }
 

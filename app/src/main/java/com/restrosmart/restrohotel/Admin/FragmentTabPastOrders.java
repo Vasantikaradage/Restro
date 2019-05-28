@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.restrosmart.restrohotel.Adapter.AdapterNewOrder;
 import com.restrosmart.restrohotel.Adapter.AdapterPastOrder;
 import com.restrosmart.restrohotel.Model.MenuDisplayForm;
 import com.restrosmart.restrohotel.Model.OrderModel;
@@ -22,13 +23,16 @@ public class FragmentTabPastOrders extends Fragment {
     ArrayList<OrderModel> arrayList = new ArrayList<OrderModel>();
 
     ArrayList<MenuDisplayForm> menu_arrayList = new ArrayList<MenuDisplayForm>();
+    ArrayList<OrderModel> arraylistOrderCompleted;
 
 
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-       View view = inflater.inflate(R.layout.tab_past_orders,container,false);
+        arraylistOrderCompleted  = getArguments().getParcelableArrayList("OrderArrayListCompleted");
+
+        View view = inflater.inflate(R.layout.tab_past_orders,container,false);
 
        return view;
     }
@@ -51,7 +55,7 @@ public class FragmentTabPastOrders extends Fragment {
 
 
 
-        for(int i=0;i<menu_arrayList.size();i++) {
+       /* for(int i=0;i<menu_arrayList.size();i++) {
 
             String qty="Qty - "+"2";
 
@@ -65,7 +69,7 @@ public class FragmentTabPastOrders extends Fragment {
             orderModel.setTime("11:00 AM");
             orderModel.setMsg("Sweet");
             arrayList.add(orderModel);
-        }
+        }*/
 
 
 
@@ -83,10 +87,12 @@ public class FragmentTabPastOrders extends Fragment {
 
         recyclerView.setHasFixedSize(true);
         recyclerView.getLayoutManager().setMeasurementCacheEnabled(false);
+        AdapterNewOrder adapterNewOrder = new AdapterNewOrder(getActivity(), arraylistOrderCompleted);
+        recyclerView.setAdapter(adapterNewOrder);
 
 
-            AdapterPastOrder adapterPastOrder = new AdapterPastOrder(getActivity(), arrayList);
-            recyclerView.setAdapter(adapterPastOrder);
+           // AdapterPastOrder adapterPastOrder = new AdapterPastOrder(getActivity(), arrayList);
+           // recyclerView.setAdapter(adapterPastOrder);
        /* }else
         {
 

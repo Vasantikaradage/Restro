@@ -8,25 +8,16 @@ public class ToppingsForm implements Parcelable {
     private int toppingsPrice;
     private  int pcId;
     private  int toppingId;
+    private  String image;
     public boolean selected=false;
 
-
-    public boolean isSelected() {
-        return selected;
-    }
-
-    public void setSelected(boolean selected) {
-        this.selected = selected;
-    }
-
-    public ToppingsForm() {
-    }
-
-    public ToppingsForm(Parcel in) {
+    protected ToppingsForm(Parcel in) {
         toppingsName = in.readString();
         toppingsPrice = in.readInt();
         pcId = in.readInt();
-        toppingId=in.readInt();
+        toppingId = in.readInt();
+        image = in.readString();
+        selected = in.readByte() != 0;
     }
 
     public static final Creator<ToppingsForm> CREATOR = new Creator<ToppingsForm>() {
@@ -40,6 +31,27 @@ public class ToppingsForm implements Parcelable {
             return new ToppingsForm[size];
         }
     };
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
+    public ToppingsForm() {
+    }
+
+
 
     public String getToppingsName() {
         return toppingsName;
@@ -80,9 +92,14 @@ public class ToppingsForm implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+
         parcel.writeString(toppingsName);
         parcel.writeInt(toppingsPrice);
         parcel.writeInt(pcId);
         parcel.writeInt(toppingId);
+        parcel.writeString(image);
+        parcel.writeByte((byte) (selected ? 1 : 0));
     }
+
+
 }

@@ -1,13 +1,298 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
     android:padding="5dp">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="5dp">
+
+        <RelativeLayout
+            android:id="@+id/relative_daily_offer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
 
-    <android.support.v7.widget.RecyclerView
+            <ImageView
+                android:id="@+id/civ_emp_profile"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:src="@drawable/ic_gr_daily_offer_a"
+                android:layout_marginTop="20dp"
+               >
+
+            </ImageView>
+
+
+            <TextView
+                android:id="@+id/tv_emp_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+
+                android:layout_toStartOf="@id/switch_status"
+                android:layout_toEndOf="@id/civ_emp_profile"
+                android:fontFamily="sans-serif"
+                android:padding="5dp"
+                android:text="Daily Offers"
+               android:textColor="@color/colorPrimary"
+                android:textSize="18sp" />
+
+
+            <TextView
+                android:id="@+id/tv_emp_designation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_emp_name"
+                android:layout_marginStart="15dp"
+
+                android:layout_toEndOf="@id/civ_emp_profile"
+                android:fontFamily="sans-serif"
+                android:text="Admin jdhskjf xvdfgdfgfdgfgfdggyuufdgdfgdfgdfgdf dfgfdgdfgdfgfdg fgdfgjdhkjsah jkdsad kjadlakdjn dhkasjd adkjasdj kajdakldj"
+                android:textColor="@color/colorDarkGray"
+                android:textSize="12sp" />
+
+
+            <!-- <view
+                     android:id="@+id/view"
+                     android:layout_width="1dp"
+                     android:layout_height="match_parent"
+                     android:layout_marginStart="10dp"
+                     android:layout_marginEnd="10dp"
+                     android:layout_toEndOf="@id/tv_emp_mobno"
+                     android:layout_below="@id/tv_emp_name" />
+     -->
+
+            <!--<com.shree.restrosmart.customfonts.TextView_Helvetica_Neue_bold
+                android:id="@+id/tv_emp_designation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_emp_name"
+
+              android:layout_alignParentEnd="true"
+                android:padding="10dp"
+                android:layout_margin="5dp"
+                android:text="Admin" />-->
+
+            <!--  <ImageButton
+                  android:id="@+id/btn_edit"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_alignParentEnd="true"
+                  android:background="@color/white"
+                  android:layout_below="@id/tv_emp_name"
+                  android:src="@drawable/ic_action_btn_edit"
+                  android:layout_margin="5dp"/>-->
+
+            <!--</LinearLayout>-->
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/tv_emp_designation"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+
+                android:background="@color/gainsboro"
+                />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/relative_promo_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            >
+
+
+            <ImageView
+                android:id="@+id/civ_emp_profile1"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:src="@drawable/ic_gr_promocode"
+                android:layout_marginTop="20dp">
+
+            </ImageView>
+
+
+            <TextView
+                android:id="@+id/tv_emp_name1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_toStartOf="@id/switch_status"
+                android:layout_toEndOf="@id/civ_emp_profile1"
+                android:fontFamily="sans-serif"
+                android:padding="5dp"
+                android:text="Promo Code"
+                android:textColor="@color/colorPrimary"
+                android:textSize="18sp" />
+
+
+            <TextView
+                android:id="@+id/tv_emp_designation1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_emp_name1"
+                android:layout_marginStart="15dp"
+
+                android:layout_toEndOf="@id/civ_emp_profile1"
+                android:fontFamily="sans-serif"
+                android:text="Admin jdhskjf xvdfgdfgfdgfgfdggyuufdgdfgdfgdfgdf dfgfdgdfgdfgfdg fgdfgjdhkjsah jkdsad kjadlakdjn dhkasjd adkjasdj kajdakldj"
+                android:textColor="@color/colorDarkGray"
+                android:textSize="12sp" />
+
+
+            <View
+                android:id="@+id/view1"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/tv_emp_designation1"
+                android:layout_marginStart="50dp"
+
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+
+                android:background="@color/gainsboro"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/relative_scratch_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+
+            >
+
+
+            <ImageView
+                android:id="@+id/civ_emp_profile3"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/ic_gr_sc_card">
+
+            </ImageView>
+
+
+            <TextView
+                android:id="@+id/tv_emp_name3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_toStartOf="@id/switch_status"
+
+                android:layout_toEndOf="@id/civ_emp_profile3"
+                android:fontFamily="sans-serif"
+                android:padding="5dp"
+                android:text="Scratch Card"
+                android:textColor="@color/colorPrimary"
+                android:textSize="18sp" />
+
+
+            <TextView
+                android:id="@+id/tv_emp_designation3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_emp_name3"
+                android:layout_marginStart="15dp"
+
+                android:layout_toEndOf="@id/civ_emp_profile3"
+                android:fontFamily="sans-serif"
+                android:text="Admin jdhskjf xvdfgdfgfdgfgfdggyuufdgdfgdfgdfgdf dfgfdgdfgdfgfdg fgdfgjdhkjsah jkdsad kjadlakdjn dhkasjd adkjasdj kajdakldj"
+                android:textColor="@color/colorDarkGray"
+                android:textSize="12sp" />
+
+
+            <View
+                android:id="@+id/view3"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/tv_emp_designation3"
+                android:layout_marginStart="50dp"
+
+                android:layout_marginTop="10dp"
+
+                android:layout_marginEnd="10dp"
+                android:background="@color/gainsboro"
+                />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/relative_rush_hours"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            >
+
+            <ImageView
+                android:id="@+id/civ_emp_profile2"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/ic_clock">
+
+            </ImageView>
+
+            <TextView
+                android:id="@+id/tv_emp_name2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_toStartOf="@id/switch_status"
+                android:layout_toEndOf="@id/civ_emp_profile2"
+                android:fontFamily="sans-serif"
+                android:padding="5dp"
+                android:text="Rush Hours"
+                android:textColor="@color/colorPrimary"
+                android:textSize="18sp" />
+
+
+            <TextView
+                android:id="@+id/tv_emp_designation2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_emp_name2"
+                android:layout_marginStart="15dp"
+
+                android:layout_toEndOf="@id/civ_emp_profile2"
+                android:fontFamily="sans-serif"
+                android:text="Admin jdhskjf xvdfgdfgfdgfgfdggyuufdgdfgdfgdfgdf dfgfdgdfgdfgfdg fgdfgjdhkjsah jkdsad kjadlakdjn dhkasjd adkjasdj kajdakldj"
+                android:textColor="@color/colorDarkGray"
+                android:textSize="12sp" />
+
+
+            <!-- <View
+                 android:id="@+id/view2"
+                 android:layout_width="match_parent"
+                 android:layout_height="1dp"
+                 android:layout_below="@+id/tv_emp_designation2"
+                 android:layout_marginStart="70dp"
+
+                 android:layout_marginTop="35dp"
+                 android:layout_marginBottom="25dp"
+                 android:layout_marginEnd="10dp"
+                 android:background="@color/gray_btn_bg_color"
+
+                 />-->
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+
+    <!--<android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_daily_offer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,6 +310,6 @@
         android:layout_marginBottom="10dp"
         android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/ic_action_add"/>
-
+-->
 
 </RelativeLayout>
