@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="5dp">
+
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints">
+
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/cardview_light_background">
+
+
+        <LinearLayout
+            android:id="@+id/linear2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- <LinearLayout
+                   android:id="@+id/linear1"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:orientation="horizontal"
+
+                   android:weightSum="3">
+
+
+                   <TextView
+                       android:id="@+id/tx_menu_nam"
+                       android:layout_width="0dp"
+                       android:layout_height="wrap_content"
+                       android:layout_weight="1"
+                       android:gravity="center_horizontal"
+                       android:text="@string/menu_name"
+                       android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+                   <TextView
+                       android:id="@+id/tx_menu_qt"
+                       android:layout_width="0dp"
+                       android:layout_height="wrap_content"
+                       android:layout_weight="1"
+                       android:gravity="center_horizontal"
+                       android:text="@string/menu_qty"
+                       android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+
+
+
+
+                   <TextView
+                       android:id="@+id/tx_menu_pric"
+                       android:layout_width="0dp"
+                       android:layout_height="wrap_content"
+                       android:layout_weight="1"
+                       android:gravity="center_horizontal"
+                       android:text="@string/menu_price"
+                       android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+               </LinearLayout>-->
+
+            <LinearLayout
+                android:id="@+id/linear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+
+                android:weightSum="3">
+
+
+                <TextView
+                    android:id="@+id/tx_menu_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.6"
+                    android:maxLines="2"
+
+                    android:gravity="start"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    android:fontFamily="sans-serif"
+                    android:layout_marginStart="5dp"
+
+
+                    android:text="@string/menu_name"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+
+                <TextView
+                    android:id="@+id/tx_menu_qty"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.7"
+                    android:gravity="center"
+                    android:textColor="@color/gray"
+                    android:textSize="14sp"
+                    android:fontFamily="sans-serif"
+                    android:text="@string/menu_qty"/>
+
+
+
+
+
+
+                <TextView
+                    android:id="@+id/tx_menu_price"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.7"
+                    android:layout_marginEnd="5dp"
+                    android:gravity="end"
+
+
+                    android:text="@string/menu_price"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    android:fontFamily="sans-serif"/>
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvOrderTopping"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp">
+
+            </android.support.v7.widget.RecyclerView>
+
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+        <ImageView
+            android:id="@+id/image_stamp"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
+            android:rotation="-20"
+            android:src="@drawable/cancel_stamp_1" />
+    </FrameLayout>
+
+</RelativeLayout>
+
+
+
+    <!--</LinearLayout>-->
+
+    <!--<View
+
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/linear"/>-->
+
+
+
+
+
+
+    <!--<android.support.v7.widget.RecyclerView
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp">
+
+    </android.support.v7.widget.RecyclerView>-->
+
+

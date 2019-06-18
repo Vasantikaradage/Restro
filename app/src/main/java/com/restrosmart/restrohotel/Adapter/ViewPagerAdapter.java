@@ -24,14 +24,13 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     private  ArrayList<OrderModel> OrderModelArrayListCompleted;
     private  ArrayList<OrderModel> OrderModelArrayListCancel;
 
-    public ViewPagerAdapter(FragmentManager fm, int tabCount, String user_type, ArrayList<OrderModel> arrayListOder, ArrayList<OrderModel> arrayListOderAccepetd, ArrayList<OrderModel> arrayListOderCompleted, ArrayList<OrderModel> arrayListOderCancel) {
+    public ViewPagerAdapter(FragmentManager fm, int tabCount, String user_type, ArrayList<OrderModel> arrayListOder, ArrayList<OrderModel> arrayListOderAccepetd) {
         super(fm);
         this.tabCount = tabCount;
         this.userType = user_type;
         this.orderModelArrayList=arrayListOder;
         this.orderModelArrayListAccepted=arrayListOderAccepetd;
-        this.OrderModelArrayListCompleted=arrayListOderCompleted;
-        this.OrderModelArrayListCancel=arrayListOderCancel;
+
     }
 
     @Override
@@ -59,7 +58,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
                 FragmentTabPastOrders tabPastOrders = new FragmentTabPastOrders();
                 Bundle bundle2 = new Bundle();
                 bundle2.putString("userType", userType);
-                bundle2.putParcelableArrayList("OrderArrayListCompleted",OrderModelArrayListCompleted);
+                bundle2.putParcelableArrayList("OrderArrayListCompleted",orderModelArrayListAccepted);
 
                 tabPastOrders.setArguments(bundle2);
                 return tabPastOrders;

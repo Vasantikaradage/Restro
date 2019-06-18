@@ -8,8 +8,39 @@ import java.util.ArrayList;
 public class OrderModel  implements Parcelable {
 
     private int  cust_mob_no,order_id,tableId;
-    private  String time;
+    private  String time,Order_Status_Name;
     private ArrayList<MenuForm> arrayList;
+
+    public String getOrder_Status_Name() {
+        return Order_Status_Name;
+    }
+
+    public void setOrder_Status_Name(String order_Status_Name) {
+        Order_Status_Name = order_Status_Name;
+    }
+
+    protected OrderModel(Parcel in) {
+        cust_mob_no = in.readInt();
+        order_id = in.readInt();
+        tableId = in.readInt();
+        Order_Status_Name = in.readString();
+        time = in.readString();
+    }
+
+    public static final Creator<OrderModel> CREATOR = new Creator<OrderModel>() {
+        @Override
+        public OrderModel createFromParcel(Parcel in) {
+            return new OrderModel(in);
+        }
+
+        @Override
+        public OrderModel[] newArray(int size) {
+            return new OrderModel[size];
+        }
+    };
+
+
+
 
 
     public int getCust_mob_no() {
@@ -56,25 +87,6 @@ public class OrderModel  implements Parcelable {
     }
 
 
-    protected OrderModel(Parcel in) {
-        cust_mob_no = in.readInt();
-        order_id = in.readInt();
-        tableId = in.readInt();
-        time = in.readString();
-    }
-
-    public static final Creator<OrderModel> CREATOR = new Creator<OrderModel>() {
-        @Override
-        public OrderModel createFromParcel(Parcel in) {
-            return new OrderModel(in);
-        }
-
-        @Override
-        public OrderModel[] newArray(int size) {
-            return new OrderModel[size];
-        }
-    };
-
     @Override
     public int describeContents() {
         return 0;
@@ -85,6 +97,7 @@ public class OrderModel  implements Parcelable {
         parcel.writeInt(cust_mob_no);
         parcel.writeInt(order_id);
         parcel.writeInt(tableId);
+        parcel.writeString(Order_Status_Name);
         parcel.writeString(time);
     }
 }

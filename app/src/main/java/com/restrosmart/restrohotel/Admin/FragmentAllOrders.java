@@ -124,68 +124,69 @@ public class FragmentAllOrders extends Fragment {
                     int status=jsonObjectOrder.getInt("status");
 
                     if(status==1) {
-                      //  JSONArray jsonArray = jsonObjectOrder.getJSONArray("Orders");
-                          // Oder for new Order
+                        //  JSONArray jsonArray = jsonObjectOrder.getJSONArray("Orders");
+                        // Oder for new Order
                         arrayListOder.clear();
-                      //  for (int order = 0; order < jsonArray.length(); order++) {
-                          //  JSONObject jsonObjectOrderinfo = jsonArray.getJSONObject(order);
+                        //  for (int order = 0; order < jsonArray.length(); order++) {
+                        //  JSONObject jsonObjectOrderinfo = jsonArray.getJSONObject(order);
 
-                            JSONArray jsonArrayOrder = jsonObjectOrder.getJSONArray("New Order");
+                        JSONArray jsonArrayOrder = jsonObjectOrder.getJSONArray("NewOngoingOrder");
 
-                            arrayListOder.clear();
-                            arrayListOder = new ArrayList<>();
+                        arrayListOder.clear();
+                        arrayListOder = new ArrayList<>();
 
-                            for (int i = 0; i < jsonArrayOrder.length(); i++) {
-                                JSONObject jsonObjectCustD = jsonArrayOrder.getJSONObject(i);
-                                orderModel = new OrderModel();
-                                orderModel.setOrder_id(jsonObjectCustD.getInt("Order_Id"));
-                                orderModel.setCust_mob_no(jsonObjectCustD.getInt("Cust_Mob"));
-                                orderModel.setTableId(jsonObjectCustD.getInt("Table_Id"));
-                                // orderModel.setArrayList();
-
-
-                                JSONArray jsonArrayMenu = jsonObjectCustD.getJSONArray("order");
-                                arrayListMenu = new ArrayList<>();
-                                for (int in = 0; in < jsonArrayMenu.length(); in++) {
-                                    JSONObject jsonObjectMenu = jsonArrayMenu.getJSONObject(in);
-                                    MenuForm menuForm = new MenuForm();
-                                    menuForm.setMenuName(jsonObjectMenu.getString("menuName"));
-                                    menuForm.setLiqMLQty(jsonObjectMenu.getString("liqMLQty"));
-                                    menuForm.setMenuDisp(jsonObjectMenu.getString("orderMsg"));
-                                    menuForm.setMenuPrice(jsonObjectMenu.getInt("menuPrice"));
-                                    menuForm.setMenuQty(jsonObjectMenu.getInt("menuQty"));
+                        for (int i = 0; i < jsonArrayOrder.length(); i++) {
+                            JSONObject jsonObjectCustD = jsonArrayOrder.getJSONObject(i);
+                            orderModel = new OrderModel();
+                            orderModel.setOrder_id(jsonObjectCustD.getInt("Order_Id"));
+                            orderModel.setCust_mob_no(jsonObjectCustD.getInt("Cust_Mob"));
+                            orderModel.setTableId(jsonObjectCustD.getInt("Table_Id"));
+                            orderModel.setOrder_Status_Name(jsonObjectCustD.getString("Order_Status_Name"));
+                            // orderModel.setArrayList();
 
 
-                                    JSONArray jsonArrayToppings = jsonObjectMenu.getJSONArray("Topping");
-                                    arrayListToppings = new ArrayList<>();
-                                    for (int it = 0; it < jsonArrayToppings.length(); it++) {
-                                        JSONObject jsonObjectToppings = jsonArrayToppings.getJSONObject(it);
-                                        ToppingsForm toppingsForm = new ToppingsForm();
-                                        toppingsForm.setToppingId(jsonObjectToppings.getInt("topId"));
-                                        toppingsForm.setToppingsName(jsonObjectToppings.getString("topName"));
-                                        arrayListToppings.add(toppingsForm);
-                                    }
+                            JSONArray jsonArrayMenu = jsonObjectCustD.getJSONArray("order");
+                            arrayListMenu = new ArrayList<>();
+                            for (int in = 0; in < jsonArrayMenu.length(); in++) {
+                                JSONObject jsonObjectMenu = jsonArrayMenu.getJSONObject(in);
+                                MenuForm menuForm = new MenuForm();
+                                menuForm.setMenuName(jsonObjectMenu.getString("menuName"));
+                                menuForm.setLiqMLQty(jsonObjectMenu.getString("liqMLQty"));
+                                menuForm.setMenuDisp(jsonObjectMenu.getString("orderMsg"));
+                                menuForm.setMenuPrice(jsonObjectMenu.getInt("menuPrice"));
+                                menuForm.setMenuQty(jsonObjectMenu.getInt("menuQty"));
 
-                                    menuForm.setArrayListToppings(arrayListToppings);
-                                    arrayListMenu.add(menuForm);
 
+                                JSONArray jsonArrayToppings = jsonObjectMenu.getJSONArray("Topping");
+                                arrayListToppings = new ArrayList<>();
+                                for (int it = 0; it < jsonArrayToppings.length(); it++) {
+                                    JSONObject jsonObjectToppings = jsonArrayToppings.getJSONObject(it);
+                                    ToppingsForm toppingsForm = new ToppingsForm();
+                                    toppingsForm.setToppingId(jsonObjectToppings.getInt("topId"));
+                                    toppingsForm.setToppingsName(jsonObjectToppings.getString("topName"));
+                                    arrayListToppings.add(toppingsForm);
                                 }
 
+                                menuForm.setArrayListToppings(arrayListToppings);
+                                arrayListMenu.add(menuForm);
 
-
-                                orderModel.setArrayList(arrayListMenu);
-                                arrayListOder.add(orderModel);
                             }
+
+
+
+                            orderModel.setArrayList(arrayListMenu);
+                            arrayListOder.add(orderModel);
+                        }
 
                            /* JSONArray jsonArrayOrderAccepted = jsonObjectOrderinfo.getJSONArray("Accepted");
                             JSONArray jsonArrayOrderCompleted = jsonObjectOrderinfo.getJSONArray("Completed");
                             JSONArray jsonArrayOrderCancel = jsonObjectOrderinfo.getJSONArray("Cancel");
 */
-                      //  arrayListOderAccepetd.clear();
+                        //  arrayListOderAccepetd.clear();
 
                         // order for  Accepted
                         arrayListOderAccepetd.clear();
-                        JSONArray jsonArrayAccepeted = jsonObjectOrder.getJSONArray("Accepted");
+                        JSONArray jsonArrayAccepeted = jsonObjectOrder.getJSONArray("CompletCancelorder");
                         arrayListOderAccepetd.clear();
                         arrayListOderAccepetd = new ArrayList<>();
 
@@ -195,6 +196,8 @@ public class FragmentAllOrders extends Fragment {
                             orderModel.setOrder_id(jsonObjectCustD.getInt("Order_Id"));
                             orderModel.setCust_mob_no(jsonObjectCustD.getInt("Cust_Mob"));
                             orderModel.setTableId(jsonObjectCustD.getInt("Table_Id"));
+                            orderModel.setOrder_Status_Name(jsonObjectCustD.getString("Order_Status_Name"));
+
                             // orderModel.setArrayList();
 
 
@@ -228,7 +231,7 @@ public class FragmentAllOrders extends Fragment {
                             arrayListOderAccepetd.add(orderModel);
                         }
 
-                        // order for  Completed
+                     /*   // order for  Completed
                         arrayListOderCompleted.clear();
                         JSONArray jsonArrayCompleted = jsonObjectOrder.getJSONArray("Completed");
                         arrayListOderCompleted.clear();
@@ -318,7 +321,7 @@ public class FragmentAllOrders extends Fragment {
                             arrayListOderCancel.add(orderModel);
                         }
 
-
+*/
 
 
                         callViewAdapter();
@@ -343,20 +346,20 @@ public class FragmentAllOrders extends Fragment {
 
     private void callViewAdapter() {
         tabLayout.addTab(tabLayout.newTab().setText("New Orders").setIcon(R.drawable.ic_order_accepted));
-     //  tabLayout.addTab(tabLayout.newTab().setText("Ongoing Orders").setIcon(R.drawable.ic_order_preparing));
+        //  tabLayout.addTab(tabLayout.newTab().setText("Ongoing Orders").setIcon(R.drawable.ic_order_preparing));
 
-       // if (user_type.equals("2")) {
-           tabLayout.addTab(tabLayout.newTab().setText("Past Orders").setIcon(R.drawable.ic_order_served));
-       //
+        // if (user_type.equals("2")) {
+        tabLayout.addTab(tabLayout.newTab().setText("Past Orders").setIcon(R.drawable.ic_order_served));
+        //
         //
         // }
-       // tabLayout.addTab(tabLayout.newTab().setText("Cancelled Orders").setIcon(R.drawable.ic_meat));
+        // tabLayout.addTab(tabLayout.newTab().setText("Cancelled Orders").setIcon(R.drawable.ic_meat));
 
 
         tabLayout.setTabGravity(TabLayout.MODE_SCROLLABLE);
         tabLayout.setBackground(getContext().getResources().getDrawable(R.drawable.login_bg));
         viewPager = (ViewPager) getActivity().findViewById(R.id.pager);
-        viewPagerAdapter = new ViewPagerAdapter(getActivity().getSupportFragmentManager(), tabLayout.getTabCount(), user_type,arrayListOder,arrayListOderAccepetd,arrayListOderCompleted,arrayListOderCancel);
+        viewPagerAdapter = new ViewPagerAdapter(getActivity().getSupportFragmentManager(), tabLayout.getTabCount(), user_type,arrayListOder,arrayListOderAccepetd);
 
 
         viewPager.setAdapter(viewPagerAdapter);

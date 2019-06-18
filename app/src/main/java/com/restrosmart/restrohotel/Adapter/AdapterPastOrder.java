@@ -4,11 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.restrosmart.restrohotel.Admin.ActivityPastViewOrderDetails;
@@ -21,7 +23,7 @@ import java.util.ArrayList;
  * Created by SHREE on 05/10/2018.
  */
 
-public class AdapterPastOrder extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class AdapterPastOrder  extends RecyclerView.Adapter<AdapterPastOrder.ViewHolder> {
 
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
@@ -42,121 +44,57 @@ public class AdapterPastOrder extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (viewType == TYPE_HEADER) {
-            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_new_oder_header, parent, false);
+    public AdapterPastOrder.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_past_cancel_order, parent, false);
 
-            return new HeaderViewHolder(itemView);
-
-        }
-        else if (viewType == TYPE_ITEM) {
-            View itemView1 = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_new_order_recycler, parent, false);
-
-            return new ItemViewHolder(itemView1);
-        }
-
-        else if (viewType == TYPE_FOOTER) {
-            View itemView2 = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_past_oder_footer, parent, false);
-
-            return new FooterViewHolder(itemView2);
-        }
-        else return null;
-
+        ViewHolder holder = new ViewHolder(itemView);
+        return holder;
         // throw new RuntimeException("no match for : " + viewType);
     }
 
-
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof HeaderViewHolder) {
-            ((HeaderViewHolder) holder).mCustNo.setText(arrayList.get(position).getCust_mob_no());
-            ((HeaderViewHolder) holder).mOrderId.setText(arrayList.get(position).getOrder_id());
-            ((HeaderViewHolder) holder).mDateTime.setText(arrayList.get(position).getTime());
-            Resources res = context.getResources();
-            String format = res.getString(R.string.Rs);
-            //((HeaderViewHolder) holder).mTotal.setText(format+" "+arrayList.get(position).getTot_bill());
+    public void onBindViewHolder(@NonNull AdapterPastOrder.ViewHolder viewHolder, int i) {
+        String mob= String.valueOf(arrayList.get(i).getCust_mob_no());
+        String orderId= String.valueOf(arrayList.get(i).getOrder_id());
+        String tableID= String.valueOf(arrayList.get(i).getTableId());
+        String orderStatus=arrayList.get(i).getOrder_Status_Name();
 
-
-
-
-        }else  if(holder instanceof FooterViewHolder)
+        if(orderStatus.equals("Cancel")){
+            viewHolder.image_cancel_stamp.setVisibility(View.VISIBLE);
+        }
+        else
         {
 
-       //   ((FooterViewHolder) holder).suggestion.setText(arrayList.get(position-2).getMsg());
-            ((FooterViewHolder) holder).mView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent i=new Intent(context, ActivityPastViewOrderDetails.class);
-                    context.startActivity(i);
-
-                }
-            });
-
-/*
-
-            ((FooterViewHolder) holder).mPrint.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                }
-            });
-*//*
-
-
-            ((FooterViewHolder) holder).mCancel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                }
-            });
-
-
-            ((FooterViewHolder) holder).mAcept.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                }
-            });*/
-
-
-
+            viewHolder.image_cancel_stamp.setVisibility(View.GONE);
+            //viewHolder.circle_image.setBackground(context.getResources().getDrawable(R.drawable.bg_yellow_circle));
         }
 
-        else if(holder instanceof ItemViewHolder)
-        {
-
-            Resources res = context.getResources();
-            String format = res.getString(R.string.Rs);
-           /* ((ItemViewHolder) holder).menu_name.setText(arrayList.get(position-1).getMenu_name());
-            ((ItemViewHolder) holder).menu_qty.setText(arrayList.get(position-1).getMenu_qty());
-            ((ItemViewHolder) holder).menu_price.setText(format+" "+arrayList.get(position-1).getMenu_price());
-*/
+        viewHolder.mCustNo.setText(mob);
+        viewHolder.mOrderId.setText(orderId);
+        viewHolder.mtableId.setText(tableID);
 
 
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
+        viewHolder.rvMenu.setLayoutManager(linearLayoutManager);
 
-        }
-        else {
 
-        }
+        // recyclerView.getLayoutManager().setMeasurementCacheEnabled(false);
 
+        // if (userType.equals("Admin")) {
+        AdapterMenuPastOrder adapterMenuPastOrder = new AdapterMenuPastOrder(context
+                , arrayList.get(viewHolder.getAdapterPosition()).getArrayList());
+        viewHolder.rvMenu.setAdapter(adapterMenuPastOrder);
 
 
 
     }
 
+
+
     @Override
     public int getItemCount() {
-        if (arrayList == null) {
-            return 0;
-        }
 
-        if (arrayList.size() == 0) {
-            //Return 1 here to show nothing
-            return 1;
-        }
-
-        // Add extra view to show the footer view
-        return arrayList.size() + 2;
+        return arrayList.size() ;
     }
 
     private OrderModel getItem(int position) {
@@ -165,13 +103,13 @@ public class AdapterPastOrder extends RecyclerView.Adapter<RecyclerView.ViewHold
 
 
 
-    @Override
-    public int getItemViewType(int position) {
-       /* if (isPositionItem(position))
+    /* @Override
+     public int getItemViewType(int position) {
+        *//* if (isPositionItem(position))
 
             return TYPE_HEADER;
         return TYPE_ITEM;
-       // return TYPE_FOOTER;*/
+       // return TYPE_FOOTER;*//*
 
         if (position == 0) {
             return TYPE_HEADER;
@@ -187,67 +125,25 @@ public class AdapterPastOrder extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
         return TYPE_ITEM;
 
-    }
+    }*/
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
-
-    private boolean isPositionItem(int position) {
-
-        return position == 0;
-    }
-
-
-
-
-
-
-
-    private class HeaderViewHolder extends RecyclerView.ViewHolder {
-
-        TextView mCustNo,mDateTime,mOrderId,mTotal;
-
-        public HeaderViewHolder(View itemView) {
+        private TextView suggestion;
+        private TextView mCustNo, mDateTime, mOrderId, mTotal,mtableId,circle_image;
+        private RecyclerView rvMenu;
+        private ImageView image_cancel_stamp;
+        public ViewHolder(View itemView) {
             super(itemView);
 
-            mCustNo = (TextView)itemView.findViewById(R.id.tv_cust_mobno);
-            mDateTime = (TextView)itemView.findViewById(R.id.tv_date_time);
-            mOrderId = (TextView)itemView.findViewById(R.id.order_id);
-            mTotal = (TextView)itemView.findViewById(R.id.total);
+            mCustNo = (TextView) itemView.findViewById(R.id.tv_cust_mobno);
+            mDateTime = (TextView) itemView.findViewById(R.id.tv_date_time);
+            mOrderId = (TextView) itemView.findViewById(R.id.order_id);
+            suggestion = (TextView) itemView.findViewById(R.id.suggestion);
+            mtableId=itemView.findViewById(R.id.circle_image);
+            circle_image=itemView.findViewById(R.id.circle_image);
+            rvMenu=itemView.findViewById(R.id.recycler);
+            image_cancel_stamp=itemView.findViewById(R.id.image_stamp);
         }
     }
-
-    private class ItemViewHolder extends RecyclerView.ViewHolder {
-        TextView menu_name, menu_qty, menu_price;
-
-        public ItemViewHolder(View itemView1) {
-            super(itemView1);
-
-            menu_name=(TextView)itemView1.findViewById(R.id.tx_menu_name);
-            menu_qty=(TextView)itemView1.findViewById(R.id.tx_menu_qty);
-            menu_price=(TextView)itemView1.findViewById(R.id.tx_menu_price);
-        }
-    }
-
-    private class FooterViewHolder extends RecyclerView.ViewHolder {
-
-        TextView suggestion;
-        ImageButton mView;
-       /* Button mCancel,mAcept,mCall;*/
-
-
-        public FooterViewHolder(View itemView1) {
-            super(itemView1);
-
-          suggestion = (TextView)itemView1.findViewById(R.id.suggestion);
-
-            mView = (ImageButton) itemView1.findViewById(R.id.btn_pastorder_view);
-        /*        // mPrint = (ImageButton)itemView1.findViewById(R.id.btn_print);
-            mCancel = (Button)itemView1.findViewById(R.id.btn_cancel_order);
-            mAcept = (Button)itemView1.findViewById(R.id.btn_accept_order);*/
-        }
-    }
-
-
-
-
 }
 

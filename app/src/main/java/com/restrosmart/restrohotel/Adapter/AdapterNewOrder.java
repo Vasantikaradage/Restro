@@ -3,6 +3,7 @@ package com.restrosmart.restrohotel.Adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -45,10 +46,24 @@ public class AdapterNewOrder extends RecyclerView.Adapter<AdapterNewOrder.ViewHo
         String mob= String.valueOf(arrayList.get(i).getCust_mob_no());
         String orderId= String.valueOf(arrayList.get(i).getOrder_id());
         String tableID= String.valueOf(arrayList.get(i).getTableId());
+        String orderStatus=arrayList.get(i).getOrder_Status_Name();
 
-     viewHolder.mCustNo.setText(mob);
-     viewHolder.mOrderId.setText(orderId);
-     viewHolder.mtableId.setText(tableID);
+        if(orderStatus.equals("Ready"))
+        {
+            viewHolder.circle_image.setBackground(context.getResources().getDrawable(R.drawable.bg_img_green));
+        }
+        else if(orderStatus.equals("Cancel"))
+        {
+
+        }
+        else
+        {
+            viewHolder.circle_image.setBackground(context.getResources().getDrawable(R.drawable.bg_yellow_circle));
+        }
+
+        viewHolder.mCustNo.setText(mob);
+        viewHolder.mOrderId.setText(orderId);
+        viewHolder.mtableId.setText(tableID);
 
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
@@ -64,7 +79,7 @@ public class AdapterNewOrder extends RecyclerView.Adapter<AdapterNewOrder.ViewHo
 
 
 
-    // viewHolder.suggestion.setText(arrayList.get(i).getArrayList().get(i).getMenuDisp());
+        // viewHolder.suggestion.setText(arrayList.get(i).getArrayList().get(i).getMenuDisp());
     }
 
     @Override
@@ -73,13 +88,13 @@ public class AdapterNewOrder extends RecyclerView.Adapter<AdapterNewOrder.ViewHo
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-       private TextView suggestion;
-       private TextView mCustNo, mDateTime, mOrderId, mTotal,mtableId;
-       private RecyclerView rvMenu;
+        private TextView suggestion;
+        private TextView mCustNo, mDateTime, mOrderId, mTotal,mtableId,circle_image;
+        private RecyclerView rvMenu;
 
 
 
-            // mTotal = (TextView) itemView.findViewById(R.id.total);
+        // mTotal = (TextView) itemView.findViewById(R.id.total);
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             mCustNo = (TextView) itemView.findViewById(R.id.tv_cust_mobno);
@@ -87,6 +102,7 @@ public class AdapterNewOrder extends RecyclerView.Adapter<AdapterNewOrder.ViewHo
             mOrderId = (TextView) itemView.findViewById(R.id.order_id);
             suggestion = (TextView) itemView.findViewById(R.id.suggestion);
             mtableId=itemView.findViewById(R.id.circle_image);
+            circle_image=itemView.findViewById(R.id.circle_image);
             rvMenu=itemView.findViewById(R.id.recycler);
 
         }
@@ -199,7 +215,7 @@ public class AdapterNewOrder extends RecyclerView.Adapter<AdapterNewOrder.ViewHo
         }
         return TYPE_ITEM;*//*
 
-        *//*if (isPositionItem(position))
+     *//*if (isPositionItem(position))
             return TYPE_HEADER;
         return TYPE_ITEM;
         return TYPE_FOOTER;*//*
