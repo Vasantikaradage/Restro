@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,14 +52,15 @@ public class AdapterNewOrder extends RecyclerView.Adapter<AdapterNewOrder.ViewHo
         if(orderStatus.equals("Ready"))
         {
             viewHolder.circle_image.setBackground(context.getResources().getDrawable(R.drawable.bg_img_green));
+            viewHolder.cancelStamp.setVisibility(View.GONE);
         }
         else if(orderStatus.equals("Cancel"))
         {
-
-        }
+            viewHolder.cancelStamp.setVisibility(View.VISIBLE);       }
         else
         {
             viewHolder.circle_image.setBackground(context.getResources().getDrawable(R.drawable.bg_yellow_circle));
+            viewHolder.cancelStamp.setVisibility(View.GONE);
         }
 
         viewHolder.mCustNo.setText(mob);
@@ -91,6 +93,7 @@ public class AdapterNewOrder extends RecyclerView.Adapter<AdapterNewOrder.ViewHo
         private TextView suggestion;
         private TextView mCustNo, mDateTime, mOrderId, mTotal,mtableId,circle_image;
         private RecyclerView rvMenu;
+        private ImageView cancelStamp;
 
 
 
@@ -104,6 +107,7 @@ public class AdapterNewOrder extends RecyclerView.Adapter<AdapterNewOrder.ViewHo
             mtableId=itemView.findViewById(R.id.circle_image);
             circle_image=itemView.findViewById(R.id.circle_image);
             rvMenu=itemView.findViewById(R.id.recycler);
+            cancelStamp=itemView.findViewById(R.id.image_cancel);
 
         }
     }

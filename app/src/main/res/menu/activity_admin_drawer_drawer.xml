@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:checkable="true"
-            android:icon="@drawable/ic_all_order"
+            android:icon="@drawable/ic_order"
             app:itemTextColor="#ac1e1e"
             android:title="Orders" />
     </group>
@@ -39,7 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:checkable="true"
-            android:icon="@drawable/ic_all_order"
+            android:icon="@drawable/ic_picnic"
             app:itemTextColor="#ac1e1e"
             android:title="Table Deatails" />
     </group>
@@ -50,7 +50,7 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/nav_toppings"
-            android:icon="@drawable/ic_add_menu"
+            android:icon="@drawable/ic_topping"
             app:itemBackground="@drawable/side_nav_bar"
             app:itemTextColor="#a73636"
             android:checkable="true"
@@ -63,7 +63,7 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/nav_menu"
-            android:icon="@drawable/ic_add_menu"
+            android:icon="@drawable/ic_menucard"
             app:itemBackground="@drawable/side_nav_bar"
             app:itemTextColor="#a73636"
             android:checkable="true"
@@ -75,7 +75,7 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/nav_daily_offers"
-            android:icon="@drawable/ic_offer"
+            android:icon="@drawable/ic_discount_d"
             android:checkable="true"
             android:title="Daily Offers" />
     </group>
@@ -88,12 +88,12 @@
     android:checkableBehavior="single">
     <item
         android:id="@+id/nav_add_employee"
-        android:icon="@drawable/ic_workers_team"
+        android:icon="@drawable/ic_chef_toque_and_mustache"
         android:checkable="true"
         android:title="Employee Details" />
 </group>
 
-    <group
+  <!--  <group
         android:id="@+id/hotel_detail"
         android:checkableBehavior="single">
         <item
@@ -101,7 +101,7 @@
             android:icon="@drawable/ic_hotel_sign"
             android:checkable="true"
             android:title="Hotel Details" />
-    </group>
+    </group>-->
 
 
     <group
@@ -119,7 +119,7 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/nav_reports"
-            android:icon="@drawable/ic_growth"
+            android:icon="@drawable/ic_growth_a"
             android:checkable="true"
             android:title="Reports" />
     </group>

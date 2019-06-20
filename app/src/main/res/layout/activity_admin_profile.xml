@@ -24,14 +24,61 @@
             android:orientation="vertical"
             android:padding="@dimen/dimen_20dp">
 
-            <de.hdodenhof.circleimageview.CircleImageView
+            <ImageButton
+                android:id="@+id/btn_update_photo"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignTop="@+id/relative"
+                android:layout_gravity="end"
+                android:layout_marginEnd="10dp"
+                android:background="@color/white"
+                android:gravity="top"
+                android:visibility="gone"
+                android:src="@drawable/ic_correct_signal" />
+
+            <RelativeLayout
+                android:id="@+id/relative"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center">
+
+                <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/img_user_photo"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_gravity="center_horizontal"
                 android:src="@drawable/ic_action_user"
+                    android:layout_marginStart="10dp"
                 app:civ_border_color="@color/colorDarkGray"
                 app:civ_border_width="2dp" />
+
+              <FrameLayout
+                    android:id="@+id/iv_select_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/img_menu"
+                    android:layout_marginStart="80dp"
+                    android:layout_marginTop="58dp">
+
+                    <ImageView
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/circle_bg_light_gray" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/camera_bg_white_backgrnd" />
+
+                </FrameLayout>
+
+
+
+            </RelativeLayout>
+
 
             <TextView
                 android:id="@+id/tx_user_name"

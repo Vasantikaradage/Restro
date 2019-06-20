@@ -557,11 +557,11 @@ public class ActivityAdminDrawer extends AppCompatActivity
             fragment = new FragmentViewEmployee();
             fragment.setArguments(args);
             title = "Our Employees";
-        } else if (id == R.id.nav_hotel_details) {
-
-            fragment = new FragmentHotelDetails();
-            fragment.setArguments(args);
-            title = "Hotel Details";
+//        } else if (id == R.id.nav_hotel_details) {
+//
+//            fragment = new FragmentHotelDetails();
+//            fragment.setArguments(args);
+//            title = "Hotel Details";
         } else if (id == R.id.nav_add_payment_methods) {
 
             fragment = new FragmentPaymentMethods();

@@ -2,15 +2,27 @@ package com.restrosmart.restrohotel.Admin;
 
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -22,23 +34,36 @@ import com.restrosmart.restrohotel.Model.EmployeeForm;
 import com.restrosmart.restrohotel.R;
 import com.restrosmart.restrohotel.RetrofitClientInstance;
 import com.restrosmart.restrohotel.RetrofitService;
+import com.restrosmart.restrohotel.Utils.FilePath;
+import com.restrosmart.restrohotel.Utils.ImageFilePath;
 import com.restrosmart.restrohotel.Utils.Sessionmanager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static com.restrosmart.restrohotel.ConstantVariables.BRANCH_DETAILS;
 import static com.restrosmart.restrohotel.ConstantVariables.EDIT_BRANCH_DETAILS;
 import static com.restrosmart.restrohotel.ConstantVariables.EMP_EDIT_DETAILS;
+import static com.restrosmart.restrohotel.ConstantVariables.PICK_GALLERY_IMAGE;
+import static com.restrosmart.restrohotel.ConstantVariables.REQUEST_PERMISSION;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.BRANCH_ID;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.HOTEL_ID;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.ROLE_ID;
@@ -65,6 +90,14 @@ public class ActivityProfile extends AppCompatActivity {
             btnEditBranchAccount, btnUpdateBranchAccount, btnCancelBranchAccount;
     private int mTblNo, employeeId;
     private String mGstnNo;
+    private CircleImageView mPhoto;
+    private FrameLayout frameLayoutCamera;
+    private  ImageButton updatePhoto;
+
+    private String selectedFilePath, extension, selectedData;
+    private File selectedFile;
+
+    private Bitmap bitmapImage;
 
 
 
@@ -86,6 +119,29 @@ public class ActivityProfile extends AppCompatActivity {
         mHotelId = Integer.parseInt(name_info.get(HOTEL_ID));
         mBranchId = Integer.parseInt(name_info.get(BRANCH_ID));
         roleId = Integer.parseInt((name_info.get(ROLE_ID)));
+
+        frameLayoutCamera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                updatePhoto.setVisibility(View.VISIBLE);
+
+                if(checkPermission()) {
+                    Intent imageIntent = new Intent();
+                    imageIntent.setType("image/*");
+                    imageIntent.setAction(Intent.ACTION_GET_CONTENT);
+                    startActivityForResult(Intent.createChooser(imageIntent, "Select Image"), PICK_GALLERY_IMAGE);
+                }
+                else
+                {
+                    requestPermission();
+                }
+
+
+            }
+        });
+
+
+
 
         tvVisible();
         initRetrofitCallback();
@@ -121,6 +177,7 @@ public class ActivityProfile extends AppCompatActivity {
                         tvVisible();
                         etvInVisible();
                         getEmployeeList();
+                        btneEditEmp.setVisibility(View.VISIBLE);
                         //  updateEmployee();
                     }
                 });
@@ -593,6 +650,11 @@ public class ActivityProfile extends AppCompatActivity {
 
         btnUpdateBranchAccount = findViewById(R.id.btn_update_branch_account);
         btnCancelBranchAccount = findViewById(R.id.btn_cancel_branch_account);
+        mPhoto=findViewById(R.id.img_user_photo);
+
+        frameLayoutCamera=findViewById(R.id.iv_select_image);
+        updatePhoto=findViewById(R.id.btn_update_photo);
+
     }
 
     private void setUpToolBar() {
@@ -606,5 +668,145 @@ public class ActivityProfile extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         finish();
         return true;
+    }
+
+    private void requestPermission() {
+        ActivityCompat.requestPermissions((Activity)this, new String[]{READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE}, REQUEST_PERMISSION);
+
+    }
+
+    private boolean checkPermission() {
+
+        int result = ContextCompat.checkSelfPermission(this, READ_EXTERNAL_STORAGE);
+        int result1 = ContextCompat.checkSelfPermission(this, WRITE_EXTERNAL_STORAGE);
+        return result == PackageManager.PERMISSION_GRANTED && result1 == PackageManager.PERMISSION_GRANTED;
+
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // TODO Auto-generated method stub
+
+
+        if (resultCode == RESULT_OK) {
+            if (data == null) {
+                //no data present
+                return;
+            }
+
+            Uri selectedFileUri = data.getData();
+            selectedFilePath = FilePath.getPath(this, selectedFileUri);
+
+            Bitmap categoryBitmap = null;
+            try {
+                categoryBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedFileUri);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            String picturePath = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+                picturePath = ImageFilePath.getPath(this, selectedFileUri);
+            }
+
+            selectedFile = new File(selectedFilePath);
+            int file_size = Integer.parseInt(String.valueOf(selectedFile.length() / 1024));     //calculate size of image in KB
+            if (file_size <= 1024) {
+
+                extension = getFileExtension(selectedFile);
+
+
+                bitmapImage = exifInterface(picturePath, categoryBitmap);
+                selectedData = getImageString(bitmapImage);
+
+                byte[] decodedString = Base64.decode(selectedData,Base64.NO_WRAP);
+                InputStream inputStream  = new ByteArrayInputStream(decodedString);
+                Bitmap bitmap  = BitmapFactory.decodeStream(inputStream);
+                mPhoto.setImageBitmap(bitmap);
+
+                /*if (selectedFilePath != null && !selectedFilePath.equals("")) {
+
+
+
+                    //tvStudyFileName.setText(selectedFilePath);
+                   // alertDialog.dismiss();
+                } else {
+                    Toast.makeText(ActivityNewAddEmployee.this, "cannot upload image", Toast.LENGTH_SHORT).show();
+                }*/
+            } else {
+                Toast.makeText(ActivityProfile.this, "size", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    public String getImageString(Bitmap bmp) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] imageBytes = baos.toByteArray();
+        return Base64.encodeToString(imageBytes, Base64.DEFAULT);
+    }
+
+    private Bitmap exifInterface(String filePath, Bitmap bitmap) {
+        ExifInterface exif = null;
+        try {
+            exif = new ExifInterface(filePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        assert exif != null;
+        int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+                ExifInterface.ORIENTATION_UNDEFINED);
+
+        return rotateBitmap(bitmap, orientation);
+    }
+    private Bitmap rotateBitmap(Bitmap bitmap, int orientation) {
+        Matrix matrix = new Matrix();
+        switch (orientation) {
+            case ExifInterface.ORIENTATION_NORMAL:
+                return bitmap;
+            case ExifInterface.ORIENTATION_FLIP_HORIZONTAL:
+                matrix.setScale(-1, 1);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_180:
+                matrix.setRotate(180);
+                break;
+            case ExifInterface.ORIENTATION_FLIP_VERTICAL:
+                matrix.setRotate(180);
+                matrix.postScale(-1, 1);
+                break;
+            case ExifInterface.ORIENTATION_TRANSPOSE:
+                matrix.setRotate(90);
+                matrix.postScale(-1, 1);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_90:
+                matrix.setRotate(90);
+                break;
+            case ExifInterface.ORIENTATION_TRANSVERSE:
+                matrix.setRotate(-90);
+                matrix.postScale(-1, 1);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_270:
+                matrix.setRotate(-90);
+                break;
+            default:
+                return bitmap;
+        }
+        try {
+            Bitmap bmRotated = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+            bitmap.recycle();
+            return bmRotated;
+        } catch (OutOfMemoryError e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private String getFileExtension(File selectedFile) {
+        String fileName = selectedFile.getName();
+        if (fileName.lastIndexOf(".") != -1 && fileName.lastIndexOf(".") != 0)
+            return fileName.substring(fileName.lastIndexOf(".") + 1);
+        else return "";
+
     }
 }

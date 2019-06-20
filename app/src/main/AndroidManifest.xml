@@ -139,6 +139,26 @@
             <!--android:name=".Admin.ActivityTableInformation"-->
             <!--android:configChanges="keyboardHidden|orientation|screenSize"-->
             <!--android:screenOrientation="portrait" />-->
+        <activity
+            android:name=".Admin.ActivityAddPromocode"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".Admin.ActivityAddRushHours"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".Admin.ActivityAddScratchCard"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".Admin.ActivityDailyOfferAdd"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>
