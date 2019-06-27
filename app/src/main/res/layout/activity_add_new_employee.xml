@@ -159,7 +159,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="5dp"
                             android:background="@null"
-
+                            android:maxLength="10"
                             android:hint="Enter Mobile No"
                             android:inputType="number"
                             android:textColor="@color/colorAccent"
@@ -195,7 +195,6 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="5dp"
                             android:background="@null"
-
                             android:hint="Enter Email"
                             android:inputType="text"
                             android:textColor="@color/colorAccent"
@@ -233,6 +232,7 @@
                             android:background="@null"
                             android:hint="Enter Adhar No"
                             android:inputType="number"
+                            android:maxLength="12"
                             android:textColor="@color/colorAccent"
                             android:textSize="@dimen/font_large" />
 
@@ -264,9 +264,9 @@
                             android:layout_height="match_parent"
                             android:layout_marginStart="5dp"
                             android:background="@null"
+                            android:maxLines="4"
                             android:hint="Enter Current Address"
-                            android:inputType="text"
-                            android:lines="2"
+                            android:inputType="textMultiLine"
                             android:textColor="@color/colorAccent"
                             android:textSize="@dimen/font_large" />
 

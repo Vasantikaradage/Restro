@@ -16,12 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
+
 import com.google.gson.JsonObject;
 import com.restrosmart.restrohotel.Adapter.ViewPagerAdapter;
 import com.restrosmart.restrohotel.Interfaces.ApiService;
@@ -41,12 +36,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import javax.xml.transform.ErrorListener;
-
 import retrofit2.Response;
-
-import static android.support.constraint.Constraints.TAG;
-import static com.restrosmart.restrohotel.ConstantVariables.ACTIVE_TABLE;
 import static com.restrosmart.restrohotel.ConstantVariables.ORDER_DETAILS;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.BRANCH_ID;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.HOTEL_ID;

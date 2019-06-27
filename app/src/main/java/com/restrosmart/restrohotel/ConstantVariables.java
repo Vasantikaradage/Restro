@@ -95,6 +95,7 @@ public class ConstantVariables {
     public static final int REQUEST_PERMISSION = 707;
     public  static  final  int USER_RATING=708;
     public  static  final int ACTIVE_TABLE=709;
+    public  static  final  int UPDATE_EMP_IMAGE=900;
 
 
     /*Captain*/

@@ -30,15 +30,16 @@ import retrofit2.Response;
 
 public class ActivityEmpolyeeProfile extends AppCompatActivity {
 
-    List<EmployeeForm> employeeDetails;
+    private List<EmployeeForm> employeeDetails;
 
-    int emp_id;
+    private int emp_id;
+    private  ApiService apiService;
 
-    CircleImageView mImage;
-    String active;
-    TextView mName, mUsername, mRole, mStatus, mHotelName, mMobNo, mEmail, mAdhar, mAddress;
+    private CircleImageView mImage;
+    private String active;
+    private TextView mName, mUsername, mRole, mStatus, mHotelName, mMobNo, mEmail, mAdhar, mAddress;
 
-    String Name, Username, Role, Status, HotelName, MobNo, Email, Adhar, Address;
+    private String Name, Username, Role, Status, HotelName, MobNo, Email, Adhar, Address;
 
 
     @Override
@@ -115,7 +116,7 @@ public class ActivityEmpolyeeProfile extends AppCompatActivity {
                     String status = String.valueOf(employeeDetails.get(i).getActiveStatus());
                     String imagePath = employeeDetails.get(i).getEmpImg();
 
-                    Picasso.with(this).load(imagePath).into(mImage);
+                    Picasso.with(this).load(apiService.BASE_URL+imagePath).into(mImage);
                     mName.setText(employeeDetails.get(i).getEmpName());
                     mUsername.setText(employeeDetails.get(i).getUserName());
                     mRole.setText(employeeDetails.get(i).getRole());

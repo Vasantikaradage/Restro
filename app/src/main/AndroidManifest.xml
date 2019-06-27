@@ -22,8 +22,7 @@
         android:theme="@style/AppTheme"
         android:windowSoftInputMode="stateAlwaysVisible"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".SuperAdmin.Activities.ActivitySuperAdminLogin"></activity>
-        <activity android:name=".Captain.Activities.ActivityCaptainDash" />
+
         <activity android:name=".ActivitySplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -100,6 +99,9 @@
         <activity android:name=".Admin.ActivityRushHours"/>
         <activity android:name=".Admin.ActivityPromoCode"/>
         <activity android:name=".Captain.Activities.ActivityTableOrders"/>
+
+        <activity android:name=".SuperAdmin.Activities.ActivitySuperAdminLogin"></activity>
+        <activity android:name=".Captain.Activities.ActivityCaptainDash" />
 
         <!--
             android:configChanges="orientation|keyboardHidden|screenSize"

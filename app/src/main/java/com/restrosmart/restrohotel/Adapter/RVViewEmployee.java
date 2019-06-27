@@ -52,6 +52,7 @@ public class RVViewEmployee extends RecyclerView.Adapter<RVViewEmployee.MyHolder
 
     private Sessionmanager sessionmanager;
     private String branchId, hotelId, status_value;
+    private  ApiService apiService;
 
     public RVViewEmployee(FragmentActivity activity, List<EmployeeForm> getEmployee) {
 
@@ -84,6 +85,10 @@ public class RVViewEmployee extends RecyclerView.Adapter<RVViewEmployee.MyHolder
         hotelId = name_info.get(HOTEL_ID);
         branchId = name_info.get(BRANCH_ID);
 
+        String path = viewEmployees.get(position).getEmpImg().toString();
+
+        Picasso.with(context).load(apiService.BASE_URL+path).into(holder.circleImageView);
+
         if (status1 == 1) {
             holder.status.setChecked(true);
         } else {
@@ -93,41 +98,21 @@ public class RVViewEmployee extends RecyclerView.Adapter<RVViewEmployee.MyHolder
         holder.status.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                emp_id = viewEmployees.get(position).getEmpId();
 
                 if (holder.status.isChecked()) {
                     status_value = "1";
+                    statusChange();
                 } else {
                     status_value = "0";
+                    statusChange();
                 }
-                emp_id = viewEmployees.get(position).getEmpId();
-
-                ApiService apiService = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
-                retrofit2.Call<JsonObject> call = apiService.updateStatus(emp_id,
-                        status_value,
-                        Integer.parseInt(branchId),
-                        (Integer.parseInt(hotelId)));
-
-                call.enqueue(new Callback<JsonObject>() {
-                    @Override
-                    public void onResponse(retrofit2.Call<JsonObject> call, Response<JsonObject> response) {
-                        response.body();
-                        String msg = String.valueOf(response.body());
-                        Toast.makeText(context, "Status Updated Successfully..", Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onFailure(retrofit2.Call<JsonObject> call, Throwable t) {
-                    }
-                });
-
 
             }
         });
 
 
-        String path = viewEmployees.get(position).getEmpImg().toString();
 
-        Picasso.with(context).load(path).into(holder.circleImageView);
         holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -166,6 +151,29 @@ public class RVViewEmployee extends RecyclerView.Adapter<RVViewEmployee.MyHolder
 
     }
 
+    private void statusChange() {
+        ApiService apiService = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
+        retrofit2.Call<JsonObject> call = apiService.updateStatus(emp_id,
+                status_value,
+                Integer.parseInt(branchId),
+                (Integer.parseInt(hotelId)));
+
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(retrofit2.Call<JsonObject> call, Response<JsonObject> response) {
+                response.body();
+                String msg = String.valueOf(response.body());
+                Toast.makeText(context, "Status Updated Successfully..", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(retrofit2.Call<JsonObject> call, Throwable t) {
+            }
+        });
+
+
+    }
+
     @Override
     public int getItemCount() {
         return viewEmployees.size();
@@ -173,14 +181,14 @@ public class RVViewEmployee extends RecyclerView.Adapter<RVViewEmployee.MyHolder
 
     public class MyHolder extends RecyclerView.ViewHolder {
 
-        CircleImageView circleImageView;
+        private CircleImageView circleImageView;
 
-        TextView mName,mPhoneNo;
-        TextView mDesignation;
+        private TextView mName,mPhoneNo;
+        private TextView mDesignation;
 
-        RelativeLayout relativeLayout;
-        Switch status;
-        ImageView imageView;
+        private RelativeLayout relativeLayout;
+        private Switch status;
+        private  ImageView imageView;
 
 
         public MyHolder(View itemView) {

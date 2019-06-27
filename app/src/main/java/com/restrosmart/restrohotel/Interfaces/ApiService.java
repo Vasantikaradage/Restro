@@ -21,7 +21,7 @@ import retrofit2.http.POST;
 public interface ApiService {
 
 
-    String BASE_URL = "http://192.168.0.23/Restro_Smart/";
+    String BASE_URL = "http://192.168.0.19/Restro_Smart/";
 
 
     /*parent category display*/
@@ -63,6 +63,13 @@ public interface ApiService {
                                         @Field("Branch_Id") int branchId,
                                         @Field("Role_Id") int role_id,
                                         @Field("Password") String password);
+
+    /*Update Employee photo*/
+    @POST("Branch.php?branch=branch_disp")
+    @FormUrlEncoded
+    Call<JsonObject> UpdateEmployeeImage(@Field("Hotel_Id") int hotelId,
+                                     @Field("Branch_Id") int branchid,
+                                         @Field("Emp_Id") int empId);
 
 
     /*Update employee status */

@@ -94,6 +94,7 @@ public class ActivityAdminDrawer extends AppCompatActivity
     Fragment fragment = null;
     List<EmployeeForm> employeeList;
     HashMap<String, String> name_info;
+    private  ApiService apiService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -252,7 +253,7 @@ public class ActivityAdminDrawer extends AppCompatActivity
                     if (Integer.parseInt(empId )== id) {
                         name.setText(getEmployee.get(i).getEmpName());
                         tvEmail.setText(getEmployee.get(i).getEmpEmail());
-                        Picasso.with(ActivityAdminDrawer.this).load(getEmployee.get(i).getEmpImg()).resize(500, 500).into(circleImageView);
+                        Picasso.with(ActivityAdminDrawer.this).load(apiService.BASE_URL+getEmployee.get(i).getEmpImg()).resize(500, 500).into(circleImageView);
                     }
                 }
             }

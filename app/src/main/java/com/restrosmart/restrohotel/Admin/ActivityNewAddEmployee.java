@@ -49,11 +49,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -281,7 +283,7 @@ public class ActivityNewAddEmployee extends AppCompatActivity {
         arrayListRole = new ArrayList<>();
 
 
-        //imageView = (CircleImageView) findViewById(R.id.iv_profile);
+        imageView = (CircleImageView) findViewById(R.id.iv_profile);
 
         // tvName = (TextView) findViewById(R.id.et_name);
         flImage=findViewById(R.id.iv_select_image);
@@ -809,6 +811,11 @@ public class ActivityNewAddEmployee extends AppCompatActivity {
 
                 bitmapImage = exifInterface(picturePath, categoryBitmap);
                 selectedData = getImageString(bitmapImage);
+
+                byte[] decodedString = Base64.decode(selectedData,Base64.NO_WRAP);
+                InputStream inputStream  = new ByteArrayInputStream(decodedString);
+                Bitmap bitmap  = BitmapFactory.decodeStream(inputStream);
+                imageView.setImageBitmap(bitmap);
 
                 /*if (selectedFilePath != null && !selectedFilePath.equals("")) {
 

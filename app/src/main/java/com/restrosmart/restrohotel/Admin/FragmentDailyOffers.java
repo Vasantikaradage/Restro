@@ -79,7 +79,7 @@ public class FragmentDailyOffers extends Fragment {
         rlPromoCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intentPromoCode=new Intent(getActivity(), ActivityPromoCode.class);
+                Intent intentPromoCode=new Intent(getActivity(), ActivityAddPromocode.class);
                 startActivity(intentPromoCode);
 
             }

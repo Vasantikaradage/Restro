@@ -50,8 +50,7 @@
                 android:layout_gravity="center_horizontal"
                 android:src="@drawable/ic_action_user"
                     android:layout_marginStart="10dp"
-                app:civ_border_color="@color/colorDarkGray"
-                app:civ_border_width="2dp" />
+                />
 
               <FrameLayout
                     android:id="@+id/iv_select_image"
@@ -62,8 +61,8 @@
                     android:layout_marginTop="58dp">
 
                     <ImageView
-                        android:layout_width="45dp"
-                        android:layout_height="45dp"
+                        android:layout_width="42dp"
+                        android:layout_height="42dp"
                         android:layout_gravity="center"
                         android:background="@drawable/circle_bg_light_gray" />
 
@@ -71,12 +70,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:padding="10dp"
                         android:src="@drawable/camera_bg_white_backgrnd" />
 
                 </FrameLayout>
-
-
-
             </RelativeLayout>
 
 

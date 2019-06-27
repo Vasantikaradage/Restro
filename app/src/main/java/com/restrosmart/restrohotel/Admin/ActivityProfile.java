@@ -37,6 +37,7 @@ import com.restrosmart.restrohotel.RetrofitService;
 import com.restrosmart.restrohotel.Utils.FilePath;
 import com.restrosmart.restrohotel.Utils.ImageFilePath;
 import com.restrosmart.restrohotel.Utils.Sessionmanager;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -64,6 +65,7 @@ import static com.restrosmart.restrohotel.ConstantVariables.EDIT_BRANCH_DETAILS;
 import static com.restrosmart.restrohotel.ConstantVariables.EMP_EDIT_DETAILS;
 import static com.restrosmart.restrohotel.ConstantVariables.PICK_GALLERY_IMAGE;
 import static com.restrosmart.restrohotel.ConstantVariables.REQUEST_PERMISSION;
+import static com.restrosmart.restrohotel.ConstantVariables.UPDATE_EMP_IMAGE;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.BRANCH_ID;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.HOTEL_ID;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.ROLE_ID;
@@ -98,6 +100,7 @@ public class ActivityProfile extends AppCompatActivity {
     private File selectedFile;
 
     private Bitmap bitmapImage;
+    private  ApiService apiService;
 
 
 
@@ -136,6 +139,19 @@ public class ActivityProfile extends AppCompatActivity {
                     requestPermission();
                 }
 
+
+            }
+        });
+
+        updatePhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                initRetrofitCallback();
+                ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
+                mRetrofitService = new RetrofitService(mResultCallBack, ActivityProfile.this);
+                mRetrofitService.retrofitData(UPDATE_EMP_IMAGE, (service.UpdateEmployeeImage(mHotelId,
+                        mBranchId,employeeId)));
 
             }
         });
@@ -401,6 +417,10 @@ public class ActivityProfile extends AppCompatActivity {
                     tvActiveStatus.setText("InActive");
                 }
 
+                String image=ArrayListEmployee.get(i).getEmpImg();
+                Picasso.with(ActivityProfile.this).load(apiService.BASE_URL+image).resize(500, 500).into(mPhoto);
+
+
                 String mobNo = ArrayListEmployee.get(i).getEmpMob();
                 tvMobileNo.setText(mobNo);
                 tvEmail.setText(ArrayListEmployee.get(i).getEmpEmail());
@@ -514,6 +534,25 @@ public class ActivityProfile extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                        break;
+
+                    case UPDATE_EMP_IMAGE:
+                        try {
+                            JSONObject jsonObject=new JSONObject(objectInfo);
+                            int status=jsonObject.getInt("status");
+                            if(status==1)
+                            {
+                                Toast.makeText(ActivityProfile.this, "Photo Updated Successfully", Toast.LENGTH_LONG).show();
+                            }
+                            else
+                            {
+                                Toast.makeText(ActivityProfile.this, "Try Again..", Toast.LENGTH_LONG).show();
+
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
                         break;
 
 

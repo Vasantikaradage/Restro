@@ -28,8 +28,7 @@
                 android:layout_height="70dp"
                 android:layout_gravity="center_horizontal"
                 android:src="@drawable/ic_action_user"
-                app:civ_border_color="@color/colorDarkGray"
-                app:civ_border_width="2dp" />
+               />
 
             <TextView
                 android:id="@+id/txt_user_name"
