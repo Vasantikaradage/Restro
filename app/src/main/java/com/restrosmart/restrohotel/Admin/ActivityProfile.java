@@ -150,8 +150,8 @@ public class ActivityProfile extends AppCompatActivity {
                 initRetrofitCallback();
                 ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
                 mRetrofitService = new RetrofitService(mResultCallBack, ActivityProfile.this);
-                mRetrofitService.retrofitData(UPDATE_EMP_IMAGE, (service.UpdateEmployeeImage(mHotelId,
-                        mBranchId,employeeId)));
+                mRetrofitService.retrofitData(UPDATE_EMP_IMAGE, (service.employeeImageUpdate(selectedData,extension,employeeId,mHotelId,
+                        mBranchId)));
 
             }
         });

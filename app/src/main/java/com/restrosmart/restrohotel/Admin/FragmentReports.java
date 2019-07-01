@@ -41,7 +41,7 @@ public  class FragmentReports extends Fragment {
         adapter.addFragment(new FragmentTabDailyReport(), "Daily");
         adapter.addFragment(new FragmentTabWeeklyReport(), "Weekly");
         adapter.addFragment(new FragmentTabMonthlyReport(), "Monthly");
-        adapter.addFragment(new FragmentTabYearlyReport(), "Yearly");
+        adapter.addFragment(new FragmentTabYearReport(), "Yearly");
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
 

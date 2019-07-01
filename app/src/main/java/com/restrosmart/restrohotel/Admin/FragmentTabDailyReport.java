@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -19,11 +20,12 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.restrosmart.restrohotel.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @SuppressLint("ValidFragment")
 public class FragmentTabDailyReport extends Fragment {
 
-    private ArrayList<PieEntry> entries;
+    private List<PieEntry> entries;
     private ArrayList<String> labels;
 
     private PieChart pieChartDailyReport;
@@ -33,6 +35,7 @@ public class FragmentTabDailyReport extends Fragment {
     private  ArrayList<String> arrayListDailyreport;
 
     private  String[] dailyreport={"1000","700","200","500"};
+    private  String[] daily={"Veg","Non Veg","Liquors","Hot and Cold"};
 
 
 
@@ -61,16 +64,16 @@ public class FragmentTabDailyReport extends Fragment {
         entries.clear();
         progressBar.setVisibility(View.GONE);
         for (int x = 0; x < arrayListDailyreport.size(); x++) {
-            entries.add(new PieEntry(Float.parseFloat(arrayListDailyreport.get(x).toString() + "f"), x));
+            entries.add(new PieEntry(Float.parseFloat(arrayListDailyreport.get(x).toString() + "f"), daily[x]));
         }
 
         int[] COLORFUL_COLORS = {
                 Color.rgb(106, 150, 31),
                 Color.rgb(193, 37, 82),
-                Color.rgb(245, 199, 0),
-                Color.rgb(79,129,189)};
+                Color.rgb(79,129,189),
+                Color.rgb(245, 199, 0)};
 
-        PieDataSet dataset = new PieDataSet(entries, "Daily Report");
+        PieDataSet dataset = new PieDataSet(entries, "");
         pieChartDailyReport.animateY(5000);
         pieChartDailyReport.setTouchEnabled(true);
 
@@ -78,7 +81,21 @@ public class FragmentTabDailyReport extends Fragment {
         dataset.setColors(COLORFUL_COLORS);
         dataset.setValueTextColor(Color.parseColor("#FFFFFFFF"));
         pieChartDailyReport.setDrawSliceText(false);
+        pieChartDailyReport.setDrawEntryLabels(true);
 
+
+
+
+       /* Legend legend = pieChartDailyReport.getLegend();
+
+        labels.clear();
+        labels.add("Veg");
+        labels.add("Non Veg");
+        labels.add("liquors");
+        labels.add("Hot & Cold");
+        legend.setEnabled(true);
+
+        legend.setComputedLabels(labels);*/
         /*barChartAdmission.setDragEnabled(true);
         barChartAdmission.setScaleEnabled(true);
         barChartAdmission.setDoubleTapToZoomEnabled(true);*/
@@ -101,15 +118,22 @@ public class FragmentTabDailyReport extends Fragment {
 
         YAxis rightAxis = barChartAdmission.getAxisRight();
         rightAxis.setLabelCount(8, false);*/
-        labels.clear();
-        labels.add("Veg");
-        labels.add("Non Veg");
-        labels.add("liquors");
-        labels.add("Hot & Cold");
+
+      /*  Legend legend = pieChartDailyReport.getLegend();
+        legend.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
+        legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
+        legend.setOrientation(Legend.LegendOrientation.VERTICAL);
+        legend.setDrawInside(false);*/
+      //  pieChartDailyReport.getLegend().setWordWrapEnabled(true);
+
+        //legend.setWordWrapEnabled(true);
+
+
 
         PieData data = new PieData(dataset);
         data.setValueTextSize(16f);
         pieChartDailyReport.setData(data);
+
         pieChartDailyReport.setCenterText(getString(R.string.daily_report));
         pieChartDailyReport.setCenterTextSize(14f);
         pieChartDailyReport.setCenterTextColor(getContext().getResources().getColor(R.color.colorAccent));
