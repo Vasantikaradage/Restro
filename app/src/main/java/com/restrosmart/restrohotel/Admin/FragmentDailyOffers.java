@@ -98,7 +98,7 @@ public class FragmentDailyOffers extends Fragment {
             @Override
             public void onClick(View view) {
 
-                Intent intentRushHours=new Intent(getActivity(), ActivityRushHours.class);
+                Intent intentRushHours=new Intent(getActivity(), ActivityAddRushHours.class);
                 startActivity(intentRushHours);
             }
         });

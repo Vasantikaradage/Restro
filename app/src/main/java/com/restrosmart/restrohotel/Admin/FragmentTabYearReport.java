@@ -12,6 +12,7 @@ import android.widget.ProgressBar;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
@@ -25,7 +26,7 @@ import java.util.ArrayList;
 @SuppressLint("ValidFragment")
 public class FragmentTabYearReport extends Fragment {
 
-    private LineChart lineChartMonthlyReport;
+    private LineChart lineChartYearlyReport;
     private ProgressBar progressBar;
 
     XAxis xAxis;
@@ -47,9 +48,6 @@ public class FragmentTabYearReport extends Fragment {
 
     private  String[] arrayHotCold ={"100","400","300","200","100","400","700","200","300","400","100","200"};
 
-
-
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -70,13 +68,13 @@ public class FragmentTabYearReport extends Fragment {
 
         LineDataSet set1, set2;
 
-      /*  Legend legend = lineChartMonthlyReport.getLegend();
+      /*  Legend legend = lineChartYearlyReport.getLegend();
         legend.setYOffset(40);
         legend.setForm(Legend.LegendForm.CIRCLE);
         legend.setTextColor(Color.WHITE);
         legend.setPosition(Legend.LegendPosition.BELOW_CHART_LEFT);
         legend.setTextSize(200);
-        lineChartMonthlyReport.invalidate();*/
+        lineChartYearlyReport.invalidate();*/
 
         arrayListVeg.clear();
         for (int x = 0; x < arrayVeg.length; x++) {
@@ -103,7 +101,7 @@ public class FragmentTabYearReport extends Fragment {
             labels.add(months[x]);
         }
 
-        XAxis xAxis = lineChartMonthlyReport.getXAxis();
+        XAxis xAxis = lineChartYearlyReport.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setGranularityEnabled(true);
         xAxis.setValueFormatter(new IAxisValueFormatter() {
@@ -115,47 +113,59 @@ public class FragmentTabYearReport extends Fragment {
             }
         });
 
-        //lineChartMonthlyReport.getAxisLeft().setDrawGridLines(false);
-        // lineChartMonthlyReport.getXAxis().setDrawGridLines(false);
-        lineChartMonthlyReport.setDescription("Months");
+        //lineChartYearlyReport.getAxisLeft().setDrawGridLines(false);
+        // lineChartYearlyReport.getXAxis().setDrawGridLines(false);
+        lineChartYearlyReport.setDescription("Months");
 
         ArrayList<ILineDataSet> lines = new ArrayList<ILineDataSet> ();
 
-        LineDataSet lDataSet1 = new LineDataSet(arrayListVeg, "DataSet1");
+        LineDataSet lDataSet1 = new LineDataSet(arrayListVeg, "Veg");
         lDataSet1.setColor(Color.rgb(106, 150, 31));
       //  lDataSet1.setDrawFilled(true);
         lDataSet1.setCircleColor(Color.rgb(106, 150, 31));
        //  lDataSet1.setFillColor(Color.rgb(106, 150, 31));
+
+        lDataSet1.setValueFormatter(new LineValueFormatter());
         lines.add(lDataSet1);
 
-        LineDataSet lDataSet2 = new LineDataSet(arrayListNonveg, "DataSet2");
+        LineDataSet lDataSet2 = new LineDataSet(arrayListNonveg, "Non Veg");
         lDataSet2.setColor(Color.rgb(193, 37, 82));
         lDataSet2.setCircleColor(Color.rgb(193, 37, 82));
        // lDataSet2.setDrawFilled(true);
        //  lDataSet2.setFillColor(Color.rgb(193, 37, 82));
         lines.add(lDataSet2);
 
-        LineDataSet lDataSet3 = new LineDataSet(arrayListLiquors, "DataSet3");
+        LineDataSet lDataSet3 = new LineDataSet(arrayListLiquors, "Liquors");
         lDataSet3.setColor(Color.rgb(79,129,189));
         lDataSet3.setCircleColor(Color.rgb(79,129,189));
         // lDataSet2.setDrawFilled(true);
         //  lDataSet2.setFillColor(Color.rgb(193, 37, 82));
         lines.add(lDataSet3);
 
-        LineDataSet lDataSet4 = new LineDataSet(arrayListHotCold, "DataSet4");
+        LineDataSet lDataSet4 = new LineDataSet(arrayListHotCold, "Hot and Cold");
         lDataSet4.setColor(Color.rgb(245, 199, 0));
         lDataSet4.setCircleColor(Color.rgb(245, 199, 0));
         // lDataSet2.setDrawFilled(true);
         //  lDataSet2.setFillColor(Color.rgb(193, 37, 82));
         lines.add(lDataSet4);
+        lineChartYearlyReport.animateY(3000);
+        lineChartYearlyReport.setTouchEnabled(true);
+        CustomMarkerView mv = new CustomMarkerView (getActivity(), R.layout.rader_markview, labels);
+        lineChartYearlyReport.setMarkerView(mv);
 
+        Legend legend = lineChartYearlyReport.getLegend();
+        legend.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
+        legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
+        legend.setOrientation(Legend.LegendOrientation.HORIZONTAL);
+        lineChartYearlyReport.getLegend().setWordWrapEnabled(true);
 
-        lineChartMonthlyReport.setData(new LineData(lines));
+        legend.setDrawInside(true);
+        lineChartYearlyReport.setData(new LineData(lines));
     }
 
     private void init() {
 
-        lineChartMonthlyReport= getView().findViewById(R.id.linechart);
+        lineChartYearlyReport = getView().findViewById(R.id.linechart);
         arrayListVeg = new ArrayList<>();
 
         arrayListLiquors=new ArrayList<>();

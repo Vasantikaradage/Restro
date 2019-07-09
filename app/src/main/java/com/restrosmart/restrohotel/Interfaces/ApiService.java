@@ -21,7 +21,7 @@ import retrofit2.http.POST;
 public interface ApiService {
 
 
-    String BASE_URL = "http://192.168.0.12/Restro_Smart/";
+    String BASE_URL = "http://192.168.0.15/Restro_Smart/";
 
 
     /*parent category display*/

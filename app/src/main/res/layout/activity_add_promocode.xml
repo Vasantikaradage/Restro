@@ -84,7 +84,6 @@
             android:layout_height="wrap_content"
             app:cardUseCompatPadding="true"
             android:layout_marginTop="10dp"
-
             app:cardCornerRadius="5dp">
 
 
@@ -95,6 +94,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+
 
         android:visibility="visible">
         <LinearLayout
@@ -151,10 +151,10 @@
             android:gravity="center"
             android:textStyle="bold"
             android:textSize="20sp"
-            android:padding="20dp"/>
+            android:padding="35dp"/>
 
         <TextView
-            android:padding="10dp"
+            android:padding="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 

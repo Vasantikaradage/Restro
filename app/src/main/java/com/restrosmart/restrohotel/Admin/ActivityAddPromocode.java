@@ -27,8 +27,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-import com.archit.calendardaterangepicker.customviews.DateRangeCalendarView;
-import com.restrosmart.restrohotel.Adapter.AdapterDisplayFlavour;
+
+
 import com.restrosmart.restrohotel.Adapter.AdapterRVPromocode;
 import com.restrosmart.restrohotel.Interfaces.ButtonListerner;
 import com.restrosmart.restrohotel.Interfaces.PositionListener;
@@ -36,11 +36,13 @@ import com.restrosmart.restrohotel.MainActivity;
 import com.restrosmart.restrohotel.Model.PromoCodeForm;
 import com.restrosmart.restrohotel.R;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
-public class ActivityAddPromocode extends AppCompatActivity {
+public class ActivityAddPromocode extends AppCompatActivity  implements SlyCalendarDialog.Callback {
 
     private RecyclerView rvPromocode;
     private TextView tvToolBarTitle;
@@ -57,7 +59,7 @@ public class ActivityAddPromocode extends AppCompatActivity {
     private  String date[]={"17 Jun","18 Jun","19 Jun","20 Jun"};
     private  String offer[]={"FLAT 10","FLAT 80","FLAT 20","FLAT 50"};
 
-    private DateRangeCalendarView calendar;
+  //  private DateRangeCalendarView calendar;
     private  Button reset;
 
    // private RelativeLayout LayoutCalender;
@@ -74,14 +76,20 @@ public class ActivityAddPromocode extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                new SlyCalendarDialog()
+                        .setSingle(false)
+                        .setFirstMonday(false)
+                        .setCallback(ActivityAddPromocode.this)
+                        .show(getSupportFragmentManager(), "TAG_SLYCALENDAR");
+
                // LayoutCalender.setVisibility(View.VISIBLE);
 
-                View view1 = getLayoutInflater().inflate(R.layout.mylayout, null);
+               /* View view1 = getLayoutInflater().inflate(R.layout.mylayout, null);
               //  dialoglayout = view1.inflate(R.layout.mylayout, null);
                 AlertDialog.Builder builder = new AlertDialog.Builder(ActivityAddPromocode.this);
                 builder.setView(view1);
                 AlertDialog alert = builder.create();
-                alert.show();
+                alert.show();*/
 
               /*  LayoutInflater factory = LayoutInflater.from(getApplicationContext());
                 final View deleteDialogView = factory.inflate(R.layout.mylayout, null);
@@ -92,17 +100,17 @@ public class ActivityAddPromocode extends AppCompatActivity {
 
 
                 deleteDialog.show();*/
-                calendar = view1.findViewById(R.id.calendar);
-                reset=view1.findViewById(R.id.btnReset);
+              //  calendar = view1.findViewById(R.id.calendar);
+              //  reset=view1.findViewById(R.id.btnReset);
 
-                calendar.resetAllSelectedViews();
+              //  calendar.resetAllSelectedViews();
 
                // Typeface font = Typeface.createFromAsset(getAssets(), "fonts/terminal.ttf");
                // Typeface typeface = Typeface.createFromAsset(getAssets(), "JosefinSans-Regular.ttf");
     //        Typeface typeface = Typeface.createFromAsset(getAssets(), "LobsterTwo-Regular.ttf");
               //  calendar.setFonts(font);
 
-                calendar.setCalendarListener(new DateRangeCalendarView.CalendarListener() {
+                /*calendar.setCalendarListener(new DateRangeCalendarView.CalendarListener() {
                     @Override
                     public void onFirstDateSelected(Calendar startDate) {
                         Toast.makeText(ActivityAddPromocode.this, "Start Date: " + startDate.getTime().toString(), Toast.LENGTH_SHORT).show();
@@ -122,7 +130,7 @@ public class ActivityAddPromocode extends AppCompatActivity {
                     }
                 });
 
-
+*/
 //        calendar.setNavLeftImage(ContextCompat.getDrawable(this,R.drawable.ic_left));
 //        calendar.setNavRightImage(ContextCompat.getDrawable(this,R.drawable.ic_right));
 
@@ -138,10 +146,10 @@ public class ActivityAddPromocode extends AppCompatActivity {
                 Calendar endSelectionDate = (Calendar) startSelectionDate.clone();
                 endSelectionDate.add(Calendar.DATE, 40);
 
-                calendar.setSelectedDateRange(startSelectionDate, endSelectionDate);
+             //   calendar.setSelectedDateRange(startSelectionDate, endSelectionDate);
 
-                Calendar current = Calendar.getInstance();
-                calendar.setCurrentMonth(current);
+              //  Calendar current = Calendar.getInstance();
+             //   calendar.setCurrentMonth(current);
                 //openRangePicker();
 
 
@@ -247,5 +255,41 @@ public class ActivityAddPromocode extends AppCompatActivity {
        // LayoutCalender=findViewById(R.id.relative_layout);
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
+    }
 
+    @Override
+    public void onCancelled() {
+
+    }
+
+    @Override
+    public void onDataSelected(Calendar firstDate, Calendar secondDate, int hours, int minutes) {
+        if (firstDate != null) {
+            if (secondDate == null) {
+                firstDate.set(Calendar.HOUR_OF_DAY, hours);
+                firstDate.set(Calendar.MINUTE, minutes);
+                Toast.makeText(
+                        this,
+                        new SimpleDateFormat(getString(R.string.timeFormat), Locale.getDefault()).format(firstDate.getTime()),
+                        Toast.LENGTH_LONG
+
+                ).show();
+            } else {
+                Toast.makeText(
+                        this,
+                        getString(
+                                R.string.period,
+                                new SimpleDateFormat(getString(R.string.dateFormat), Locale.getDefault()).format(firstDate.getTime()),
+                                new SimpleDateFormat(getString(R.string.timeFormat), Locale.getDefault()).format(secondDate.getTime())
+                        ),
+                        Toast.LENGTH_LONG
+
+                ).show();
+            }
+        }
+    }
 }

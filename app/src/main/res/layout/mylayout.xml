@@ -6,6 +6,8 @@
     android:layout_height="wrap_content"
    >
 
+
+
    <!-- <android.support.v7.widget.CardView
         android:id="@+id/cvCalendar"
         android:layout_width="wrap_content"
@@ -15,7 +17,7 @@
         android:layout_marginStart="20dp"
         custom:cardCornerRadius="8dp">
 -->
-        <com.archit.calendardaterangepicker.customviews.DateRangeCalendarView
+       <!-- <com.archit.calendardaterangepicker.customviews.DateRangeCalendarView
             android:id="@+id/calendar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -31,8 +33,8 @@
 
         </com.archit.calendardaterangepicker.customviews.DateRangeCalendarView>
 
-  <!--  </android.support.v7.widget.CardView>
--->
+  &lt;!&ndash;  </android.support.v7.widget.CardView>
+&ndash;&gt;
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/btnReset"
         android:layout_width="wrap_content"
@@ -40,5 +42,5 @@
         android:layout_below="@+id/calendar"
         android:layout_centerHorizontal="true"
         android:text="Reset" />
-
+-->
 </RelativeLayout>

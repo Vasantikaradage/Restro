@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
@@ -96,7 +97,7 @@ public class FragmentTabWeeklyReport extends Fragment {
             barChart.getData().notifyDataChanged();
             barChart.notifyDataSetChanged();
         } else {
-            set1 = new BarDataSet(yVals1, "Statistics Vienna 2014");
+            set1 = new BarDataSet(yVals1, "");
            // set1.setDrawIcons(false);
             int[] COLORFUL_COLORS = {
                     Color.rgb(106, 150, 31),
@@ -107,7 +108,7 @@ public class FragmentTabWeeklyReport extends Fragment {
 
             set1.setColors(COLORFUL_COLORS);
 
-            set1.setStackLabels(new String[]{"Births", "Divorces", "Marriages"});
+            set1.setStackLabels(new String[]{"Veg", "Nov Veg", "Liquors","Hot and Cold"});
 
             ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
             dataSets.add(set1);
@@ -128,6 +129,13 @@ public class FragmentTabWeeklyReport extends Fragment {
                 }
             });
 
+            Legend legend = barChart.getLegend();
+            legend.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
+            legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
+            legend.setOrientation(Legend.LegendOrientation.HORIZONTAL);
+            barChart.getLegend().setWordWrapEnabled(true);
+            legend.setDrawInside(true);
+
 
 
             BarData data = new BarData(dataSets);
@@ -141,6 +149,8 @@ public class FragmentTabWeeklyReport extends Fragment {
             barChart.setHighlightFullBarEnabled(false);
         }
 
+
+        barChart.animateY(3000);
         barChart.setFitBars(true);
         barChart.invalidate();
     }

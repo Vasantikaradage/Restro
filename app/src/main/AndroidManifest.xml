@@ -44,8 +44,7 @@
         <activity
             android:name=".Admin.ActivityAdminLogin"
             android:windowSoftInputMode="stateHidden" />
-
-        <activity android:name=".Admin.ActivityNewAddEmployee"/>
+        <activity android:name=".Admin.ActivityNewAddEmployee" />
         <activity
             android:name=".Admin.ActivityAdminDrawer"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -92,17 +91,14 @@
             android:name=".Admin.ActivityProfile"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait" />
-        <activity android:name=".Admin.ActivityImageTopping"/>
-
-        <activity android:name=".Admin.ActivityDailyOffer"/>
-        <activity android:name=".Admin.ActivityScratchCard"/>
-        <activity android:name=".Admin.ActivityRushHours"/>
-        <activity android:name=".Admin.ActivityPromoCode"/>
-        <activity android:name=".Captain.Activities.ActivityTableOrders"/>
-
-        <activity android:name=".SuperAdmin.Activities.ActivitySuperAdminLogin"></activity>
+        <activity android:name=".Admin.ActivityImageTopping" />
+        <activity android:name=".Admin.ActivityDailyOffer" />
+        <activity android:name=".Admin.ActivityScratchCard" />
+        <activity android:name=".Admin.ActivityRushHours" />
+        <activity android:name=".Admin.ActivityPromoCode" />
+        <activity android:name=".Captain.Activities.ActivityTableOrders" />
+        <activity android:name=".SuperAdmin.Activities.ActivitySuperAdminLogin" />
         <activity android:name=".Captain.Activities.ActivityCaptainDash" />
-
         <!--
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="New Order Details"
@@ -136,31 +132,27 @@
         <activity
             android:name=".Admin.ActivityAddNewBranch"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="portrait" />
-        <!--<activity-->
-            <!--android:name=".Admin.ActivityTableInformation"-->
-            <!--android:configChanges="keyboardHidden|orientation|screenSize"-->
-            <!--android:screenOrientation="portrait" />-->
+            android:screenOrientation="portrait" /> <!-- <activity -->
+        <!-- android:name=".Admin.ActivityTableInformation" -->
+        <!-- android:configChanges="keyboardHidden|orientation|screenSize" -->
+        <!-- android:screenOrientation="portrait" /> -->
         <activity
             android:name=".Admin.ActivityAddPromocode"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".Admin.ActivityAddRushHours"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="portrait" />
-
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
             android:name=".Admin.ActivityAddScratchCard"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".Admin.ActivityDailyOfferAdd"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait" />
-
     </application>
 
 </manifest>

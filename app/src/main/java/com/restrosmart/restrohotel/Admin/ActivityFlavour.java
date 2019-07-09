@@ -11,7 +11,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -24,19 +23,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
-
-
 import com.restrosmart.restrohotel.Adapter.AdapterDisplayFlavour;
 import com.restrosmart.restrohotel.Adapter.RVAdapterUnitView;
 import com.restrosmart.restrohotel.Interfaces.ApiService;
-
 import com.restrosmart.restrohotel.Interfaces.DeleteListener;
 import com.restrosmart.restrohotel.Interfaces.EditListener;
 import com.restrosmart.restrohotel.Interfaces.IResult;
-
 import com.restrosmart.restrohotel.Model.FlavourForm;
 import com.restrosmart.restrohotel.Model.FlavourUnitForm;
-import com.restrosmart.restrohotel.Model.UnitForm;
 import com.restrosmart.restrohotel.R;
 import com.restrosmart.restrohotel.RetrofitClientInstance;
 import com.restrosmart.restrohotel.RetrofitService;
@@ -52,7 +46,6 @@ import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Response;
-
 
 import static com.restrosmart.restrohotel.ConstantVariables.ADD_FLAVOUR;
 import static com.restrosmart.restrohotel.ConstantVariables.FLAVOUR_DELETE;

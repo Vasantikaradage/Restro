@@ -1,4 +1,5 @@
 package com.restrosmart.restrohotel.Admin;
+import android.animation.Animator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -30,6 +31,8 @@ public class FragmentViewEmployee extends Fragment {
     private RVViewEmployee adapterViewAllEmployee;
     private FrameLayout btnAddEmp;
     private View view;
+
+
 
     @Nullable
     @Override

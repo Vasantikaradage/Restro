@@ -128,25 +128,23 @@ public class FragmentTabMonthlyReport extends Fragment {
 
         ArrayList<ILineDataSet> lines = new ArrayList<ILineDataSet> ();
 
-        LineDataSet lDataSet1 = new LineDataSet(entries, "DataSet1");
+        LineDataSet lDataSet1 = new LineDataSet(entries, "Veg");
         lDataSet1.setColor(Color.rgb(193, 37, 82));
-       lDataSet1.setDrawFilled(true);
+        lDataSet1.setDrawFilled(true);
         lDataSet1.setFillAlpha(100);
         lDataSet1.setCircleColor(Color.rgb(193, 37, 82));
         lDataSet1.setFillColor(Color.rgb(193, 37, 82));
         lines.add(lDataSet1);
 
-        LineDataSet lDataSet2 = new LineDataSet(data, "DataSet2");
+        LineDataSet lDataSet2 = new LineDataSet(data, "Non Veg");
         lDataSet2.setColor(Color.rgb(106, 150, 31));
         lDataSet2.setCircleColor(Color.rgb(106, 150, 31));
-       lDataSet2.setDrawFilled(true);
+        lDataSet2.setDrawFilled(true);
         lDataSet2.setFillAlpha(100);
         lDataSet2.setFillColor(Color.rgb(106, 150, 31));
         lines.add(lDataSet2);
 
-
-
-        LineDataSet lDataSet3 = new LineDataSet(liquorsArray, "DataSet3");
+        LineDataSet lDataSet3 = new LineDataSet(liquorsArray, "Liquors");
         lDataSet3.setColor(Color.rgb(79,129,189));
         lDataSet3.setCircleColor(Color.rgb(79,129,189));
         lDataSet3.setDrawFilled(true);
@@ -154,7 +152,7 @@ public class FragmentTabMonthlyReport extends Fragment {
         lDataSet3.setFillColor(Color.rgb(79,129,189));
         lines.add(lDataSet3);
 
-        LineDataSet lDataSet4 = new LineDataSet(hotColdArray, "DataSet4");
+        LineDataSet lDataSet4 = new LineDataSet(hotColdArray, "Hot and Cold");
         lDataSet4.setColor(Color.rgb(245, 199, 0));
         lDataSet4.setCircleColor(Color.rgb(245, 199, 0));
         lDataSet4.setDrawFilled(true);
@@ -162,9 +160,22 @@ public class FragmentTabMonthlyReport extends Fragment {
         lDataSet4.setFillColor(Color.rgb(245, 199, 0));
         lines.add(lDataSet4);
 
+        Legend legend = lineChartMonthlyReport.getLegend();
+        legend.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
+        legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
+        legend.setOrientation(Legend.LegendOrientation.HORIZONTAL);
+        lineChartMonthlyReport.getLegend().setWordWrapEnabled(true);
+
+        legend.setDrawInside(true);
+
+        CustomMarkerView mv = new CustomMarkerView (getActivity(), R.layout.rader_markview,labels);
+        lineChartMonthlyReport.setMarkerView(mv);
+
 
 
         lineChartMonthlyReport.setData(new LineData(lines));
+        lineChartMonthlyReport.animateY(3000);
+
 
     }
 
