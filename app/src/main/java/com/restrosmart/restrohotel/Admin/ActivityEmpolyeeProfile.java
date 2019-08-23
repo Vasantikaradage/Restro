@@ -10,13 +10,22 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.JsonObject;
 import com.restrosmart.restrohotel.Interfaces.ApiService;
+import com.restrosmart.restrohotel.Interfaces.IResult;
 import com.restrosmart.restrohotel.Model.EmployeeForm;
 import com.restrosmart.restrohotel.R;
 import com.restrosmart.restrohotel.RetrofitClientInstance;
+import com.restrosmart.restrohotel.RetrofitService;
+import com.restrosmart.restrohotel.Utils.Sessionmanager;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -24,13 +33,17 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.restrosmart.restrohotel.ConstantVariables.GET_ALL_EMPLOYEE;
+import static com.restrosmart.restrohotel.Utils.Sessionmanager.BRANCH_ID;
+import static com.restrosmart.restrohotel.Utils.Sessionmanager.HOTEL_ID;
+
 /**
  * Created by SHREE on 10/9/2018.
  */
 
 public class ActivityEmpolyeeProfile extends AppCompatActivity {
 
-    private List<EmployeeForm> employeeDetails;
+   // private List<EmployeeForm> employeeDetails;
 
     private int emp_id;
     private  ApiService apiService;
@@ -40,12 +53,25 @@ public class ActivityEmpolyeeProfile extends AppCompatActivity {
     private TextView mName, mUsername, mRole, mStatus, mHotelName, mMobNo, mEmail, mAdhar, mAddress;
 
     private String Name, Username, Role, Status, HotelName, MobNo, Email, Adhar, Address;
+    private RetrofitService mRetrofitService;
+    private IResult mResultCallBack;
+    private  Sessionmanager sessionmanager;
+    private  int hotelId,branchId;
+    private  ArrayList<EmployeeForm> arrayListEmployee;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_employee_profile);
+
+        arrayListEmployee=new ArrayList<>();
+
+        sessionmanager = new Sessionmanager(this);
+        HashMap<String, String> name_info = sessionmanager.getHotelDetails();
+        hotelId = Integer.parseInt(name_info.get(HOTEL_ID));
+        branchId = Integer.parseInt(name_info.get(BRANCH_ID));
 
         Intent intent = getIntent();
 
@@ -86,25 +112,67 @@ public class ActivityEmpolyeeProfile extends AppCompatActivity {
     }
 
     private void retrofitCallBack() {
+        retrofitCallBackEmployee();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
-        Call<List<EmployeeForm>> call = service.getallEmployees("1", "1");
+        mRetrofitService = new RetrofitService(mResultCallBack, ActivityEmpolyeeProfile.this);
+        mRetrofitService.retrofitData(GET_ALL_EMPLOYEE, (service.getallEmployees(hotelId,
+              branchId)));
 
-        call.enqueue(new Callback<List<EmployeeForm>>() {
-            @Override
-            public void onResponse(Call<List<EmployeeForm>> call, Response<List<EmployeeForm>> response) {
-                employeeDetails = response.body();
-                getData(employeeDetails);
-            }
-
-            @Override
-            public void onFailure(Call<List<EmployeeForm>> call, Throwable t) {
-                Toast.makeText(ActivityEmpolyeeProfile.this, "" + t, Toast.LENGTH_SHORT).show();
-            }
-        });
 
     }
 
-    private void getData(List<EmployeeForm> employeeDetails) {
+    private void retrofitCallBackEmployee() {
+        mResultCallBack=new IResult() {
+            @Override
+            public void notifySuccess(int requestId, Response<JsonObject> response) {
+
+                JsonObject jsonObject=response.body();
+                String empInfo=jsonObject.toString();
+
+                try {
+                    JSONObject object=new JSONObject(empInfo);
+                    int status=object.getInt("status");
+                    if(status==1){
+
+                        JSONArray jsonArray=object.getJSONArray("allemployee");
+                        for(int i=0; i<jsonArray.length(); i++) {
+
+                            JSONObject jsonObjectEmp = jsonArray.getJSONObject(i);
+                            EmployeeForm employeeForm = new EmployeeForm();
+                            employeeForm.setEmpId(jsonObjectEmp.getInt("Emp_Id"));
+                            employeeForm.setEmpName(jsonObjectEmp.getString("Emp_Name"));
+                            employeeForm.setEmpImg(jsonObjectEmp.getString("Emp_Img"));
+                            employeeForm.setEmpEmail(jsonObjectEmp.getString("Emp_Email"));
+                            employeeForm.setEmpAddress(jsonObjectEmp.getString("Emp_Address"));
+                            employeeForm.setUserName(jsonObjectEmp.getString("User_Name"));
+                            employeeForm.setHotelName(jsonObjectEmp.getString("Hotel_Name"));
+                            employeeForm.setRole(jsonObjectEmp.getString("Role"));
+
+                            employeeForm.setEmpMob(jsonObjectEmp.getString("Emp_Mob"));
+                            employeeForm.setEmpAdharId(jsonObjectEmp.getString("Emp_Adhar_Id"));
+                            employeeForm.setBranch_Id(jsonObjectEmp.getInt("Branch_Id"));
+                            employeeForm.setActiveStatus(jsonObjectEmp.getInt("Active_Status"));
+                            employeeForm.setRole_Id(jsonObjectEmp.getInt("Role_Id"));
+                            arrayListEmployee.add(employeeForm);
+                            getAdapter(arrayListEmployee);
+
+                        }
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void notifyError(int requestId, Throwable error) {
+
+            }
+        };
+    }
+
+    private void getAdapter(ArrayList<EmployeeForm> employeeDetails) {
 
         try {
             for (int i = 0; i < employeeDetails.size(); i++) {
@@ -179,7 +247,7 @@ public class ActivityEmpolyeeProfile extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.edit_employee) {
             Intent intent = new Intent(ActivityEmpolyeeProfile.this, ActivityNewAddEmployee.class);
-            intent.putParcelableArrayListExtra("Emp_detail", (ArrayList<? extends Parcelable>) employeeDetails);
+            intent.putParcelableArrayListExtra("Emp_detail", (ArrayList<? extends Parcelable>) arrayListEmployee);
             intent.putExtra("empId", emp_id);
             startActivity(intent);
             return true;

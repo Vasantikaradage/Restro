@@ -19,6 +19,7 @@ public class ConstantVariables {
     public static final int ADD_MENU = 7;
 
     public  static  final  int EMPLOYEE_DETAILS=12;
+    public  static  final  int GET_ALL_EMPLOYEE=111;
     public  static  final  int SELECT_EMP_ROLE=13;
     public  static  final  int ADD_NEW_EMPLOYEE=14;
     public  static   final  int BRANCH_INFO=15;

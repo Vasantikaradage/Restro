@@ -1,5 +1,6 @@
 package com.restrosmart.restrohotel.Admin;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -65,6 +67,8 @@ public class FragmentTableDetails extends Fragment {
     int hotelId,branchId;
     private  RVTableDetailsAdapter rvTableDetailsAdapter;
     private  int mAreaId;
+    private LinearLayout linearLayoutNoData;
+    private ProgressDialog progressDialog;
 
     @Nullable
     @Override
@@ -89,6 +93,7 @@ public class FragmentTableDetails extends Fragment {
         mRetrofitService = new RetrofitService(mResultCallBack, getActivity());
         mRetrofitService.retrofitData(TABLE_DETAILS, service.tableDisplay(hotelId,
                 branchId));
+        showProgressDialog();
 
 
         frameLayout.setOnClickListener(new View.OnClickListener() {
@@ -129,6 +134,17 @@ public class FragmentTableDetails extends Fragment {
             }
         });
 
+    }
+
+    private void showProgressDialog() {
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        //Without this user can hide loader by tapping outside screen
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setTitle(getContext().getResources().getString(R.string.app_name));
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
     }
 
     @Override
@@ -180,9 +196,12 @@ public class FragmentTableDetails extends Fragment {
                         try {
                             JSONObject jsonObject=new JSONObject(value);
                             int status=jsonObject.getInt("status");
+                            progressDialog.dismiss();
                             if(status==1)
                             {
 
+                                linearLayoutNoData.setVisibility(View.GONE);
+                                rvTableDetails.setVisibility(View.VISIBLE);
                                 JSONArray jsonArray=jsonObject.getJSONArray("table");
                                 arrayListTable.clear();
                                 for(int i=0; i<jsonArray.length(); i++) {
@@ -212,7 +231,8 @@ public class FragmentTableDetails extends Fragment {
                             }
                             else
                             {
-
+                                linearLayoutNoData.setVisibility(View.VISIBLE);
+                                rvTableDetails.setVisibility(View.GONE);
                             }
 
                             callAdapterInformation();
@@ -386,6 +406,7 @@ public class FragmentTableDetails extends Fragment {
         arrayListTable=new ArrayList<>();
         arrayListtTableId=new ArrayList<>();
         frameLayout=view.findViewById(R.id.fl_add_area);
+        linearLayoutNoData=view.findViewById(R.id.llNoTableData);
     }
 
 

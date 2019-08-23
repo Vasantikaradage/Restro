@@ -58,7 +58,7 @@ public class AdapterDisplayAllCategory extends RecyclerView.Adapter<AdapterDispl
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyHolder holder,int position) {
+    public void onBindViewHolder(@NonNull final MyHolder holder, int position) {
         holder.tx_name.setText(arrayList.get(position).getCategory_Name());
 
 
@@ -108,7 +108,7 @@ public class AdapterDisplayAllCategory extends RecyclerView.Adapter<AdapterDispl
                         .setIcon(R.drawable.ic_action_btn_delete)
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                              // deleteListener.getDeleteListenerPosition(position);
+                               deleteListener.getDeleteListenerPosition(holder.getAdapterPosition());
 
                             }
                         });

@@ -88,7 +88,7 @@ public class FragmentDailyOffers extends Fragment {
         rlScratchCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intentScratchCard= new Intent(getActivity(),ActivityScratchCard.class);
+                Intent intentScratchCard= new Intent(getActivity(),ActivityAddScratchCard.class);
                 startActivity(intentScratchCard);
 
             }

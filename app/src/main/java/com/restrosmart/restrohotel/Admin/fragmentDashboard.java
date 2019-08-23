@@ -6,9 +6,11 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.google.gson.JsonObject;
 import com.restrosmart.restrohotel.Adapter.RVActiveTables;
@@ -42,6 +44,7 @@ public class fragmentDashboard extends Fragment {
    private  int mHotelId,mBranchId;
    private ArrayList<TableFormId> arrayListTable;
    private  ArrayList<String> arrayListRating;
+   private LinearLayout linearLayoutNoData;
 
     @Nullable
     @Override
@@ -94,6 +97,8 @@ public class fragmentDashboard extends Fragment {
                     if(status==1)
                     {
                         JSONArray jsonArray=jsonObject.getJSONArray("tableList");
+                        arrayListTable.clear();
+                        linearLayoutNoData.setVisibility(View.GONE);
                         for(int i=0;i<jsonArray.length();i++)
                         {
                             JSONObject jsonObject1=jsonArray.getJSONObject(i);
@@ -104,6 +109,10 @@ public class fragmentDashboard extends Fragment {
                         callAdapter();
 
                     }
+                    else
+                    {
+                        linearLayoutNoData.setVisibility(View.VISIBLE);
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -113,16 +122,25 @@ public class fragmentDashboard extends Fragment {
 
             @Override
             public void notifyError(int requestId, Throwable error) {
+                Log.d("","requestId"+requestId);
+                Log.d("","retrofitError"+error);
 
             }
         };
     }
 
     private void callAdapter() {
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 3);
-        rvTables.setLayoutManager(gridLayoutManager);
-        RVActiveTables rvActivetables = new RVActiveTables(getActivity(), arrayListTable);
-        rvTables.setAdapter(rvActivetables);
+
+        if (arrayListTable != null && arrayListTable.size() > 0) {
+            GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 3);
+            rvTables.setLayoutManager(gridLayoutManager);
+            RVActiveTables rvActivetables = new RVActiveTables(getActivity(), arrayListTable);
+            rvTables.setAdapter(rvActivetables);
+        }
+        else
+        {
+            linearLayoutNoData.setVisibility(View.VISIBLE);
+        }
     }
 
     private void init() {
@@ -130,6 +148,8 @@ public class fragmentDashboard extends Fragment {
       //  rvRating=view.findViewById(R.id.rv_customer_rating);
         arrayListTable=new ArrayList<>();
         arrayListRating=new ArrayList<>();
+        linearLayoutNoData=view.findViewById(R.id.llNoTableData);
+
 
     }
 }

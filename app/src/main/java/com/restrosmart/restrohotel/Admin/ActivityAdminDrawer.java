@@ -18,6 +18,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -39,20 +40,19 @@ import com.restrosmart.restrohotel.Utils.AlertUtils;
 import com.restrosmart.restrohotel.Utils.Sessionmanager;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.restrosmart.restrohotel.ConstantVariables.DISPLAY_WATER_BOTTLE;
 import static com.restrosmart.restrohotel.ConstantVariables.EDIT_WATER_BOTTLE;
+import static com.restrosmart.restrohotel.ConstantVariables.GET_ALL_EMPLOYEE;
 import static com.restrosmart.restrohotel.ConstantVariables.SAVE_WATER_BOTTLE;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.BRANCH_ID;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.EMP_ID;
@@ -63,7 +63,7 @@ public class ActivityAdminDrawer extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private View dialoglayout;
-    private IntentFilter intentFilter,intentFilterToppings,intentFilterAdminProfile;
+    private IntentFilter intentFilter, intentFilterToppings;
     private RetrofitService mRetrofitService;
     private IResult mResultCallBack;
 
@@ -72,14 +72,14 @@ public class ActivityAdminDrawer extends AppCompatActivity
     private NavigationView navigationView;
     private LinearLayout linearLayoutHeader;
     private ActionBarDrawerToggle toggle;
-    private String emp_role, hotelId, branchId,empId;
+    private String emp_role, hotelId, branchId, empId;
     private CircleImageView circleImageView;
     private TextView name;
     private TextView tvEmail, tvBottlePrice, textInfo, textTitlePrice;
     private EditText editTextPrice;
-    private int menuId, menuPrice;
+    private int menuPrice;
     private ImageView imageBtnEdit;
-    private Button btnCancel, btnSave, btnEdit;
+    private Button btnCancel, btnEdit;
     private LinearLayout linearLayout;
     @SuppressWarnings("StatementWithEmptyBody")
     private boolean isStartup = true;
@@ -88,13 +88,17 @@ public class ActivityAdminDrawer extends AppCompatActivity
     MyReceiver myReceiver;
     MyReceiverTopping myReceiverTopping;
 
-    private  String  refresh_categoryList;
-    private  String refresh_toppingList;
-    private  String refresh_adminProfile;
+    private String refresh_categoryList;
+    private String refresh_toppingList;
+
     Fragment fragment = null;
-    List<EmployeeForm> employeeList;
+
     HashMap<String, String> name_info;
-    private  ApiService apiService;
+    private ApiService apiService;
+    private Sessionmanager sharedPreferanceManage;
+
+    private ArrayList<EmployeeForm> arrayListEmployee;
+    private MenuItem itemShow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,18 +106,16 @@ public class ActivityAdminDrawer extends AppCompatActivity
         setContentView(R.layout.activity_admin_drawer);
         init();
 
-        Sessionmanager sharedPreferanceManage = new Sessionmanager(ActivityAdminDrawer.this);
+        //get information from session
         name_info = sharedPreferanceManage.getHotelDetails();
         emp_role = name_info.get(ROLE_ID);
         hotelId = name_info.get(HOTEL_ID);
         branchId = name_info.get(BRANCH_ID);
-        empId= name_info.get(EMP_ID);
+        empId = name_info.get(EMP_ID);
 
-        final Intent intent=getIntent();
-        refresh_categoryList=intent.getStringExtra("Refresh_CategoryList");
-        refresh_toppingList=intent.getStringExtra("Refresh_ToppingList");
-
-
+        final Intent intent = getIntent();
+        refresh_categoryList = intent.getStringExtra("Refresh_CategoryList");
+        refresh_toppingList = intent.getStringExtra("Refresh_ToppingList");
 
         intentFilter = new IntentFilter("Refresh_CategoryList");
         intentFilter.addCategory(Intent.CATEGORY_DEFAULT);
@@ -142,27 +144,24 @@ public class ActivityAdminDrawer extends AppCompatActivity
         navigationView.getMenu().performIdentifierAction(R.id.screen_area, 0);
 
         View hView = navigationView.getHeaderView(0);
-        linearLayoutHeader=(LinearLayout)hView.findViewById(R.id.linear_layout);
+        linearLayoutHeader = (LinearLayout) hView.findViewById(R.id.linear_layout);
         circleImageView = (CircleImageView) hView.findViewById(R.id.imageView);
         name = (TextView) hView.findViewById(R.id.tx_name);
         tvEmail = (TextView) hView.findViewById(R.id.tx_email);
 
-       if(refresh_categoryList!=null)
-        {
+        if (refresh_categoryList != null) {
+           // itemShow.setVisible(true);
             fragment = new FragmentMenuItems();
-            //fragment.setArguments(args);
             title = "Menu Card";
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction ft = fragmentManager.beginTransaction();
             ft.replace(R.id.screen_area, fragment);
             ft.commit();
             getSupportActionBar().setTitle(title);
-        }
 
-        else  if(refresh_toppingList!=null)
-        {
+        } else if (refresh_toppingList != null) {
+            //itemShow.setVisible(false);
             fragment = new FragmentToppings();
-            //fragment.setArguments(args);
             title = "Toppings";
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction ft = fragmentManager.beginTransaction();
@@ -178,9 +177,9 @@ public class ActivityAdminDrawer extends AppCompatActivity
         MenuItem nav_add_employee = menu.findItem(R.id.nav_add_employee);
         MenuItem nav_settings = menu.findItem(R.id.nav_settings);
         MenuItem nav_report = menu.findItem(R.id.nav_reports);
-        MenuItem nav_topins=menu.findItem(R.id.nav_toppings);
-        MenuItem nav_dashborad=menu.findItem(R.id.nav_dashboard);
-        MenuItem nav_tables=menu.findItem(R.id.nav_table);
+        MenuItem nav_topins = menu.findItem(R.id.nav_toppings);
+        MenuItem nav_dashborad = menu.findItem(R.id.nav_dashboard);
+        MenuItem nav_tables = menu.findItem(R.id.nav_table);
 
         getEmployeeDetail();
         if (emp_role.equals("2")) {
@@ -214,10 +213,10 @@ public class ActivityAdminDrawer extends AppCompatActivity
         linearLayoutHeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intentProfile=new Intent(ActivityAdminDrawer.this, ActivityProfile.class);
-               intentProfile.putParcelableArrayListExtra("employeeList", (ArrayList<? extends Parcelable>) employeeList);
+                Intent intentProfile = new Intent(ActivityAdminDrawer.this, ActivityProfile.class);
+                intentProfile.putParcelableArrayListExtra("employeeList", (ArrayList<? extends Parcelable>) arrayListEmployee);
 
-                intentProfile.putExtra("empId",Integer.parseInt(empId));
+                intentProfile.putExtra("empId", Integer.parseInt(empId));
                 startActivity(intentProfile);
             }
         });
@@ -230,45 +229,88 @@ public class ActivityAdminDrawer extends AppCompatActivity
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(myReceiver);
+        unregisterReceiver(myReceiverTopping);
+        finish();
     }
 
     private void init() {
-        employeeList=new ArrayList<>();
+        arrayListEmployee = new ArrayList<>();
+        sharedPreferanceManage = new Sessionmanager(ActivityAdminDrawer.this);
     }
 
     private void getEmployeeDetail() {
+        retrofitCallBack();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
-        Call<List<EmployeeForm>> call = service.getallEmployees("1", "1");
-        call.enqueue(new Callback<List<EmployeeForm>>() {
+        mRetrofitService = new RetrofitService(mResultCallBack, ActivityAdminDrawer.this);
+        mRetrofitService.retrofitData(GET_ALL_EMPLOYEE, (service.getallEmployees(Integer.parseInt(hotelId),
+                Integer.parseInt(branchId))));
+
+    }
+
+    private void retrofitCallBack() {
+        mResultCallBack = new IResult() {
             @Override
-            public void onResponse(Call<List<EmployeeForm>> call, Response<List<EmployeeForm>> response) {
-                employeeList = response.body();
-                getData(employeeList);
+            public void notifySuccess(int requestId, Response<JsonObject> response) {
 
-            }
+                JsonObject jsonObject = response.body();
+                String empInfo = jsonObject.toString();
 
-            private void getData(List<EmployeeForm> getEmployee) {
-                for (int i = 0; i < getEmployee.size(); i++) {
-                    int id = getEmployee.get(i).getEmpId();
-                    if (Integer.parseInt(empId )== id) {
-                        name.setText(getEmployee.get(i).getEmpName());
-                        tvEmail.setText(getEmployee.get(i).getEmpEmail());
-                        Picasso.with(ActivityAdminDrawer.this).load(apiService.BASE_URL+getEmployee.get(i).getEmpImg()).resize(500, 500).into(circleImageView);
+                try {
+                    JSONObject object = new JSONObject(empInfo);
+                    int status = object.getInt("status");
+                    if (status == 1) {
+
+                        JSONArray jsonArray = object.getJSONArray("allemployee");
+                        for (int i = 0; i < jsonArray.length(); i++) {
+
+                            JSONObject jsonObjectEmp = jsonArray.getJSONObject(i);
+                            EmployeeForm employeeForm = new EmployeeForm();
+                            employeeForm.setEmpId(jsonObjectEmp.getInt("Emp_Id"));
+                            employeeForm.setEmpName(jsonObjectEmp.getString("Emp_Name"));
+                            employeeForm.setEmpImg(jsonObjectEmp.getString("Emp_Img"));
+                            employeeForm.setEmpEmail(jsonObjectEmp.getString("Emp_Email"));
+                            employeeForm.setEmpAddress(jsonObjectEmp.getString("Emp_Address"));
+                            employeeForm.setUserName(jsonObjectEmp.getString("User_Name"));
+                            employeeForm.setHotelName(jsonObjectEmp.getString("Hotel_Name"));
+                            employeeForm.setRole(jsonObjectEmp.getString("Role"));
+
+                            employeeForm.setEmpMob(jsonObjectEmp.getString("Emp_Mob"));
+                            employeeForm.setEmpAdharId(jsonObjectEmp.getString("Emp_Adhar_Id"));
+                            employeeForm.setBranch_Id(jsonObjectEmp.getInt("Branch_Id"));
+                            employeeForm.setActiveStatus(jsonObjectEmp.getInt("Active_Status"));
+                            employeeForm.setRole_Id(jsonObjectEmp.getInt("Role_Id"));
+                            arrayListEmployee.add(employeeForm);
+                            getAdapter(arrayListEmployee);
+
+                        }
+
                     }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
+
             }
 
             @Override
-            public void onFailure(Call<List<EmployeeForm>> call, Throwable t) {
-                Toast.makeText(ActivityAdminDrawer.this, "" + t, Toast.LENGTH_SHORT).show();
+            public void notifyError(int requestId, Throwable error) {
+                Log.d("", "requestId" + requestId);
+                Log.d("", "RetrofitError" + error);
             }
-        });
+        };
     }
 
-    private void setFirstItemNavigationView() {
-        navigationView.setCheckedItem(R.id.tablayout);
-        navigationView.getMenu().performIdentifierAction(R.id.tablayout, 0);
+
+    private void getAdapter(ArrayList<EmployeeForm> getEmployee) {
+        for (int i = 0; i < getEmployee.size(); i++) {
+            int id = getEmployee.get(i).getEmpId();
+            if (Integer.parseInt(empId) == id) {
+                name.setText(getEmployee.get(i).getEmpName());
+                tvEmail.setText(getEmployee.get(i).getEmpEmail());
+                Picasso.with(ActivityAdminDrawer.this).load(apiService.BASE_URL + getEmployee.get(i).getEmpImg()).resize(500, 500).into(circleImageView);
+            }
+        }
     }
+
 
     @Override
     public void onBackPressed() {
@@ -289,12 +331,18 @@ public class ActivityAdminDrawer extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.admin_drawer, menu);
-        MenuItem item = menu.findItem(R.id.action_water_bottel);
+     //   getMenuInflater().inflate(R.menu.admin_drawer, menu);
+       // MenuItem item = menu.findItem(R.id.action_water_bottel);
+
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.admin_drawer, menu);
+        itemShow= menu.findItem(R.id.action_water_bottel);
+
         if (emp_role.equals("1")) {
-            item.setVisible(false);
+            itemShow.setVisible(false);
         } else
-            item.setVisible(true);
+            itemShow.setVisible(true);
 
         return true;
     }
@@ -344,14 +392,13 @@ public class ActivityAdminDrawer extends AppCompatActivity
                         JsonObject jsonObject1 = response.body();
                         String value = jsonObject1.toString();
                         try {
-                            JSONObject object = new JSONObject(value);int status = object.getInt("status");
+                            JSONObject object = new JSONObject(value);
+                            int status = object.getInt("status");
                             if (status == 1) {
-                               // menuId = object.getInt("Menu_Id");
-                               menuPrice = object.getInt("Non_Ac_Rate");
+                                // menuId = object.getInt("Menu_Id");
+                                menuPrice = object.getInt("Non_Ac_Rate");
                                 dailogWaterBottle();
-                            }
-                            else
-                            {
+                            } else {
                                 dailogWaterBottle();
                             }
                         } catch (JSONException e) {
@@ -361,18 +408,15 @@ public class ActivityAdminDrawer extends AppCompatActivity
 
                     case EDIT_WATER_BOTTLE:
                         JsonObject jsonObject2 = response.body();
-                        String valueinfo=jsonObject2.toString();
+                        String valueinfo = jsonObject2.toString();
                         try {
-                            JSONObject object=new JSONObject(valueinfo);
+                            JSONObject object = new JSONObject(valueinfo);
 
-                            int status=object.getInt("status");
-                            if(status==1)
-                            {
+                            int status = object.getInt("status");
+                            if (status == 1) {
                                 Toast.makeText(ActivityAdminDrawer.this, "Edit the water Bottle Successfully..", Toast.LENGTH_LONG).show();
-                                 dialog.dismiss();
-                            }
-                            else
-                            {
+                                dialog.dismiss();
+                            } else {
                                 Toast.makeText(ActivityAdminDrawer.this, "Try Again..", Toast.LENGTH_LONG).show();
                                 dialog.dismiss();
                             }
@@ -401,7 +445,6 @@ public class ActivityAdminDrawer extends AppCompatActivity
         dialog = builder.create();
 
         btnCancel = dialoglayout.findViewById(R.id.btnCancelBottle);
-        btnSave = dialoglayout.findViewById(R.id.btnConfirmBottle);
         btnEdit = dialoglayout.findViewById(R.id.btnEditBottle);
         editTextPrice = dialoglayout.findViewById(R.id.etx_water_bottle_price);
         linearLayout = dialoglayout.findViewById(R.id.llwaterBottleDisplay);
@@ -410,98 +453,71 @@ public class ActivityAdminDrawer extends AppCompatActivity
         textTitlePrice = dialoglayout.findViewById(R.id.txTitlePrice);
         imageBtnEdit = (ImageView) dialoglayout.findViewById(R.id.imageBtn_edit);
 
-      //  if (menuPrice != 0) {
-            linearLayout.setVisibility(View.VISIBLE);
-            imageBtnEdit.setVisibility(View.VISIBLE);
-            tvBottlePrice.setVisibility(View.VISIBLE);
+        //  if (menuPrice != 0) {
+        linearLayout.setVisibility(View.VISIBLE);
+        imageBtnEdit.setVisibility(View.VISIBLE);
+        tvBottlePrice.setVisibility(View.VISIBLE);
 
-            textTitlePrice.setVisibility(View.GONE);
-            editTextPrice.setVisibility(View.GONE);
-            textInfo.setVisibility(View.GONE);
-            btnEdit.setVisibility(View.GONE);
+        textTitlePrice.setVisibility(View.GONE);
+        editTextPrice.setVisibility(View.GONE);
+        textInfo.setVisibility(View.GONE);
+        btnEdit.setVisibility(View.GONE);
 
-           String price = String.valueOf(menuPrice);
-            tvBottlePrice.setText(price);
+        String price = String.valueOf(menuPrice);
+        tvBottlePrice.setText(price);
         dialog.show();
-            imageBtnEdit.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    editTextPrice.setVisibility(View.VISIBLE);
-                    btnEdit.setVisibility(View.VISIBLE);
-                    btnCancel.setVisibility(View.VISIBLE);
-                    textTitlePrice.setVisibility(View.VISIBLE);
 
-                    tvBottlePrice.setVisibility(View.GONE);
-                    linearLayout.setVisibility(View.GONE);
-                    imageBtnEdit.setVisibility(View.GONE);
+        imageBtnEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editTextPrice.setVisibility(View.VISIBLE);
+                btnEdit.setVisibility(View.VISIBLE);
+                btnCancel.setVisibility(View.VISIBLE);
+                textTitlePrice.setVisibility(View.VISIBLE);
 
-                    String price = String.valueOf(menuPrice);
-                    editTextPrice.setText(price);
+                tvBottlePrice.setVisibility(View.GONE);
+                linearLayout.setVisibility(View.GONE);
+                imageBtnEdit.setVisibility(View.GONE);
 
-                    btnEdit.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
+                String price = String.valueOf(menuPrice);
+                editTextPrice.setText(price);
 
-                            initRetrofitCallBack();
-                            ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
-                            mRetrofitService = new RetrofitService(mResultCallBack, ActivityAdminDrawer.this);
+                btnEdit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
-                            mRetrofitService.retrofitData(EDIT_WATER_BOTTLE, service.editWaterBottle(
-                                    "Water Bottle",
-                                    Integer.parseInt(editTextPrice.getText().toString()),
-                                    Integer.parseInt(branchId),
-                                    Integer.parseInt(hotelId)
-                            ));
+                        initRetrofitCallBack();
+                        ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
+                        mRetrofitService = new RetrofitService(mResultCallBack, ActivityAdminDrawer.this);
 
-                        }
-                    });
-                    dialog.show();
+                        mRetrofitService.retrofitData(EDIT_WATER_BOTTLE, service.editWaterBottle(0,
+                                "Water Bottle", "water.png",
+                                Integer.parseInt(editTextPrice.getText().toString()), 0,
+                                Integer.parseInt(branchId),
+                                Integer.parseInt(hotelId)
+                        ));
 
-                    btnCancel.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            dialog.dismiss();
-                        }
-                    });
-                }
+                    }
+                });
+                dialog.show();
 
-            });
-     /*   } else {
-            btnSave.setVisibility(View.VISIBLE);
-            editTextPrice.setVisibility(View.VISIBLE);
-            textInfo.setVisibility(View.VISIBLE);
-            btnCancel.setVisibility(View.VISIBLE);
-            textTitlePrice.setVisibility(View.GONE);
+                btnCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+            }
 
-            btnEdit.setVisibility(View.GONE);
-            imageBtnEdit.setVisibility(View.GONE);
+        });
 
-            btnSave.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    initRetrofitCallBack();
-                    ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
-                    mRetrofitService = new RetrofitService(mResultCallBack, ActivityAdminDrawer.this);
-                    mRetrofitService.retrofitData(SAVE_WATER_BOTTLE, service.AddWaterBottle(
-                            "Water Bottle",
-                            "water.png",
-                            0,
-                            Integer.parseInt(editTextPrice.getText().toString()),
-                            Integer.parseInt(branchId),
-                            Integer.parseInt(hotelId)
-                    ));
-                }
-
-
-            });*/
-            btnCancel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialog.dismiss();
-                }
-            });
-        }
-
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+    }
 
 
     private void logout() {
@@ -519,86 +535,75 @@ public class ActivityAdminDrawer extends AppCompatActivity
         }
 
         Bundle args = new Bundle();
-        if(id == R.id.nav_dashboard)
-        {
+        if (id == R.id.nav_dashboard) {
+           // itemShow.setVisible(false);
             fragment = new fragmentDashboard();
-            title="DashBoard";
-        }
+            title = "DashBoard";
 
-        else if (id == R.id.nav_all_orders) {
+        } else if (id == R.id.nav_all_orders) {
             Bundle bundle = new Bundle();
+           // itemShow.setVisible(false);
             bundle.putString("role", emp_role);
             fragment = new FragmentAllOrders();
             fragment.setArguments(args);
             fragment.setArguments(bundle);
             title = "All Orders";
-        }else  if(id == R.id.nav_table){
-            fragment=new FragmentTableDetails();
-            title="Table Details";
+
+        } else if (id == R.id.nav_table) {
+           // itemShow.setVisible(false);
+            fragment = new FragmentTableDetails();
+            title = "Table Details";
 
         } else if (id == R.id.nav_toppings) {
+           // itemShow.setVisible(false);
             fragment = new FragmentToppings();
-           // fragment.setArguments(args);
+            // fragment.setArguments(args);
             title = "Toppings";
 
         } else if (id == R.id.nav_menu) {
+           itemShow.setVisible(true);
             fragment = new FragmentMenuItems();
-           // fragment.setArguments(args);
+            // fragment.setArguments(args);
             title = "Menu Card";
 
         } else if (id == R.id.nav_daily_offers) {
-
+           // itemShow.setVisible(false);
             fragment = new FragmentDailyOffers();
             fragment.setArguments(args);
             title = "Daily Offers";
 
 
         } else if (id == R.id.nav_add_employee) {
-
+         //   itemShow.setVisible(false);
             fragment = new FragmentViewEmployee();
             fragment.setArguments(args);
             title = "Our Employees";
-//        } else if (id == R.id.nav_hotel_details) {
-//
-//            fragment = new FragmentHotelDetails();
-//            fragment.setArguments(args);
-//            title = "Hotel Details";
-        } else if (id == R.id.nav_add_payment_methods) {
 
+        } else if (id == R.id.nav_add_payment_methods) {
+          //  itemShow.setVisible(false);
             fragment = new FragmentPaymentMethods();
             fragment.setArguments(args);
             title = "Payment Methods";
-        } else if (id == R.id.nav_reports) {
 
+        } else if (id == R.id.nav_reports) {
+          //  itemShow.setVisible(false);
             fragment = new FragmentReports();
             fragment.setArguments(args);
             title = "Reports";
 
         } else if (id == R.id.nav_settings) {
-
+           // itemShow.setVisible(false);
             fragment = new FragmentAdminSettings();
             fragment.setArguments(args);
             title = "Settings";
+        }
 
-        }
-        /*else if( refresh_categoryList.equals("refresh_categoryList"))
-        {
-            fragment = new FragmentMenuItems();
-            fragment.setArguments(args);
-            title = "Menu Card";
-        }
-        else if( refresh_toppingList.equals("refresh_toppingList"))
-        {
-            fragment = new FragmentToppings();
-            fragment.setArguments(args);
-            title = "Toppings";
-        }*/
         if (fragment != null) {
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction ft = fragmentManager.beginTransaction();
             ft.replace(R.id.screen_area, fragment);
-             ft.detach(fragment);
-             ft.attach(fragment);
+            ft.detach(fragment);
+            ft.attach(fragment);
             ft.commit();
             getSupportActionBar().setTitle(title);
         }
@@ -606,8 +611,4 @@ public class ActivityAdminDrawer extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
-
-
-
 }

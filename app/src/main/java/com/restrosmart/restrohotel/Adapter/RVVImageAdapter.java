@@ -84,9 +84,9 @@ public class RVVImageAdapter extends RecyclerView.Adapter<RVVImageAdapter.ViewHo
 
         });
 
-        Resources resources = context.getResources();
+      /*  Resources resources = context.getResources();
         holder.imageView.setBackgroundColor(resources.getColor(R.color.colorGrey));
-        lastpos= String.valueOf(position);
+        lastpos= String.valueOf(position);*/
     }
 
     @Override

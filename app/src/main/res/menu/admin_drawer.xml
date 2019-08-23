@@ -4,21 +4,13 @@
 
     <item
         android:id="@+id/action_water_bottel"
-        app:showAsAction="always"
         android:icon="@drawable/ic_water_bottle"
-        android:title="@string/logout"
-        />
-
-
-
+        android:title="@string/water_bottle"
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/action_logout"
-       app:showAsAction="always"
+        app:showAsAction="always"
         android:icon="@drawable/ic_action_logout"
-        android:title="@string/logout"
-        />
-
-
-    
+        android:title="@string/logout" />
 </menu>

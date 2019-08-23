@@ -152,11 +152,12 @@ public class RVTableDetailsAdapter extends RecyclerView.Adapter<RVTableDetailsAd
                             case R.id.table_status:
                                 status_info = 1;
 
+
                                 AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
                                 builder
                                         .setTitle("Active Status")
                                         .setMessage("Are you sure you want to Active this Table ?")
-                                        .setIcon(R.drawable.ic_action_btn_delete)
+                                       /* .setIcon(R.drawable.ic_action_btn_delete)*/
                                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int which) {
                                                 statusListener.statusListern(myHolder.getAdapterPosition(), status_info);

@@ -63,7 +63,7 @@ public class AdapterRVPromocode extends RecyclerView.Adapter<AdapterRVPromocode.
                 }
             });
         }else {
-            itemViewHolder.tvOffer.setText(promoCodeFormArrayList.get(i).getOffer());
+            itemViewHolder.tvOffer.setText(promoCodeFormArrayList.get(i).getOffer()+" "+promoCodeFormArrayList.get(i).getOfferValue());
             itemViewHolder.tvDate.setText(promoCodeFormArrayList.get(i).getDate());
 
 

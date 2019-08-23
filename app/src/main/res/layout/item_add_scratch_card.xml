@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="start"
+        android:orientation="vertical"
+        android:padding="5dp">
+
+        <!--<FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="start"
+            android:padding="10dp"
+            android:layout_gravity="center">-->
+
+        <!--  <FrameLayout
+              android:layout_width="140dp"
+              android:layout_height="140dp"
+              >
+
+              <android.support.v7.widget.CardView
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  app:cardUseCompatPadding="true"
+                  app:cardCornerRadius="5dp"
+                  android:elevation="5dp">
+
+                  <LinearLayout
+                      android:layout_width="140dp"
+                      android:layout_height="50dp"
+                      android:background="@drawable/promob"
+                      >
+
+                      <TextView
+                          android:id="@+id/tv_offer"
+                          android:layout_width="match_parent"
+                          android:layout_height="match_parent"
+                          android:gravity="center"
+                          android:layout_marginTop="-10dp"
+                          android:layout_gravity="center_horizontal"
+                          android:text="FLAT 20 "
+                          android:textSize="16sp"
+                          android:textColor="#f8ca29"/>
+                  </LinearLayout>
+
+                  <TextView
+                      android:id="@+id/tv_date"
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:layout_gravity="center"
+                      android:gravity="center"
+                      android:layout_marginTop="20dp"
+                      android:text="2 JUN"
+                      android:textSize="16sp"
+                      />
+
+              </android.support.v7.widget.CardView>
+          </FrameLayout>-->
+
+
+        <!-- <android.support.v7.widget.CardView
+             android:layout_width="140dp"
+             android:layout_height="140dp"
+
+             app:cardUseCompatPadding="true"
+             app:cardBackgroundColor="@color/gray">
+
+         </android.support.v7.widget.CardView>-->
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/cardview_add"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:background="@drawable/ic_action_add"
+            app:cardCornerRadius="5dp"
+            app:cardUseCompatPadding="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/bottle_button_outline_dark"
+
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+
+                    android:src="@drawable/ic_action_add_pcolor" />
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <!--  </FrameLayout>-->
+
+
+
+
+
+    </LinearLayout>
+
+
+</android.support.constraint.ConstraintLayout>

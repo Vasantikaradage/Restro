@@ -1,56 +1,60 @@
 package com.restrosmart.restrohotel.Admin;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.TimePickerDialog;
+import android.app.DatePickerDialog;
+import android.app.FragmentManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.format.DateFormat;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.TimePicker;
+import android.widget.Toast;
 
 
+import com.mcsoft.timerangepickerdialog.RangeTimePickerDialog;
+import com.restrosmart.restrohotel.Adapter.AdapterRVRushHours;
 import com.restrosmart.restrohotel.Interfaces.ButtonListerner;
 import com.restrosmart.restrohotel.Interfaces.PositionListener;
 import com.restrosmart.restrohotel.Model.RushHourForm;
 import com.restrosmart.restrohotel.R;
-
-
 import java.util.ArrayList;
 import java.util.Calendar;
 
 
-public class ActivityAddRushHours extends AppCompatActivity {
+public class ActivityAddRushHours extends AppCompatActivity implements RangeTimePickerDialog.ISelectedTime {
 
     private RecyclerView rvRushHours;
     private TextView tvToolBarTitle;
     private Toolbar mToolbar;
     private ArrayList<RushHourForm> rushHourFormArrayList;
     private LinearLayout linearLayout;
-    private EditText etAmount;
-    private static TextView tvStratTime;
-    private static TextView tvEndTime;
+    private EditText etAmount, etMessage;
+    private static TextView tvSelectDate;
+    private static TextView tvSelectTime;
     private Button btnSave, btnUpdate;
-    private ImageView ivBtnEdit;
+    private ImageView ivBtnEdit, ivBtnCancel;
+    private  int itemPosition;
+
     private View dialoglayout;
     private AlertDialog dialog;
     private static String format;
     private static boolean status;
 
     private String date[] = {"17 Jun", "18 Jun", "19 Jun", "20 Jun"};
-    private String startTime[] = {"4pm", "1pm", "9am", "2pm"};
-    private String endTime[] = {"8pm", "5pm", "11am", "10pm"};
+    private String startTime[] = {"4pm-8pm", "1pm-5pm", "9am-11pm", "2pm-10pm"};
+
+    private String messgae[] = {"Reserve to get buy 1, get 1 free on speciality medium/large pizza", "Reserve to get buy 1, get 1 free on speciality medium/large pizza",
+            "Reserve to get buy 1, get 1 free on speciality medium/large pizza", "Reserve to get buy 1, get 1 free on speciality medium/large pizza"};
 
     private Button reset;
 
@@ -60,24 +64,54 @@ public class ActivityAddRushHours extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_rush_hours);
 
-
         init();
         setUpToolbar();
-        tvStratTime.setOnClickListener(new View.OnClickListener() {
+
+        tvSelectDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                status = true;
-                DialogFragment newFragment = new TimePickerFragment();
-                newFragment.show(getSupportFragmentManager(), "timePicker");
+
+                final Calendar c = Calendar.getInstance();
+                int mYear = c.get(Calendar.YEAR);
+                int mMonth = c.get(Calendar.MONTH);
+                int mDay = c.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(ActivityAddRushHours.this,
+                        new DatePickerDialog.OnDateSetListener() {
+
+                            @Override
+                            public void onDateSet(DatePicker view, int year,
+                                                  int monthOfYear, int dayOfMonth) {
+                                tvSelectDate.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+                            }
+                        }, mYear, mMonth, mDay);
+                datePickerDialog.show();
             }
         });
 
-        tvEndTime.setOnClickListener(new View.OnClickListener() {
+
+        tvSelectTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                status = false;
-                DialogFragment newFragment = new TimePickerFragment();
-                newFragment.show(getSupportFragmentManager(), "timePicker");
+                RangeTimePickerDialog dialog = new RangeTimePickerDialog();
+                dialog.newInstance();
+                dialog.setIs24HourView(true);
+                dialog.setRadiusDialog(20);
+                dialog.setTextTabStart("Start");
+                dialog.setTextTabEnd("End");
+                dialog.setTextBtnPositive("Accept");
+                dialog.setTextBtnNegative("Close");
+                dialog.setValidateRange(false);
+                dialog.setColorBackgroundHeader(R.color.colorPrimary);
+                dialog.setColorBackgroundTimePickerHeader(R.color.colorPrimary);
+                dialog.setColorTextButton(R.color.colorPrimaryDark);
+                dialog.enableMinutes(true);
+                dialog.setStartTabIcon(R.drawable.ic_access_time_black_24dp);
+                dialog.setEndTabIcon(R.drawable.ic_timelapse_black_24dp);
+
+                FragmentManager fragmentManager = getFragmentManager();
+                dialog.show(fragmentManager, "");
+
 
             }
         });
@@ -86,8 +120,9 @@ public class ActivityAddRushHours extends AppCompatActivity {
         for (int i = 0; i < date.length; i++) {
             RushHourForm rushHourForm = new RushHourForm();
             rushHourForm.setDate(date[i]);
-            rushHourForm.setStartTime(startTime[i]);
-            rushHourForm.setEndTime(endTime[i]);
+            rushHourForm.setTime(startTime[i]);
+
+            rushHourForm.setMessage(messgae[i]);
             rushHourFormArrayList.add(rushHourForm);
         }
 
@@ -98,25 +133,37 @@ public class ActivityAddRushHours extends AppCompatActivity {
         AdapterRVRushHours adapterRVRushHours = new AdapterRVRushHours(this, rushHourFormArrayList, new PositionListener() {
             @Override
             public void positionListern(int position) {
-                //etAmount.setFocusable(false);
+                itemPosition=position;
+                etMessage.setFocusable(false);
                 //  etAmount.setText(rushHourFormArrayList.get(position).getOffer());
                 // tvOffer.setText(rushHourFormArrayList.get(position).getOffer());
-                tvStratTime.setText(rushHourFormArrayList.get(position).getStartTime());
-                tvEndTime.setText(rushHourFormArrayList.get(position).getEndTime());
+                tvSelectDate.setText(rushHourFormArrayList.get(position).getDate());
+                tvSelectTime.setText(rushHourFormArrayList.get(position).getTime());
+                etMessage.setText(rushHourFormArrayList.get(position).getMessage());
+
                 btnSave.setVisibility(View.GONE);
+                ivBtnCancel.setVisibility(View.GONE);
+                ivBtnEdit.setVisibility(View.VISIBLE);
+
 
             }
         }, new ButtonListerner() {
             @Override
             public void getEditListenerPosition(int position) {
-                //  etAmount.setText("");
-                //  etAmount.setFocusableInTouchMode(true);
-                //  etAmount.setFocusable(true);
-                /*InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.showSoftInput(etAmount, InputMethodManager.SHOW_IMPLICIT);
-                tvOffer.setText("");
-                tvDate.setText("select Date");*/
+                etMessage.setHint("Enter message");
+                etMessage.setFocusableInTouchMode(true);
+                etMessage.setFocusable(true);
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(etMessage, InputMethodManager.SHOW_IMPLICIT);
+
+
+                tvSelectDate.setText("Select Date");
+                tvSelectTime.setText("Select Time");
+                ivBtnEdit.setVisibility(View.GONE);
+                ivBtnCancel.setVisibility(View.VISIBLE);
+
                 btnSave.setVisibility(View.VISIBLE);
+                btnUpdate.setVisibility(View.GONE);
 
             }
         });
@@ -133,6 +180,24 @@ public class ActivityAddRushHours extends AppCompatActivity {
 
         }
 
+        ivBtnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                etMessage.setFocusable(false);
+                //  etAmount.setText(rushHourFormArrayList.get(position).getOffer());
+                // tvOffer.setText(rushHourFormArrayList.get(position).getOffer());
+                tvSelectDate.setText(rushHourFormArrayList.get(itemPosition).getDate());
+                tvSelectTime.setText(rushHourFormArrayList.get(itemPosition).getTime());
+                etMessage.setText(rushHourFormArrayList.get(itemPosition).getMessage());
+
+                btnSave.setVisibility(View.GONE);
+                ivBtnCancel.setVisibility(View.GONE);
+                ivBtnEdit.setVisibility(View.VISIBLE);
+                btnUpdate.setVisibility(View.GONE);
+
+            }
+        });
+
         ivBtnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -146,10 +211,11 @@ public class ActivityAddRushHours extends AppCompatActivity {
 */
                     //  etAmount.setText(rushHourFormArrayList.get(i).getOffer());
                     //  tvOffer.setText(rushHourFormArrayList.get(i).getOffer());
-                    tvStratTime.setText(rushHourFormArrayList.get(i).getStartTime());
-                    tvEndTime.setText(rushHourFormArrayList.get(i).getEndTime());
+                    tvSelectDate.setText(rushHourFormArrayList.get(i).getDate());
+                    tvSelectTime.setText(rushHourFormArrayList.get(i).getTime());
                     btnSave.setVisibility(View.GONE);
                     ivBtnEdit.setVisibility(View.GONE);
+                    ivBtnCancel.setVisibility(View.VISIBLE);
                     btnUpdate.setVisibility(View.VISIBLE);
 
 
@@ -157,7 +223,18 @@ public class ActivityAddRushHours extends AppCompatActivity {
             }
         });
 
+        btnUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ivBtnEdit.setVisibility(View.VISIBLE);
+                ivBtnCancel.setVisibility(View.GONE);
+                btnUpdate.setVisibility(View.GONE
+                );
+            }
+        });
+
     }
+
 
     private void setUpToolbar() {
         tvToolBarTitle.setText("Rush Hours");
@@ -174,11 +251,13 @@ public class ActivityAddRushHours extends AppCompatActivity {
         linearLayout = findViewById(R.id.linear);
 
         etAmount = findViewById(R.id.et_amount);
-        tvStratTime = findViewById(R.id.tv_from_time);
-        tvEndTime = findViewById(R.id.tv_end_time);
+        tvSelectDate = findViewById(R.id.tv_date);
+        tvSelectTime = findViewById(R.id.tv_time);
         btnSave = findViewById(R.id.btn_save);
         ivBtnEdit = findViewById(R.id.iv_btn_edit);
+        ivBtnCancel = findViewById(R.id.iv_btn_cancel);
         btnUpdate = findViewById(R.id.btn_update);
+        etMessage = findViewById(R.id.etv_enter_message);
         // LayoutCalender=findViewById(R.id.relative_layout);
     }
 
@@ -188,45 +267,10 @@ public class ActivityAddRushHours extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public void onSelectedTime(int hourStart, int minuteStart, int hourEnd, int minuteEnd) {
+        Toast.makeText(this, "Start: " + hourStart + ":" + minuteStart + "\nEnd: " + hourEnd + ":" + minuteEnd, Toast.LENGTH_SHORT).show();
 
-    public static class TimePickerFragment extends DialogFragment implements
-            TimePickerDialog.OnTimeSetListener {
-
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            // Use the current time as the default values for the picker
-            final Calendar c = Calendar.getInstance();
-            int hour = c.get(Calendar.HOUR_OF_DAY);
-            int minute = c.get(Calendar.MINUTE);
-
-            // Create a new instance of TimePickerDialog and return it
-            return new TimePickerDialog(getActivity(), this, hour, minute,
-                    DateFormat.is24HourFormat(getActivity()));
-        }
-
-
-        @Override
-        public void onTimeSet(TimePicker timePicker, int hourOfDay, int i1) {
-
-            if (hourOfDay == 0) {
-                hourOfDay += 12;
-                format = "AM";
-            } else if (hourOfDay == 12) {
-                format = "PM";
-            } else if (hourOfDay > 12) {
-                hourOfDay -= 12;
-
-                format = "PM";
-            } else {
-                format = "AM";
-                if (status == true) {
-                    tvStratTime.setText(/*tvStratTime.getText() + " -" +*/ hourOfDay + ":" + i1 + format);
-                } else {
-                    tvEndTime.setText(/*tvStratTime.getText() + " -" +*/ hourOfDay + ":" + i1 + format);
-                }
-
-            }
-        }
-
+        tvSelectTime.setText( hourStart + ":" + minuteStart +" - "+hourEnd + ":" + minuteEnd);
     }
 }

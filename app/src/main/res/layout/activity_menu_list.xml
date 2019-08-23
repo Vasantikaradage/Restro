@@ -41,7 +41,7 @@
                     android:layout_marginLeft="13.4dp"
                     android:text="Honey Chilli Potato"
                     android:textColor="#262628"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <ImageView
@@ -74,6 +74,16 @@
                 android:text="spicy garlic and cholli potatoes hot and mix combination."
                 android:textColor="@color/colorDarkGray"
                 android:textSize="12sp" />
+            <TextView
+                android:id="@+id/tx_menu_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="13.4dp"
+                android:layout_marginTop="2dp"
+                android:text="NA"
+                android:textColor="#262628"
+                android:textStyle="bold"
+                android:textSize="16sp" />
         </LinearLayout>
 
         <TextView

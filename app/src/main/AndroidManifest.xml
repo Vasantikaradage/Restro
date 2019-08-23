@@ -139,6 +139,7 @@
         <activity
             android:name=".Admin.ActivityAddPromocode"
             android:configChanges="keyboardHidden|orientation|screenSize"
+            android:windowSoftInputMode="adjustResize|stateHidden"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Admin.ActivityAddRushHours"
@@ -153,6 +154,10 @@
             android:name=".Admin.ActivityDailyOfferAdd"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait" />
+
+        <activity android:name=".Admin.ActivitySelectMenu"/>
+
+
     </application>
 
 </manifest>

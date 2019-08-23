@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:custom="http://schemas.android.com/tools">
+    android:fitsSystemWindows="true">
 
     <include
         android:id="@+id/title_name"
@@ -11,274 +12,171 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/title_name"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:isScrollContainer="false">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/title_name"
+        android:layout_below="@+id/scrollView"
         android:orientation="vertical">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_promocode"
-        android:layout_width="match_parent"
-        android:padding="10dp"
-        app:reverseLayout="true"
-        android:layout_height="wrap_content">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_promocode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            app:reverseLayout="true">
 
-    </android.support.v7.widget.RecyclerView>
+        </android.support.v7.widget.RecyclerView>
 
         <ImageView
             android:id="@+id/iv_btn_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_action_editbtn"
             android:layout_gravity="end"
             android:layout_marginTop="10dp"
-            android:layout_marginEnd="5dp"/>
+            android:layout_marginEnd="5dp"
+            android:src="@drawable/ic_action_editbtn" />
 
-
-        <!--<RelativeLayout
-            android:id="@+id/relative_layout"
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/iv_btn_cancel"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone">
-
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/cvCalendar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginEnd="20dp"
-                android:layout_marginStart="20dp"
-                custom:cardCornerRadius="8dp">
-
-                <com.archit.calendardaterangepicker.customviews.DateRangeCalendarView
-                    android:id="@+id/calendar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    custom:calendar_tag="Test"
-                    custom:disable_date_color="#ABABAB"
-                    custom:enable_past_date="true"
-                    custom:header_bg="@color/colorPrimary"
-                    custom:range_color="@color/gray"
-                    custom:selected_date_circle_color="@color/colorPrimary"
-                    custom:title_color="@color/Black"
-                    custom:editable="true"
-                    custom:week_offset="0">
-
-                </com.archit.calendardaterangepicker.customviews.DateRangeCalendarView>
-
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/btnReset"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/cvCalendar"
-                android:layout_centerHorizontal="true"
-                android:text="Reset" />
-        </RelativeLayout>-->
+            android:layout_gravity="end"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="5dp"
+            android:src="@drawable/ic_cancel_background_primary"
+            android:visibility="gone" />
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardUseCompatPadding="true"
+            android:layout_marginStart="5dp"
             android:layout_marginTop="10dp"
-            app:cardCornerRadius="5dp">
+            android:layout_marginEnd="5dp"
+            app:cardCornerRadius="5dp"
+            app:cardUseCompatPadding="true">
 
 
-
-    <LinearLayout
-        android:id="@+id/linear"
-        android:layout_below="@+id/rv_promocode"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-
-
-        android:visibility="visible">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:weightSum="2"
-
-          android:padding="15dp"
-            android:background="@drawable/coupon">
-
-            <EditText
-                android:id="@+id/et_amount"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@null"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:textSize="14sp"
-                android:hint="Enter amount"/>
-
-            <android.support.v7.widget.CardView
-                android:layout_width="0dp"
-                android:layout_height="30dp"
-                android:layout_weight="1"
-                android:layout_marginStart="130dp"
-
-
-                app:cardCornerRadius="5dp"
-                >
-
-            <TextView
-                android:id="@+id/tv_date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Select Date"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:textColor="@color/gray"
-                android:textSize="14sp"
-              />
-            </android.support.v7.widget.CardView>
-        </LinearLayout>
-
-
-        <TextView
-            android:id="@+id/tv_offer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="FLAT 20"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:padding="35dp"/>
-
-        <TextView
-            android:padding="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            android:text="Customer need to apply FLAT  code to avail 30% off code is valid for JUN 15 2019 "/>
-
-
-
-        <Button
-            android:id="@+id/btn_save"
-            android:layout_width="220dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|bottom"
-            android:layout_marginTop="100dp"
-            android:background="@drawable/gradient_color"
-            android:text="Save"
-            android:layout_marginBottom="15dp"
-            android:textColor="@color/white"
-            android:visibility="gone"
-            />
-
-        <Button
-            android:id="@+id/btn_update"
-            android:layout_width="220dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|bottom"
-            android:layout_marginTop="100dp"
-            android:background="@drawable/gradient_color"
-            android:text="Update"
-            android:layout_marginBottom="15dp"
-            android:textColor="@color/white"
-            android:visibility="gone"
-            />
-    </LinearLayout>
-   <!-- <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="start"
-        android:padding="10dp"
-        android:layout_gravity="center">
-
-        &lt;!&ndash;<FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="start"
-            android:padding="10dp"
-            android:layout_gravity="center">&ndash;&gt;
-
-        <FrameLayout
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            >
-
-            <android.support.v7.widget.CardView
+            <LinearLayout
+                android:id="@+id/linear"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:cardUseCompatPadding="true"
-                app:cardCornerRadius="5dp"
-                android:elevation="5dp">
+                android:layout_below="@+id/rv_promocode"
+                android:orientation="vertical"
+                android:visibility="visible">
 
-        <LinearLayout
-            android:layout_width="140dp"
-            android:layout_height="50dp"
-            android:background="@drawable/promob"
-           >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/coupon"
+                    android:gravity="center"
+                    android:padding="15dp">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:layout_marginTop="-10dp"
-                android:layout_gravity="center_horizontal"
-                android:text="FLAT 20 "
-                android:textSize="16sp"
-                android:textColor="#f8ca29"/>
-        </LinearLayout>
+                    <EditText
+                        android:id="@+id/et_amount"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:layout_weight="0.5"
+                        android:background="@drawable/offer_add_bg"
+                        android:gravity="center"
+                        android:hint="amount (in %)"
+
+                        android:padding="5dp"
+                        android:textSize="14sp" />
+
+
+                    <TextView
+                        android:id="@+id/tv_date"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="100dp"
+                        android:layout_weight="0.5"
+                        android:background="@drawable/offer_add_bg"
+
+                        android:gravity="center"
+                        android:text="Select Date"
+                        android:textColor="@color/gray"
+                        android:textSize="14sp" />
+                </LinearLayout>
 
                 <TextView
+                    android:id="@+id/offer"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_marginTop="30dp"
+                    android:fontFamily="sans-serif-light"
                     android:gravity="center"
-                    android:layout_marginTop="20dp"
-                    android:text="2 JUN"
-                    android:textSize="16sp"
-                   />
-
-            </android.support.v7.widget.CardView>
-        </FrameLayout>
+                    android:padding="10dp"
+                    android:text="Promo code Name"
+                    android:textSize="20sp" />
 
 
+                <EditText
+                    android:id="@+id/etv_offer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="35dp"
+                    android:layout_marginEnd="35dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/offer_name_bg"
+                    android:fontFamily="sans-serif-light"
+                    android:gravity="center"
+                    android:hint="Enter Promo Code"
+
+                    android:maxLength="7"
+                    android:padding="10dp"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/tv_details"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="25dp"
+                    android:gravity="center"
+                    android:text="Customer need to apply FLAT  code to avail 30% off. offer is valid till JUN 15 2019 "
+                    android:visibility="gone" />
 
 
-    &lt;!&ndash;    <android.support.v7.widget.CardView
-            android:layout_width="140dp"
-            android:layout_height="140dp"
+                <Button
+                    android:id="@+id/btn_save"
+                    android:layout_width="220dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal|bottom"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="15dp"
+                    android:background="@drawable/gradient_color"
+                    android:text="Save"
+                    android:textColor="@color/white"
+                    android:visibility="gone" />
 
-            app:cardUseCompatPadding="true"
-            app:cardBackgroundColor="@color/gray">
-
-        </android.support.v7.widget.CardView>&ndash;&gt;
-
-        <android.support.v7.widget.CardView
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:background="@drawable/ic_action_add"
-            app:cardUseCompatPadding="true"
-            app:cardCornerRadius="5dp"
-            >
-
-            <ImageView
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_action_add"/>
+                <Button
+                    android:id="@+id/btn_update"
+                    android:layout_width="220dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal|bottom"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="15dp"
+                    android:background="@drawable/gradient_color"
+                    android:text="Update"
+                    android:textColor="@color/white"
+                    android:visibility="gone" />
+            </LinearLayout>
 
         </android.support.v7.widget.CardView>
-
-      &lt;!&ndash;  </FrameLayout>&ndash;&gt;
-
-
-    </LinearLayout>-->
-        </android.support.v7.widget.CardView>
-
-
     </LinearLayout>
+
+    </ScrollView>
 
 </RelativeLayout>

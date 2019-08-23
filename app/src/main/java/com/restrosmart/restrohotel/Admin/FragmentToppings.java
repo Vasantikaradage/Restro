@@ -56,7 +56,6 @@ public  class FragmentToppings extends Fragment {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    private  Toolbar toolbar;
     private  Sessionmanager sessionmanager;
     private  RetrofitService mRetrofitService;
     private IResult mResultCallBack;
@@ -98,12 +97,12 @@ public  class FragmentToppings extends Fragment {
         hotelId = Integer.parseInt(name_info.get(HOTEL_ID));
         branchId = Integer.parseInt(name_info.get(BRANCH_ID));
 
-        initRetrofitCallBackForToppings();
+       /* initRetrofitCallBackForToppings();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, getActivity());
         mRetrofitService.retrofitData(PARENT_CATEGORY_WITH_TOPPINGS, (service.toppingDisplay(hotelId,
                 (branchId))));
-        showProgressDialog();
+        showProgressDialog();*/
 
 
         flAddToppings.setOnClickListener(new View.OnClickListener() {
@@ -181,7 +180,7 @@ public  class FragmentToppings extends Fragment {
         mRetrofitService.retrofitData(PARENT_CATEGORY_WITH_TOPPINGS, (service.toppingDisplay(hotelId,
                 (branchId))));
        //
-        // showProgressDialog();
+         showProgressDialog();
     }
 
     private void showProgressDialog() {
@@ -191,7 +190,7 @@ public  class FragmentToppings extends Fragment {
         progressDialog.setCancelable(false);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setTitle(getContext().getResources().getString(R.string.app_name));
-        progressDialog.setMessage("Uploading Toppings");
+        progressDialog.setMessage("Loading...");
         progressDialog.show();
     }
 
@@ -208,6 +207,7 @@ public  class FragmentToppings extends Fragment {
                       try {
                           JSONObject object = new JSONObject(mParentSubcategory);
                           int status = object.getInt("status");
+                          progressDialog.dismiss();
                           if (status == 1) {
                               //JSONObject jsonObject1 = object.getJSONObject("AllMenu");
 
@@ -317,7 +317,7 @@ public  class FragmentToppings extends Fragment {
     private void init() {
         tabLayout = (TabLayout) getActivity().findViewById(R.id.tablayout1);
         viewPager = (ViewPager) getActivity().findViewById(R.id.viewPager1);
-        toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+
         flAddToppings=getActivity().findViewById(R.id.ivAddToppings);
 
         mFragmentTitleList = new ArrayList<>();

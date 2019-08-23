@@ -272,6 +272,11 @@ public class ActivityMenu extends AppCompatActivity implements View.OnClickListe
                                 MenuListRetrofitServiceCall();
 
                             }
+                            else
+                            {
+                                Toast.makeText(ActivityMenu.this, "Something went wrong...! Try Again..", Toast.LENGTH_LONG).show();
+
+                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -314,8 +319,7 @@ public class ActivityMenu extends AppCompatActivity implements View.OnClickListe
                 mRetrofitService = new RetrofitService(mResultCallBack,ActivityMenu.this);
                 mRetrofitService.retrofitData(MENU_DELETE,(service.getMenuDelete(arrayListMenu.get(position).getMenu_Id(),
                         mHotelId,
-                      mBranchId)
-                ));
+                      mBranchId,arrayListMenu.get(position).getCategory_Id(),pcId)));
 
             }
         }, arrayListMenu, new PositionListener() {

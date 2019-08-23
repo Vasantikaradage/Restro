@@ -39,6 +39,7 @@ import com.restrosmart.restrohotel.Utils.ImageFilePath;
 import com.restrosmart.restrohotel.Utils.Sessionmanager;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -48,6 +49,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -63,6 +65,7 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static com.restrosmart.restrohotel.ConstantVariables.BRANCH_DETAILS;
 import static com.restrosmart.restrohotel.ConstantVariables.EDIT_BRANCH_DETAILS;
 import static com.restrosmart.restrohotel.ConstantVariables.EMP_EDIT_DETAILS;
+import static com.restrosmart.restrohotel.ConstantVariables.GET_ALL_EMPLOYEE;
 import static com.restrosmart.restrohotel.ConstantVariables.PICK_GALLERY_IMAGE;
 import static com.restrosmart.restrohotel.ConstantVariables.REQUEST_PERMISSION;
 import static com.restrosmart.restrohotel.ConstantVariables.UPDATE_EMP_IMAGE;
@@ -81,7 +84,7 @@ public class ActivityProfile extends AppCompatActivity {
             etvGSTNNo, etvNoOfTables,etvBranchphone;
 
     private int mHotelId, mBranchId;
-    private List<EmployeeForm> ArrayListEmployee;
+    //private List<EmployeeForm> ArrayListEmployee;
 
     private RetrofitService mRetrofitService;
     private IResult mResultCallBack;
@@ -101,6 +104,7 @@ public class ActivityProfile extends AppCompatActivity {
 
     private Bitmap bitmapImage;
     private  ApiService apiService;
+    private ArrayList<EmployeeForm> arrayListEmployee;
 
 
 
@@ -111,17 +115,20 @@ public class ActivityProfile extends AppCompatActivity {
 
         init();
         setUpToolBar();
-        getEmployeeList();
-
-        Intent intent = getIntent();
-        employeeId = intent.getIntExtra("empId", 0);
-        //ArrayListEmployee = intent.getParcelableArrayListExtra("employeeList");
 
         Sessionmanager sharedPreferanceManage = new Sessionmanager(ActivityProfile.this);
         HashMap<String, String> name_info = sharedPreferanceManage.getHotelDetails();
         mHotelId = Integer.parseInt(name_info.get(HOTEL_ID));
         mBranchId = Integer.parseInt(name_info.get(BRANCH_ID));
         roleId = Integer.parseInt((name_info.get(ROLE_ID)));
+
+
+
+        Intent intent = getIntent();
+        employeeId = intent.getIntExtra("empId", 0);
+        getEmployeeList();
+        //ArrayListEmployee = intent.getParcelableArrayListExtra("employeeList");
+
 
         frameLayoutCamera.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -385,24 +392,65 @@ public class ActivityProfile extends AppCompatActivity {
     }
 
     private void getEmployeeList() {
+        retrofitCallBack();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
-        Call<List<EmployeeForm>> call = service.getallEmployees("1", "1");
-        call.enqueue(new Callback<List<EmployeeForm>>() {
-            @Override
-            public void onResponse(Call<List<EmployeeForm>> call, Response<List<EmployeeForm>> response) {
-                ArrayListEmployee = response.body();
-                getData(ArrayListEmployee);
-
-            }
-
-            @Override
-            public void onFailure(Call<List<EmployeeForm>> call, Throwable t) {
-
-            }
-        });
+        mRetrofitService = new RetrofitService(mResultCallBack, ActivityProfile.this);
+        mRetrofitService.retrofitData(GET_ALL_EMPLOYEE, (service.getallEmployees( mHotelId,
+              mBranchId)));
     }
 
-    private void getData(List<EmployeeForm> ArrayListEmployee) {
+    private void retrofitCallBack() {
+        mResultCallBack=new IResult() {
+            @Override
+            public void notifySuccess(int requestId, Response<JsonObject> response) {
+
+                JsonObject jsonObject=response.body();
+                String empInfo=jsonObject.toString();
+
+                try {
+                    JSONObject object=new JSONObject(empInfo);
+                    int status=object.getInt("status");
+                    if(status==1){
+
+                        JSONArray jsonArray=object.getJSONArray("allemployee");
+                        for(int i=0; i<jsonArray.length(); i++) {
+
+                            JSONObject jsonObjectEmp = jsonArray.getJSONObject(i);
+                            EmployeeForm employeeForm = new EmployeeForm();
+                            employeeForm.setEmpId(jsonObjectEmp.getInt("Emp_Id"));
+                            employeeForm.setEmpName(jsonObjectEmp.getString("Emp_Name"));
+                            employeeForm.setEmpImg(jsonObjectEmp.getString("Emp_Img"));
+                            employeeForm.setEmpEmail(jsonObjectEmp.getString("Emp_Email"));
+                            employeeForm.setEmpAddress(jsonObjectEmp.getString("Emp_Address"));
+                            employeeForm.setUserName(jsonObjectEmp.getString("User_Name"));
+                            employeeForm.setHotelName(jsonObjectEmp.getString("Hotel_Name"));
+                            employeeForm.setRole(jsonObjectEmp.getString("Role"));
+
+                            employeeForm.setEmpMob(jsonObjectEmp.getString("Emp_Mob"));
+                            employeeForm.setEmpAdharId(jsonObjectEmp.getString("Emp_Adhar_Id"));
+                            employeeForm.setBranch_Id(jsonObjectEmp.getInt("Branch_Id"));
+                            employeeForm.setActiveStatus(jsonObjectEmp.getInt("Active_Status"));
+                            employeeForm.setRole_Id(jsonObjectEmp.getInt("Role_Id"));
+                            arrayListEmployee.add(employeeForm);
+                            getAdapter(arrayListEmployee);
+
+                        }
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void notifyError(int requestId, Throwable error) {
+
+            }
+        };
+    }
+
+    private void getAdapter(ArrayList<EmployeeForm> ArrayListEmployee) {
         for (int i = 0; i < ArrayListEmployee.size(); i++) {
             int empId = ArrayListEmployee.get(i).getEmpId();
             if (employeeId == empId) {
@@ -625,14 +673,14 @@ public class ActivityProfile extends AppCompatActivity {
         mRetrofitService.retrofitData(EMP_EDIT_DETAILS, (service.
                 editEmployeeDetail(employeeId,
                         etvUserFullName.getText().toString(),
+                        "",
                         etvMobileNo.getText().toString(),
                         etvEmail.getText().toString(),
                         etvCurrentAddress.getText().toString(),
                         tvUser.getText().toString(),
                         mHotelId,
-                        mBranchId,
-                        roleId,
-                        Password
+                        mBranchId
+
                 )));
     }
 
@@ -647,6 +695,7 @@ public class ActivityProfile extends AppCompatActivity {
         tvEmail = findViewById(R.id.tv_emp_email);
         tvAdharNo = findViewById(R.id.tv_emp_aadhar_number);
         tvCurrentAddress = findViewById(R.id.tv_emp_address);
+        arrayListEmployee=new ArrayList<>();
 
         etvUserFullName = findViewById(R.id.etv_user_name);
         etvMobileNo = findViewById(R.id.etv_emp_mobno);

@@ -1,6 +1,171 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-</android.support.constraint.ConstraintLayout>
+    <include
+        android:id="@+id/title_name"
+        layout="@layout/tool_bar_admin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title_name">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:orientation="vertical">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_scratch_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                app:reverseLayout="true">
+
+            </android.support.v7.widget.RecyclerView>
+
+            <ImageView
+                android:id="@+id/iv_btn_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="5dp"
+                android:src="@drawable/ic_action_editbtn" />
+
+            <ImageView
+                android:id="@+id/iv_btn_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="5dp"
+                android:visibility="gone"
+                android:src="@drawable/ic_cancel_background_primary" />
+
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                app:cardCornerRadius="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                app:cardUseCompatPadding="true">
+
+
+                <LinearLayout
+                    android:id="@+id/linear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/rv_scratch_card"
+                    android:orientation="vertical"
+                    android:visibility="visible">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:background="@drawable/coupon"
+                        android:padding="15dp">
+
+
+                        <TextView
+                            android:id="@+id/tv_from_date"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:layout_weight="0.6"
+                            android:background="@drawable/offer_add_bg"
+                            android:gravity="center"
+                            android:text="From Date"
+                            android:textColor="@color/gray"
+                            android:textSize="14sp" />
+
+
+                        <TextView
+                            android:id="@+id/tv_end_date"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="80dp"
+                            android:layout_weight="0.6"
+                            android:background="@drawable/offer_add_bg"
+                            android:gravity="center"
+                            android:text="To Date"
+                            android:textColor="@color/gray"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="30dp"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical">
+
+
+                        <TextView
+                            android:id="@+id/tv_select_menu"
+                            android:layout_width="match_parent"
+                            android:layout_marginTop="10dp"
+                            android:text="select Menu"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:background="@drawable/offer_add_bg"
+                            android:layout_height="40dp">
+                        </TextView>
+
+                        <TextView
+                            android:id="@+id/tv_message"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:padding="10dp"
+                            android:layout_marginTop="10dp"
+                            android:text="Customer can get a ScratchCard and win 13 food Surprises offer ir valid till Jun 3-5"
+                            android:gravity="center"
+                            />
+
+
+                    </LinearLayout>
+
+
+                    <Button
+                        android:id="@+id/btn_save"
+                        android:layout_width="220dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal|bottom"
+                        android:layout_marginTop="30dp"
+                        android:layout_marginBottom="15dp"
+                        android:background="@drawable/gradient_color"
+                        android:text="Save"
+                        android:textColor="@color/white"
+                        android:visibility="gone" />
+
+                    <Button
+                        android:id="@+id/btn_update"
+                        android:layout_width="220dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal|bottom"
+                        android:layout_marginTop="30dp"
+                        android:layout_marginBottom="15dp"
+                        android:background="@drawable/gradient_color"
+                        android:text="Update"
+                        android:textColor="@color/white"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

@@ -1,10 +1,9 @@
 package com.restrosmart.restrohotel.Model;
 
-public class RushHourForm {
-    private  String date;
-    private String time;
-    private  String message;
+public class ScratchCardForm {
 
+    private  String date,message;
+    private  int count;
 
     public String getMessage() {
         return message;
@@ -22,11 +21,11 @@ public class RushHourForm {
         this.date = date;
     }
 
-    public String getTime() {
-        return time;
+    public int getCount() {
+        return count;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setCount(int count) {
+        this.count = count;
     }
 }

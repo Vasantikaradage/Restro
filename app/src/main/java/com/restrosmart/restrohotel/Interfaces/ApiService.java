@@ -1,7 +1,6 @@
 package com.restrosmart.restrohotel.Interfaces;
 
 import com.google.gson.JsonObject;
-import com.restrosmart.restrohotel.Model.EmployeeForm;
 import com.restrosmart.restrohotel.Model.RoleForm;
 
 
@@ -21,21 +20,21 @@ import retrofit2.http.POST;
 public interface ApiService {
 
 
-    String BASE_URL = "http://192.168.0.15/Restro_Smart/";
+    String BASE_URL = "http://192.168.0.19/Restro_Smart/";
 
 
     /*parent category display*/
     @POST("Category.php?category=cate_disp")
     @FormUrlEncoded
-    Call<JsonObject> getParentCategory(@Field("Hotel_Id") String Hotel_Id,
-                                       @Field("Branch_Id") String Branch_Id);
+    Call<JsonObject> getParentCategory(@Field("Hotel_Id") int Hotel_Id,
+                                       @Field("Branch_Id") int Branch_Id);
 
 
     /*Fetching all employee Details.*/
     @FormUrlEncoded
     @POST("Employee_Signup.php?Empcall=Get_Employee")
-    Call<List<EmployeeForm>> getallEmployees(@Field("Hotel_Id") String Hotel_Id,
-                                             @Field("Branch_Id") String Branch_Id);
+    Call<JsonObject> getallEmployees(@Field("Hotel_Id") int Hotel_Id,
+                                     @Field("Branch_Id") int Branch_Id);
 
     /*employee delete*/
     @POST("Employee_Signup.php?Empcall=emp_delete")
@@ -55,14 +54,14 @@ public interface ApiService {
     @FormUrlEncoded
     Call<JsonObject> editEmployeeDetail(@Field("Emp_Id") int empId,
                                         @Field("Emp_Name") String empName,
+                                        @Field("Emp_Img") String image,
+
                                         @Field("Emp_Mob") String mobile,
                                         @Field("Emp_Email") String empMobile,
                                         @Field("Emp_Address") String empAddress,
                                         @Field("User_Name") String userName,
                                         @Field("Hotel_Id") int hotelId,
-                                        @Field("Branch_Id") int branchId,
-                                        @Field("Role_Id") int role_id,
-                                        @Field("Password") String password);
+                                        @Field("Branch_Id") int branchId);
 
     /*Update Employee photo*/
     @POST("Branch.php?branch=branch_disp")
@@ -339,7 +338,9 @@ public interface ApiService {
     @FormUrlEncoded
     Call<JsonObject> getMenuDelete(@Field("Menu_Id") int Menu_Id,
                                    @Field("Hotel_Id") int Hotel_Id,
-                                   @Field("Branch_Id") int Branch_Id);
+                                   @Field("Branch_Id") int Branch_Id,
+                                   @Field("Category_Id") int categoryId,
+                                   @Field("Pc_Id") int pcId);
 
     /*menu images*/
     @FormUrlEncoded
@@ -351,8 +352,9 @@ public interface ApiService {
 
 
     /*category Delete*/
+
+    @POST("Category.php?category=cate_delete")
     @FormUrlEncoded
-    @POST("Category.php?category=subcate_delete")
     Call<JsonObject> deleteCategory(@Field("Category_Id") int Category_Id,
                                     @Field("Branch_Id") int Branch_Id,
                                     @Field("Hotel_Id") int Hotel_Id,
@@ -529,8 +531,11 @@ public interface ApiService {
     /*edit Water Bottle*/
     @POST("Menu.php?menu=Waterbottle_edit")
     @FormUrlEncoded
-    Call<JsonObject> editWaterBottle(@Field("Menu_Name") String menuName,
+    Call<JsonObject> editWaterBottle(@Field("Menu_Id") int menuId,
+                                     @Field("Menu_Name") String menuName,
+                                     @Field("Menu_Image_Name") String menuImageName,
                                      @Field("Non_Ac_Rate") int price,
+                                     @Field("Category_Id") int categoryId,
                                      @Field("Branch_Id") int branch_id,
                                      @Field("Hotel_Id") int hotel_id);
 

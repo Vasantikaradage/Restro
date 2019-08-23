@@ -92,6 +92,8 @@ public class AdapterDisplayAllMenus extends RecyclerView.Adapter<AdapterDisplayA
 
         holder.mMenuName.setText(arrayListMenu.get(position).getMenu_Name());
         holder.mMenuDisp.setText(arrayListMenu.get(position).getMenu_Descrip());
+        holder.mMenuPrice.setText("\u20B9 "+arrayListMenu.get(position).getNon_Ac_Rate());
+
 
         arrayListToppings=arrayListMenu.get(position).getArrayListtoppings();
 
@@ -181,6 +183,8 @@ public class AdapterDisplayAllMenus extends RecyclerView.Adapter<AdapterDisplayA
 
                                 case R.id.menu_delete:
                                     //handle menu2 click
+
+
                                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                                     builder
                                             .setTitle("Delete Menu")
@@ -289,7 +293,7 @@ public class AdapterDisplayAllMenus extends RecyclerView.Adapter<AdapterDisplayA
 
     public class MyHolder extends RecyclerView.ViewHolder {
 
-        TextView mMenuName, mMenuDisp, mMenuTeste, mMenuOption;
+        TextView mMenuName, mMenuDisp, mMenuTeste, mMenuOption,mMenuPrice;
         private CircleImageView image;
         private ImageView img_spicy;
         private LinearLayout llMenu;
@@ -304,6 +308,7 @@ public class AdapterDisplayAllMenus extends RecyclerView.Adapter<AdapterDisplayA
             mMenuOption = itemView.findViewById(R.id.textViewOptions);
             llMenu = itemView.findViewById(R.id.llMenu);
             mMenuTeste = itemView.findViewById(R.id.menu_test);
+            mMenuPrice=itemView.findViewById(R.id.tx_menu_price);
             img_spicy = itemView.findViewById(R.id.img_spicy);
 
 

@@ -160,6 +160,7 @@ public class ActivityNewAddEmployee extends AppCompatActivity {
                 // txPass.setVisibility(View.GONE);
                 // txConPass.setVisibility(View.GONE);
                 if (emp_id == employeeDetails.get(i).getEmpId()) {
+                    toolBarTitle.setText("Edit Employee");
                     etvName.setText(employeeDetails.get(i).getEmpName());
                     etUsername.setText(employeeDetails.get(i).getUserName());
                     etAddress.setText(employeeDetails.get(i).getEmpAddress());
@@ -186,13 +187,15 @@ public class ActivityNewAddEmployee extends AppCompatActivity {
                             mRetrofitService.retrofitData(EMP_EDIT_DETAILS, (service.
                                     editEmployeeDetail(emp_id,
                                             etvName.getText().toString(),
+                                            "",
+
                                             etMob.getText().toString(),
                                             etEmail.getText().toString(),
                                             etAddress.getText().toString(),
                                             etUsername.getText().toString(),
                                             hotelId,
-                                            branchInfo,
-                                            roleId, password
+                                            branchInfo
+
 
                                     )));
                         }
@@ -497,25 +500,24 @@ public class ActivityNewAddEmployee extends AppCompatActivity {
 
     private void retrofitArrayDesignationCall() {
 
-        RoleForm roleForm = new RoleForm();
-        roleForm.setRole_Id(0);
-        roleForm.setRole("Select Designation");
-        arrayListRole.add(roleForm);
-
-
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         Call<List<RoleForm>> call = service.getEmpRole(hotelId);
         call.enqueue(new Callback<List<RoleForm>>() {
 
             @Override
             public void onResponse(Call<List<RoleForm>> call, Response<List<RoleForm>> response) {
-
+                arrayListRole.clear();
 
                 employeeRoles = response.body();
 
+                RoleForm roleForm1 = new RoleForm();
+                roleForm1.setRole_Id(0);
+                roleForm1.setRole("Select Designation");
+                arrayListRole.add(roleForm1);
 
                 for (int i = 0; i < employeeRoles.size(); i++) {
                     RoleForm roleForm = new RoleForm();
+
                     roleForm.setRole_Id(employeeRoles.get(i).getRole_Id());
                     roleForm.setRole(employeeRoles.get(i).getRole());
                     arrayListRole.add(roleForm);

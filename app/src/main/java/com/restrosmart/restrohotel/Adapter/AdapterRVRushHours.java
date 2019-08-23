@@ -1,4 +1,4 @@
-package com.restrosmart.restrohotel.Admin;
+package com.restrosmart.restrohotel.Adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -59,9 +59,7 @@ public class AdapterRVRushHours extends RecyclerView.Adapter<AdapterRVRushHours.
                 }
             });
         }else {
-            itemViewHolder.tvTime.setText(rushHourFormArrayList.get(i).getStartTime()+" : "+rushHourFormArrayList.get(i).getEndTime());
-
-
+            itemViewHolder.tvTime.setText(rushHourFormArrayList.get(i).getTime());
             itemViewHolder.tvDate.setText(rushHourFormArrayList.get(i).getDate());
 
 

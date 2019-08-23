@@ -53,20 +53,19 @@ public class FragmentTabParentToppings extends Fragment {
     private AdapterDisplayAllToppings adapterDisplayAllToppings;
     private RecyclerView recyclerView;
     private View view;
-    private  Sessionmanager mSessionmanager;
-    private  int mHotelId,mBranchId;
+    private Sessionmanager mSessionmanager;
+    private int mHotelId, mBranchId;
     private RetrofitService mRetrofitService;
     private IResult mResultCallBack;
-     //private ArrayList<ToppingsForm>  toppingsForms;
-     private  View dialoglayout;
-     private  BottomSheetDialog dialog;
-     private TextView tvToppingTitle;
-    private CircleImageView mImageView;
-     private EditText etvToppingName,etvToppingPrice;
-     private  ApiService apiService;
-     private    ArrayList<ToppingsForm> toppingsForms;
-    private String  imageName;
 
+    private View dialoglayout;
+    private BottomSheetDialog dialog;
+    private TextView tvToppingTitle;
+    private CircleImageView mImageView;
+    private EditText etvToppingName, etvToppingPrice;
+    private ApiService apiService;
+    private ArrayList<ToppingsForm> toppingsForms;
+    private String imageName;
 
 
     @Nullable
@@ -99,44 +98,45 @@ public class FragmentTabParentToppings extends Fragment {
                 dialog.setContentView(dialoglayout);
                 // mBottomSheetDialog.show();
                 FrameLayout btnCamara = (FrameLayout) dialoglayout.findViewById(R.id.iv_select_image);
-                etvToppingName=dialoglayout.findViewById(R.id.etv_topping_name);
-                etvToppingPrice=dialoglayout.findViewById(R.id.etv_topping_price);
+                etvToppingName = dialoglayout.findViewById(R.id.etv_topping_name);
+                etvToppingPrice = dialoglayout.findViewById(R.id.etv_topping_price);
 
-               // etxCategoryNme = dialoglayout.findViewById(R.id.etx_category_name);
+                // etxCategoryNme = dialoglayout.findViewById(R.id.etx_category_name);
                 Button btnCancel = dialoglayout.findViewById(R.id.btnCancel);
                 Button btnSave = dialoglayout.findViewById(R.id.btnSave);
-                Button btnUpdate=dialoglayout.findViewById(R.id.btnUpdate);
-                mImageView=dialoglayout.findViewById(R.id.img_toppings);
-                tvToppingTitle=dialoglayout.findViewById(R.id.tv_edit_toppingTitle);
+                Button btnUpdate = dialoglayout.findViewById(R.id.btnUpdate);
+                mImageView = dialoglayout.findViewById(R.id.img_toppings);
+                tvToppingTitle = dialoglayout.findViewById(R.id.tv_edit_toppingTitle);
                 tvToppingTitle.setVisibility(View.VISIBLE);
+                btnSave.setVisibility(View.GONE);
+                btnUpdate.setVisibility(View.VISIBLE);
                 etvToppingName.setText(toppingsForms.get(position).getToppingsName());
-                String price= String.valueOf(toppingsForms.get(position).getToppingsPrice());
+                String price = String.valueOf(toppingsForms.get(position).getToppingsPrice());
                 etvToppingPrice.setText(price);
 
                 Picasso.with(dialoglayout.getContext())
-                        .load(apiService.BASE_URL+toppingsForms.get(position).getImage())
+                        .load(apiService.BASE_URL + toppingsForms.get(position).getImage())
                         .resize(500, 500)
                         .into(mImageView);
 
                 btnCamara.setOnClickListener(new View.OnClickListener() {
-                                                 @Override
-                                                 public void onClick(View v) {
-                                                     Intent intent = new Intent(getActivity(), ActivityImageTopping.class);
-                                                     intent.putExtra("pcId", toppingsForms.get(position).getPcId());
-                                                     startActivityForResult(intent, IMAGE_RESULT_OK);
-                                                 }
-                                             });
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getActivity(), ActivityImageTopping.class);
+                        intent.putExtra("pcId", toppingsForms.get(position).getPcId());
+                        startActivityForResult(intent, IMAGE_RESULT_OK);
+                    }
+                });
 
                 dialog.show();
-                btnSave.setOnClickListener(new View.OnClickListener() {
+                btnUpdate.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
 
-                        String name=imageName;
+                        String name = imageName;
 
-                        if(imageName==null)
-                        {
-                            imageName=toppingsForms.get(position).getImage();
+                        if (imageName == null) {
+                            imageName = toppingsForms.get(position).getImage();
 
                         }
                         initRetrofitCallBack();
@@ -144,7 +144,7 @@ public class FragmentTabParentToppings extends Fragment {
                         mRetrofitService = new RetrofitService(mResultCallBack, getActivity());
 
                         mRetrofitService.retrofitData(TOPPING_EDIT, service.toppingEdit(etvToppingName.getText().toString(),
-                               imageName,
+                                imageName,
                                 Integer.parseInt(etvToppingPrice.getText().toString()),
                                 mHotelId,
                                 mBranchId,
@@ -185,27 +185,24 @@ public class FragmentTabParentToppings extends Fragment {
     }
 
     private void initRetrofitCallBack() {
-        mResultCallBack=new IResult() {
+        mResultCallBack = new IResult() {
             @Override
             public void notifySuccess(int requestId, Response<JsonObject> response) {
-                switch (requestId)
-                {
+                switch (requestId) {
                     case TOPPING_DELETE:
-                        JsonObject object=response.body();
-                        String deleteValue=object.toString() ;
+                        JsonObject object = response.body();
+                        String deleteValue = object.toString();
 
                         try {
-                            JSONObject jsonObject=new JSONObject(deleteValue);
-                            int status=jsonObject.getInt("status");
-                            if(status==1){
-                                Toast.makeText(getActivity(),"Topping Deleted Successfully",Toast.LENGTH_LONG).show();
+                            JSONObject jsonObject = new JSONObject(deleteValue);
+                            int status = jsonObject.getInt("status");
+                            if (status == 1) {
+                                Toast.makeText(getActivity(), "Topping Deleted Successfully", Toast.LENGTH_LONG).show();
                                 Intent intent = new Intent();
                                 intent.setAction("Refresh_ToppingList");
                                 getActivity().sendBroadcast(intent);
-                            }
-                            else
-                            {
-                                Toast.makeText(getActivity(),"Something Went Wrong..!",Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(getActivity(), "Something Went Wrong..!", Toast.LENGTH_LONG).show();
 
                             }
                         } catch (JSONException e) {
@@ -214,23 +211,21 @@ public class FragmentTabParentToppings extends Fragment {
                         break;
 
                     case TOPPING_EDIT:
-                        JsonObject objectEdit=response.body();
-                        String editValue=objectEdit.toString() ;
+                        JsonObject objectEdit = response.body();
+                        String editValue = objectEdit.toString();
 
                         try {
-                            JSONObject jsonObject=new JSONObject(editValue);
-                            int status=jsonObject.getInt("status");
-                            if(status==1){
-                                Toast.makeText(getActivity(),"Topping Edited Successfully",Toast.LENGTH_LONG).show();
+                            JSONObject jsonObject = new JSONObject(editValue);
+                            int status = jsonObject.getInt("status");
+                            if (status == 1) {
+                                Toast.makeText(getActivity(), "Topping Edited Successfully", Toast.LENGTH_LONG).show();
                                 Intent intent1 = new Intent();
                                 intent1.setAction("Refresh_ToppingList");
                                 getActivity().sendBroadcast(intent1);
                                 dialog.dismiss();
 
-                            }
-                            else
-                            {
-                                Toast.makeText(getActivity(),"Something Went Wrong..!",Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(getActivity(), "Something Went Wrong..!", Toast.LENGTH_LONG).show();
 
                             }
                         } catch (JSONException e) {
@@ -260,8 +255,11 @@ public class FragmentTabParentToppings extends Fragment {
         args.putParcelableArrayList("toppingObject", toppingsForms);
         args.putInt("position", position);
         fragment.setArguments(args);
+
         return fragment;
     }
+
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -271,7 +269,7 @@ public class FragmentTabParentToppings extends Fragment {
             // Log.e("Result", imageName);
 
             Picasso.with(dialoglayout.getContext())
-                    .load(apiService.BASE_URL+imageName)
+                    .load(apiService.BASE_URL + imageName)
                     .resize(500, 500)
                     .into(mImageView);
         }
