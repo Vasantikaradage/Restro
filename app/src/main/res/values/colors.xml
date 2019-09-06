@@ -29,7 +29,7 @@
     <color name="mediumBlue">#008ae6</color>
 
 
-    <color name="scratch_start_gradient">#FFF</color>
+    <color name="scratch_start_gradient">#F5F3F3</color>
     <color name="scratch_end_gradient">#cccccc</color>
 
 <!--//#F8F5F5-->
@@ -82,8 +82,4 @@
     <color name="slycalendar_defTextColor">#333333</color>
     <color name="slycalendar_defSelectedColor">#2962ff</color>
     <color name="slycalendar_defSelectedTextColor">#ffffff</color>
-
-
-
-
 </resources>

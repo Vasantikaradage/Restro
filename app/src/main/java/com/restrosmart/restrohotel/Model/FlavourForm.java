@@ -11,6 +11,7 @@ public class FlavourForm {
     private  String flavourName;
     private String flavourImage;
     private  int flavourPrice;
+    private  int flavourStatus;
     private ArrayList<FlavourUnitForm> arrayListUnits;
 
     public int getFlavourId() {
@@ -43,6 +44,15 @@ public class FlavourForm {
 
     public void setFlavourPrice(int flavourPrice) {
         this.flavourPrice = flavourPrice;
+    }
+
+
+    public int getFlavourStatus() {
+        return flavourStatus;
+    }
+
+    public void setFlavourStatus(int flavourStatus) {
+        this.flavourStatus = flavourStatus;
     }
 
     public ArrayList<FlavourUnitForm> getArrayListUnits() {

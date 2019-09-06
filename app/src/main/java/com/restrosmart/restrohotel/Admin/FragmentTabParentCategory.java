@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,19 +60,19 @@ public class FragmentTabParentCategory extends Fragment {
     private View view;
     private RetrofitService mRetrofitService;
     private IResult mResultCallBack;
-    private  Sessionmanager mSessionmanager;
-    private  int mHotelId,mBranchId;
-    private  View dialoglayout;
+    private Sessionmanager mSessionmanager;
+    private int mHotelId, mBranchId;
+    private View dialoglayout;
     private EditText etxCategoryNme;
     private CircleImageView mImageView;
-    private String  imageName, mFinalImageName;
-    private  BottomSheetDialog dialog;
-    private  ApiService apiService;
+    private String imageName, image, mFinalImageName;
+    private BottomSheetDialog dialog;
+    private ApiService apiService;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-         view = inflater.inflate(R.layout.fragment_menu_items, null);
+        view = inflater.inflate(R.layout.fragment_menu_items, null);
 
         init();
         Bundle bundle = getArguments();
@@ -106,15 +107,15 @@ public class FragmentTabParentCategory extends Fragment {
                 LayoutInflater li = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
                 dialoglayout = li.inflate(R.layout.activity_add_category, null);
-               // final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                 dialog = new BottomSheetDialog(getActivity());
-                 dialog.setContentView(dialoglayout);
-                 FrameLayout btnCamara = (FrameLayout) dialoglayout.findViewById(R.id.iv_select_image);
+                // final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                dialog = new BottomSheetDialog(getActivity());
+                dialog.setContentView(dialoglayout);
+                final FrameLayout btnCamara = (FrameLayout) dialoglayout.findViewById(R.id.iv_select_image);
 
                 etxCategoryNme = dialoglayout.findViewById(R.id.etx_category_name);
-                Button btnCancel = dialoglayout.findViewById(R.id.btnCancel);
+                final Button btnCancel = dialoglayout.findViewById(R.id.btnCancel);
                 Button btnSave = dialoglayout.findViewById(R.id.btnSave);
-                Button btnUpdate=dialoglayout.findViewById(R.id.btnUpdate);
+                Button btnUpdate = dialoglayout.findViewById(R.id.btnUpdate);
 
                 btnSave.setVisibility(View.GONE);
                 btnUpdate.setVisibility(View.VISIBLE);
@@ -126,7 +127,7 @@ public class FragmentTabParentCategory extends Fragment {
                 etxCategoryNme.setText(categoryForms.get(position).getCategory_Name());
 
                 Picasso.with(dialoglayout.getContext())
-                        .load(apiService.BASE_URL+categoryForms.get(position).getC_Image_Name())
+                        .load(categoryForms.get(position).getC_Image_Name())
                         .resize(500, 500)
                         .into(mImageView);
 
@@ -134,7 +135,7 @@ public class FragmentTabParentCategory extends Fragment {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(getActivity(), ActivityCategoryGallery.class);
-                        intent.putExtra("Pc_Id",categoryForms.get(position).getPc_Id());
+                        intent.putExtra("Pc_Id", categoryForms.get(position).getPc_Id());
                         startActivityForResult(intent, IMAGE_RESULT_OK);
                     }
                 });
@@ -142,12 +143,42 @@ public class FragmentTabParentCategory extends Fragment {
                 btnUpdate.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        image = (categoryForms.get(position).getC_Image_Name()).substring((categoryForms.get(position).getC_Image_Name()).lastIndexOf("/") + 1);
 
-                        String name=imageName;
+                        Picasso.with(dialoglayout.getContext())
+                                .load(categoryForms.get(position).getC_Image_Name())
+                                .resize(500, 500)
+                                .into(mImageView);
 
-                        if(imageName==null)
-                        {
-                            imageName=categoryForms.get(position).getC_Image_Name();
+                        btnCamara.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(getActivity(), ActivityCategoryGallery.class);
+                                intent.putExtra("Pc_Id", categoryForms.get(position).getPc_Id());
+                                startActivityForResult(intent, IMAGE_RESULT_OK);
+                            }
+                        });
+
+
+                        if (imageName == null) {
+                            mFinalImageName = "null";
+                            Picasso.with(getActivity())
+                                    .load(categoryForms.get(position).getC_Image_Name())
+                                    .resize(500, 500)
+                                    .into(mImageView);
+
+                            if((image.equals("def_veg.png")) || (image.equals("def_non_veg.png")) || (image .equals("def_liq.png")) || (image.equals("def_dessert.png)"))){
+                                mFinalImageName = "null";}
+                            else
+                            {
+                                mFinalImageName = image.substring(image.lastIndexOf("/") + 1);
+                            }
+                        } else {
+                            mFinalImageName = imageName.substring(imageName.lastIndexOf("/") + 1);
+                            Picasso.with(getActivity())
+                                    .load( imageName)
+                                    .resize(500, 500)
+                                    .into(mImageView);
 
                         }
                         getRetrofitDataUpdate();
@@ -161,7 +192,7 @@ public class FragmentTabParentCategory extends Fragment {
                         mRetrofitService.retrofitData(EDIT_CATEGORY, service.editCategory(
                                 categoryForms.get(position).getCategory_Name(),
                                 etxCategoryNme.getText().toString(),
-                                imageName,
+                                mFinalImageName,
                                 categoryForms.get(position).getCategory_id(),
                                 mHotelId,
                                 mBranchId,
@@ -186,52 +217,63 @@ public class FragmentTabParentCategory extends Fragment {
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setAdapter(adapterDisplayAllMenu);
         adapterDisplayAllMenu.notifyDataSetChanged();
-
         return view;
-
     }
 
     private void initRetrofitCallback() {
-        mResultCallBack=new IResult() {
+        mResultCallBack = new IResult() {
             @Override
             public void notifySuccess(int requestId, Response<JsonObject> response) {
-               switch (requestId) {
-                   case DELETE_CATEGORY:
-                       JsonObject jsonObject1 = response.body();
-                       Toast.makeText(getActivity(), "Category deleted successfully", Toast.LENGTH_LONG).show();
-                       Intent intent = new Intent();
-                       intent.setAction("Refresh_CategoryList");
-                       getActivity().sendBroadcast(intent);
-                       break;
+                switch (requestId) {
+                    case DELETE_CATEGORY:
+                        JsonObject jsonObject1 = response.body();
+                        String valueInfo=jsonObject1.toString();
+                        try {
+                            JSONObject object=new JSONObject(valueInfo);
+                            int status=object.getInt("status");
+                            if(status==1) {
+                                Toast.makeText(getActivity(), "Category deleted successfully", Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent();
+                                intent.setAction("Refresh_CategoryList");
+                                getActivity().sendBroadcast(intent);
+                            }else
+                            {
+                                Toast.makeText(getActivity(), "Try again...", Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
 
-                   case EDIT_CATEGORY:
-                       JsonObject jsonObject2 = response.body();
-                       String valueinfo = jsonObject2.toString();
-                       try {
-                           JSONObject object = new JSONObject(valueinfo);
-                           int status = object.getInt("status");
-                           if (status == 1) {
-                               Toast.makeText(getActivity(), "Item Updated Successfully", Toast.LENGTH_SHORT).show();
-                               Intent intent1 = new Intent();
-                               intent1.setAction("Refresh_CategoryList");
-                               getActivity().sendBroadcast(intent1);
-                               dialog.dismiss();
-                           }
-                           else
-                           {
-                               Toast.makeText(getActivity(), "Try again...", Toast.LENGTH_SHORT).show();
+                        break;
 
-                           }
-                       } catch (JSONException e) {
-                           e.printStackTrace();
-                       }
-                       break;
-               }
+                    case EDIT_CATEGORY:
+                        JsonObject jsonObject2 = response.body();
+                        String valueinfo = jsonObject2.toString();
+                        try {
+                            JSONObject object = new JSONObject(valueinfo);
+                            int status = object.getInt("status");
+                            if (status == 1) {
+                                Toast.makeText(getActivity(), "Item Updated Successfully", Toast.LENGTH_SHORT).show();
+                                Intent intent1 = new Intent();
+                                intent1.setAction("Refresh_CategoryList");
+                                getActivity().sendBroadcast(intent1);
+                                dialog.dismiss();
+                            } else {
+                                Toast.makeText(getActivity(), "Try again...", Toast.LENGTH_SHORT).show();
+
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                }
 
             }
 
             @Override
             public void notifyError(int requestId, Throwable error) {
+                Log.d("", "requestId" + requestId);
+                Log.d("", "RetrofitError" + error);
 
             }
         };
@@ -239,7 +281,7 @@ public class FragmentTabParentCategory extends Fragment {
 
     private void init() {
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_menu_item);
-        mSessionmanager=new Sessionmanager(getActivity());
+        mSessionmanager = new Sessionmanager(getActivity());
     }
 
     public static Fragment newInstance(ArrayList<CategoryForm> menu, int position) {
@@ -255,17 +297,15 @@ public class FragmentTabParentCategory extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == IMAGE_RESULT_OK /*&& requestCode==IMAGE_RESULT_OK*/) {
+        if (resultCode == IMAGE_RESULT_OK) {
             imageName = data.getStringExtra("image_name");
-            // Log.e("Result", imageName);
 
             Picasso.with(dialoglayout.getContext())
-                    .load(apiService.BASE_URL+imageName)
+                    .load(imageName)
                     .resize(500, 500)
                     .into(mImageView);
         }
     }
-
 }
 
 

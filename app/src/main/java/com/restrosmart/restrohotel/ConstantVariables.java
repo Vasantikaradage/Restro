@@ -13,6 +13,7 @@ public class ConstantVariables {
     public static final int EDIT_CATEGORY = 4;
     public static final int MENU_LIST = 201;
     public static final int MENU_DELETE = 3;
+    public  static  final  int MENU_STATUS=167;
     public static final int PARENT_CATEGORY = 102;
     public static final int IMAGE_LIST = 5;
     public static final int SAVE_CATEGORY = 6;
@@ -71,6 +72,7 @@ public class ConstantVariables {
     public  static  final  int ADD_FLAVOUR=301;
     public  static  final  int FLAVOUR_DELETE=302;
     public  static  final  int FLAVOUR_EDIT=303;
+    public  static  final  int FLAVOUR_STATUS=356;
 
     public  static  final  int BRANCH_DETAILS=500;
     public  static  final  int EDIT_BRANCH_DETAILS=501;

@@ -206,8 +206,8 @@ public interface ApiService {
     @POST("topping.php?topping=topping_disp")
     @FormUrlEncoded
     Call<JsonObject> toppingDisplay(@Field("Hotel_Id") int Hotel_Id,
-                                    @Field("Branch_Id") int Branch_Id
-            /*@Field("Pc_Id") int pc_id*/);
+                                    @Field("Branch_Id") int Branch_Id,
+                                    @Field("Pc_Id") int pc_id);
 
     /*display topping image*/
     @POST("topping.php?topping=topping_img")
@@ -330,6 +330,7 @@ public interface ApiService {
     @POST("Menu.php?menu=menu_disp")
     @FormUrlEncoded
     Call<JsonObject> getMenus(@Field("Category_Id") int Category_Id,
+                              @Field("Pc_Id") int pcId,
                               @Field("Hotel_Id") int hotelId,
                               @Field("Branch_Id") int branchId);
 
@@ -341,6 +342,14 @@ public interface ApiService {
                                    @Field("Branch_Id") int Branch_Id,
                                    @Field("Category_Id") int categoryId,
                                    @Field("Pc_Id") int pcId);
+
+    /*menu status*/
+    @POST("Menu.php?menu=Menu_Status")
+    @FormUrlEncoded
+    Call<JsonObject> getMenuStatus(@Field("Menu_Id") int Menu_Id,
+                                   @Field("Hotel_Id") int Hotel_Id,
+                                   @Field("Branch_Id") int Branch_Id,
+                                   @Field("Menu_Status") int status);
 
     /*menu images*/
     @FormUrlEncoded
@@ -366,7 +375,9 @@ public interface ApiService {
     @FormUrlEncoded
     Call<JsonObject> flavourDisplay(@Field("Menu_Id") int menuId,
                                     @Field("Hotel_Id") int hotelId,
-                                    @Field("Branch_Id") int branchId);
+                                    @Field("Branch_Id") int branchId,
+                                    @Field("Pc_Id") int pcId,
+                                    @Field("Category_Id") int categoryId);
 
 
     /*Flavour add*/
@@ -377,6 +388,7 @@ public interface ApiService {
                                 @Field("Menu_Id") int menuId,
                                 @Field("Hotel_Id") int hotelId,
                                 @Field("Branch_Id") int branchId,
+                                @Field("Flavour_Status") int flavourStatus,
                                 @Field("Flavarray") String flavour);
 
     /*Flavour edit*/
@@ -396,6 +408,14 @@ public interface ApiService {
     Call<JsonObject> flavourDelete(@Field("Hotel_Id") int hotelId,
                                    @Field("Branch_Id") int branchId,
                                    @Field("Flavour_Id") int flavourId);
+
+    /*Flavour Delete*/
+    @POST("Flavour.php?flavour=flavour_status")
+    @FormUrlEncoded
+    Call<JsonObject> getFlavourStatus(@Field("Flavour_Id") int flavourId,
+                                      @Field("Hotel_Id") int hotelId,
+                                      @Field("Branch_Id") int branchId,
+                                      @Field("Flavour_Status") int status);
 
 
 
@@ -422,7 +442,6 @@ public interface ApiService {
                                 @Field("Menu_Image_Name") String Menu_Image_Name,
                                 @Field("Category_Id") int Category_Id,
                                 @Field("Menu_Test") int Menu_Test,
-
                                 @Field("Non_Ac_Rate") String Non_Ac_Rate,
                                 @Field("Hotel_Id") int Hotel_Id,
                                 @Field("Branch_Id") int Branch_Id,
@@ -445,7 +464,6 @@ public interface ApiService {
                               @Field("Category_Id") int categoryId,
                               @Field("Pc_Id") int pcId,
                               @Field("topparray") String toppingList);
-
 
     /*offer display*/
     @POST("Offer.php?offer=offer_disp")
@@ -608,7 +626,5 @@ public interface ApiService {
                                          @Field("Emp_Id") int empId,
                                          @Field("Hotel_Id") int hotel_id,
                                          @Field("Branch_Id") int branch_id);
-
-
 }
 

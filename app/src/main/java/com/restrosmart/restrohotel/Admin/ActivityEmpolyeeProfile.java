@@ -26,11 +26,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.restrosmart.restrohotel.ConstantVariables.GET_ALL_EMPLOYEE;
@@ -42,24 +39,15 @@ import static com.restrosmart.restrohotel.Utils.Sessionmanager.HOTEL_ID;
  */
 
 public class ActivityEmpolyeeProfile extends AppCompatActivity {
-
-   // private List<EmployeeForm> employeeDetails;
-
     private int emp_id;
-    private  ApiService apiService;
-
     private CircleImageView mImage;
     private String active;
     private TextView mName, mUsername, mRole, mStatus, mHotelName, mMobNo, mEmail, mAdhar, mAddress;
-
-    private String Name, Username, Role, Status, HotelName, MobNo, Email, Adhar, Address;
     private RetrofitService mRetrofitService;
     private IResult mResultCallBack;
     private  Sessionmanager sessionmanager;
     private  int hotelId,branchId;
     private  ArrayList<EmployeeForm> arrayListEmployee;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,15 +62,11 @@ public class ActivityEmpolyeeProfile extends AppCompatActivity {
         branchId = Integer.parseInt(name_info.get(BRANCH_ID));
 
         Intent intent = getIntent();
-
-        /*passed complete arraylist*/
-        // employeeDetails = intent.getParcelableArrayListExtra("Emp_detail");
         emp_id = intent.getIntExtra("empId", 0);
 
         Toolbar mTopToolbar = (Toolbar) findViewById(R.id.toolbar);
         TextView toolBarTitle = (TextView) mTopToolbar.findViewById(R.id.tx_title);
         toolBarTitle.setText("Employee Profile");
-
         setSupportActionBar(mTopToolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -99,7 +83,6 @@ public class ActivityEmpolyeeProfile extends AppCompatActivity {
 
     private void init() {
         mImage = (CircleImageView) findViewById(R.id.img_user_photo);
-
         mName = (TextView) findViewById(R.id.txt_user_name);
         mUsername = (TextView) findViewById(R.id.tv_username);
         mRole = (TextView) findViewById(R.id.tv_emp_role);
@@ -117,8 +100,6 @@ public class ActivityEmpolyeeProfile extends AppCompatActivity {
         mRetrofitService = new RetrofitService(mResultCallBack, ActivityEmpolyeeProfile.this);
         mRetrofitService.retrofitData(GET_ALL_EMPLOYEE, (service.getallEmployees(hotelId,
               branchId)));
-
-
     }
 
     private void retrofitCallBackEmployee() {
@@ -184,14 +165,10 @@ public class ActivityEmpolyeeProfile extends AppCompatActivity {
                     String status = String.valueOf(employeeDetails.get(i).getActiveStatus());
                     String imagePath = employeeDetails.get(i).getEmpImg();
 
-                    Picasso.with(this).load(apiService.BASE_URL+imagePath).into(mImage);
+                    Picasso.with(this).load(imagePath).into(mImage);
                     mName.setText(employeeDetails.get(i).getEmpName());
                     mUsername.setText(employeeDetails.get(i).getUserName());
                     mRole.setText(employeeDetails.get(i).getRole());
-
-
-                    //if (status.contentEquals("1"))
-
 
                     switch (status) {
                         case "1":
@@ -212,7 +189,6 @@ public class ActivityEmpolyeeProfile extends AppCompatActivity {
                     mEmail.setText(employeeDetails.get(i).getEmpEmail());
                     mAdhar.setText(employeeDetails.get(i).getEmpAdharId());
                     mAddress.setText(employeeDetails.get(i).getEmpAddress());
-
 
                 } else {
 

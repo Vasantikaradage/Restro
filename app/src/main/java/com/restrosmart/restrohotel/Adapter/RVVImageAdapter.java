@@ -1,6 +1,6 @@
 package com.restrosmart.restrohotel.Adapter;
 
-import android.app.Dialog;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
@@ -8,10 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.ImageView;
-
-import com.restrosmart.restrohotel.Interfaces.ApiService;
 import com.restrosmart.restrohotel.Interfaces.PositionListener;
 import com.restrosmart.restrohotel.Model.ImageForm;
 import com.restrosmart.restrohotel.R;
@@ -27,9 +24,6 @@ public class RVVImageAdapter extends RecyclerView.Adapter<RVVImageAdapter.ViewHo
     Context context;
     ArrayList<ImageForm> imageArrayList;
     PositionListener positionListener;
-    String lastpos=null;
-    ApiService apiService;
-
     String mImage;
 
     public RVVImageAdapter(Context context, ArrayList<ImageForm> arrayList_image, String mUpdatedImage, PositionListener positionListener) {
@@ -51,18 +45,15 @@ public class RVVImageAdapter extends RecyclerView.Adapter<RVVImageAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull final RVVImageAdapter.ViewHolder holder, final int position) {
         if (mImage != null) {
-
             if (mImage.equals(imageArrayList.get(position).getImage())) {
-                Picasso.with(context).load(apiService.BASE_URL+mImage).resize(500, 500).into(holder.imageView);
+                Picasso.with(context).load(mImage).resize(500, 500).into(holder.imageView);
                 Resources resources = context.getResources();
                 holder.imageView.setBackgroundColor(resources.getColor(R.color.blue_btn_bg_color));
-                // positionListener.positionListern(position);
             } else {
-                Picasso.with(context).load(apiService.BASE_URL+imageArrayList.get(position).getImage()).resize(500, 500).into(holder.imageView);
+                Picasso.with(context).load(imageArrayList.get(position).getImage()).resize(500, 500).into(holder.imageView);
             }
-
         } else {
-            Picasso.with(context).load(apiService.BASE_URL+imageArrayList.get(position).getImage()).resize(500, 500).into(holder.imageView);
+            Picasso.with(context).load(imageArrayList.get(position).getImage()).resize(500, 500).into(holder.imageView);
 
 
         }
@@ -70,23 +61,14 @@ public class RVVImageAdapter extends RecyclerView.Adapter<RVVImageAdapter.ViewHo
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                 if (holder.getAdapterPosition() == position) {
                     Resources resources = context.getResources();
                     holder.imageView.setBackgroundColor(resources.getColor(R.color.blue_btn_bg_color));
                     positionListener.positionListern(position);
                     notifyItemChanged(position);
                 }
-
-
             }
-
         });
-
-      /*  Resources resources = context.getResources();
-        holder.imageView.setBackgroundColor(resources.getColor(R.color.colorGrey));
-        lastpos= String.valueOf(position);*/
     }
 
     @Override
@@ -98,8 +80,6 @@ public class RVVImageAdapter extends RecyclerView.Adapter<RVVImageAdapter.ViewHo
         public ViewHolder(View itemView) {
             super(itemView);
             imageView = (ImageView) itemView.findViewById(R.id.category_image);
-
-
         }
     }
 }

@@ -1,10 +1,11 @@
 package com.restrosmart.restrohotel.Adapter;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -12,26 +13,23 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
+import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.restrosmart.restrohotel.Admin.ActivityAddNewMenu;
-import com.restrosmart.restrohotel.Interfaces.ApiService;
 import com.restrosmart.restrohotel.Interfaces.DeleteListener;
 import com.restrosmart.restrohotel.Interfaces.EditListener;
+import com.restrosmart.restrohotel.Interfaces.StatusListener;
 import com.restrosmart.restrohotel.Model.FlavourForm;
 import com.restrosmart.restrohotel.Model.FlavourUnitForm;
 import com.restrosmart.restrohotel.R;
-import com.restrosmart.restrohotel.Utils.flowtextview.FlowTextView;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by SHREE on 28/12/2018.
@@ -43,22 +41,25 @@ private ArrayList<FlavourForm>  flavourFormArrayList;
 private ArrayList<FlavourUnitForm> flavourUnitFormArrayList;
 private  EditListener editListener;
 private  DeleteListener deleteListener;
-private CircleImageView mCircularImageView;
+private ImageView mImageView;
 private  RecyclerView rvFlavourDisplay;
 private  TextView flavourName;
 private ImageButton imageBtnCancel;
-private ApiService apiService;
+private StatusListener statusListener;
+
 
     private  View dialoglayout;
-    private  AlertDialog dialog;
+    private  AlertDialog alertDialog;
+    private  Dialog dialog;
 
 
-    public AdapterDisplayFlavour(Context activityFlavour, ArrayList<FlavourForm> arrayListFlavour, ArrayList<FlavourUnitForm> flavourUnitFormArrayList, EditListener editListener, DeleteListener deleteListener) {
+    public AdapterDisplayFlavour(Context activityFlavour, ArrayList<FlavourForm> arrayListFlavour, StatusListener statusListener, ArrayList<FlavourUnitForm> flavourUnitFormArrayList, EditListener editListener, DeleteListener deleteListener) {
     this.context=activityFlavour;
     this.flavourFormArrayList=arrayListFlavour;
     this.flavourUnitFormArrayList=flavourUnitFormArrayList;
     this.deleteListener=deleteListener;
     this.editListener=editListener;
+    this.statusListener=statusListener;
 
     }
 
@@ -76,10 +77,19 @@ private ApiService apiService;
 
         holder.flavourName.setText(flavourFormArrayList.get(position).getFlavourName());
 
-       Picasso.with(context).load(apiService.BASE_URL+flavourFormArrayList.get(position).getFlavourImage())
+       Picasso.with(context).load(flavourFormArrayList.get(position).getFlavourImage())
                 .memoryPolicy(MemoryPolicy.NO_CACHE)
                 .memoryPolicy(MemoryPolicy.NO_STORE)
                 .into(holder.imageFlavour);
+
+        if (flavourFormArrayList.get(position).getFlavourStatus() == 0){
+            holder.mFlavourStatus.setText("Active");
+            holder.mFlavourStatus.setTextColor(context.getResources().getColor(R.color.colorGreen));
+        }else {
+            holder.mFlavourStatus.setText("InActive");
+            holder.mFlavourStatus.setTextColor(context.getResources().getColor(R.color.colorRed));
+            holder.cardView.setCardBackgroundColor(context.getResources().getColor(R.color.scratch_start_gradient));
+        }
 
        holder.llflavour.setOnClickListener(new View.OnClickListener() {
            @Override
@@ -89,8 +99,8 @@ private ApiService apiService;
                dialoglayout = li.inflate(R.layout.dialog_flavour_display, null);
                final AlertDialog.Builder builder = new AlertDialog.Builder(context);
                builder.setView(dialoglayout);
-               dialog = builder.create();
-               mCircularImageView=dialoglayout.findViewById(R.id.img_menu);
+               alertDialog = builder.create();
+               mImageView =dialoglayout.findViewById(R.id.img_menu);
                flavourName=dialoglayout.findViewById(R.id.flavour_name);
                TextView unit=dialoglayout.findViewById(R.id.unit);
 
@@ -99,10 +109,10 @@ private ApiService apiService;
 
               flavourName.setText(flavourFormArrayList.get(position).getFlavourName());
 
-               Picasso.with(context).load(apiService.BASE_URL+flavourFormArrayList.get(position).getFlavourImage())
+               Picasso.with(context).load(flavourFormArrayList.get(position).getFlavourImage())
                        .memoryPolicy(MemoryPolicy.NO_CACHE)
                        .memoryPolicy(MemoryPolicy.NO_STORE)
-                       .into(mCircularImageView);
+                       .into(mImageView);
 
                if( flavourFormArrayList.get(position).getArrayListUnits().size()==0)
                {
@@ -119,11 +129,11 @@ private ApiService apiService;
                    rvFlavourDisplay.setAdapter(adapterDisplayAllFlavourView);
                    notifyDataSetChanged();
                }
-               dialog.show();
+               alertDialog.show();
                imageBtnCancel.setOnClickListener(new View.OnClickListener() {
                    @Override
                    public void onClick(View view) {
-                       dialog.dismiss();
+                       alertDialog.dismiss();
                    }
                });
 
@@ -146,20 +156,64 @@ private ApiService apiService;
                    public boolean onMenuItemClick(MenuItem item) {
 
                        switch (item.getItemId()) {
+
+                           case R.id.menu_active:
+
+                               dialog = new Dialog(context);
+                               dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                               dialog.setCancelable(false);
+                               dialog.setCanceledOnTouchOutside(false);
+                               dialog.setContentView(R.layout.dialog_active_table);
+
+                               // set the custom alertDialog components - text, image and button
+                               ImageView ivCloseDialog = dialog.findViewById(R.id.ivCloseDialog);
+                               ImageView ivActive= dialog.findViewById(R.id.ivActiveIcon);
+                               ImageView ivInActive= dialog.findViewById(R.id.ivInActvieIcon);
+                               RelativeLayout tvActive = dialog.findViewById(R.id.tvActive);
+                               RelativeLayout tvInActive = dialog.findViewById(R.id.tvInActive);
+
+                               tvActive.setOnClickListener(new View.OnClickListener() {
+                                   @Override
+                                   public void onClick(View view) {
+                                       statusListener.statusListern(position,0);
+                                       dialog.dismiss();
+                                   }
+                               });
+
+                               tvInActive.setOnClickListener(new View.OnClickListener() {
+                                   @Override
+                                   public void onClick(View view) {
+                                       statusListener.statusListern(position,1);
+                                       dialog.dismiss();
+
+                                   }
+                               });
+
+
+
+                               ivCloseDialog.setOnClickListener(new View.OnClickListener() {
+                                   @Override
+                                   public void onClick(View view) {
+                                       dialog.dismiss();
+                                   }
+                               });
+
+                               if(flavourFormArrayList.get(position).getFlavourStatus()==0)
+                               {
+                                   ivActive.setVisibility(View.VISIBLE);
+                                   ivInActive.setVisibility(View.GONE);
+                               }
+                               else
+                               {
+                                   ivActive.setVisibility(View.GONE);
+                                   ivInActive.setVisibility(View.VISIBLE);
+                               }
+                               dialog.show();
+                               return true;
+
+
                            case R.id.menu_edit:
                                editListener.getEditListenerPosition(position);
-                               //handle menu1 click
-                               /*Intent intent = new Intent(context, ActivityAddNewMenu.class);
-                               intent.putExtra("MenuId", arrayListMenu.get(position).getMenu_Id());
-                               intent.putExtra("ImageName", arrayListMenu.get(position).getMenu_Image_Name());
-                               intent.putExtra("MenuName", arrayListMenu.get(position).getMenu_Name());
-                               intent.putExtra("Price", arrayListMenu.get(position).getNon_Ac_Rate());
-                               intent.putExtra("MenuDiscription", arrayListMenu.get(position).getMenu_Descrip());
-                               intent.putExtra("MenuTaste", arrayListMenu.get(position).getMenu_Test());
-                               intent.putParcelableArrayListExtra("ArrayListToppings", arrayListMenu.get(position).getArrayListtoppings());
-
-
-                               context.startActivity(intent);*/
                                return true;
 
                            case R.id.menu_delete:
@@ -187,8 +241,6 @@ private ApiService apiService;
 
 
                                        });
-
-
                                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
                                    public void onClick(DialogInterface dialog, int which) {
                                        dialog.dismiss();
@@ -224,7 +276,7 @@ private ApiService apiService;
                 dialoglayout = li.inflate(R.layout.dialog_unit_show, null);
                 final AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setView(dialoglayout);
-                dialog = builder.create();
+                alertDialog = builder.create();
 
                 RecyclerView recyclerView=(RecyclerView)dialoglayout.findViewById(R.id.recycler_flavour_unit);
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
@@ -233,7 +285,7 @@ private ApiService apiService;
                 AdapterDisplayFlavourUnit adapterDisplayFlavourUnit = new AdapterDisplayFlavourUnit(context,flavourUnitFormArrayList );
                 recyclerView.setAdapter(adapterDisplayFlavourUnit);
 
-                dialog.show();
+                alertDialog.show();
 
 
 
@@ -249,9 +301,10 @@ private ApiService apiService;
     }
 
     public class MyHolder extends RecyclerView.ViewHolder {
-        private TextView flavourName,flavourDiscription,menuOption;
+        private TextView flavourName,flavourDiscription,menuOption,mFlavourStatus;
         private ImageView imageFlavour;
         private LinearLayout llflavour;
+        private CardView cardView;
       //  private FrameLayout frameLayout;
 
         public MyHolder(View itemView) {
@@ -261,6 +314,9 @@ private ApiService apiService;
             //flavourDiscription=itemView.findViewById(R.id.tx_flavour_disp);
             menuOption=itemView.findViewById(R.id.textViewOptions);
             llflavour=itemView.findViewById(R.id.llflavour);
+            mFlavourStatus=itemView.findViewById(R.id.tv_flavour_status);
+            cardView=itemView.findViewById(R.id.cardview);
+
 
         }
     }

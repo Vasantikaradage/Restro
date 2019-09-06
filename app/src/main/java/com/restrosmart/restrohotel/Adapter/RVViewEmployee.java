@@ -100,16 +100,12 @@ public class RVViewEmployee extends RecyclerView.Adapter<RVViewEmployee.MyHolder
 
         String path = viewEmployees.get(position).getEmpImg().toString();
 
-        Picasso.with(context).load(apiService.BASE_URL+path).into(holder.circleImageView);
+        Picasso.with(context).load(path).into(holder.circleImageView);
 
         holder.circleImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
-                holder.circleImageView.setAnimation(AnimationUtils.loadAnimation(context,R.anim.zoom_in));
-               // zoomImageFromThumb(holder.circleImageView,viewEmployees.get(position).getEmpImg().toString());
-            }
+                holder.circleImageView.setAnimation(AnimationUtils.loadAnimation(context,R.anim.zoom_in)); }
         });
 
         shortAnimationDuration = context.getResources().getInteger(

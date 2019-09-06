@@ -13,34 +13,9 @@
 
     </android.support.v7.widget.RecyclerView>
 
-        </RelativeLayout>
+</RelativeLayout>
 
 
 
-    <!--<LinearLayout
-        android:id="@+id/linear_item"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
 
-        android:layout_alignParentBottom="true">
-
-        <Button
-            android:id="@+id/btn_add_category"
-            android:layout_width="0dp"
-            android:layout_height= "wrap_content"
-            android:layout_weight="1"
-            android:text="add positionListener"
-            style="?android:button"/>
-
-        <Button
-            android:id="@+id/btn_add_menu"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="add menu item"
-            style="?android:button"
-            />
-
-
-    </LinearLayout>-->
 

@@ -13,7 +13,7 @@ import java.util.List;
 public class ToppingsViewPagerAdapter extends FragmentPagerAdapter {
 
     Context context;
-    private ArrayList<ParentCategoryForm> mFragmentTitleList=new ArrayList<>();
+    private ArrayList<ParentCategoryForm> mFragmentTitleList;
     private List<ParentToppingsInfoForm> mAddParentToppnigsinfos;
 
     public ToppingsViewPagerAdapter(FragmentManager fm, ArrayList<ParentCategoryForm> mFragmentTitleList, List<ParentToppingsInfoForm> mFragmentToppingsTitalList) {

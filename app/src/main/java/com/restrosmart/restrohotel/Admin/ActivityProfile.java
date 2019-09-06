@@ -466,7 +466,7 @@ public class ActivityProfile extends AppCompatActivity {
                 }
 
                 String image=ArrayListEmployee.get(i).getEmpImg();
-                Picasso.with(ActivityProfile.this).load(apiService.BASE_URL+image).resize(500, 500).into(mPhoto);
+                Picasso.with(ActivityProfile.this).load(image).resize(500, 500).into(mPhoto);
 
 
                 String mobNo = ArrayListEmployee.get(i).getEmpMob();

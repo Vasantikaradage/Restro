@@ -162,6 +162,8 @@ public class ActivityAdminLogin extends AppCompatActivity {
 
             @Override
             public void notifyError(int requestId, Throwable error) {
+
+
                 progressBar.setVisibility(View.GONE);
                 btnAdminLogin.setVisibility(View.VISIBLE);
                 Toast.makeText(ActivityAdminLogin.this, "Something went wrong..! Please try again later.", Toast.LENGTH_LONG).show();

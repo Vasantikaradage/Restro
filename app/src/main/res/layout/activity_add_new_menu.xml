@@ -12,7 +12,6 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-
         <include
             android:id="@+id/title_name"
             layout="@layout/tool_bar_admin"
@@ -104,6 +103,7 @@
                             android:paddingLeft="10dp" />
 
                         <TextView
+                            android:id="@+id/tv_price"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
@@ -129,6 +129,7 @@
 
 
                         <TextView
+                            android:id="@+id/tv_description"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
@@ -150,6 +151,7 @@
                             android:paddingLeft="10dp" />
 
                         <TextView
+                            android:id="@+id/tv_teste"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"

@@ -77,7 +77,7 @@ public class AdapterDisplayAllCategoryOffer extends RecyclerView.Adapter<Adapter
         initRetrofitCallBack();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack,context);
-        mRetrofitService.retrofitData(PARENT_CATEGORY_WITH_SUB, (service.getMenus(arrayList.get(position).getCategory_id(),hotelId,
+        mRetrofitService.retrofitData(PARENT_CATEGORY_WITH_SUB, (service.getMenus(arrayList.get(position).getCategory_id(),arrayList.get(position).getPc_Id(),hotelId,
                 (branchId))));
       /*  holder.tvReschedule.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
         holder.viewLine.setVisibility(isExpanded ? View.VISIBLE : View.GONE);

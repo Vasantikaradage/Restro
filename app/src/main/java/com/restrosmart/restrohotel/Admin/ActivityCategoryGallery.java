@@ -24,12 +24,16 @@ import com.restrosmart.restrohotel.R;
 import com.restrosmart.restrohotel.RetrofitClientInstance;
 import com.restrosmart.restrohotel.RetrofitService;
 import com.restrosmart.restrohotel.Utils.Sessionmanager;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import retrofit2.Response;
+
 import static com.restrosmart.restrohotel.ConstantVariables.IMAGE_LIST;
 import static com.restrosmart.restrohotel.ConstantVariables.IMAGE_RESULT_OK;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.BRANCH_ID;
@@ -98,25 +102,20 @@ public class ActivityCategoryGallery extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         int id = item.getItemId();
 
-
         if (id == R.id.image_save) {
-            Intent intent= new Intent();
+            Intent intent = new Intent();
             intent.putExtra("image_name", image_name);
             setResult(IMAGE_RESULT_OK, intent);
             finish();
-
-
         }
         return super.onOptionsItemSelected(item);
-        }
+    }
 
 
-            private void initRetrofitCallBackForCategory() {
-
-        mResultCallBack=new IResult() {
+    private void initRetrofitCallBackForCategory() {
+        mResultCallBack = new IResult() {
             @Override
             public void notifySuccess(int requestId, Response<JsonObject> response) {
                 JsonObject jsonObject1 = response.body();
@@ -151,9 +150,8 @@ public class ActivityCategoryGallery extends AppCompatActivity {
 
     private void getImage(final ArrayList<ImageForm> arrayListImage) {
         recyclerView.setHasFixedSize(true);
-        int no_of_col = 3;
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 4);
-        RVVImageAdapter adapter = new RVVImageAdapter(this, arrayListImage,mImageName ,new PositionListener() {
+        RVVImageAdapter adapter = new RVVImageAdapter(this, arrayListImage, mImageName, new PositionListener() {
 
             @Override
             public void positionListern(int position) {

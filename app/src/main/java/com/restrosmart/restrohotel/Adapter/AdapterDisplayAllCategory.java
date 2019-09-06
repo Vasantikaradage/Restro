@@ -10,7 +10,7 @@ import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +18,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.restrosmart.restrohotel.Admin.ActivityMenu;
-import com.restrosmart.restrohotel.Interfaces.ApiService;
 import com.restrosmart.restrohotel.Interfaces.DeleteListener;
 import com.restrosmart.restrohotel.Interfaces.EditListener;
 import com.restrosmart.restrohotel.Model.CategoryForm;
@@ -39,7 +38,7 @@ public class AdapterDisplayAllCategory extends RecyclerView.Adapter<AdapterDispl
     private List<CategoryForm> arrayList;
     private EditListener editListener;
     private DeleteListener deleteListener;
-    private ApiService apiService;
+
 
 
     public AdapterDisplayAllCategory(Context activity, ArrayList<CategoryForm> arrayList, DeleteListener deleteListener, EditListener editListener) {
@@ -60,50 +59,19 @@ public class AdapterDisplayAllCategory extends RecyclerView.Adapter<AdapterDispl
     @Override
     public void onBindViewHolder(@NonNull final MyHolder holder, int position) {
         holder.tx_name.setText(arrayList.get(position).getCategory_Name());
+        Picasso.with(context)
 
-
-        String image = arrayList.get(position).getC_Image_Name();
-        Log.d("", "vasantiimage" + image);
-
-        // .load(apiService.BASE_URL+"def_veg.png")
-
-        if ((arrayList.get(position).getC_Image_Name().equalsIgnoreCase("null") && (arrayList.get(position).getPc_Id() == 1))) {
-            Picasso.with(context)
-                    .load(apiService.BASE_URL+arrayList.get(position).getDefault_image())
+                    .load(arrayList.get(position).getC_Image_Name())
                     .transform(new CircleTransform())
                     .into(holder.circleImageView);
 
-        } else if ((image.equals("null") && (arrayList.get(position).getPc_Id() == 2))) {
-            Picasso.with(context)
-                    .load(apiService.BASE_URL+arrayList.get(position).getDefault_image())
-                    .transform(new CircleTransform())
-                    .into(holder.circleImageView);
-
-        } else if ((image.equals("null") && (arrayList.get(position).getPc_Id() == 3))) {
-            Picasso.with(context)
-                    .load(apiService.BASE_URL+arrayList.get(position).getDefault_image())
-                    .transform(new CircleTransform())
-                    .into(holder.circleImageView);
-
-        } else if ((image.equals("null") && (arrayList.get(position).getPc_Id() == 4))) {
-            Picasso.with(context)
-                    .load(apiService.BASE_URL+arrayList.get(position).getDefault_image())
-                    .transform(new CircleTransform())
-                    .into(holder.circleImageView);
-
-        } else {
-            Picasso.with(context)
-                    .load(apiService.BASE_URL+image)
-                    .transform(new CircleTransform())
-                    .into(holder.circleImageView);
-        }
 
         holder.imagBtnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder
-                        .setTitle("Delete PositionListener")
+                        .setTitle("Delete Category")
                         .setMessage("Are you sure you want to delete this category ?")
                         .setIcon(R.drawable.ic_action_btn_delete)
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -119,7 +87,6 @@ public class AdapterDisplayAllCategory extends RecyclerView.Adapter<AdapterDispl
                 });
                 AlertDialog alert = builder.create();
                 alert.show();
-
             }
         });
 

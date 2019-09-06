@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -151,7 +152,8 @@ public class FragmentViewEmployee extends Fragment {
 
             @Override
             public void notifyError(int requestId, Throwable error) {
-
+                Log.d("","RequestId"+requestId);
+                Log.d("","RetrofotError"+error);
             }
         };
 

@@ -27,82 +27,80 @@
                 android:orientation="vertical"
                 android:background="@drawable/login_bg">
 
-            <TextView
-                android:id="@+id/tx_add_cat"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Add Category"
-                android:textColor="@color/white"
-                android:gravity="center_horizontal|center"
-                android:textSize="18sp"
-                android:layout_marginTop="55dp"
-                android:textStyle="bold"
-                android:visibility="gone"/>
-            <TextView
-                android:id="@+id/tx_edit_cat"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Edit Category"
-                android:textColor="@color/white"
-                android:gravity="center_horizontal"
-                android:textSize="18dp"
-                android:layout_marginTop="55dp"
-                android:textStyle="bold"
-                android:visibility="gone"/>
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/tv_add_menu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Add Menu"
+                    android:textColor="@color/white"
+                    android:gravity="center_horizontal|center"
+                    android:textSize="18sp"
+                    android:layout_marginTop="55dp"
+                    android:textStyle="bold"
+                    android:visibility="gone"/>
+                <TextView
+                    android:id="@+id/tv_edit_menu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Edit Menu"
+                    android:textColor="@color/white"
+                    android:gravity="center_horizontal"
+                    android:textSize="18dp"
+                    android:layout_marginTop="55dp"
+                    android:textStyle="bold"
+                    android:visibility="gone"/>
+            </LinearLayout>
 
-        <RelativeLayout
+            <RelativeLayout
 
-            android:layout_width="wrap_content"
-            android:layout_height="170dp"
-            android:layout_marginTop="25dp"
-            android:layout_marginStart="15dp"
-            android:layout_gravity="center_horizontal|center_vertical">
-
-            <FrameLayout
-                android:id="@+id/frame_layout"
-                android:layout_width="120dp"
-                android:layout_height="120dp">
-                <ImageView
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/circle_bg_gradient" />
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/img_category"
-                android:layout_width="90dp"
-                android:layout_height="90dp"
-                android:padding="5dp"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_steak"
-                >
-            </de.hdodenhof.circleimageview.CircleImageView>
-            </FrameLayout>
-            <FrameLayout
-                android:id="@+id/iv_select_image"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/frame_layout"
-                android:layout_marginStart="90dp"
-                android:layout_marginTop="25dp">
+                android:layout_height="170dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginStart="15dp"
+                android:layout_gravity="center_horizontal|center_vertical">
 
-                <ImageView
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/circle_bg_light_gray" />
+                <FrameLayout
+                    android:id="@+id/frame_layout"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp">
+                    <ImageView
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/circle_bg_gradient" />
 
-                <ImageView
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/img_menu"
+                        android:layout_width="90dp"
+                        android:layout_height="90dp"
+                        android:padding="5dp"
+                        android:layout_gravity="center">
+                    </de.hdodenhof.circleimageview.CircleImageView>
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/iv_select_image"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:src="@drawable/camera_bg_white_backgrnd" />
+                    android:layout_alignBottom="@+id/frame_layout"
+                    android:layout_marginStart="90dp">
 
-            </FrameLayout>
+                    <ImageView
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/circle_bg_light_gray" />
 
-        </RelativeLayout>
-            </LinearLayout>
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/camera_bg_white_backgrnd" />
+
+                </FrameLayout>
+
+            </RelativeLayout>
+        </LinearLayout>
 
 
 
@@ -131,38 +129,45 @@
             >
 
             <TextView
-                android:id="@+id/tx_category"
+                android:id="@+id/tv_menu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Category Name"
+                android:text="Menu Name"
                 android:textStyle="bold"
                 android:textSize="16sp"
                 android:padding="5dp"
                 android:textColor="@color/colorPrimary"
                 android:layout_marginStart="10dp"
-               />
+                />
 
             <EditText
-                android:id="@+id/etx_category_name"
+                android:id="@+id/etv_menu_name"
                 android:layout_width="400dp"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/texview_outline_black"
                 android:layout_marginStart="10dp"
-                android:layout_below="@+id/tx_category"
+                android:layout_below="@+id/tv_menu"
                 android:padding="10dp"
                 android:singleLine="true"
-                android:hint="Enter Category Name">
-
-
-
-
+                android:hint="Enter Menu Name">
             </EditText>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_toppings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:padding="10dp"
+                android:layout_below="@+id/etv_menu_name">
+            </android.support.v7.widget.RecyclerView>
+
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/etx_category_name"
+                android:layout_below="@+id/rv_toppings"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="@dimen/dimen_20dp"
                 android:gravity="center">
@@ -199,11 +204,6 @@
 
 
         </RelativeLayout>
-
-
-
-    <!-- </android.support.v7.widget.CardView>
- </FrameLayout>-->
     </LinearLayout>
 </LinearLayout>
 

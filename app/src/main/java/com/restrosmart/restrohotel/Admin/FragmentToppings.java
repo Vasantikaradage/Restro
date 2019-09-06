@@ -10,7 +10,6 @@ import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,8 +51,6 @@ import static com.restrosmart.restrohotel.Utils.Sessionmanager.BRANCH_ID;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.HOTEL_ID;
 
 public  class FragmentToppings extends Fragment {
-
-
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private  Sessionmanager sessionmanager;
@@ -65,8 +62,7 @@ public  class FragmentToppings extends Fragment {
     private FrameLayout flAddToppings;
     private  View dialoglayout;
     private  BottomSheetDialog dialog;
-    private String imageName;
-    private  ApiService apiService;
+    private String imageName,mFinalImageName;
     private CircleImageView mCircleImageView;
     private EditText etvToppingName,etvToppingPrice;
     private TextView tvToppingTitle;
@@ -134,14 +130,24 @@ public  class FragmentToppings extends Fragment {
                     @Override
                     public void onClick(View view) {
 
-                        if(imageName==null)
+                        if(etvToppingName.getText().toString().length()==0 || etvToppingPrice.getText().toString().length()==0){
+                            alert();
+                        }
+                        else{
+
+
+                            if(imageName==null)
                         {
-                            imageName="null";
+                            mFinalImageName="null";
+                        }
+                        else
+                        {
+                            mFinalImageName=imageName.substring(imageName.lastIndexOf("/")+1);
                         }
 
                         saveToppingInformation();
 
-                    }
+                    }}
 
 
                     private void saveToppingInformation() {
@@ -149,7 +155,7 @@ public  class FragmentToppings extends Fragment {
                         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
                         mRetrofitService = new RetrofitService(mResultCallBack, getActivity());
                         mRetrofitService.retrofitData(ADD_TOPPINGS, service.addToppings(etvToppingName.getText().toString(),
-                                imageName,
+                                mFinalImageName,
                                 Integer.parseInt(etvToppingPrice.getText().toString()),
                                 hotelId,
                                 branchId,
@@ -171,6 +177,10 @@ public  class FragmentToppings extends Fragment {
 
     }
 
+    private void alert() {
+        Toast.makeText(getActivity(),"Please fill all the fields",Toast.LENGTH_LONG).show();
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -178,8 +188,7 @@ public  class FragmentToppings extends Fragment {
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, getActivity());
         mRetrofitService.retrofitData(PARENT_CATEGORY_WITH_TOPPINGS, (service.toppingDisplay(hotelId,
-                (branchId))));
-       //
+                (branchId),mPcId)));
          showProgressDialog();
     }
 
@@ -209,8 +218,6 @@ public  class FragmentToppings extends Fragment {
                           int status = object.getInt("status");
                           progressDialog.dismiss();
                           if (status == 1) {
-                              //JSONObject jsonObject1 = object.getJSONObject("AllMenu");
-
                               mFragmentTitleList.clear();
                               JSONArray jsonArray = object.getJSONArray("Topping_List");
 
@@ -218,7 +225,7 @@ public  class FragmentToppings extends Fragment {
                                   fragmentToppingsArrayList.clear();
                                   JSONObject jsonObject2 = jsonArray.getJSONObject(i);
                                   JSONArray jsonArray1 = jsonObject2.getJSONArray("Topping");
-                                  //  String pcName = jsonObject2.getString("Name").toString();
+
                                   ParentCategoryForm parentCategoryForm = new ParentCategoryForm();
                                   parentCategoryForm.setPc_id(jsonObject2.getInt("Pc_Id"));
                                   parentCategoryForm.setName(jsonObject2.getString("Name").toString());
@@ -275,13 +282,14 @@ public  class FragmentToppings extends Fragment {
                       } catch (JSONException e) {
                           e.printStackTrace();
                       }
-                     // dialog.dismiss();
                       break;
               }
             }
 
             @Override
             public void notifyError(int requestId, Throwable error) {
+                Log.d("","requestId"+requestId);
+                Log.d("","RetrofitError"+error);
 
             }
         };
@@ -299,7 +307,7 @@ public  class FragmentToppings extends Fragment {
             @Override
             public void onPageSelected(int i) {
                 mPcId = mFragmentTitleList.get(i).getPc_id();
-                Toast.makeText(getActivity(),"id"+mPcId,Toast.LENGTH_LONG).show();
+                //Toast.makeText(getActivity(),"id"+mPcId,Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -333,7 +341,7 @@ public  class FragmentToppings extends Fragment {
             Log.e("Result for image", imageName);
 
             Picasso.with(dialoglayout.getContext())
-                    .load(apiService.BASE_URL+imageName)
+                    .load(imageName)
                     .resize(500, 500)
                     .into(mCircleImageView);
         }

@@ -152,14 +152,25 @@ public class FragmentMenuItems extends Fragment {
                     @Override
                     public void onClick(View view) {
 
-                        if(imageName==null)
-                        {
-                            imageName="null";
-                        }
+                        if (etxCategoryNme.getText().toString().length() == 0) {
+                            alert();
+                        } else {
 
-                        saveCategoryInformation();
+                            if (imageName == null) {
+                                mFinalImageName = "null";
+                            } else {
+                           /* int start = imageName.indexOf("t/");
+                            String suffix = imageName.substring(start + 1);
+                            int start1 = suffix.indexOf("/");
+                            mFinalImageName = suffix.substring(start1 + 1);*/
+                                mFinalImageName = imageName.substring(imageName.lastIndexOf("/") + 1);
+                            }
+
+                            saveCategoryInformation();
+                        }
                     }
                 });
+                                           
 
                 btnCancel.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -176,12 +187,16 @@ public class FragmentMenuItems extends Fragment {
                 ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
                 mRetrofitService = new RetrofitService(mResultCallBack, getActivity());
                 mRetrofitService.retrofitData(SAVE_CATEGORY, service.addCategory(etxCategoryNme.getText().toString(),
-                        imageName,
+                        mFinalImageName,
                         hotelId,
                         branchId,
                         mPcId));
             }
         });
+    }
+
+    private void alert() {
+        Toast.makeText(getActivity(),"Please enter the category name",Toast.LENGTH_LONG).show();
     }
 
     private void showProgressDialog() {
@@ -198,11 +213,11 @@ public class FragmentMenuItems extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        initRetrofitCallBackForCategory();
+       /* initRetrofitCallBackForCategory();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, getActivity());
         mRetrofitService.retrofitData(PARENT_CATEGORY_WITH_SUB, (service.GetAllCategory(hotelId,
-                branchId)));
+                branchId)));*/
 
     }
 
@@ -301,6 +316,7 @@ public class FragmentMenuItems extends Fragment {
                             else
                             {
                                 Toast.makeText(getActivity(), "Try again...", Toast.LENGTH_LONG).show();
+                                dialog.dismiss();
 
                             }
 
@@ -327,7 +343,7 @@ public class FragmentMenuItems extends Fragment {
             Log.e("Result for image", imageName);
 
             Picasso.with(dialoglayout.getContext())
-                    .load(apiService.BASE_URL+imageName)
+                    .load(imageName)
                     .resize(500, 500)
                     .into(mCircleImageView);
         }

@@ -47,8 +47,6 @@ public class RVToppingsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             View itemView1 = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.topping_list_item, viewGroup, false);
             return new ItemViewHolder(itemView1);
         }
-
-       // throw new RuntimeException("no match for : " + i);
     }
 
     @Override
@@ -113,7 +111,7 @@ public class RVToppingsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (isChecked) {
-
+                        arrayListToppingsEditInfo.clear();
                         arrayList = new ArrayList<>();
                         for (int i = 0; i < arrayListToppings.size(); i++) {
                             ToppingsForm toppingsForm = new ToppingsForm();
@@ -128,6 +126,7 @@ public class RVToppingsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
                     } else {
                         arrayList = new ArrayList<>();
+                        arrayListToppingsEditInfo.clear();
                         for (int i = 0; i < arrayListToppings.size(); i++) {
                             ToppingsForm toppingsForm = new ToppingsForm();
                             toppingsForm.setToppingId(arrayListToppings.get(i).getToppingId());

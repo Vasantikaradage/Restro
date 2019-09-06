@@ -61,13 +61,13 @@ public class ActivityAddNewMenu extends AppCompatActivity {
     private RadioButton radioBtnNull, radioBtnSweet, radioBtnSpicy;
     private Button btnSaveMenu, btnCancelMenu, btnUpdateMenu;
     private int menuTeste;
-    private String imageName;
+    private String imageName, mFinalImageName;
     private Intent intent;
     private Toolbar mToolbar;
     private TextView tvTitle;
     private ArrayList<ToppingsForm> arrayListToppingsEditinfo;
     private int pcId;
-    private  ApiService apiService;
+    private ApiService apiService;
 
 
     @Override
@@ -89,8 +89,9 @@ public class ActivityAddNewMenu extends AppCompatActivity {
         btnUpdateMenu.setVisibility(View.GONE);
 
         if (intent.getIntExtra("MenuId", 0) != 0) {
-            pcId = intent.getIntExtra("pc_Id", 0);
 
+
+            pcId = intent.getIntExtra("pc_Id", 0);
             tvTitle.setText("Edit Menu");
             btnSaveMenu.setVisibility(View.GONE);
             btnUpdateMenu.setVisibility(View.VISIBLE);
@@ -98,10 +99,23 @@ public class ActivityAddNewMenu extends AppCompatActivity {
             etxMenuDiscription.setText(intent.getStringExtra("MenuDiscription"));
             String price = String.valueOf(intent.getIntExtra("Price", 0));
             etxMenuPrice.setText(price);
+
+            fmBtnCamera.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intentGallry = new Intent(ActivityAddNewMenu.this, ActivityMenuGallery.class);
+                    intentGallry.putExtra("Category_Id", intent.getIntExtra("categoryId", 0));
+                    intentGallry.putExtra("Pc_Id", pcId);
+                    startActivityForResult(intentGallry, IMAGE_RESULT_OK);
+                }
+            });
+
             Picasso.with(this)
-                    .load(apiService.BASE_URL+intent.getStringExtra("ImageName"))
+                    .load(intent.getStringExtra("ImageName"))
                     .resize(500, 500)
                     .into(mCircularImageView);
+
+
             int status = intent.getIntExtra("MenuTaste", 0);
             radioBtnNull.setChecked(false);
             if (status == 1) {
@@ -115,6 +129,23 @@ public class ActivityAddNewMenu extends AppCompatActivity {
                 menuTeste = 3;
             }
 
+            radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                public void onCheckedChanged(RadioGroup group, int checkedId) {
+                    switch (checkedId) {
+
+                        case R.id.btn_radio_sweet:
+                            menuTeste = 1;
+                            break;
+                        case R.id.btn_radio_spicy:
+                            menuTeste = 2;
+                            break;
+                        case R.id.btn_radio_null:
+                            menuTeste = 3;
+                            break;
+                    }
+                }
+            });
+
             arrayListToppingsEditinfo = intent.getParcelableArrayListExtra("ArrayListToppings");
             btnUpdateMenu.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -123,16 +154,29 @@ public class ActivityAddNewMenu extends AppCompatActivity {
                     String ToppingList = getToppingList();
                     initRetrofitCallBack();
 
-                    if(imageName==null)
-                    {
-                        imageName=intent.getStringExtra("ImageName");
+                    if (imageName == null) {
+
+                        String image = intent.getStringExtra("ImageName");
+
+                        String strImage=image.substring(image.lastIndexOf("/") + 1);
+                        if ((strImage.equals("def_menu.png")) || (strImage.equals("def_liquore.png"))) {
+                            mFinalImageName = "null";
+                        } else {
+                            mFinalImageName = image.substring(image.lastIndexOf("/") + 1);
+                        }
+                    } else {
+                        mFinalImageName = imageName.substring(imageName.lastIndexOf("/") + 1);
+                        Picasso.with(ActivityAddNewMenu.this)
+                                .load(imageName)
+                                .resize(500, 500)
+                                .into(mCircularImageView);
                     }
                     int price = Integer.parseInt(etxMenuPrice.getText().toString());
                     ApiService service1 = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
                     mRetrofitService = new RetrofitService(mResultCallBack, ActivityAddNewMenu.this);
                     mRetrofitService.retrofitData(EDIT_MENU, (service1.editMenu(etxMenuName.getText().toString(),
                             etxMenuDiscription.getText().toString(),
-                            imageName,
+                            mFinalImageName,
                             menuTeste,
                             price,
                             intent.getIntExtra("MenuId", 0),
@@ -141,10 +185,7 @@ public class ActivityAddNewMenu extends AppCompatActivity {
                             intent.getIntExtra("categoryId", 0),
                             intent.getIntExtra("pc_Id", 0),
                             ToppingList
-
                     )));
-
-
                 }
             });
 
@@ -154,60 +195,61 @@ public class ActivityAddNewMenu extends AppCompatActivity {
                     finish();
                 }
             });
+        } else {
+
+
+            initRetrofitCallBack();
+            ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
+            mRetrofitService = new RetrofitService(mResultCallBack, this);
+            mRetrofitService.retrofitData(PARENT_CATEGORY_WITH_TOPPINGS, (service.toppingDisplay(hotelId,
+                    (branchId),pcId)));
+
+
+            radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                public void onCheckedChanged(RadioGroup group, int checkedId) {
+                    switch (checkedId) {
+
+                        case R.id.btn_radio_sweet:
+                            menuTeste = 1;
+                            break;
+                        case R.id.btn_radio_spicy:
+                            menuTeste = 2;
+                            break;
+                        case R.id.btn_radio_null:
+                            menuTeste = 3;
+                            break;
+                    }
+                }
+            });
+
+            fmBtnCamera.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intentGallry = new Intent(ActivityAddNewMenu.this, ActivityMenuGallery.class);
+                    intentGallry.putExtra("Category_Id", intent.getIntExtra("categoryId", 0));
+                    intentGallry.putExtra("Pc_Id", pcId);
+                    startActivityForResult(intentGallry, IMAGE_RESULT_OK);
+                }
+            });
+
+            btnSaveMenu.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (imageName == null) {
+                        mFinalImageName = "null";
+                    } else {
+                        mFinalImageName = imageName.substring(imageName.lastIndexOf("/") + 1);
+                    }
+                    getRetrofitDataforMenusave();
+                }
+            });
+            btnCancelMenu.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    finish();
+                }
+            });
         }
-
-
-        //web service for toppings
-        initRetrofitCallBack();
-        ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
-        mRetrofitService = new RetrofitService(mResultCallBack, this);
-        mRetrofitService.retrofitData(PARENT_CATEGORY_WITH_TOPPINGS, (service.toppingDisplay(hotelId,
-                (branchId))));
-
-        fmBtnCamera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intentGallry = new Intent(ActivityAddNewMenu.this, ActivityMenuGallery.class);
-                intentGallry.putExtra("Category_Id", intent.getIntExtra("categoryId", 0));
-                intentGallry.putExtra("Pc_Id", pcId);
-                startActivityForResult(intentGallry, IMAGE_RESULT_OK);
-            }
-        });
-
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId) {
-
-                    case R.id.btn_radio_sweet:
-                        menuTeste = 1;
-                        break;
-                    case R.id.btn_radio_spicy:
-                        menuTeste = 2;
-                        break;
-                    case R.id.btn_radio_null:
-                        menuTeste = 3;
-                        break;
-                }
-            }
-        });
-
-        btnSaveMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(imageName==null)
-                {
-                    imageName="null";
-                }
-                getRetrofitDataforMenusave();
-            }
-        });
-
-        btnCancelMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
     }
 
     private void initRetrofitCallBack() {
@@ -310,7 +352,7 @@ public class ActivityAddNewMenu extends AppCompatActivity {
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, this);
         mRetrofitService.retrofitData(PARENT_CATEGORY_WITH_TOPPINGS, (service.toppingDisplay(hotelId,
-                (branchId))));
+                (branchId),pcId)));
     }
 
     private void callAdapter() {
@@ -318,26 +360,30 @@ public class ActivityAddNewMenu extends AppCompatActivity {
         rvTopping.setHasFixedSize(true);
         rvTopping.setLayoutManager(linearLayoutManager);
 
-        RVToppingsAdapter rvToppingsAdapter = new RVToppingsAdapter(this, arrayListToppings, arrayListToppingsEditinfo, new MarkToppingListerner() {
-            @Override
-            public void markToppings(ArrayList<ToppingsForm> arrayList) {
-                if (arrayList != null && arrayList.size() != 0) {
-                    markArrayListToppings.clear();
-                    for (int i = 0; i < arrayList.size(); i++) {
-                        if (arrayList.get(i).isSelected()) {
-                            //if (arrayList.get(i).isSelected()) {
-                            // }
-                            //  Toast.makeText(ActivityAddNewMenu.this, "id"+arrayList.get(3).getToppingId(), Toast.LENGTH_SHORT).show();
-                            markArrayListToppings.add(arrayList.get(i));
+        if (arrayListToppings.size() != 0) {
+            RVToppingsAdapter rvToppingsAdapter = new RVToppingsAdapter(this, arrayListToppings, arrayListToppingsEditinfo, new MarkToppingListerner() {
+                @Override
+                public void markToppings(ArrayList<ToppingsForm> arrayList) {
+                    if (arrayList != null && arrayList.size() != 0) {
+                        markArrayListToppings.clear();
+                        for (int i = 0; i < arrayList.size(); i++) {
+                            if (arrayList.get(i).isSelected()) {
+                                //if (arrayList.get(i).isSelected()) {
+                                // }
+                                //  Toast.makeText(ActivityAddNewMenu.this, "id"+arrayList.get(3).getToppingId(), Toast.LENGTH_SHORT).show();
+                                markArrayListToppings.add(arrayList.get(i));
 
+                            }
                         }
                     }
                 }
-            }
-        });
-        rvTopping.setAdapter(rvToppingsAdapter);
-    }
+            });
+            rvTopping.setAdapter(rvToppingsAdapter);
+        } else {
+            rvTopping.setVisibility(View.GONE);
+        }
 
+    }
 
     private void setUpToolBar() {
         tvTitle.setText("Add New Menu");
@@ -383,7 +429,7 @@ public class ActivityAddNewMenu extends AppCompatActivity {
             // Log.e("Result", imageName);
 
             Picasso.with(this)
-                    .load(apiService.BASE_URL+imageName)
+                    .load(imageName)
                     .resize(500, 500)
                     .into(mCircularImageView);
         }
@@ -391,22 +437,27 @@ public class ActivityAddNewMenu extends AppCompatActivity {
 
 
     private void getRetrofitDataforMenusave() {
-        initRetrofitCallBack();
-        String ToppingList = getToppingList();
 
-        ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
-        mRetrofitService = new RetrofitService(mResultCallBack, this);
-        mRetrofitService.retrofitData(ADD_MENU, (service.getMenuAdd(etxMenuName.getText().toString(),
-                etxMenuDiscription.getText().toString(),
-                imageName,
-                intent.getIntExtra("categoryId", 0),
-                menuTeste,
-                etxMenuPrice.getText().toString(),
-                hotelId,
-                branchId,
-                intent.getIntExtra("pc_Id", 0),
-                ToppingList
-        )));
+        if((etxMenuName.getText().toString().length()==0) ||(etxMenuPrice.getText().toString().length()==0)||(etxMenuDiscription.getText().toString().length()==0)){
+            Toast.makeText(this, "Please enter all fields", Toast.LENGTH_SHORT).show();
+        }else {
+            initRetrofitCallBack();
+            String ToppingList = getToppingList();
+
+            ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
+            mRetrofitService = new RetrofitService(mResultCallBack, this);
+            mRetrofitService.retrofitData(ADD_MENU, (service.getMenuAdd(etxMenuName.getText().toString(),
+                    etxMenuDiscription.getText().toString(),
+                    mFinalImageName,
+                    intent.getIntExtra("categoryId", 0),
+                    menuTeste,
+                    etxMenuPrice.getText().toString(),
+                    hotelId,
+                    branchId,
+                    intent.getIntExtra("pc_Id", 0),
+                    ToppingList
+            )));
+        }
 
     }
 
