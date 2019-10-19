@@ -80,7 +80,6 @@ public class FragmentTabParentCategory extends Fragment {
 
         HashMap<String, String> name_info = mSessionmanager.getHotelDetails();
         mHotelId = Integer.parseInt(name_info.get(HOTEL_ID));
-        mBranchId = Integer.parseInt(name_info.get(BRANCH_ID));
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -95,7 +94,6 @@ public class FragmentTabParentCategory extends Fragment {
                 ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
                 mRetrofitService = new RetrofitService(mResultCallBack, getActivity());
                 mRetrofitService.retrofitData(DELETE_CATEGORY, service.deleteCategory(categoryForms.get(position).getCategory_id(),
-                        mBranchId,
                         mHotelId,
                         categoryForms.get(position).getPc_Id()));
 
@@ -195,9 +193,7 @@ public class FragmentTabParentCategory extends Fragment {
                                 mFinalImageName,
                                 categoryForms.get(position).getCategory_id(),
                                 mHotelId,
-                                mBranchId,
-                                categoryForms.get(position).getPc_Id()
-                        ));
+                                categoryForms.get(position).getPc_Id()));
                     }
                 });
 

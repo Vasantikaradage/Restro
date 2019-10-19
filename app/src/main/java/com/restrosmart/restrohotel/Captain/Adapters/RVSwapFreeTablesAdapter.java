@@ -149,7 +149,7 @@ public class RVSwapFreeTablesAdapter extends RecyclerView.Adapter<RVSwapFreeTabl
         initRetrofitCallBack();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, mContext);
-        mRetrofitService.retrofitData(SWAP_TABLE, (service.swapTable(1, 1, mOldTableId, mNewTableId, mCustId)));
+        mRetrofitService.retrofitData(SWAP_TABLE, (service.swapTable(1, mOldTableId, mNewTableId, mCustId)));
     }
 
     private void initRetrofitCallBack() {
@@ -162,14 +162,16 @@ public class RVSwapFreeTablesAdapter extends RecyclerView.Adapter<RVSwapFreeTabl
                 try {
                     JSONObject object = new JSONObject(mResponseString);
                     int status = object.getInt("status");
-                    progressDialog.dismiss();
+                    String msg = object.getString("message");
 
                     if (status == 1) {
                         Intent intent = new Intent("com.restrohotel.captain.swap.table");
                         mContext.sendBroadcast(intent);
                     } else {
-                        Toast.makeText(mContext, "Something went wrong. Please try again", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
                     }
+                    progressDialog.dismiss();
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

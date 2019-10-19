@@ -29,7 +29,7 @@ import java.util.HashMap;
 import retrofit2.Response;
 
 
-import static com.restrosmart.restrohotel.ConstantVariables.BRANCH_DETAILS;
+import static com.restrosmart.restrohotel.ConstantVariables.HOTEL_DETAILS;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.BRANCH_ID;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.HOTEL_ID;
 
@@ -86,8 +86,7 @@ public class FragmentHotelDetails extends Fragment {
         initRetrofitCallback();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, getActivity());
-        mRetrofitService.retrofitData(BRANCH_DETAILS, (service.getBranchDetail(Integer.parseInt(mHotelId),
-                (Integer.parseInt(mBranchId)))));
+        mRetrofitService.retrofitData(HOTEL_DETAILS, (service.getHotelDetail(Integer.parseInt(mHotelId))));
     }
 
     @Override
@@ -113,7 +112,7 @@ public class FragmentHotelDetails extends Fragment {
             @Override
             public void notifySuccess(int requestId, Response<JsonObject> response) {
                 switch (requestId){
-                    case  BRANCH_DETAILS:
+                    case HOTEL_DETAILS:
 
                         JsonObject jsonObject=response.body();
                         String hotelValue=jsonObject.toString() ;

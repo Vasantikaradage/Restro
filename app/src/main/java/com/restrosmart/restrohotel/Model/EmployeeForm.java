@@ -296,4 +296,9 @@ public class EmployeeForm implements Parcelable {
         parcel.writeString(Role);
         parcel.writeString(Password);
     }
+
+    @Override
+    public String toString() {
+        return empName;
+    }
 }

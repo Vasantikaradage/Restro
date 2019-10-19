@@ -82,8 +82,6 @@ public class FragmentTabParentToppings extends Fragment {
 
         HashMap<String, String> name_info = mSessionmanager.getHotelDetails();
         mHotelId = Integer.parseInt(name_info.get(HOTEL_ID));
-        mBranchId = Integer.parseInt(name_info.get(BRANCH_ID));
-
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -184,9 +182,7 @@ public class FragmentTabParentToppings extends Fragment {
                         mRetrofitService.retrofitData(TOPPING_EDIT, service.toppingEdit(etvToppingName.getText().toString(),
                                 mFinalImageName,
                                 Integer.parseInt(etvToppingPrice.getText().toString()),
-                                mHotelId,
-                                mBranchId,
-                                toppingsForms.get(position).getPcId(),
+                                mHotelId, toppingsForms.get(position).getPcId(),
                                 toppingsForms.get(position).getToppingId()));
                     }}
                 });
@@ -207,7 +203,6 @@ public class FragmentTabParentToppings extends Fragment {
                 mRetrofitService = new RetrofitService(mResultCallBack, getActivity());
                 mRetrofitService.retrofitData(TOPPING_DELETE, service.toppingDelete(toppingsForms.get(position).getToppingId(),
                         mHotelId,
-                        mBranchId,
                         toppingsForms.get(position).getPcId()));
 
 

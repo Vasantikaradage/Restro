@@ -1,178 +1,341 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardBackgroundColor="@android:color/white"
-    app:cardUseCompatPadding="true">
+    android:orientation="vertical">
 
-    <RelativeLayout
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/dimen_5dp">
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/ivMenuImg"
-            android:layout_width="52dp"
-            android:layout_height="52dp"
-            android:src="@drawable/foodimg2" />
-
-        <LinearLayout
-            android:id="@+id/llDetails"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dimen_10dp"
-            android:layout_marginRight="@dimen/dimen_10dp"
-            android:layout_toRightOf="@+id/ivMenuImg"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tvVegMenuName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:lines="1"
-                android:text="@string/menu_name"
-                android:textColor="@android:color/black"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <ImageView
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="6dp"
-                android:src="@drawable/ic_spicy2" />
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/tvMenuDesc"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/llDetails"
-            android:layout_marginLeft="@dimen/dimen_10dp"
-            android:layout_marginRight="@dimen/dimen_10dp"
-            android:layout_toRightOf="@+id/ivMenuImg"
-            android:ellipsize="end"
-            android:maxLines="2"
-            android:text="@string/menu_discription"
-            android:textColor="@color/colorDarkGray"
-            android:textSize="12sp" />
+        app:cardBackgroundColor="@android:color/white"
+        app:cardUseCompatPadding="true">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tvMenuDesc"
-            android:layout_marginLeft="@dimen/dimen_10dp"
-            android:layout_toRightOf="@+id/ivMenuImg">
+            android:padding="@dimen/dimen_5dp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/ivMenuImg"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:src="@drawable/foodimg2" />
+
+            <LinearLayout
+                android:id="@+id/llDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dimen_10dp"
+                android:layout_marginRight="@dimen/dimen_10dp"
+                android:layout_toRightOf="@+id/ivMenuImg"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvVegMenuName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:fontFamily="sans-serif-light"
+                    android:lines="1"
+                    android:text="@string/not_available"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/ivSpicy"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="4dp"
+                    android:src="@drawable/ic_spicy2"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tvSweet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:ellipsize="end"
+                    android:fontFamily="sans-serif-light"
+                    android:lines="1"
+                    android:text="@string/taste_sweet"
+                    android:textColor="@color/orange"
+                    android:textSize="14sp"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvMenuDesc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/llDetails"
+                android:layout_marginLeft="@dimen/dimen_10dp"
+                android:layout_marginRight="@dimen/dimen_10dp"
+                android:layout_toRightOf="@+id/ivMenuImg"
+                android:ellipsize="end"
+                android:fontFamily="sans-serif-light"
+                android:maxLines="2"
+                android:text="@string/not_available"
+                android:textColor="@color/colorDarkGray"
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/tvMenuPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Rs. 200"
+                android:layout_below="@+id/tvMenuDesc"
+                android:layout_marginLeft="@dimen/dimen_10dp"
+                android:layout_marginRight="@dimen/dimen_10dp"
+                android:layout_toRightOf="@+id/ivMenuImg"
+                android:fontFamily="sans-serif-light"
+                android:text="@string/not_available"
                 android:textColor="@android:color/black"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
-            <RatingBar
-                android:id="@+id/rbMenu"
-                style="?android:attr/ratingBarStyleSmall"
+            <!--<RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvMenuDesc"
+                android:layout_marginLeft="@dimen/dimen_10dp"
+                android:layout_toRightOf="@+id/ivMenuImg">
+
+                 <RatingBar
+                     android:id="@+id/rbMenu"
+                     style="?android:attr/ratingBarStyleSmall"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_below="@+id/tvMenuPrice"
+                     android:numStars="5"
+                     android:stepSize="1"
+                     android:theme="@style/RatingBar"
+                     android:visibility="gone" />
+
+                 <Button
+                     android:id="@+id/btnAddMenu"
+                     android:layout_width="wrap_content"
+                     android:layout_height="40dp"
+                     android:layout_alignParentRight="true"
+                     android:layout_gravity="end"
+                     android:layout_marginTop="6dp"
+                     android:background="@drawable/button_bg_rounded_outline_corners"
+                     android:text="Add"
+                     android:textColor="@color/colorPrimary"
+                     android:visibility="gone" />
+                  <FrameLayout
+                      android:layout_width="100dp"
+                      android:layout_height="40dp"
+                      android:layout_alignParentRight="true"
+                      android:layout_marginTop="6dp"
+                      android:layout_marginRight="10dp">
+
+
+
+                      <android.support.v7.widget.CardView
+                          android:id="@+id/cardView"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_gravity="center"
+                          android:visibility="gone"
+                          app:cardElevation="2dp">
+
+                          <LinearLayout
+                              android:id="@+id/llQuantity"
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:gravity="center_vertical|end">
+
+                              <TextView
+                                  android:id="@+id/ivMinusQty"
+                                  android:layout_width="30dp"
+                                  android:layout_height="match_parent"
+                                  android:gravity="center"
+                                  android:text="-"
+                                  android:textColor="@color/colorPrimary"
+                                  android:textStyle="bold" />
+
+                              <TextView
+                                  android:id="@+id/tvMenuQty"
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:padding="4dp"
+                                  android:text="1"
+                                  android:textColor="@color/colorPrimary"
+                                  android:textSize="16sp"
+                                  android:textStyle="bold" />
+
+                              <TextView
+                                  android:id="@+id/ivAddQty"
+                                  android:layout_width="30dp"
+                                  android:layout_height="match_parent"
+                                  android:gravity="center"
+                                  android:text="+"
+                                  android:textColor="@color/colorPrimary"
+                                  android:textStyle="bold" />
+
+                              &lt;!&ndash;<ImageView
+                                  android:id="@+id/ivMinusQty"
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:src="@drawable/ic_minus_qty" />
+
+                              <TextView
+                                  android:id="@+id/tvMenuQty"
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:padding="4dp"
+                                  android:text="1"
+                                  android:textColor="@color/colorPrimary"
+                                  android:textSize="16sp" />
+
+                              <ImageView
+                                  android:id="@+id/ivAddQty"
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:src="@drawable/ic_add_qty" />&ndash;&gt;
+                          </LinearLayout>
+                      </android.support.v7.widget.CardView>
+                  </FrameLayout>
+            </RelativeLayout>-->
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+    <LinearLayout
+        android:id="@+id/llToppings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dimen_10dp"
+        android:layout_marginEnd="@dimen/dimen_10dp"
+        android:background="@drawable/menu_toppings_bg"
+        android:orientation="vertical"
+        android:padding="@dimen/dimen_10dp"
+        android:visibility="gone">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvMenuTopping"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cvQty"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tvMenuPrice"
-                android:numStars="5"
-                android:stepSize="1"
-                android:visibility="gone"
-                android:theme="@style/RatingBar" />
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/dimen_10dp">
 
-          <!--  <Button
-                android:id="@+id/btnAddMenu"
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvMinusQty"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/lightGreen"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="5dp"
+                        android:paddingRight="10dp"
+                        android:paddingBottom="5dp"
+                        android:text="@string/minus"
+                        android:textColor="@android:color/white"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvMenuQty"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:text="@string/default_qty"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvAddQty"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/lightGreen"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="5dp"
+                        android:paddingRight="10dp"
+                        android:paddingBottom="5dp"
+                        android:text="@string/plus"
+                        android:textColor="@android:color/white"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <!--<LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_gravity="end"
-                android:layout_alignParentRight="true"
-                android:layout_marginTop="6dp"
-                android:background="@drawable/button_bg_rounded_outline_corners"
-                android:text="Add"
-                android:textColor="@color/colorPrimary"
-                android:visibility="visible" />-->
-           <!-- <FrameLayout
-                android:layout_width="100dp"
-                android:layout_height="40dp"
-                android:layout_alignParentRight="true"
-                android:layout_marginTop="6dp"
-                android:layout_marginRight="10dp">
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:visibility="gone">
 
-
-
-                <android.support.v7.widget.CardView
-                    android:id="@+id/cardView"
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:visibility="gone"
-                    app:cardElevation="2dp">
+                    android:layout_marginEnd="@dimen/dimen_10dp"
+                    android:gravity="center"
+                    android:text="Qty :"
+                    android:textSize="18sp" />
 
-                    <LinearLayout
-                        android:id="@+id/llQuantity"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical|end">
+                <TextView
+                    android:id="@+id/tvMinusQty"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/circle_bg_outline"
+                    android:gravity="center"
+                    android:text="-"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold" />
 
-                        <TextView
-                            android:id="@+id/ivMinusQty"
-                            android:layout_width="30dp"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:text="-"
-                            android:textColor="@color/colorPrimary"
-                            android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/tvMenuQty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="1"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
-                        <TextView
-                            android:id="@+id/tvMenuQty"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:padding="4dp"
-                            android:text="1"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/tvAddQty"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/circle_bg_outline"
+                    android:gravity="center"
+                    android:text="+"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold" />
+            </LinearLayout>-->
 
-                        <TextView
-                            android:id="@+id/ivAddQty"
-                            android:layout_width="30dp"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:text="+"
-                            android:textColor="@color/colorPrimary"
-                            android:textStyle="bold" />
-
-                        &lt;!&ndash;<ImageView
-                            android:id="@+id/ivMinusQty"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/ic_minus_qty" />
-
-                        <TextView
-                            android:id="@+id/tvMenuQty"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:padding="4dp"
-                            android:text="1"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="16sp" />
-
-                        <ImageView
-                            android:id="@+id/ivAddQty"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/ic_add_qty" />&ndash;&gt;
-                    </LinearLayout>
-                </android.support.v7.widget.CardView>
-            </FrameLayout>-->
+            <Button
+                android:id="@+id/btnAdd"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="end"
+                android:layout_marginEnd="@dimen/dimen_10dp"
+                android:background="@drawable/button_outline_dark"
+                android:text="@string/btn_add"
+                android:textColor="@color/colorPrimary" />
         </RelativeLayout>
-
-    </RelativeLayout>
-</android.support.v7.widget.CardView>
+    </LinearLayout>
+</LinearLayout>

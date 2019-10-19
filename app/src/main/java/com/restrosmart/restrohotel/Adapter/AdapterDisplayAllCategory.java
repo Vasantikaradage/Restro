@@ -33,12 +33,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
 /**
  * Created by SHREE on 11/10/2018.
  */
-public class AdapterDisplayAllCategory extends RecyclerView.Adapter<AdapterDisplayAllCategory.MyHolder> {
+public class
+AdapterDisplayAllCategory extends RecyclerView.Adapter<AdapterDisplayAllCategory.MyHolder> {
     private Context context;
     private List<CategoryForm> arrayList;
     private EditListener editListener;
     private DeleteListener deleteListener;
-
 
 
     public AdapterDisplayAllCategory(Context activity, ArrayList<CategoryForm> arrayList, DeleteListener deleteListener, EditListener editListener) {
@@ -60,10 +60,9 @@ public class AdapterDisplayAllCategory extends RecyclerView.Adapter<AdapterDispl
     public void onBindViewHolder(@NonNull final MyHolder holder, int position) {
         holder.tx_name.setText(arrayList.get(position).getCategory_Name());
         Picasso.with(context)
-
-                    .load(arrayList.get(position).getC_Image_Name())
-                    .transform(new CircleTransform())
-                    .into(holder.circleImageView);
+                .load(arrayList.get(position).getC_Image_Name())
+                .transform(new CircleTransform())
+                .into(holder.circleImageView);
 
 
         holder.imagBtnDelete.setOnClickListener(new View.OnClickListener() {
@@ -76,7 +75,7 @@ public class AdapterDisplayAllCategory extends RecyclerView.Adapter<AdapterDispl
                         .setIcon(R.drawable.ic_action_btn_delete)
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                               deleteListener.getDeleteListenerPosition(holder.getAdapterPosition());
+                                deleteListener.getDeleteListenerPosition(holder.getAdapterPosition());
 
                             }
                         });
@@ -160,7 +159,7 @@ public class AdapterDisplayAllCategory extends RecyclerView.Adapter<AdapterDispl
                 }
             });
 
-           imgBtnEdit.setOnClickListener(new View.OnClickListener() {
+            imgBtnEdit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     editListener.getEditListenerPosition(getAdapterPosition());

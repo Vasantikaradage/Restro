@@ -15,8 +15,6 @@ import java.util.List;
  */
 
 public class CategoryViewPagerAdapter extends FragmentPagerAdapter {
-
-
     Context context;
     private ArrayList<ParentCategoryForm> mFragmentTitleList = new ArrayList<>();
     private List<AddParentCategoryinfoModel> mAddParentCategoryinfoModels;
@@ -47,8 +45,4 @@ public class CategoryViewPagerAdapter extends FragmentPagerAdapter {
         return  mFragmentTitleList.get(position).getName();
 
     }
-
-
-
-
 }

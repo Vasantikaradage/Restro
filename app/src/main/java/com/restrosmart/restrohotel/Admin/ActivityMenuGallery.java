@@ -81,7 +81,7 @@ public class ActivityMenuGallery extends AppCompatActivity {
         sessionmanager = new Sessionmanager(this);
         HashMap<String, String> name_info = sessionmanager.getHotelDetails();
         mHotelId = name_info.get(HOTEL_ID);
-        mBranchId = name_info.get(BRANCH_ID);
+
 
         Intent intent = getIntent();
         mCategoryId = intent.getIntExtra("Category_Id", 0);
@@ -91,7 +91,6 @@ public class ActivityMenuGallery extends AppCompatActivity {
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, ActivityMenuGallery.this);
         mRetrofitService.retrofitData(IMAGE_MENU_LIST, service.getMenuImage(mCategoryId,
-                Integer.parseInt(mBranchId),
                 Integer.parseInt(mHotelId),
                 mPcId));
     }

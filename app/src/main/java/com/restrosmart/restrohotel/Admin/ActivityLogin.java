@@ -14,11 +14,13 @@ import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 import com.medialablk.easygifview.EasyGifView;
+import com.restrosmart.restrohotel.Captain.Activities.ActivityCaptainDash;
 import com.restrosmart.restrohotel.Interfaces.ApiService;
 import com.restrosmart.restrohotel.Interfaces.IResult;
 import com.restrosmart.restrohotel.R;
 import com.restrosmart.restrohotel.RetrofitClientInstance;
 import com.restrosmart.restrohotel.RetrofitService;
+import com.restrosmart.restrohotel.SuperAdmin.Activities.ActivitySADashBoradDrawer;
 import com.restrosmart.restrohotel.Utils.Sessionmanager;
 
 import org.json.JSONException;
@@ -32,12 +34,12 @@ import static com.restrosmart.restrohotel.ConstantVariables.LOGIN_ADMIN;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.REMEMBER_PASSWORD;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.REMEMBER_USER_NAME;
 
-public class ActivityAdminLogin extends AppCompatActivity {
+public class ActivityLogin extends AppCompatActivity {
 
     private EditText edtAdminUsername, edtAdminPassword;
     private CheckBox cbRememberMe;
     private TextView tvAdminForgotPassword;
-    private Button btnAdminLogin, btnAdminRegister;
+    private Button btnAdminLogin;
 
     private ProgressBar progressBar;
     private IResult mResultCallBack;
@@ -63,13 +65,13 @@ public class ActivityAdminLogin extends AppCompatActivity {
             }
         });
 
-        btnAdminRegister.setOnClickListener(new View.OnClickListener() {
+      /*  btnAdminRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ActivityAdminLogin.this, ActivityAdminRegister.class);
+                Intent intent = new Intent(ActivityLogin.this, ActivityAdminRegister.class);
                 startActivity(intent);
             }
-        });
+        });*/
 
         if (sessionmanager.isRememberMe()) {
             HashMap<String, String> hashMap = sessionmanager.getRememberMe();
@@ -81,7 +83,7 @@ public class ActivityAdminLogin extends AppCompatActivity {
         tvAdminForgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ActivityAdminLogin.this, ActivityAdminForgetPassword.class);
+                Intent intent = new Intent(ActivityLogin.this, ActivityAdminForgetPassword.class);
                 startActivity(intent);
             }
         });
@@ -96,7 +98,7 @@ public class ActivityAdminLogin extends AppCompatActivity {
         tvAdminForgotPassword = findViewById(R.id.tvAdminForgotPassword);
         progressBar = findViewById(R.id.progressbar);
         btnAdminLogin = findViewById(R.id.btnAdminLogin);
-        btnAdminRegister = findViewById(R.id.btnAdminRegister);
+     //   btnAdminRegister = findViewById(R.id.btnAdminRegister);
     }
 
     private boolean isValid() {
@@ -107,7 +109,7 @@ public class ActivityAdminLogin extends AppCompatActivity {
         initRetrofitCallback();
 
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
-        mRetrofitService = new RetrofitService(mResultCallBack, ActivityAdminLogin.this);
+        mRetrofitService = new RetrofitService(mResultCallBack, ActivityLogin.this);
         mRetrofitService.retrofitData(LOGIN_ADMIN, (service.getLogin(edtAdminUsername.getText().toString(), edtAdminPassword.getText().toString())));
     }
 
@@ -126,27 +128,38 @@ public class ActivityAdminLogin extends AppCompatActivity {
                     int status = jsonObject1.getInt("status");
                     if (status == 1) {
 
-                        JSONObject jsonObject2 = jsonObject1.getJSONObject("employee");
+                        JSONObject jsonObject2 = jsonObject1.getJSONObject("user");
 
-                        int hotelId = jsonObject2.getInt("Hotel_Id");
-                        int branchId=jsonObject2.getInt("Branch_Id");
                         int roleId=jsonObject2.getInt("Role_Id");
-                        String hotelName = jsonObject2.getString("Hotel_Name");
-                        int empId=jsonObject2.getInt("Emp_Id");
 
-                        sessionmanager.saveHotelDetails(hotelId, hotelName,roleId,branchId,empId);
+                        if(roleId==1) {
+                            int empId = jsonObject2.getInt("Emp_Id");
+                            int hotelId = jsonObject2.getInt("Hotel_Id");
+                            String hotelName = jsonObject2.getString("Hotel_Name");
+                            sessionmanager.saveHotelDetails(hotelId, hotelName, roleId, empId);
+                            Intent intent = new Intent(ActivityLogin.this, ActivityAdminDrawer.class);
+                            startActivity(intent);
+                            Toast.makeText(ActivityLogin.this, "Login successful", Toast.LENGTH_SHORT).show();
+                        }
+                        else if(roleId==4){
+                            Intent intent = new Intent(ActivityLogin.this, ActivityCaptainDash.class);
+                            startActivity(intent);
+                            Toast.makeText(ActivityLogin.this, "Login successful", Toast.LENGTH_SHORT).show();
 
-                        //sessionmanager.createSession(user);
-                        Intent intent = new Intent(ActivityAdminLogin.this, ActivityAdminDrawer.class);
-                        startActivity(intent);
+                        }else
+                        {
+                           // sessionmanager.saveHotelDetails(0, null, roleId, 0);
+                            Intent intent = new Intent(ActivityLogin.this, ActivitySADashBoradDrawer.class);
+                            startActivity(intent);
+                            Toast.makeText(ActivityLogin.this, "Login successful", Toast.LENGTH_SHORT).show();
 
-                        Toast.makeText(ActivityAdminLogin.this, "Login successful", Toast.LENGTH_SHORT).show();
 
+                        }
+                            progressBar.setVisibility(View.GONE);
+                            btnAdminLogin.setVisibility(View.VISIBLE);
 
-                        progressBar.setVisibility(View.GONE);
-                        btnAdminLogin.setVisibility(View.VISIBLE);
                     } else {
-                        Toast.makeText(ActivityAdminLogin.this, "Employee not Active.. ", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ActivityLogin.this, "Employee not Active.. ", Toast.LENGTH_SHORT).show();
                     }
 
                     if (cbRememberMe.isChecked()) {
@@ -162,11 +175,9 @@ public class ActivityAdminLogin extends AppCompatActivity {
 
             @Override
             public void notifyError(int requestId, Throwable error) {
-
-
                 progressBar.setVisibility(View.GONE);
                 btnAdminLogin.setVisibility(View.VISIBLE);
-                Toast.makeText(ActivityAdminLogin.this, "Something went wrong..! Please try again later.", Toast.LENGTH_LONG).show();
+                Toast.makeText(ActivityLogin.this, "Something went wrong..! Please try again later.", Toast.LENGTH_LONG).show();
             }
         };
     }

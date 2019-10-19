@@ -2,7 +2,7 @@ package com.restrosmart.restrohotel.Adapter;
 
 
 import android.content.Context;
-import android.content.res.Resources;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -24,7 +24,8 @@ public class RVVImageAdapter extends RecyclerView.Adapter<RVVImageAdapter.ViewHo
     Context context;
     ArrayList<ImageForm> imageArrayList;
     PositionListener positionListener;
-    String mImage;
+    private  String mImage;
+    private int selectedItem = 0;
 
     public RVVImageAdapter(Context context, ArrayList<ImageForm> arrayList_image, String mUpdatedImage, PositionListener positionListener) {
         this.context = context;
@@ -44,31 +45,43 @@ public class RVVImageAdapter extends RecyclerView.Adapter<RVVImageAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull final RVVImageAdapter.ViewHolder holder, final int position) {
+
         if (mImage != null) {
             if (mImage.equals(imageArrayList.get(position).getImage())) {
                 Picasso.with(context).load(mImage).resize(500, 500).into(holder.imageView);
-                Resources resources = context.getResources();
-                holder.imageView.setBackgroundColor(resources.getColor(R.color.blue_btn_bg_color));
+                holder.imageView.setBackgroundColor(Color.parseColor("#A8E1F3"));
             } else {
                 Picasso.with(context).load(imageArrayList.get(position).getImage()).resize(500, 500).into(holder.imageView);
+                holder.imageView.setBackgroundColor(Color.parseColor("#A8E1F3"));
             }
         } else {
             Picasso.with(context).load(imageArrayList.get(position).getImage()).resize(500, 500).into(holder.imageView);
-
-
         }
 
-        holder.imageView.setOnClickListener(new View.OnClickListener() {
+
+
+       holder.imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int previousSelectedItem = selectedItem;
+                selectedItem = position;
+                positionListener.positionListern(position);
+                notifyItemChanged(previousSelectedItem);
+                holder.imageView.setBackgroundColor(Color.parseColor("#A8E1F3"));
+            }
+        });
+
+      /*  holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (holder.getAdapterPosition() == position) {
                     Resources resources = context.getResources();
                     holder.imageView.setBackgroundColor(resources.getColor(R.color.blue_btn_bg_color));
                     positionListener.positionListern(position);
-                    notifyItemChanged(position);
+                  //  notifyItemChanged(position);
                 }
             }
-        });
+        });*/
     }
 
     @Override
@@ -80,6 +93,17 @@ public class RVVImageAdapter extends RecyclerView.Adapter<RVVImageAdapter.ViewHo
         public ViewHolder(View itemView) {
             super(itemView);
             imageView = (ImageView) itemView.findViewById(R.id.category_image);
+
+
+           /* itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    selectedPosition = getLayoutPosition();
+
+                  //imageView.setBackgroundColor(Color.parseColor("#A8E1F3"));
+                   // getAdapterPosition().notifyDatasetChanged();
+                }
+            });*/
         }
     }
 }

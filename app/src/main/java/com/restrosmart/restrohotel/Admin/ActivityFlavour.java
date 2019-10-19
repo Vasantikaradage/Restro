@@ -103,7 +103,6 @@ public class ActivityFlavour extends AppCompatActivity {
         Sessionmanager sharedPreferanceManage = new Sessionmanager(this);
         HashMap<String, String> name_info = sharedPreferanceManage.getHotelDetails();
         mHotelId = Integer.parseInt(name_info.get(HOTEL_ID));
-        mBranchId = Integer.parseInt(name_info.get(BRANCH_ID));
 
         intent = getIntent();
 
@@ -122,7 +121,6 @@ public class ActivityFlavour extends AppCompatActivity {
         mRetrofitService = new RetrofitService(mResultCallBack, ActivityFlavour.this);
         mRetrofitService.retrofitData(FLAVOUR_DISPLAY, service.flavourDisplay(intent.getIntExtra("menuId", 0),
                 mHotelId,
-                mBranchId,
                 intent.getIntExtra("pcId", 0),
                 intent.getIntExtra("categoryId", 0)
 
@@ -269,7 +267,6 @@ public class ActivityFlavour extends AppCompatActivity {
                             mFinalImageName,
                             intent.getIntExtra("menuId", 0),
                             mHotelId,
-                            mBranchId,
                             0,
                             jsonArray.toString())));
                 }
@@ -454,8 +451,7 @@ public class ActivityFlavour extends AppCompatActivity {
                 ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
                 mRetrofitService = new RetrofitService(mResultCallBack, ActivityFlavour.this);
                 mRetrofitService.retrofitData(FLAVOUR_STATUS, (service.getFlavourStatus(arrayListFlavour.get(position).getFlavourId(),
-                        mHotelId,
-                        mBranchId, status)));
+                        mHotelId,status)));
             }
         }, arrayListflavourUnit, new EditListener() {
             @Override
@@ -470,7 +466,6 @@ public class ActivityFlavour extends AppCompatActivity {
                 mRetrofitService = new RetrofitService(mResultCallBack, ActivityFlavour.this);
                 mRetrofitService.retrofitData(FLAVOUR_DELETE, (service.flavourDelete(
                         mHotelId,
-                        mBranchId,
                         arrayListFlavour.get(position).getFlavourId())
                 ));
 
@@ -480,9 +475,7 @@ public class ActivityFlavour extends AppCompatActivity {
     }
 
     private void callAddMethod(final int position) {
-
         LayoutInflater li = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
         dialoglayout = li.inflate(R.layout.dialog_add_flavour, null);
         bottomSheetDialog = new BottomSheetDialog(ActivityFlavour.this);
         bottomSheetDialog.setContentView(dialoglayout);
@@ -547,7 +540,6 @@ public class ActivityFlavour extends AppCompatActivity {
                 final AlertDialog.Builder builder = new AlertDialog.Builder(ActivityFlavour.this);
                 builder.setView(dialogLayoutField);
                 alertDialog = builder.create();
-
 
                 Button save = dialogLayoutField.findViewById(R.id.btnSave);
                 Button cancel = dialogLayoutField.findViewById(R.id.btnCancel);
@@ -680,7 +672,6 @@ public class ActivityFlavour extends AppCompatActivity {
                             mFinalImageName,
                             arrayListFlavour.get(position).getFlavourId(),
                             mHotelId,
-                            mBranchId,
                             jsonArray.toString())));
                 }
             }

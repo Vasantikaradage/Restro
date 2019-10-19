@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:ignore="MissingConstraints">
+
+        <include
+            android:id="@+id/title_name"
+            layout="@layout/tool_bar_admin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                android:id="@+id/sp_employee"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                app:hintText=" Select Employee">
+
+            </com.toptoche.searchablespinnerlibrary.SearchableSpinner>
+
+            <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                android:id="@+id/sp_area"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                app:hintText="Select Area">
+
+            </com.toptoche.searchablespinnerlibrary.SearchableSpinner>
+
+            <!--  <View
+                  android:id="@+id/view"
+                  android:layout_width="match_parent"
+                  android:layout_height="1dp"
+                  android:layout_below="@+id/linear_layout"
+                  android:layout_marginStart="20dp"
+                  android:layout_marginTop="20dp"
+                  android:layout_marginEnd="20dp"
+                  android:background="@color/colorGrey" />-->
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="Table Details"
+                android:layout_marginStart="5dp"
+                android:textColor="@android:color/black"
+                android:padding="5dp"
+                android:textSize="18dp" />
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                app:cardUseCompatPadding="true">
+
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_table_details"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:padding="5dp">
+
+                </android.support.v7.widget.RecyclerView>
+
+            </android.support.v7.widget.CardView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llNoTableData"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                app:srcCompat="@drawable/ic_table_gray" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/no_data_available"
+                android:textColor="@color/darkgray"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:foregroundGravity="bottom"
+            android:gravity="bottom|center">
+
+            <Button
+                android:id="@+id/btnCancel"
+                android:layout_width="110dp"
+                android:layout_height="40dp"
+                android:background="@drawable/button_outline_dark"
+                android:text="Cancel"
+                android:textColor="@color/colorPrimary" />
+
+            <Button
+                android:id="@+id/btnSave"
+                android:layout_width="110dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="@dimen/dimen_20dp"
+                android:background="@drawable/button_outline_dark"
+                android:text="Save"
+                android:textColor="@color/colorPrimary"
+                android:visibility="visible" />
+
+            <Button
+                android:id="@+id/btnUpdate"
+                android:layout_width="110dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="@dimen/dimen_20dp"
+                android:background="@drawable/button_outline_dark"
+                android:text="Update"
+                android:textColor="@color/colorPrimary"
+                android:visibility="gone" />
+        </LinearLayout>
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

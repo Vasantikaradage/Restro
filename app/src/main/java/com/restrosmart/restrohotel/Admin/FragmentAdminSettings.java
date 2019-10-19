@@ -53,7 +53,7 @@ public class FragmentAdminSettings extends Fragment {
             @Override
             public void onClick(View v) {
 /*
-                Intent i = new Intent(getActivity(), ActivityAdminLogin.class);
+                Intent i = new Intent(getActivity(), ActivityLogin.class);
                 startActivity(i);*/
             }
         });

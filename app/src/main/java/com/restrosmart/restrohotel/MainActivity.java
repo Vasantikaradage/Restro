@@ -6,11 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
-import com.restrosmart.restrohotel.Admin.ActivityAdminLogin;
 
-
-import com.restrosmart.restrohotel.Captain.Activities.ActivityCaptainDash;
-import com.restrosmart.restrohotel.SuperAdmin.Activities.ActivitySuperAdminLogin;
+import com.restrosmart.restrohotel.Admin.ActivityLogin;
 import com.restrosmart.restrohotel.Utils.Sessionmanager;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -27,32 +24,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         /*sessionmanager = new Sessionmanager(this);
         sessionmanager.CheckLogin();*/
 
-        btn_captain = findViewById(R.id.btn_captain);
+      //  btn_captain = findViewById(R.id.btn_captain);
         btn_admin = findViewById(R.id.btn_admin);
-        btnSuperAdmin = findViewById(R.id.btnSuperAdmin);
+        //btnSuperAdmin = findViewById(R.id.btnSuperAdmin);
 
-        btnSuperAdmin.setOnClickListener(this);
+    //    btnSuperAdmin.setOnClickListener(this);
         btn_admin.setOnClickListener(this);
-        btn_captain.setOnClickListener(this);
+     //   btn_captain.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btnSuperAdmin:
-                Intent intentSuperAdmin = new Intent(MainActivity.this, ActivitySuperAdminLogin.class);
+            /*case R.id.btnSuperAdmin:
+                Intent intentSuperAdmin = new Intent(MainActivity.this, ActivitySADashBoradDrawer.class);
                 startActivity(intentSuperAdmin);
-                break;
+                break;*/
 
             case R.id.btn_admin:
-                Intent intentAdmin = new Intent(MainActivity.this, ActivityAdminLogin.class);
+                Intent intentAdmin = new Intent(MainActivity.this, ActivityLogin.class);
                 startActivity(intentAdmin);
                 break;
 
-            case R.id.btn_captain:
+           /* case R.id.btn_captain:
                 Intent intentCaptain = new Intent(MainActivity.this, ActivityCaptainDash.class);
                 startActivity(intentCaptain);
-                break;
+                break;*/
         }
     }
 }

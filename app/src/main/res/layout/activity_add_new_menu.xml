@@ -39,8 +39,7 @@
                         android:id="@+id/img_menu"
                         android:layout_width="120dp"
                         android:layout_height="120dp"
-                        android:src="@drawable/foodimg2">
-
+                        android:src="@color/colorPrimary">
                     </de.hdodenhof.circleimageview.CircleImageView>
 
                     <FrameLayout
@@ -62,9 +61,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:src="@drawable/camera_bg_white_backgrnd" />
-
                     </FrameLayout>
-
                 </RelativeLayout>
 
                 <LinearLayout
@@ -75,7 +72,6 @@
                     android:layout_marginBottom="5dp"
                     android:orientation="vertical"
                     android:padding="20dp">
-
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -113,7 +109,6 @@
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
-
                         <EditText
                             android:id="@+id/etx_menu_price"
                             android:layout_width="match_parent"
@@ -124,9 +119,7 @@
                             android:inputType="number"
                             android:padding="5dp"
                             android:paddingLeft="10dp">
-
                         </EditText>
-
 
                         <TextView
                             android:id="@+id/tv_description"
@@ -179,7 +172,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:checked="true"
-                                    android:text="None" />
+                                    android:text="Regular" />
 
                                 <RadioButton
                                     android:id="@+id/btn_radio_sweet"
@@ -197,60 +190,12 @@
                             </RadioGroup>
                         </LinearLayout>
 
-                        <!-- <TextView
-                             android:layout_width="match_parent"
-                             android:layout_height="wrap_content"
-                             android:layout_marginTop="5dp"
-                             android:padding="5dp"
-                             android:text="Toppings"
-                             android:textColor="@color/colorPrimary"
-                             android:textSize="16sp"
-                             android:textStyle="bold" />
- -->
                         <android.support.v7.widget.RecyclerView
                             android:id="@+id/rv_toppings"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginTop="5dp">
-
-
                         </android.support.v7.widget.RecyclerView>
-
-                        <!-- <LinearLayout
-                             android:layout_width="match_parent"
-                             android:layout_height="wrap_content"
-                             android:weightSum="2">
-
-                             <CheckBox
-                                 android:layout_width="0dp"
-                                 android:layout_height="wrap_content"
-                                 android:layout_weight="1"
-                                 android:text="Extra Chease" />
-
-                             <CheckBox
-                                 android:layout_width="0dp"
-                                 android:layout_height="wrap_content"
-                                 android:layout_weight="1"
-                                 android:text="Extra masala" />
-                         </LinearLayout>
-                         <LinearLayout
-                             android:layout_width="match_parent"
-                             android:layout_height="wrap_content"
-                             android:weightSum="2">
-
-                             <CheckBox
-                                 android:layout_width="0dp"
-                                 android:layout_height="wrap_content"
-                                 android:layout_weight="1"
-                                 android:text="Extra Chease" />
-
-                             <CheckBox
-                                 android:layout_width="0dp"
-                                 android:layout_height="wrap_content"
-                                 android:layout_weight="1"
-                                 android:text="Extra masala" />
-                         </LinearLayout>-->
-
                     </LinearLayout>
 
                     <LinearLayout
@@ -289,13 +234,10 @@
                             android:visibility="gone" />
 
                     </LinearLayout>
-
                 </LinearLayout>
-
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
     </RelativeLayout>
-
 </android.support.design.widget.CoordinatorLayout>
 
 

@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.restrosmart.restrohotel.Admin.ActivityAddNewMenu;
 import com.restrosmart.restrohotel.Admin.ActivityFlavour;
@@ -117,19 +118,26 @@ public class AdapterDisplayAllMenus extends RecyclerView.Adapter<AdapterDisplayA
         mBranchId = name_info.get(BRANCH_ID);
 
         if (pcId == 3) {
-            holder.mMenuDisp.setVisibility(View.GONE);
-            holder.mMenuPrice.setVisibility(View.GONE);
-            holder.llMenu.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(context, ActivityFlavour.class);
-                    intent.putExtra("menuName", arrayListMenu.get(position).getMenu_Name());
-                    intent.putExtra("menuId", arrayListMenu.get(position).getMenu_Id());
-                    intent.putExtra("pcId", pcId);
-                    intent.putExtra("categoryId", arrayListMenu.get(position).getCategory_Id());
-                    context.startActivity(intent);
-                }
-            });
+
+                holder.mMenuDisp.setVisibility(View.GONE);
+                holder.mMenuPrice.setVisibility(View.GONE);
+                holder.llMenu.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (arrayListMenu.get(position).getStatus() == 0) {
+                        Intent intent = new Intent(context, ActivityFlavour.class);
+                        intent.putExtra("menuName", arrayListMenu.get(position).getMenu_Name());
+                        intent.putExtra("menuId", arrayListMenu.get(position).getMenu_Id());
+                        intent.putExtra("pcId", pcId);
+                        intent.putExtra("categoryId", arrayListMenu.get(position).getCategory_Id());
+                        context.startActivity(intent);
+                        }else
+                        {
+                            Toast.makeText(context, "First you want change the menu status... then get the Flavour information", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
         }
         else
         {

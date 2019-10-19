@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 
 import com.restrosmart.restrohotel.Admin.ActivityAdminDrawer;
-import com.restrosmart.restrohotel.MainActivity;
+import com.restrosmart.restrohotel.Admin.ActivityLogin;
 import com.restrosmart.restrohotel.Model.UserForm;
 
 import java.util.HashMap;
@@ -63,6 +63,11 @@ public class Sessionmanager {
     public static final String REMEMBER_USER_NAME = "remember_user_name";
     public static final String REMEMBER_PASSWORD = "remember_password";
     public static final String REMEMBER_ME = "remember_me";
+
+    public static final String TABLE_NO = "TableNo";
+    public static final String USER_ID = "UserId";
+    private static final String CART_COUNT = "CartCount";
+    private static final String ORDER_ID = "OrderId";
 
 
 
@@ -146,7 +151,7 @@ public class Sessionmanager {
             mContext.startActivity(i);
         } else {
             // After logout redirect user to Login Activity
-            Intent i = new Intent(mContext, MainActivity.class);
+            Intent i = new Intent(mContext, ActivityLogin.class);
 
             // Closing all the Activities
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -178,7 +183,7 @@ public class Sessionmanager {
 
 
         // After logout redirect user to Login Activity
-        Intent i = new Intent(mContext, MainActivity.class);
+        Intent i = new Intent(mContext, ActivityLogin.class);
 
         // Closing all the Activities
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -250,11 +255,11 @@ public class Sessionmanager {
         return hashMap;
     }
 
-    public void saveHotelDetails(int hotelId, String hotelName, int role, int brancId, int empId) {
+    public void saveHotelDetails(int hotelId, String hotelName, int role,  int empId) {
         editor.putString(HOTEL_ID, String.valueOf(hotelId));
         editor.putString(HOTEL_NAME, hotelName);
         editor.putString(ROLE_ID, String.valueOf(role));
-        editor.putString(BRANCH_ID, String.valueOf(brancId));
+
         editor.putString(EMP_ID, String.valueOf(empId));
         editor.commit();
     }
@@ -265,7 +270,7 @@ public class Sessionmanager {
         stringMap.put("hotelId", pref.getString(HOTEL_ID, null));
         stringMap.put("hotelName", pref.getString(HOTEL_NAME, null));
         stringMap.put("roleId", pref.getString(ROLE_ID, null));
-        stringMap.put("branchId", pref.getString(BRANCH_ID, null));
+
         stringMap.put("empId", pref.getString(EMP_ID, null));
         return stringMap;
     }
@@ -289,6 +294,94 @@ public class Sessionmanager {
                 cartRVModelArrayList.add(cartRVModel);
             }
         }*/
+
+    /**
+     * Save Table No & User Id
+     */
+    public void saveUserDetails(int tableNo, String userId) {
+        editor.putInt(TABLE_NO, tableNo);
+        editor.putString(USER_ID, userId);
+        editor.commit();
+    }
+
+    /**
+     * Get Table No & User Id
+     */
+    public HashMap<String, String> getUserDetails() {
+        HashMap<String, String> userDetails = new HashMap<String, String>();
+        userDetails.put("tableNo", String.valueOf(pref.getInt(TABLE_NO, 0)));
+        userDetails.put("userId", pref.getString(USER_ID, null));
+        return userDetails;
+
+    }
+
+    /**
+     * Save cart count
+     */
+    public void saveCartCount() {
+        editor.putInt(CART_COUNT, pref.getInt(CART_COUNT, 0) + 1);
+        editor.commit();
+    }
+
+    /**
+     * Get cart count
+     */
+    public int getCartCount() {
+        return pref.getInt(CART_COUNT, 0);
+    }
+
+    /**
+     * Delete cart count
+     */
+    public void deleteCartCount() {
+        editor.putInt(CART_COUNT, pref.getInt(CART_COUNT, 0) - 1);
+        editor.commit();
+    }
+
+    /**
+     * Reset cart count
+     */
+    public void resetCartCount() {
+        editor.remove(CART_COUNT);
+        editor.commit();
+    }
+
+    /**
+     * Save order id
+     */
+    public void saveOrderID(int order_id) {
+        editor.putInt(ORDER_ID, order_id);
+        editor.commit();
+    }
+
+    /**
+     * Get order id
+     */
+    public int getOrderID() {
+        return pref.getInt(ORDER_ID, 0);
+    }
+
+    /**
+     * Delete order id
+     */
+    public void deleteOrderID() {
+        editor.remove(ORDER_ID);
+        editor.commit();
+    }
+
+    public void saveHotelDetails(int hotelId, String hotelName, int role, int brancId, int empId) {
+        editor.putString(HOTEL_ID, String.valueOf(hotelId));
+        editor.putString(HOTEL_NAME, hotelName);
+        editor.putString(ROLE_ID, String.valueOf(role));
+        editor.putString(BRANCH_ID, String.valueOf(brancId));
+        editor.putString(EMP_ID, String.valueOf(empId));
+        editor.commit();
+    }
+
+
+
+
+
 
 
 

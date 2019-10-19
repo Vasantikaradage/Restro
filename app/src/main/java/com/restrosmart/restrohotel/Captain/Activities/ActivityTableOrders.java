@@ -29,7 +29,7 @@ public class ActivityTableOrders extends AppCompatActivity {
     private RetrofitService mRetrofitService;
     private IResult mResultCallBack;
 
-    private int mOrderId, mCustId;
+    private int mOrderId, mTableId, mCustId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +43,7 @@ public class ActivityTableOrders extends AppCompatActivity {
 
         if (bundle != null) {
             mOrderId = bundle.getInt("orderId");
+            mTableId = bundle.getInt("tableId");
             mCustId = bundle.getInt("custId");
         }
 
@@ -66,7 +67,7 @@ public class ActivityTableOrders extends AppCompatActivity {
         initRetrofitCallBack();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, this);
-        mRetrofitService.retrofitData(GET_TABLE_ORDERS, (service.getTableOrders(1, 1, mOrderId, mCustId)));
+        mRetrofitService.retrofitData(GET_TABLE_ORDERS, (service.getTableOrders(1, mTableId, mCustId)));
     }
 
     private void initRetrofitCallBack() {
@@ -79,23 +80,40 @@ public class ActivityTableOrders extends AppCompatActivity {
                 try {
                     JSONObject object = new JSONObject(mResponseString);
                     int status = object.getInt("status");
+                    String msg = object.getString("message");
+
                     if (status == 1) {
-                        int orderid = object.getInt("Order_Id");
-                        JSONArray jsonArrayOrderDetails = object.getJSONArray("OrderDetails");
+
+                        JSONArray jsonArrayOrderDetails = object.getJSONArray("Orderdetail");
 
                         for (int i = 0; i < jsonArrayOrderDetails.length(); i++) {
 
                             JSONObject jsonObject1 = jsonArrayOrderDetails.getJSONObject(i);
 
+                            int orderId = object.getInt("Order_Id");
+                            String orderDate = object.getString("Order_Date");
+
                             JSONArray jsonArrayOrder = jsonObject1.getJSONArray("order");
 
                             for (int j = 0; j < jsonArrayOrder.length(); j++) {
-                                JSONObject jsonObject2 = jsonArrayOrder.getJSONObject(j);
+                                JSONObject jsonObjectOrder = jsonArrayOrder.getJSONObject(j);
 
-                                jsonObject2.getInt("Order_Detail_Id");
-                                jsonObject2.getString("menuId");
-                                jsonObject2.getString("menuName");
-                                jsonObject2.getString("liqMLQty");
+                                jsonObjectOrder.getInt("Order_Detail_Id");
+                                jsonObjectOrder.getInt("menuId");
+                                jsonObjectOrder.getString("menuName");
+                                jsonObjectOrder.getInt("liqMLQty");
+                                jsonObjectOrder.getString("menuPrice");
+                                jsonObjectOrder.getInt("menuQty");
+
+                                JSONArray jsonArrayTopping = jsonObjectOrder.getJSONArray("Topping");
+                                for (int k = 0; k < jsonArrayTopping.length(); k++) {
+                                    JSONObject jsonObjectTopping = jsonArrayTopping.getJSONObject(k);
+
+                                    jsonObjectTopping.getInt("menuId");
+                                    jsonObjectTopping.getString("menuName");
+                                    jsonObjectTopping.getString("menuPrice");
+                                    jsonObjectTopping.getInt("menuQty");
+                                }
                             }
                         }
 

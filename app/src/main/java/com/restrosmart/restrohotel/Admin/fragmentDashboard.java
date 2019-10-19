@@ -62,7 +62,7 @@ public class fragmentDashboard extends Fragment {
         Sessionmanager sharedPreferanceManage = new Sessionmanager(getActivity());
         HashMap<String, String> name_info = sharedPreferanceManage.getHotelDetails();
         mHotelId = Integer.parseInt(name_info.get(HOTEL_ID));
-        mBranchId = Integer.parseInt(name_info.get(BRANCH_ID));
+
 
         table();
         customerRating();
@@ -72,7 +72,7 @@ public class fragmentDashboard extends Fragment {
         initRetrofitCallback();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, getActivity());
-        mRetrofitService.retrofitData(USER_RATING, (service.activeTable(mBranchId,
+        mRetrofitService.retrofitData(USER_RATING, (service.activeTable(
                 mHotelId)));
     }
 
@@ -80,7 +80,7 @@ public class fragmentDashboard extends Fragment {
         initRetrofitCallback();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, getActivity());
-        mRetrofitService.retrofitData(ACTIVE_TABLE, (service.activeTable(mBranchId,
+        mRetrofitService.retrofitData(ACTIVE_TABLE, (service.activeTable(
                 mHotelId)));
     }
 

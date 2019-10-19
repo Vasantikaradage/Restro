@@ -59,7 +59,7 @@ public class CaptainProfileFragment extends Fragment {
         initRetrofitCallBack();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, getContext());
-        mRetrofitService.retrofitData(GET_CAPTAIN_PROFILE, (service.getCaptainProfile(1, 1, 31)));
+        mRetrofitService.retrofitData(GET_CAPTAIN_PROFILE, (service.getCaptainProfile(1, 78)));
     }
 
     private void initRetrofitCallBack() {
@@ -72,13 +72,15 @@ public class CaptainProfileFragment extends Fragment {
                 try {
                     JSONObject object = new JSONObject(mResponseString);
                     int status = object.getInt("status");
+                    String msg = object.getString("message");
+
                     //progressDialog.dismiss();
                     if (status == 1) {
                         JSONObject profileObject = object.getJSONObject("profiledata");
 
                         tvUsername.setText(profileObject.getString("User_Name"));
                         tvEmpRole.setText(profileObject.getString("Role"));
-                        tvHotelName.setText(profileObject.getString("Branch_Name"));
+                        tvHotelName.setText(profileObject.getString("Hotel_Name"));
                         tvCapName.setText(profileObject.getString("Emp_Name"));
                         tvEmpMobno.setText(profileObject.getString("Emp_Mob"));
                         tvEmpEmail.setText(profileObject.getString("Emp_Email"));
@@ -99,7 +101,7 @@ public class CaptainProfileFragment extends Fragment {
                             ivCapProfileImg.setImageResource(R.drawable.ic_action_user);
                         }
                     } else {
-                        Toast.makeText(getContext(), "Something went wrong. Please try again.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

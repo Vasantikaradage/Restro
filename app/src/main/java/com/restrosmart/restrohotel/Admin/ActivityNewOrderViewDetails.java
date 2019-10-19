@@ -18,12 +18,8 @@ public class ActivityNewOrderViewDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_order_view);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
-
-
-
     }
+
     @Override
     public boolean onSupportNavigateUp() {
         finish();

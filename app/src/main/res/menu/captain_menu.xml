@@ -15,6 +15,12 @@
         app:showAsAction="always" />
 
     <item
+        android:id="@+id/table_orders"
+        android:icon="@drawable/ic_order_white"
+        android:title="Orders"
+        app:showAsAction="always" />
+
+    <item
         android:id="@+id/captain_profile"
         android:icon="@drawable/ic_profile"
         android:title="Captain Profile"

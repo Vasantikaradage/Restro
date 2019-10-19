@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:showIn="navigation_view">
+
+    <group
+        android:id="@+id/gp_sa_dashboard"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_sa_dashboard"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:checkable="true"
+            android:icon="@drawable/ic_all_order"
+            android:checked="true"
+            app:itemTextColor="#ac1e1e"
+            android:title="DashBoard" />
+    </group>
+
+
+    <group
+        android:id="@+id/add_sa_employee"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_add_sa_employee"
+            android:icon="@drawable/ic_chef_toque_and_mustache"
+            android:checkable="true"
+            android:title="Employee Details" />
+    </group>
+
+
+
+
+
+
+
+    <group
+        android:id="@+id/branch_sa_details"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_branch_sa_details"
+            android:icon="@drawable/ic_credit_card"
+            android:checkable="true"
+            android:title="Branch Details" />
+    </group>
+
+    <group
+        android:id="@+id/gp_sa_reports"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_sa_reports"
+            android:icon="@drawable/ic_growth_a"
+            android:checkable="true"
+            android:title="Reports" />
+    </group>
+
+
+    <group
+        android:id="@+id/gp_sa_settings"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_sa_settings"
+            android:icon="@drawable/ic_settings"
+            android:checkable="true"
+            android:title="Settings" />
+    </group>
+
+
+</menu>

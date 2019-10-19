@@ -60,7 +60,7 @@ public class ActivityChangePassword extends AppCompatActivity {
         HashMap<String, String> name_info = sessionmanager.getHotelDetails();
         Emp_Id = name_info.get(ROLE_ID);
         hotelId = name_info.get(HOTEL_ID);
-        branchId = name_info.get(BRANCH_ID);
+
 
         btnChangePassword.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,8 +72,7 @@ public class ActivityChangePassword extends AppCompatActivity {
                         Integer.parseInt(Emp_Id),
                         mNew_pass.getText().toString(),
                         mCon_pass.getText().toString(),
-                        Integer.parseInt(hotelId),
-                        Integer.parseInt(branchId)));
+                        Integer.parseInt(hotelId)));
             }
         });
     }

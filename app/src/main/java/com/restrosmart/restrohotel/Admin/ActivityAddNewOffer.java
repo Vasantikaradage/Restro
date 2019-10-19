@@ -412,9 +412,7 @@ public class ActivityAddNewOffer extends AppCompatActivity {
         initRetrofitCallBack();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, ActivityAddNewOffer.this);
-        mRetrofitService.retrofitData(PARENT_CATEGORY, service.GetAllCategory(Integer.parseInt(hotelId),
-                Integer.parseInt(branchId)
-        ));
+        mRetrofitService.retrofitData(PARENT_CATEGORY, service.GetAllCategory(Integer.parseInt(hotelId)));
     }
 
     private void initRetrofitCallBack() {
@@ -631,7 +629,6 @@ public class ActivityAddNewOffer extends AppCompatActivity {
                 Calendar mcurrentTime1 = Calendar.getInstance();
                 int hour1 = mcurrentTime1.get(Calendar.HOUR_OF_DAY);
                 int minute1 = mcurrentTime1.get(Calendar.MINUTE);
-                TimePickerDialog mTimePicker1;
                 mTimePicker = new TimePickerDialog(ActivityAddNewOffer.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {

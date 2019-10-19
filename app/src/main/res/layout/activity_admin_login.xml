@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:orientation="vertical"
-    tools:context=".Admin.ActivityAdminLogin">
+    tools:context=".Admin.ActivityLogin">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -147,7 +147,7 @@
                     android:textColor="@color/colorPrimary" />
             </FrameLayout>
 
-            <Button
+        <!--    <Button
                 android:id="@+id/btnAdminRegister"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
@@ -155,7 +155,7 @@
                 android:layout_marginTop="@dimen/dimen_10dp"
                 android:background="@drawable/button_outline_light"
                 android:text="Register"
-                android:textColor="@color/white" />
+                android:textColor="@color/white" />-->
         </LinearLayout>
     </FrameLayout>
 </ScrollView>

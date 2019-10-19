@@ -74,7 +74,7 @@ public class ConstantVariables {
     public  static  final  int FLAVOUR_EDIT=303;
     public  static  final  int FLAVOUR_STATUS=356;
 
-    public  static  final  int BRANCH_DETAILS=500;
+    public  static  final  int HOTEL_DETAILS =500;
     public  static  final  int EDIT_BRANCH_DETAILS=501;
 
     public  static  final  int ADD_TOPPINGS=400;
@@ -99,6 +99,10 @@ public class ConstantVariables {
     public  static  final  int USER_RATING=708;
     public  static  final int ACTIVE_TABLE=709;
     public  static  final  int UPDATE_EMP_IMAGE=900;
+    public  static  final  int MOVE_TABLE=901;
+    public  static  final  int ALLOCATE_TABLE_CAPTAIN=902;
+    public  static  final  int ALLOCATED_TABLE_DEATILS=903;
+    public  static  final  int EMPLOYEE_STATUS=904;
 
 
     /*Captain*/
@@ -108,6 +112,22 @@ public class ConstantVariables {
     public  static  final  int GET_BOOKED_TABLE=803;
     public  static  final  int SWAP_TABLE=804;
     public  static  final  int GET_TABLE_ORDERS=805;
+    public  static  final  int WATER_ADD_TO_CART=806;
+    public  static  final  int LIQOUR_CATEGORY=808;
+    public  static  final  int FOOD_ADD_TO_CART=807;
+    public  static  final  int LIQOUR_ADD_TO_CART=808;
+    public  static  final  int PLACE_ORDER=809;
+    public  static  final  int GET_CART_MENU=810;
+    public  static  final  int REMOVE_MENU_CART=811;
+    public  static  final  int SAVE_MENU_CART=812;
+
+
+
+
+
+    /*Super Admin*/
+    public  static  final  int GET_SA_ALL_EMPLOYEE=1000;
+    public  static  final  int GET_SA_ALL_HOTEL=1001;
 
 }
 

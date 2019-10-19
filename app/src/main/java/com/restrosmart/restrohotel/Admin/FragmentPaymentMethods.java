@@ -8,11 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 
+import com.restrosmart.restrohotel.Interfaces.ApiService;
 import com.restrosmart.restrohotel.R;
 
 
 public class FragmentPaymentMethods extends Fragment {
     private WebView webvPaymentMethod;
+    ApiService apiService;
 
     @Nullable
     @Override
@@ -27,7 +29,7 @@ public class FragmentPaymentMethods extends Fragment {
         init();
         webvPaymentMethod.getSettings().setJavaScriptEnabled(true);
 
-        webvPaymentMethod.loadUrl("http://192.168.0.17/Restro_Smart/PayUMoney.html");
+        webvPaymentMethod.loadUrl(apiService.BASE_URL+"PayUMoney.html");
     }
 
     private void init() {

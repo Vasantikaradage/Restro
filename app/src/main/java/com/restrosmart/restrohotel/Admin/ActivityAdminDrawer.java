@@ -72,14 +72,14 @@ public class ActivityAdminDrawer extends AppCompatActivity
     private NavigationView navigationView;
     private LinearLayout linearLayoutHeader;
     private ActionBarDrawerToggle toggle;
-    private String emp_role, hotelId, branchId, empId;
+    private String emp_role, hotelId, branchId, empId,waterBottleId="",waterBottleName;
     private CircleImageView circleImageView;
     private TextView name;
-    private TextView tvEmail, tvBottlePrice, textInfo, textTitlePrice;
-    private EditText editTextPrice;
-    private int menuPrice;
+    private TextView tvEmail, tvBottlePrice, textInfo, textTitlePrice,tvBottleTitleName;
+    private EditText editTextPrice,etWaterBottleName;
+    private int waterBottlePrice;
     private ImageView imageBtnEdit;
-    private Button btnCancel, btnEdit;
+    private Button btnCancel, btnEdit,btnSave;
     private LinearLayout linearLayout;
     @SuppressWarnings("StatementWithEmptyBody")
     private boolean isStartup = true;
@@ -90,6 +90,7 @@ public class ActivityAdminDrawer extends AppCompatActivity
 
     private String refresh_categoryList;
     private String refresh_toppingList;
+    private  int waterBottleStatus, waterPrice;
 
     Fragment fragment = null;
 
@@ -110,7 +111,7 @@ public class ActivityAdminDrawer extends AppCompatActivity
         name_info = sharedPreferanceManage.getHotelDetails();
         emp_role = name_info.get(ROLE_ID);
         hotelId = name_info.get(HOTEL_ID);
-        branchId = name_info.get(BRANCH_ID);
+     //   branchId = name_info.get(BRANCH_ID);
         empId = name_info.get(EMP_ID);
 
         final Intent intent = getIntent();
@@ -180,9 +181,10 @@ public class ActivityAdminDrawer extends AppCompatActivity
         MenuItem nav_topins = menu.findItem(R.id.nav_toppings);
         MenuItem nav_dashborad = menu.findItem(R.id.nav_dashboard);
         MenuItem nav_tables = menu.findItem(R.id.nav_table);
+        MenuItem nav_assisgn_table=menu.findItem(R.id.nav_assign_table);
 
-        getEmployeeDetail();
-        if (emp_role.equals("2")) {
+
+        if (emp_role.equals("1")) {
             allorder.setVisible(true);
             nav_menu.setVisible(true);
             nav_daily_offers.setVisible(true);
@@ -192,8 +194,10 @@ public class ActivityAdminDrawer extends AppCompatActivity
             nav_topins.setVisible(true);
             nav_dashborad.setVisible(true);
             nav_tables.setVisible(true);
+            nav_assisgn_table.setVisible(true);
 
-        } else if (emp_role.equals("1")) {
+        } else
+            {
 
             allorder.setVisible(false);
             nav_menu.setVisible(false);
@@ -204,10 +208,11 @@ public class ActivityAdminDrawer extends AppCompatActivity
             nav_topins.setVisible(false);
             nav_dashborad.setVisible(true);
             nav_tables.setVisible(true);
-
-        } else {
+            nav_assisgn_table.setVisible(false);
 
         }
+        getEmployeeDetail();
+
 
 
         linearLayoutHeader.setOnClickListener(new View.OnClickListener() {
@@ -215,7 +220,6 @@ public class ActivityAdminDrawer extends AppCompatActivity
             public void onClick(View view) {
                 Intent intentProfile = new Intent(ActivityAdminDrawer.this, ActivityProfile.class);
                 intentProfile.putParcelableArrayListExtra("employeeList", (ArrayList<? extends Parcelable>) arrayListEmployee);
-
                 intentProfile.putExtra("empId", Integer.parseInt(empId));
                 startActivity(intentProfile);
             }
@@ -242,8 +246,8 @@ public class ActivityAdminDrawer extends AppCompatActivity
         retrofitCallBack();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, ActivityAdminDrawer.this);
-        mRetrofitService.retrofitData(GET_ALL_EMPLOYEE, (service.getallEmployees(Integer.parseInt(hotelId),
-                Integer.parseInt(branchId))));
+        mRetrofitService.retrofitData(GET_ALL_EMPLOYEE, (service.getallEmployees(Integer.parseInt(hotelId)
+               )));
 
     }
 
@@ -334,9 +338,9 @@ public class ActivityAdminDrawer extends AppCompatActivity
         inflater.inflate(R.menu.admin_drawer, menu);
         itemShow= menu.findItem(R.id.action_water_bottel);
 
-        if (emp_role.equals("1")) {
+     /*   if (emp_role.equals("1")) {
             itemShow.setVisible(false);
-        } else
+        } else*/
             itemShow.setVisible(true);
 
         return true;
@@ -358,13 +362,9 @@ public class ActivityAdminDrawer extends AppCompatActivity
             return true;
         } else if (id == R.id.action_water_bottel) {
             initRetrofitCallBack();
-
             ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
             mRetrofitService = new RetrofitService(mResultCallBack, ActivityAdminDrawer.this);
-            mRetrofitService.retrofitData(DISPLAY_WATER_BOTTLE, service.DisplayWaterBottle(
-                    Integer.parseInt(branchId),
-                    Integer.parseInt(hotelId)
-            ));
+            mRetrofitService.retrofitData(DISPLAY_WATER_BOTTLE, service.DisplayWaterBottle(Integer.parseInt(hotelId)));
 
 
         }
@@ -379,7 +379,20 @@ public class ActivityAdminDrawer extends AppCompatActivity
                 switch (requestId) {
                     case SAVE_WATER_BOTTLE:
                         JsonObject jsonObject = response.body();
-                        Toast.makeText(ActivityAdminDrawer.this, "Save the water Bottle Successfully..", Toast.LENGTH_LONG).show();
+                        String objectInfo=jsonObject.toString();
+                        try {
+                            JSONObject object=new JSONObject(objectInfo);
+                            int status=object.getInt("status");
+                            if(status==1) {
+                                Toast.makeText(ActivityAdminDrawer.this, "Save the water Bottle Successfully..", Toast.LENGTH_LONG).show();
+                            }
+                            else
+                            {
+                                Toast.makeText(ActivityAdminDrawer.this, "Something went wrong ..", Toast.LENGTH_LONG).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                         dialog.dismiss();
                         break;
 
@@ -388,10 +401,13 @@ public class ActivityAdminDrawer extends AppCompatActivity
                         String value = jsonObject1.toString();
                         try {
                             JSONObject object = new JSONObject(value);
-                            int status = object.getInt("status");
-                            if (status == 1) {
-                                // menuId = object.getInt("Menu_Id");
-                                menuPrice = object.getInt("Non_Ac_Rate");
+                            waterBottleStatus = object.getInt("status");
+                            if (waterBottleStatus == 1) {
+
+                                JSONObject object1=object.getJSONObject("waterbottle");
+                                waterBottleId = object1.getString("Water_Id");
+                                waterBottlePrice = object1.getInt("Water_Price");
+                                waterBottleName=object1.getString("Water_Name");
                                 dailogWaterBottle();
                             } else {
                                 dailogWaterBottle();
@@ -440,71 +456,110 @@ public class ActivityAdminDrawer extends AppCompatActivity
         dialog = builder.create();
 
         btnCancel = dialoglayout.findViewById(R.id.btnCancelBottle);
+        btnSave = dialoglayout.findViewById(R.id.btnSaveBottle);
         btnEdit = dialoglayout.findViewById(R.id.btnEditBottle);
+
         editTextPrice = dialoglayout.findViewById(R.id.etx_water_bottle_price);
+        etWaterBottleName=dialoglayout.findViewById(R.id.etx_water_bottle_name);
         linearLayout = dialoglayout.findViewById(R.id.llwaterBottleDisplay);
         textInfo = (TextView) dialoglayout.findViewById(R.id.tx_info);
         tvBottlePrice = dialoglayout.findViewById(R.id.txPrice);
         textTitlePrice = dialoglayout.findViewById(R.id.txTitlePrice);
+        tvBottleTitleName=dialoglayout.findViewById(R.id.txTitleName);
         imageBtnEdit = (ImageView) dialoglayout.findViewById(R.id.imageBtn_edit);
 
-        //  if (menuPrice != 0) {
-        linearLayout.setVisibility(View.VISIBLE);
-        imageBtnEdit.setVisibility(View.VISIBLE);
-        tvBottlePrice.setVisibility(View.VISIBLE);
 
-        textTitlePrice.setVisibility(View.GONE);
-        editTextPrice.setVisibility(View.GONE);
-        textInfo.setVisibility(View.GONE);
-        btnEdit.setVisibility(View.GONE);
+        if (!waterBottleId.equals("")) {
+            linearLayout.setVisibility(View.VISIBLE);
+            imageBtnEdit.setVisibility(View.VISIBLE);
+            tvBottlePrice.setVisibility(View.VISIBLE);
 
-        String price = String.valueOf(menuPrice);
-        tvBottlePrice.setText(price);
-        dialog.show();
+            textTitlePrice.setVisibility(View.GONE);
+            tvBottleTitleName.setVisibility(View.GONE);
+            editTextPrice.setVisibility(View.GONE);
+            etWaterBottleName.setVisibility(View.GONE);
+            textInfo.setVisibility(View.GONE);
+            btnEdit.setVisibility(View.GONE);
 
-        imageBtnEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                editTextPrice.setVisibility(View.VISIBLE);
-                btnEdit.setVisibility(View.VISIBLE);
-                btnCancel.setVisibility(View.VISIBLE);
-                textTitlePrice.setVisibility(View.VISIBLE);
+            String price = String.valueOf(waterBottlePrice);
+            tvBottlePrice.setText(price);
+            etWaterBottleName.setText(waterBottleName);
+            dialog.show();
 
-                tvBottlePrice.setVisibility(View.GONE);
-                linearLayout.setVisibility(View.GONE);
-                imageBtnEdit.setVisibility(View.GONE);
+            imageBtnEdit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    editTextPrice.setVisibility(View.VISIBLE);
+                    etWaterBottleName.setVisibility(View.VISIBLE);
+                    btnEdit.setVisibility(View.VISIBLE);
+                    btnCancel.setVisibility(View.VISIBLE);
+                    textTitlePrice.setVisibility(View.VISIBLE);
+                    tvBottleTitleName.setVisibility(View.VISIBLE);
 
-                String price = String.valueOf(menuPrice);
-                editTextPrice.setText(price);
+                    tvBottlePrice.setVisibility(View.GONE);
+                    linearLayout.setVisibility(View.GONE);
+                    imageBtnEdit.setVisibility(View.GONE);
 
-                btnEdit.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                    String price = String.valueOf(waterBottlePrice);
+                    editTextPrice.setText(price);
 
-                        initRetrofitCallBack();
-                        ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
-                        mRetrofitService = new RetrofitService(mResultCallBack, ActivityAdminDrawer.this);
+                    btnEdit.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            initRetrofitCallBack();
+                            ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
+                            mRetrofitService = new RetrofitService(mResultCallBack, ActivityAdminDrawer.this);
 
-                        mRetrofitService.retrofitData(EDIT_WATER_BOTTLE, service.editWaterBottle(0,
-                                "Water Bottle", "water.png",
-                                Integer.parseInt(editTextPrice.getText().toString()), 0,
-                                Integer.parseInt(branchId),
-                                Integer.parseInt(hotelId)
-                        ));
+                            mRetrofitService.retrofitData(EDIT_WATER_BOTTLE, service.editWaterBottle(waterBottleId,
+                                    etWaterBottleName.getText().toString(),
+                                    Integer.parseInt(editTextPrice.getText().toString()),
+                                    Integer.parseInt(hotelId)
+                            ));
 
-                    }
-                });
-                dialog.show();
+                        }
+                    });
+                    dialog.show();
 
-                btnCancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
-            }
+                    btnCancel.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                        }
+                    });
+                }
 
-        });
+            });
+
+        }else
+        {
+            btnSave.setVisibility(View.VISIBLE);
+            editTextPrice.setVisibility(View.VISIBLE);
+            etWaterBottleName.setVisibility(View.VISIBLE);
+            btnCancel.setVisibility(View.VISIBLE);
+            textTitlePrice.setVisibility(View.GONE);
+            tvBottleTitleName.setVisibility(View.GONE);
+
+            btnEdit.setVisibility(View.GONE);
+            imageBtnEdit.setVisibility(View.GONE);
+
+           // waterPrice = Integer.parseInt();
+            dialog.show();
+
+            btnSave.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    initRetrofitCallBack();
+                    ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
+                    mRetrofitService = new RetrofitService(mResultCallBack, ActivityAdminDrawer.this);
+                    mRetrofitService.retrofitData(SAVE_WATER_BOTTLE, service.AddWaterBottle(
+                            etWaterBottleName.getText().toString(),
+                            Integer.parseInt(editTextPrice.getText().toString()),
+                            Integer.parseInt(hotelId)
+                    ));
+
+                }
+            });
+        }
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -513,7 +568,6 @@ public class ActivityAdminDrawer extends AppCompatActivity
             }
         });
     }
-
 
     private void logout() {
         AlertUtils.AlertDialoge(this, android.R.drawable.ic_dialog_alert, "Logout", "Are you sure You want to logout?");
@@ -544,12 +598,7 @@ public class ActivityAdminDrawer extends AppCompatActivity
             fragment.setArguments(bundle);
             title = "All Orders";
 
-        } else if (id == R.id.nav_table) {
-           // itemShow.setVisible(false);
-            fragment = new FragmentTableDetails();
-            title = "Table Details";
-
-        } else if (id == R.id.nav_toppings) {
+        }  else if (id == R.id.nav_toppings) {
            // itemShow.setVisible(false);
             fragment = new FragmentToppings();
             // fragment.setArguments(args);
@@ -574,7 +623,19 @@ public class ActivityAdminDrawer extends AppCompatActivity
             fragment.setArguments(args);
             title = "Our Employees";
 
-        } else if (id == R.id.nav_add_payment_methods) {
+        } else if (id == R.id.nav_table) {
+            // itemShow.setVisible(false);
+            fragment = new FragmentTableDetails();
+            title = "Table Details";
+
+        }
+        else if (id == R.id.nav_assign_table) {
+            // itemShow.setVisible(false);
+            fragment = new FragmentAssignDetails();
+            title = "Assign Table";
+
+        }
+        else if (id == R.id.nav_add_payment_methods) {
           //  itemShow.setVisible(false);
             fragment = new FragmentPaymentMethods();
             fragment.setArguments(args);

@@ -68,10 +68,7 @@ public class ActivityImageTopping  extends AppCompatActivity {
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, ActivityImageTopping.this);
         mRetrofitService.retrofitData(TOPPING_IMAGE, service.toppingImage(Integer.parseInt(mHotelId),
-                Integer.parseInt(mBranchId),
-                pcId
-
-                ));
+                pcId));
     }
 
     private void setUpToolBar() {

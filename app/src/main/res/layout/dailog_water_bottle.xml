@@ -56,12 +56,35 @@
         android:textSize="18sp"
         android:visibility="gone"/>
     <TextView
+        android:id="@+id/txTitleName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:layout_marginStart="40dp"
+        android:text="Enter Water Bottle Name"
+        android:textStyle="bold"/>
+
+
+    <EditText
+        android:id="@+id/etx_water_bottle_name"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:hint="Enter Water Bottle Name"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="40dp"
+        android:padding="5dp"
+        android:background="@drawable/bottle_button_outline_dark"
+        android:layout_marginEnd="40dp"
+        android:visibility="gone"
+        />
+
+    <TextView
         android:id="@+id/txTitlePrice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="5dp"
+        android:layout_marginStart="40dp"
         android:text="Enter Price"
-        android:gravity="center"
         android:textStyle="bold"/>
 
     <EditText
@@ -70,10 +93,9 @@
         android:layout_height="35dp"
         android:hint="Enter Price"
         android:inputType="number"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:layout_marginStart="40dp"
         android:padding="5dp"
-
         android:background="@drawable/bottle_button_outline_dark"
         android:layout_marginEnd="40dp"
         android:visibility="gone"
@@ -105,12 +127,7 @@
             android:layout_weight="1"
             android:layout_marginTop="10dp"
             android:textSize="18sp"
-
-           />
-
-
-
-
+            />
     </LinearLayout>
 
     <LinearLayout
@@ -131,7 +148,7 @@
             android:visibility="gone"/>
 
         <Button
-            android:id="@+id/btnConfirmBottle"
+            android:id="@+id/btnSaveBottle"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_marginLeft="@dimen/dimen_20dp"
@@ -146,7 +163,7 @@
             android:layout_height="40dp"
             android:layout_marginLeft="@dimen/dimen_20dp"
             android:background="@drawable/button_outline_dark"
-            android:text="Save"
+            android:text="Update"
             android:textColor="@color/colorPrimary"
             android:visibility="gone"/>
 

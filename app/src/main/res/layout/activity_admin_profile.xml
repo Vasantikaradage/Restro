@@ -141,8 +141,6 @@
                             android:src="@drawable/ic_action_editbtn" />
                     </RelativeLayout>
                 </LinearLayout>
-
-
             </LinearLayout>
 
             <android.support.v7.widget.CardView
@@ -304,10 +302,9 @@
                             android:layout_height="wrap_content"
                             android:background="@null"
                             android:focusable="true"
-
                             android:hint="Mobile"
+                            android:maxLength="10"
                             android:inputType="number"
-
                             android:visibility="gone" />
 
                         <TextView
@@ -390,7 +387,7 @@
                             android:background="@null"
                             android:hint="Adhar No"
                             android:inputType="number"
-
+                            android:maxLength="12"
                             android:visibility="gone" />
 
                         <TextView
@@ -612,6 +609,7 @@
                             android:background="@null"
                             android:hint="Mobile No"
                             android:inputType="number"
+                            android:maxLength="10"
                             android:visibility="gone" />
 
                         <TextView
@@ -651,6 +649,7 @@
                             android:layout_height="wrap_content"
                             android:background="@null"
                             android:hint="Phone No"
+                            android:maxLength="12"
                             android:inputType="number"
                             android:visibility="gone" />
 

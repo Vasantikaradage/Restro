@@ -13,13 +13,13 @@ import com.restrosmart.restrohotel.R;
 
 import java.util.ArrayList;
 
-public  class RVOrderTopping extends RecyclerView.Adapter<RVOrderTopping.MyHolder>  {
-   private  Context mContext;
-   private  ArrayList<ToppingsForm> arrayListTopping;
+public class RVOrderTopping extends RecyclerView.Adapter<RVOrderTopping.MyHolder> {
+    private Context mContext;
+    private ArrayList<ToppingsForm> arrayListTopping;
 
     public RVOrderTopping(Context context, ArrayList<ToppingsForm> arrayListToppings) {
-     this.mContext=context;
-     this.arrayListTopping=arrayListToppings;
+        this.mContext = context;
+        this.arrayListTopping = arrayListToppings;
 
     }
 
@@ -34,7 +34,7 @@ public  class RVOrderTopping extends RecyclerView.Adapter<RVOrderTopping.MyHolde
 
     @Override
     public void onBindViewHolder(@NonNull RVOrderTopping.MyHolder myHolder, int i) {
-myHolder.tvTopping.setText(arrayListTopping.get(i).getToppingsName());
+        myHolder.tvTopping.setText(arrayListTopping.get(i).getToppingsName());
     }
 
     @Override
@@ -44,9 +44,10 @@ myHolder.tvTopping.setText(arrayListTopping.get(i).getToppingsName());
 
     public class MyHolder extends RecyclerView.ViewHolder {
         private TextView tvTopping;
+
         public MyHolder(@NonNull View itemView) {
             super(itemView);
-            tvTopping=itemView.findViewById(R.id.tv_topping);
+            tvTopping = itemView.findViewById(R.id.tv_topping);
         }
     }
 }

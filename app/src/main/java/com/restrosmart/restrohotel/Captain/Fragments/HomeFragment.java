@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.github.ybq.android.spinkit.SpinKitView;
 import com.google.gson.JsonObject;
 import com.restrosmart.restrohotel.Captain.Adapters.ScanTableRVAdapter;
 import com.restrosmart.restrohotel.Captain.Models.AreaTableModel;
@@ -45,6 +46,7 @@ public class HomeFragment extends Fragment {
 
     private RecyclerView rvScanTable;
     private LinearLayout llNoTables;
+    private SpinKitView skLoading;
 
     private Sessionmanager mSessionmanager;
     private RetrofitService mRetrofitService;
@@ -107,14 +109,14 @@ public class HomeFragment extends Fragment {
         initRetrofitCallBack();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, getContext());
-        mRetrofitService.retrofitData(TABLE_CONF_STATUS, (service.scanConfirmTable(1, 1, tableId, areaId, tableConfStatus)));
+        mRetrofitService.retrofitData(TABLE_CONF_STATUS, (service.scanConfirmTable(1, tableId, areaId, tableConfStatus)));
     }
 
     private void getScanTable() {
         initRetrofitCallBack();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, getContext());
-        mRetrofitService.retrofitData(SCAN_TABLE, (service.getScanTable(1, 1)));
+        mRetrofitService.retrofitData(SCAN_TABLE, (service.getScanTable(1)));
     }
 
     private void initRetrofitCallBack() {
@@ -130,6 +132,8 @@ public class HomeFragment extends Fragment {
                         try {
                             JSONObject object = new JSONObject(mParentSubcategory);
                             int status = object.getInt("status");
+                            String msg = object.getString("message");
+
                             if (status == 1) {
                                 areaTableModelArrayList.clear();
                                 JSONArray jsonArray = object.getJSONArray("scantbl");
@@ -169,10 +173,16 @@ public class HomeFragment extends Fragment {
 
                                     rvScanTable.setVisibility(View.VISIBLE);
                                     llNoTables.setVisibility(View.GONE);
+                                    skLoading.setVisibility(View.GONE);
                                 } else {
                                     rvScanTable.setVisibility(View.GONE);
                                     llNoTables.setVisibility(View.VISIBLE);
+                                    skLoading.setVisibility(View.GONE);
                                 }
+                            } else {
+                                rvScanTable.setVisibility(View.GONE);
+                                llNoTables.setVisibility(View.VISIBLE);
+                                skLoading.setVisibility(View.GONE);
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -211,5 +221,6 @@ public class HomeFragment extends Fragment {
 
         rvScanTable = view.findViewById(R.id.rvScanTable);
         llNoTables = view.findViewById(R.id.llNoTables);
+        skLoading = view.findViewById(R.id.skLoading);
     }
 }

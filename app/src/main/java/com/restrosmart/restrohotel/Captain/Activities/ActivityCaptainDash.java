@@ -1,5 +1,6 @@
 package com.restrosmart.restrohotel.Captain.Activities;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.restrosmart.restrohotel.Captain.Fragments.CaptainProfileFragment;
 import com.restrosmart.restrohotel.Captain.Fragments.HomeFragment;
@@ -16,7 +18,7 @@ import com.restrosmart.restrohotel.R;
 public class ActivityCaptainDash extends AppCompatActivity {
 
     private Toolbar mToolbar;
-    private MenuItem menuCapHome, menuSwapTable, menuCapProfile;
+    private MenuItem menuCapHome, menuSwapTable, menuTableOrders, menuCapProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +69,7 @@ public class ActivityCaptainDash extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.captain_menu, menu);
         menuCapHome = menu.findItem(R.id.captain_home);
         menuSwapTable = menu.findItem(R.id.swap_table);
+        menuTableOrders = menu.findItem(R.id.table_orders);
         menuCapProfile = menu.findItem(R.id.captain_profile);
 
         menuCapHome.setVisible(false);
@@ -88,6 +91,10 @@ public class ActivityCaptainDash extends AppCompatActivity {
                 menuSwapTable.setVisible(false);
                 menuCapProfile.setVisible(true);
                 loadFragment(1);
+                break;
+
+            case R.id.table_orders:
+                startActivity(new Intent(this, ActivityCapOrders.class));
                 break;
 
             case R.id.captain_profile:

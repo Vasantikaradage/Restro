@@ -32,7 +32,7 @@ public class FragmentTabWeeklyReport extends Fragment {
     int size=6;
     private ArrayList<String> labels;
 
-    private String[] Days = {"Mon", "Tue", "Wen", "Thu", "Fri", "Sat", "Sun"};
+    private String[] Days = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
 
 
     private  String[] veg={"10","20","30","40","50","60","70"};

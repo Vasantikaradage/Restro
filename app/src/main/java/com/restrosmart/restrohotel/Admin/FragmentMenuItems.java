@@ -85,11 +85,14 @@ public class FragmentMenuItems extends Fragment {
     private ArrayList<ArrayList<CategoryForm>> arrayList;
     private  ApiService apiService;
 
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         //setHasOptionsMenu(true);
+        setRetainInstance(true);
         View view = inflater.inflate(R.layout.fragment_tab_menu, null);
+
         return view;
     }
 
@@ -102,13 +105,12 @@ public class FragmentMenuItems extends Fragment {
         sessionmanager = new Sessionmanager(getActivity());
         HashMap<String, String> name_info = sessionmanager.getHotelDetails();
         hotelId = Integer.parseInt(name_info.get(HOTEL_ID));
-        branchId = Integer.parseInt(name_info.get(BRANCH_ID));
+
 
         initRetrofitCallBackForCategory();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, getActivity());
-        mRetrofitService.retrofitData(PARENT_CATEGORY_WITH_SUB, (service.GetAllCategory(hotelId,
-                (branchId))));
+        mRetrofitService.retrofitData(PARENT_CATEGORY_WITH_SUB, (service.GetAllCategory(hotelId)));
         showProgressDialog();
 
 
@@ -189,7 +191,6 @@ public class FragmentMenuItems extends Fragment {
                 mRetrofitService.retrofitData(SAVE_CATEGORY, service.addCategory(etxCategoryNme.getText().toString(),
                         mFinalImageName,
                         hotelId,
-                        branchId,
                         mPcId));
             }
         });
@@ -227,6 +228,7 @@ public class FragmentMenuItems extends Fragment {
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         tabLayout = (TabLayout) getActivity().findViewById(R.id.tablayout);
         viewPager = (ViewPager) getActivity().findViewById(R.id.viewPager);
+
         tabLayout.setupWithViewPager(viewPager);
         llNoCategoryData = getActivity().findViewById(R.id.llNoCategoryData);
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
@@ -319,7 +321,6 @@ public class FragmentMenuItems extends Fragment {
                                 dialog.dismiss();
 
                             }
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -340,7 +341,6 @@ public class FragmentMenuItems extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == IMAGE_RESULT_OK /*&& requestCode==IMAGE_RESULT_OK*/) {
             imageName = data.getStringExtra("image_name");
-            Log.e("Result for image", imageName);
 
             Picasso.with(dialoglayout.getContext())
                     .load(imageName)
@@ -370,9 +370,11 @@ public class FragmentMenuItems extends Fragment {
 
             }
         });
+
         categoryViewPagerAdapter = new CategoryViewPagerAdapter(getActivity().getSupportFragmentManager(), mFragmentTitleList, addParentCategoryinfoModels);
         categoryViewPagerAdapter.notifyDataSetChanged();
         viewPager.setAdapter(categoryViewPagerAdapter);
+
     }
 }
 

@@ -19,7 +19,7 @@
             android:layout_gravity="center_horizontal"
             android:src="@drawable/logo" />
 
-        <Button
+      <!--  <Button
             android:id="@+id/btnSuperAdmin"
             android:layout_width="250dp"
             android:layout_height="80dp"
@@ -27,7 +27,7 @@
             android:layout_marginTop="35dp"
             android:background="@color/colorPrimary"
             android:text="Super Admin Login"
-            android:textColor="@color/colorwhite" />
+            android:textColor="@color/colorwhite" />-->
 
         <Button
             android:id="@+id/btn_admin"
@@ -36,10 +36,10 @@
             android:layout_gravity="center"
             android:layout_marginTop="35dp"
             android:background="@color/colorPrimary"
-            android:text="Admin Login"
+            android:text="Login"
             android:textColor="@color/colorwhite" />
 
-        <Button
+     <!--   <Button
             android:id="@+id/btn_captain"
             android:layout_width="250dp"
             android:layout_height="80dp"
@@ -47,7 +47,7 @@
             android:layout_marginTop="35dp"
             android:background="@color/colorPrimary"
             android:text="Captain Login"
-            android:textColor="@color/colorwhite" />
+            android:textColor="@color/colorwhite" />-->
 
        <!-- <Button
             android:id="@+id/btnBarCounter"

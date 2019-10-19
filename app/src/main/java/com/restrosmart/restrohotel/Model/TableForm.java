@@ -87,4 +87,9 @@ public class TableForm implements Parcelable {
         parcel.writeString(areaName);
         parcel.writeInt(Area_Status);
     }
+
+    @Override
+    public String toString() {
+        return areaName;
+    }
 }

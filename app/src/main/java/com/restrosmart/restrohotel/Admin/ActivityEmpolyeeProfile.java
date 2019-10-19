@@ -5,11 +5,11 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.gson.JsonObject;
 import com.restrosmart.restrohotel.Interfaces.ApiService;
 import com.restrosmart.restrohotel.Interfaces.IResult;
@@ -19,17 +19,13 @@ import com.restrosmart.restrohotel.RetrofitClientInstance;
 import com.restrosmart.restrohotel.RetrofitService;
 import com.restrosmart.restrohotel.Utils.Sessionmanager;
 import com.squareup.picasso.Picasso;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Response;
-
 import static com.restrosmart.restrohotel.ConstantVariables.GET_ALL_EMPLOYEE;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.BRANCH_ID;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.HOTEL_ID;
@@ -41,38 +37,37 @@ import static com.restrosmart.restrohotel.Utils.Sessionmanager.HOTEL_ID;
 public class ActivityEmpolyeeProfile extends AppCompatActivity {
     private int emp_id;
     private CircleImageView mImage;
-    private String active;
+    private String active,imageOldName;
     private TextView mName, mUsername, mRole, mStatus, mHotelName, mMobNo, mEmail, mAdhar, mAddress;
     private RetrofitService mRetrofitService;
     private IResult mResultCallBack;
     private  Sessionmanager sessionmanager;
     private  int hotelId,branchId;
     private  ArrayList<EmployeeForm> arrayListEmployee;
+    private   Toolbar mTopToolbar;
+    private  TextView toolBarTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_employee_profile);
-
-        arrayListEmployee=new ArrayList<>();
+        init();
+        setUpToolBar();
 
         sessionmanager = new Sessionmanager(this);
         HashMap<String, String> name_info = sessionmanager.getHotelDetails();
         hotelId = Integer.parseInt(name_info.get(HOTEL_ID));
-        branchId = Integer.parseInt(name_info.get(BRANCH_ID));
 
         Intent intent = getIntent();
         emp_id = intent.getIntExtra("empId", 0);
+      //  retrofitCallBack();
+    }
 
-        Toolbar mTopToolbar = (Toolbar) findViewById(R.id.toolbar);
-        TextView toolBarTitle = (TextView) mTopToolbar.findViewById(R.id.tx_title);
+    private void setUpToolBar() {
         toolBarTitle.setText("Employee Profile");
         setSupportActionBar(mTopToolbar);
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
-        init();
-        retrofitCallBack();
     }
 
     @Override
@@ -82,6 +77,8 @@ public class ActivityEmpolyeeProfile extends AppCompatActivity {
     }
 
     private void init() {
+        mTopToolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolBarTitle = (TextView) mTopToolbar.findViewById(R.id.tx_title);
         mImage = (CircleImageView) findViewById(R.id.img_user_photo);
         mName = (TextView) findViewById(R.id.txt_user_name);
         mUsername = (TextView) findViewById(R.id.tv_username);
@@ -92,21 +89,20 @@ public class ActivityEmpolyeeProfile extends AppCompatActivity {
         mEmail = (TextView) findViewById(R.id.tv_emp_email);
         mAdhar = (TextView) findViewById(R.id.tv_emp_aadhar_number);
         mAddress = (TextView) findViewById(R.id.tv_emp_address);
+        arrayListEmployee=new ArrayList<>();
     }
 
     private void retrofitCallBack() {
         retrofitCallBackEmployee();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, ActivityEmpolyeeProfile.this);
-        mRetrofitService.retrofitData(GET_ALL_EMPLOYEE, (service.getallEmployees(hotelId,
-              branchId)));
+        mRetrofitService.retrofitData(GET_ALL_EMPLOYEE, (service.getallEmployees(hotelId)));
     }
 
     private void retrofitCallBackEmployee() {
         mResultCallBack=new IResult() {
             @Override
             public void notifySuccess(int requestId, Response<JsonObject> response) {
-
                 JsonObject jsonObject=response.body();
                 String empInfo=jsonObject.toString();
 
@@ -131,24 +127,22 @@ public class ActivityEmpolyeeProfile extends AppCompatActivity {
 
                             employeeForm.setEmpMob(jsonObjectEmp.getString("Emp_Mob"));
                             employeeForm.setEmpAdharId(jsonObjectEmp.getString("Emp_Adhar_Id"));
-                            employeeForm.setBranch_Id(jsonObjectEmp.getInt("Branch_Id"));
+
                             employeeForm.setActiveStatus(jsonObjectEmp.getInt("Active_Status"));
                             employeeForm.setRole_Id(jsonObjectEmp.getInt("Role_Id"));
                             arrayListEmployee.add(employeeForm);
                             getAdapter(arrayListEmployee);
-
                         }
-
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
 
             @Override
             public void notifyError(int requestId, Throwable error) {
-
+                Log.d("","RetrofitError"+error);
+                Log.d("","requestId"+requestId);
             }
         };
     }
@@ -157,15 +151,11 @@ public class ActivityEmpolyeeProfile extends AppCompatActivity {
 
         try {
             for (int i = 0; i < employeeDetails.size(); i++) {
-
                 int empId = employeeDetails.get(i).getEmpId();
-
                 if (emp_id == empId) {
-
                     String status = String.valueOf(employeeDetails.get(i).getActiveStatus());
-                    String imagePath = employeeDetails.get(i).getEmpImg();
-
-                    Picasso.with(this).load(imagePath).into(mImage);
+                    imageOldName= employeeDetails.get(i).getEmpImg();
+                    Picasso.with(this).load(imageOldName).into(mImage);
                     mName.setText(employeeDetails.get(i).getEmpName());
                     mUsername.setText(employeeDetails.get(i).getUserName());
                     mRole.setText(employeeDetails.get(i).getRole());
@@ -182,7 +172,6 @@ public class ActivityEmpolyeeProfile extends AppCompatActivity {
                         default:
                             active = "Active";
                     }
-
                     mStatus.setText(active);
                     mHotelName.setText(employeeDetails.get(i).getHotelName());
                     mMobNo.setText(employeeDetails.get(i).getEmpMob());
@@ -190,12 +179,12 @@ public class ActivityEmpolyeeProfile extends AppCompatActivity {
                     mAdhar.setText(employeeDetails.get(i).getEmpAdharId());
                     mAddress.setText(employeeDetails.get(i).getEmpAddress());
 
-                } else {
+               } else {
 
                 }
             }
         } catch (Exception e) {
-            Toast.makeText(this, "Network Error", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Something went wrong..!try again..", Toast.LENGTH_SHORT).show();
             e.getMessage();
         }
     }
@@ -228,7 +217,6 @@ public class ActivityEmpolyeeProfile extends AppCompatActivity {
             startActivity(intent);
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 

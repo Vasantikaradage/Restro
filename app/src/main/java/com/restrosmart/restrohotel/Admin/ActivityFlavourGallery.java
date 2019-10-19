@@ -50,7 +50,7 @@ public class ActivityFlavourGallery extends AppCompatActivity {
     private ArrayList<ImageForm> arrayListImage;
     private Toolbar mTopToolbar;
     private TextView txTitle;
-    private String image_name, mImageName, mHotelId, mBranchId;
+    private String image_name, mImageName, mHotelId;
     private Sessionmanager sessionmanager;
 
 
@@ -63,7 +63,6 @@ public class ActivityFlavourGallery extends AppCompatActivity {
 
         HashMap<String, String> name_info = sessionmanager.getHotelDetails();
         mHotelId = name_info.get(HOTEL_ID);
-        mBranchId = name_info.get(BRANCH_ID);
 
         Intent intent = getIntent();
         initRetrofitCallBack();
@@ -71,7 +70,6 @@ public class ActivityFlavourGallery extends AppCompatActivity {
         mRetrofitService = new RetrofitService(mResultCallBack, ActivityFlavourGallery.this);
         mRetrofitService.retrofitData(IMAGE_MENU_LIST, service.getFlavourImage(intent.getIntExtra("menuId", 0),
                 intent.getIntExtra("categoryId", 0),
-                Integer.parseInt(mBranchId),
                 Integer.parseInt(mHotelId),
                 intent.getIntExtra("pcId", 0)));
     }

@@ -90,14 +90,13 @@ public class FragmentAllOrders extends Fragment {
         sessionmanager = new Sessionmanager(getActivity());
         HashMap<String, String> name_info = sessionmanager.getHotelDetails();
         hotelId = Integer.parseInt(name_info.get(HOTEL_ID));
-        branchId = Integer.parseInt(name_info.get(BRANCH_ID));
+
         //callViewAdapter();
 
         initRetrofitCallback();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, getActivity());
-        mRetrofitService.retrofitData(ORDER_DETAILS, (service.Order(branchId,
-                hotelId)));
+        mRetrofitService.retrofitData(ORDER_DETAILS, (service.Order(hotelId)));
 
     }
 

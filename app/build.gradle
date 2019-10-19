@@ -36,8 +36,11 @@ dependencies {
     implementation 'com.github.JakeWharton:ViewPagerIndicator:2.4.1'
     implementation 'com.github.IsPra94:EasyGifView:1.0.1'
     implementation 'com.github.PuffoCyano:Range-Time-Picker-Dialog:v1.8'
+/*Loading*/
+    implementation 'com.github.ybq:Android-SpinKit:1.2.0'
 
-   // implementation  'com.archit.calendar:awesome-calendar:1.1.4'
+
+    // implementation  'com.archit.calendar:awesome-calendar:1.1.4'
 
     //implementation 'com.github.psinetron:slycalendarview:1.1.1'
 

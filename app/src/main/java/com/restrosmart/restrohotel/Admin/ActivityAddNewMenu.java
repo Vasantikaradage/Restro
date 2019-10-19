@@ -84,7 +84,6 @@ public class ActivityAddNewMenu extends AppCompatActivity {
         mSessionManager = new Sessionmanager(this);
         HashMap<String, String> name_info = mSessionManager.getHotelDetails();
         hotelId = Integer.parseInt(name_info.get(HOTEL_ID));
-        branchId = Integer.parseInt(name_info.get(BRANCH_ID));
         btnSaveMenu.setVisibility(View.VISIBLE);
         btnUpdateMenu.setVisibility(View.GONE);
 
@@ -181,7 +180,6 @@ public class ActivityAddNewMenu extends AppCompatActivity {
                             price,
                             intent.getIntExtra("MenuId", 0),
                             hotelId,
-                            branchId,
                             intent.getIntExtra("categoryId", 0),
                             intent.getIntExtra("pc_Id", 0),
                             ToppingList
@@ -201,8 +199,7 @@ public class ActivityAddNewMenu extends AppCompatActivity {
             initRetrofitCallBack();
             ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
             mRetrofitService = new RetrofitService(mResultCallBack, this);
-            mRetrofitService.retrofitData(PARENT_CATEGORY_WITH_TOPPINGS, (service.toppingDisplay(hotelId,
-                    (branchId),pcId)));
+            mRetrofitService.retrofitData(PARENT_CATEGORY_WITH_TOPPINGS, (service.toppingDisplay(hotelId)));
 
 
             radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -351,8 +348,7 @@ public class ActivityAddNewMenu extends AppCompatActivity {
         initRetrofitCallBack();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, this);
-        mRetrofitService.retrofitData(PARENT_CATEGORY_WITH_TOPPINGS, (service.toppingDisplay(hotelId,
-                (branchId),pcId)));
+        mRetrofitService.retrofitData(PARENT_CATEGORY_WITH_TOPPINGS, (service.toppingDisplay(hotelId)));
     }
 
     private void callAdapter() {
@@ -453,7 +449,6 @@ public class ActivityAddNewMenu extends AppCompatActivity {
                     menuTeste,
                     etxMenuPrice.getText().toString(),
                     hotelId,
-                    branchId,
                     intent.getIntExtra("pc_Id", 0),
                     ToppingList
             )));

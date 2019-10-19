@@ -31,18 +31,6 @@
             android:title="Orders" />
     </group>
 
-    <group
-        android:id="@+id/gp_all_tables"
-        android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_table"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:checkable="true"
-            android:icon="@drawable/ic_picnic"
-            app:itemTextColor="#ac1e1e"
-            android:title="Table Deatails" />
-    </group>
 
 
     <group
@@ -93,15 +81,29 @@
         android:title="Employee Details" />
 </group>
 
-  <!--  <group
-        android:id="@+id/hotel_detail"
+    <group
+        android:id="@+id/gp_all_tables"
         android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_hotel_details"
-            android:icon="@drawable/ic_hotel_sign"
+            android:id="@+id/nav_table"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:checkable="true"
-            android:title="Hotel Details" />
-    </group>-->
+            android:icon="@drawable/ic_picnic"
+            app:itemTextColor="#ac1e1e"
+            android:title="Table Details" />
+    </group>
+
+
+    <group
+          android:id="@+id/assign_table"
+          android:checkableBehavior="single">
+          <item
+              android:id="@+id/nav_assign_table"
+              android:icon="@drawable/ic_picnic"
+              android:checkable="true"
+              android:title="Assign Table" />
+      </group>
 
 
     <group

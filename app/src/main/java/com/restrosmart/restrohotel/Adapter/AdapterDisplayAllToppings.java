@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.restrosmart.restrohotel.Interfaces.DeleteListener;
@@ -30,6 +31,7 @@ public class AdapterDisplayAllToppings extends RecyclerView.Adapter<AdapterDispl
     private List<ToppingsForm> arrayList;
     private  EditListener editListener;
     private  DeleteListener deleteListener;
+
 
 
     public AdapterDisplayAllToppings(Context context, ArrayList<ToppingsForm> toppingsForms, EditListener editListener, DeleteListener deleteListener) {
@@ -52,6 +54,7 @@ public class AdapterDisplayAllToppings extends RecyclerView.Adapter<AdapterDispl
         myHolder.tvToppingsName.setText(arrayList.get(i).getToppingsName());
         String price= String.valueOf(arrayList.get(i).getToppingsPrice());
         myHolder.tvToppingsPrice.setText( "\u20B9 "+price);
+
 
         int[] androidColors = mContext.getResources().getIntArray(R.array.androidcolors);
         int randomAndroidColor = androidColors[new Random().nextInt(androidColors.length)];
@@ -101,6 +104,7 @@ public class AdapterDisplayAllToppings extends RecyclerView.Adapter<AdapterDispl
         private TextView tvToppingsName;
         private ImageView imageViewToppings,ivEdit,ivDelete,imageView;
         private TextView tvToppingsPrice;
+
 
         public MyHolder(@NonNull View itemView) {
             super(itemView);

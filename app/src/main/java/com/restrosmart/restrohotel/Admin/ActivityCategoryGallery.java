@@ -71,9 +71,7 @@ public class ActivityCategoryGallery extends AppCompatActivity {
         initRetrofitCallBackForCategory();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, ActivityCategoryGallery.this);
-        mRetrofitService.retrofitData(IMAGE_LIST, service.getCategoryImage(Integer.parseInt(hotelId),
-                Integer.parseInt(branchId),
-                mPcId));
+        mRetrofitService.retrofitData(IMAGE_LIST, service.getCategoryImage(mPcId));
 
     }
 

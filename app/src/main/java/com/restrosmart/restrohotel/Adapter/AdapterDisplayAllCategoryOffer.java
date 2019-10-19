@@ -72,13 +72,11 @@ public class AdapterDisplayAllCategoryOffer extends RecyclerView.Adapter<Adapter
         sessionmanager = new Sessionmanager(context);
         HashMap<String, String> name_info = sessionmanager.getHotelDetails();
         hotelId = Integer.parseInt(name_info.get(HOTEL_ID));
-        branchId = Integer.parseInt(name_info.get(BRANCH_ID));
 
         initRetrofitCallBack();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack,context);
-        mRetrofitService.retrofitData(PARENT_CATEGORY_WITH_SUB, (service.getMenus(arrayList.get(position).getCategory_id(),arrayList.get(position).getPc_Id(),hotelId,
-                (branchId))));
+        mRetrofitService.retrofitData(PARENT_CATEGORY_WITH_SUB, (service.getMenus(arrayList.get(position).getCategory_id(),arrayList.get(position).getPc_Id(),hotelId )));
       /*  holder.tvReschedule.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
         holder.viewLine.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
         holder.viewLine1.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
@@ -137,7 +135,6 @@ public class AdapterDisplayAllCategoryOffer extends RecyclerView.Adapter<Adapter
 
                             MenuDisplayForm menuForm = new MenuDisplayForm();
                             menuForm.setMenu_Id(jsonObject2.getInt("Menu_Id"));
-                            menuForm.setBranch_Id(jsonObject2.getInt("Branch_Id"));
                             menuForm.setCategory_Id(jsonObject2.getInt("Category_Id"));
                             menuForm.setMenu_Name(jsonObject2.getString("Menu_Name"));
                             menuForm.setMenu_Image_Name(jsonObject2.getString("Menu_Image_Name"));

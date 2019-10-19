@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.restrosmart.restrohotel.Admin.ActivityMenuOrderDidplay;
 import com.restrosmart.restrohotel.Admin.ActivityNewOrderViewDetails;
 import com.restrosmart.restrohotel.Model.OrderModel;
 import com.restrosmart.restrohotel.R;
@@ -68,7 +69,8 @@ public class AdapterNewOrder extends RecyclerView.Adapter<AdapterNewOrder.ViewHo
         viewHolder.mtableId.setText(tableID);
 
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
+
+      /*  LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
         viewHolder.rvMenu.setLayoutManager(linearLayoutManager);
 
 
@@ -77,7 +79,7 @@ public class AdapterNewOrder extends RecyclerView.Adapter<AdapterNewOrder.ViewHo
         // if (userType.equals("Admin")) {
         AdapterMenuNewOrder adapterMenuNewOrder = new AdapterMenuNewOrder(context, arrayList.get(viewHolder.getAdapterPosition()).getArrayList());
         viewHolder.rvMenu.setAdapter(adapterMenuNewOrder);
-
+*/
 
 
 
@@ -108,6 +110,16 @@ public class AdapterNewOrder extends RecyclerView.Adapter<AdapterNewOrder.ViewHo
             circle_image=itemView.findViewById(R.id.circle_image);
             rvMenu=itemView.findViewById(R.id.recycler);
             cancelStamp=itemView.findViewById(R.id.image_cancel);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent=new Intent(context, ActivityMenuOrderDidplay.class);
+                    intent.putExtra("menuArray", arrayList.get(getAdapterPosition()).getArrayList());
+                    context.startActivity(intent);
+
+                }
+            });
 
         }
     }

@@ -307,7 +307,6 @@
                             android:background="@null"
                             android:hint="Enter Password"
                             android:singleLine="true"
-                            android:inputType="number"
                             android:textColor="@color/colorAccent"
                             android:textSize="@dimen/font_large" />
 
@@ -342,7 +341,6 @@
                             android:background="@null"
                             android:singleLine="true"
                             android:hint="Enter Conform Password"
-                            android:inputType="number"
                             android:textColor="@color/colorAccent"
                             android:textSize="@dimen/font_large" />
 
@@ -430,7 +428,7 @@
             </android.support.v7.widget.CardView>
 
             <Button
-                android:id="@+id/btn_register"
+                android:id="@+id/btn_save"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -438,10 +436,21 @@
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/gradient_color"
                 android:padding="5dp"
-
-
                 android:text="@string/save"
                 android:textColor="#fff" />
+
+            <Button
+                android:id="@+id/btn_update"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/gradient_color"
+                android:padding="5dp"
+                android:text="@string/update"
+                android:textColor="#fff"
+                android:visibility="gone"/>
 
         </LinearLayout>
 

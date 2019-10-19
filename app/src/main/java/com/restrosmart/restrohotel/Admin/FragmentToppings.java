@@ -91,7 +91,6 @@ public  class FragmentToppings extends Fragment {
         sessionmanager = new Sessionmanager(getActivity());
         HashMap<String, String> name_info = sessionmanager.getHotelDetails();
         hotelId = Integer.parseInt(name_info.get(HOTEL_ID));
-        branchId = Integer.parseInt(name_info.get(BRANCH_ID));
 
        /* initRetrofitCallBackForToppings();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
@@ -158,7 +157,6 @@ public  class FragmentToppings extends Fragment {
                                 mFinalImageName,
                                 Integer.parseInt(etvToppingPrice.getText().toString()),
                                 hotelId,
-                                branchId,
                                 mPcId));
                     }
                 });
@@ -187,8 +185,7 @@ public  class FragmentToppings extends Fragment {
         initRetrofitCallBackForToppings();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, getActivity());
-        mRetrofitService.retrofitData(PARENT_CATEGORY_WITH_TOPPINGS, (service.toppingDisplay(hotelId,
-                (branchId),mPcId)));
+        mRetrofitService.retrofitData(PARENT_CATEGORY_WITH_TOPPINGS, (service.toppingDisplay(hotelId)));
          showProgressDialog();
     }
 

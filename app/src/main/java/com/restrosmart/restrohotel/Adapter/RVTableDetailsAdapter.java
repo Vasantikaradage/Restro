@@ -2,11 +2,13 @@ package com.restrosmart.restrohotel.Adapter;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,6 +24,7 @@ import com.restrosmart.restrohotel.Interfaces.EditListener;
 import com.restrosmart.restrohotel.Interfaces.IResult;
 import com.restrosmart.restrohotel.Interfaces.PositionListener;
 import com.restrosmart.restrohotel.Interfaces.StatusListener;
+import com.restrosmart.restrohotel.Interfaces.TableMoveListerner;
 import com.restrosmart.restrohotel.Model.TableForm;
 import com.restrosmart.restrohotel.Model.TableFormId;
 import com.restrosmart.restrohotel.R;
@@ -37,22 +40,23 @@ import java.util.HashMap;
 
 import retrofit2.Response;
 
+import static com.restrosmart.restrohotel.ConstantVariables.MOVE_TABLE;
+import static com.restrosmart.restrohotel.ConstantVariables.SWAP_TABLE;
 import static com.restrosmart.restrohotel.ConstantVariables.UPDATE_TABLE_STATUS;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.BRANCH_ID;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.HOTEL_ID;
 
 public class RVTableDetailsAdapter extends RecyclerView.Adapter<RVTableDetailsAdapter.MyHolder> {
     private Context mContext;
-    private ArrayList<TableForm> arrayListTableDeatils;
+    private ArrayList<TableForm> arrayListTableDeatils, freeAreaMoveArrayList;
     private EditListener editListener;
-    private int staus, status_info, tableStatus, position, mHotelId, mBranchId;
+    private int staus, status_info, tableStatus, position, mHotelId, mBranchId,moveTablePos,tableId;
     private Menu menuOpts;
     private StatusListener statusListener;
 
     private AdapterTableDisplay adapterTableDisplay;
     private RetrofitService mRetrofitService;
     private IResult mResultCallBack;
-    //private ArrayList<TableFormId> arrayListTable;
     private ArrayList<TableFormId> arrayListTable;
     private PositionListener positionListener;
 
@@ -60,6 +64,7 @@ public class RVTableDetailsAdapter extends RecyclerView.Adapter<RVTableDetailsAd
     public RVTableDetailsAdapter(Context context, ArrayList<TableForm> arrayListTable, PositionListener positionListener, StatusListener statusListener, EditListener editListener) {
         this.mContext = context;
         this.arrayListTableDeatils = arrayListTable;
+      //  this.freeAreaMoveArrayList =freeAreaMoveArrayList;
         this.editListener = editListener;
         this.statusListener = statusListener;
         this.positionListener = positionListener;
@@ -93,8 +98,6 @@ public class RVTableDetailsAdapter extends RecyclerView.Adapter<RVTableDetailsAd
         Sessionmanager sharedPreferanceManage = new Sessionmanager(mContext);
         HashMap<String, String> name_info = sharedPreferanceManage.getHotelDetails();
         mHotelId = Integer.parseInt(name_info.get(HOTEL_ID));
-        mBranchId = Integer.parseInt(name_info.get(BRANCH_ID));
-
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 4);
 
@@ -102,7 +105,19 @@ public class RVTableDetailsAdapter extends RecyclerView.Adapter<RVTableDetailsAd
         myHolder.mRecyclerView.setLayoutManager(gridLayoutManager);
         myHolder.mRecyclerView.setHasFixedSize(true);
         myHolder.mRecyclerView.getLayoutManager().setMeasurementCacheEnabled(false);
-        adapterTableDisplay = new AdapterTableDisplay(mContext, arrayListTableDeatils.get(myHolder.getAdapterPosition()).getArrayTableFormIds(), new StatusListener() {
+        adapterTableDisplay = new AdapterTableDisplay(mContext,arrayListTableDeatils.get(i).getAreaName(),arrayListTableDeatils.get(i).getAreaId(), arrayListTableDeatils.get(i).getArrayTableFormIds(),arrayListTableDeatils, new TableMoveListerner() {
+            @Override
+            public void tableMoveListerner(int oldAreaId, int newAreaId, int tableId1,int position) {
+                initRetrofitCallBackTableMove();
+                moveTablePos=position;
+                tableId=tableId1;
+                ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
+                mRetrofitService = new RetrofitService(mResultCallBack, mContext);
+                mRetrofitService.retrofitData(MOVE_TABLE, (service.AdminSwapTable(mHotelId,oldAreaId,newAreaId,tableId)));
+
+
+            }
+        },new StatusListener() {
             @Override
             public void statusListern(int position1, int status) {
 
@@ -112,8 +127,7 @@ public class RVTableDetailsAdapter extends RecyclerView.Adapter<RVTableDetailsAd
 
                 ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
                 mRetrofitService = new RetrofitService(mResultCallBack, mContext);
-                mRetrofitService.retrofitData(UPDATE_TABLE_STATUS, service.TableStatus(tableStatus, arrayListTableDeatils.get(myHolder.getAdapterPosition()).getArrayTableFormIds().get(position).getTableId(), mHotelId,
-                        mBranchId));
+                mRetrofitService.retrofitData(UPDATE_TABLE_STATUS, service.TableStatus(tableStatus, arrayListTableDeatils.get(myHolder.getAdapterPosition()).getArrayTableFormIds().get(position).getTableId(), mHotelId));
             }
         });
 
@@ -241,6 +255,48 @@ public class RVTableDetailsAdapter extends RecyclerView.Adapter<RVTableDetailsAd
         });
     }
 
+    private void initRetrofitCallBackTableMove() {
+        mResultCallBack=new IResult() {
+            @Override
+            public void notifySuccess(int requestId, Response<JsonObject> response) {
+
+                JsonObject jsonObject=response.body();
+                String objectInfo=jsonObject.toString();
+
+                try {
+                    JSONObject jsonObject1=new JSONObject(objectInfo);
+                    int status=jsonObject1.getInt("status");
+                    if(status==1)
+                    {
+                        Toast.makeText(mContext, "Table area change successfully", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent();
+                        intent.setAction("com.restrohotel.admin.move.table");
+                        mContext.sendBroadcast(intent);
+                       // arrayListTable.get(moveTablePos).setTableId(tableId);
+                       // adapterTableDisplay.notifyDataSetChanged();
+                       // positionListener.positionListern(moveTablePos);
+                    }else
+                    {
+                        Toast.makeText(mContext, "Something went wrong..! try again..", Toast.LENGTH_SHORT).show();
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+
+            @Override
+            public void notifyError(int requestId, Throwable error) {
+                Log.d("","Retrofiterror"+error);
+                Log.d("","RequestId"+requestId);
+
+            }
+        };
+    }
+
     private void initRetrofitCallBack(ArrayList<TableFormId> arrayListids) {
         arrayListTable = arrayListids;
         mResultCallBack = new IResult() {
@@ -304,4 +360,6 @@ public class RVTableDetailsAdapter extends RecyclerView.Adapter<RVTableDetailsAd
             mRecyclerView = itemView.findViewById(R.id.recycler_table_details);
         }
     }
+
+
 }

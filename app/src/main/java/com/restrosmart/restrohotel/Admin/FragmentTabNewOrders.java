@@ -71,27 +71,14 @@ public class FragmentTabNewOrders extends Fragment {
 
         init();
 
-       /* Bundle extras = getActivity().getIntent().getExtras();
-        arraylistOrder=new ArrayList<>();*/
+
 
 
         callViewAdapter();
         sessionmanager = new Sessionmanager(getActivity());
         HashMap<String, String> name_info = sessionmanager.getHotelDetails();
         hotelId = Integer.parseInt(name_info.get(HOTEL_ID));
-        branchId = Integer.parseInt(name_info.get(BRANCH_ID));
-/*
-        initRetrofitCallback();
-        ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
-        mRetrofitService = new RetrofitService(mResultCallBack, getActivity());
-        mRetrofitService.retrofitData(ORDER_DETAILS, (service.Order(branchId,
-                hotelId)));*/
-      /*  Bundle extras = getActivity().getIntent().getExtras();
-        ArrayList<OrderModel> arraylistOrder  = extras.getParcelableArrayList("orderArrayList");
-        for(int i=0;i<arraylistOrder.size();i++)
-        {
 
-        }*/
 
 
 
@@ -220,8 +207,6 @@ public class FragmentTabNewOrders extends Fragment {
     private void callViewAdapter() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
-
-
         // recyclerView.getLayoutManager().setMeasurementCacheEnabled(false);
 
         // if (userType.equals("Admin")) {

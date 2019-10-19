@@ -1,7 +1,6 @@
 package com.restrosmart.restrohotel.Admin;
 
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -20,6 +19,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -27,6 +27,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
 import com.google.gson.JsonObject;
 import com.restrosmart.restrohotel.Interfaces.ApiService;
 import com.restrosmart.restrohotel.Interfaces.IResult;
@@ -52,24 +53,20 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
-import static com.restrosmart.restrohotel.ConstantVariables.BRANCH_DETAILS;
+import static com.restrosmart.restrohotel.ConstantVariables.HOTEL_DETAILS;
 import static com.restrosmart.restrohotel.ConstantVariables.EDIT_BRANCH_DETAILS;
 import static com.restrosmart.restrohotel.ConstantVariables.EMP_EDIT_DETAILS;
 import static com.restrosmart.restrohotel.ConstantVariables.GET_ALL_EMPLOYEE;
 import static com.restrosmart.restrohotel.ConstantVariables.PICK_GALLERY_IMAGE;
 import static com.restrosmart.restrohotel.ConstantVariables.REQUEST_PERMISSION;
 import static com.restrosmart.restrohotel.ConstantVariables.UPDATE_EMP_IMAGE;
-import static com.restrosmart.restrohotel.Utils.Sessionmanager.BRANCH_ID;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.HOTEL_ID;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.ROLE_ID;
 
@@ -77,11 +74,11 @@ public class ActivityProfile extends AppCompatActivity {
     private Toolbar mToolbar;
     private TextView tvTitle, tvUserFullName, tvUser, tvRole, tvActiveStatus, tvMobileNo, tvEmail, tvAdharNo, tvCurrentAddress,
             tvHotelname, tvBranchMob, tvBranchAddress, tvBranchEmail,
-            tvGSTNNo, tvNoOfTables, tvBranchStartTime, tvBranchEndTime, tvBranchName,tvBranchPhone;
+            tvGSTNNo, tvNoOfTables, tvBranchStartTime, tvBranchEndTime, tvBranchName, tvBranchPhone;
 
     private EditText etvTitle, etvUserFullName, etvUser, etvRole, etvActiveStatus, etvMobileNo, etvEmail, etvAdharNo, etvCurrentAddress,
             etvHotelname, etvBranchName, etvBranchMob, etvBranchAddress, etvBranchEmail,
-            etvGSTNNo, etvNoOfTables,etvBranchphone;
+            etvGSTNNo, etvNoOfTables, etvBranchphone;
 
     private int mHotelId, mBranchId;
     //private List<EmployeeForm> ArrayListEmployee;
@@ -94,18 +91,18 @@ public class ActivityProfile extends AppCompatActivity {
             btnEditBranch, btnUpdateBranch, btnCancelBranch,
             btnEditBranchAccount, btnUpdateBranchAccount, btnCancelBranchAccount;
     private int mTblNo, employeeId;
-    private String mGstnNo;
+    private String mGstnNo, empOldImage;
     private CircleImageView mPhoto;
     private FrameLayout frameLayoutCamera;
-    private  ImageButton updatePhoto;
+    private ImageButton updatePhoto;
 
-    private String selectedFilePath, extension, selectedData;
+    private String selectedFilePath, extension, selectedImage;
+    private String selectedData = "null";
     private File selectedFile;
 
     private Bitmap bitmapImage;
-    private  ApiService apiService;
+    private ApiService apiService;
     private ArrayList<EmployeeForm> arrayListEmployee;
-
 
 
     @Override
@@ -119,9 +116,7 @@ public class ActivityProfile extends AppCompatActivity {
         Sessionmanager sharedPreferanceManage = new Sessionmanager(ActivityProfile.this);
         HashMap<String, String> name_info = sharedPreferanceManage.getHotelDetails();
         mHotelId = Integer.parseInt(name_info.get(HOTEL_ID));
-        mBranchId = Integer.parseInt(name_info.get(BRANCH_ID));
         roleId = Integer.parseInt((name_info.get(ROLE_ID)));
-
 
 
         Intent intent = getIntent();
@@ -134,15 +129,12 @@ public class ActivityProfile extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 updatePhoto.setVisibility(View.VISIBLE);
-
-                if(checkPermission()) {
+                if (checkPermission()) {
                     Intent imageIntent = new Intent();
                     imageIntent.setType("image/*");
                     imageIntent.setAction(Intent.ACTION_GET_CONTENT);
                     startActivityForResult(Intent.createChooser(imageIntent, "Select Image"), PICK_GALLERY_IMAGE);
-                }
-                else
-                {
+                } else {
                     requestPermission();
                 }
 
@@ -154,30 +146,42 @@ public class ActivityProfile extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                String image = empOldImage.substring(empOldImage.lastIndexOf("/") + 1);
+                if ((selectedData == "null")) {
+                    if (image.equals("def_user.png")) {
+                        selectedImage = "";
+                        extension = "";
+                    } else {
+                        extension = "";
+                        selectedImage = "";
+                    }
+                    Picasso.with(ActivityProfile.this)
+                            .load(empOldImage)
+                            .resize(500, 500)
+                            .into(mPhoto);
+
+                } else {
+                    selectedImage = selectedData;
+                }
+
                 initRetrofitCallback();
                 ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
                 mRetrofitService = new RetrofitService(mResultCallBack, ActivityProfile.this);
-                mRetrofitService.retrofitData(UPDATE_EMP_IMAGE, (service.employeeImageUpdate(selectedData,extension,employeeId,mHotelId,
-                        mBranchId)));
-
+                mRetrofitService.retrofitData(UPDATE_EMP_IMAGE, (service.employeeImageUpdate(selectedImage, extension, image, employeeId, mHotelId)));
             }
         });
-
-
-
 
         tvVisible();
         initRetrofitCallback();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, ActivityProfile.this);
-        mRetrofitService.retrofitData(BRANCH_DETAILS, (service.getBranchDetail(mHotelId,
-                mBranchId)));
+        mRetrofitService.retrofitData(HOTEL_DETAILS, (service.getHotelDetail(mHotelId)));
 
         btneEditEmp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               tvInVisible();
-               etvVisible();
+                tvInVisible();
+                etvVisible();
 
                 etvUserFullName.requestFocus();
                 etvEmail.setText(tvEmail.getText().toString());
@@ -326,22 +330,23 @@ public class ActivityProfile extends AppCompatActivity {
                 btnUpdateBranchAccount.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        if (isValidBranch()) {
 
-                        initRetrofitCallback();
-                        ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
-                        mRetrofitService = new RetrofitService(mResultCallBack, ActivityProfile.this);
-                        mRetrofitService.retrofitData(EDIT_BRANCH_DETAILS, (service.
-                                editBranchDetails(tvBranchName.getText().toString(),
-                                        tvBranchAddress.getText().toString(),
-                                        tvBranchEmail.getText().toString(),
-                                        Integer.parseInt(tvBranchMob.getText().toString()),
-                                        Integer.parseInt(tvBranchPhone.getText().toString()),
-
-                                        (etvGSTNNo.getText().toString()),
-                                        Integer.parseInt(etvNoOfTables.getText().toString()),
-                                        tvBranchStartTime.getText().toString(),
-                                        tvBranchEndTime.getText().toString(),
-                                        mHotelId, mBranchId)));
+                            initRetrofitCallback();
+                            ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
+                            mRetrofitService = new RetrofitService(mResultCallBack, ActivityProfile.this);
+                            mRetrofitService.retrofitData(EDIT_BRANCH_DETAILS, (service.
+                                    editBranchDetails(tvBranchName.getText().toString(),
+                                            tvBranchAddress.getText().toString(),
+                                            tvBranchEmail.getText().toString(),
+                                            (tvBranchMob.getText().toString()),
+                                           (tvBranchPhone.getText().toString()),
+                                            (etvGSTNNo.getText().toString()),
+                                            Integer.parseInt(etvNoOfTables.getText().toString()),
+                                            tvBranchStartTime.getText().toString(),
+                                            tvBranchEndTime.getText().toString(),
+                                            mHotelId, mBranchId)));
+                        }
                     }
                 });
 
@@ -395,25 +400,24 @@ public class ActivityProfile extends AppCompatActivity {
         retrofitCallBack();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, ActivityProfile.this);
-        mRetrofitService.retrofitData(GET_ALL_EMPLOYEE, (service.getallEmployees( mHotelId,
-              mBranchId)));
+        mRetrofitService.retrofitData(GET_ALL_EMPLOYEE, (service.getallEmployees(mHotelId)));
     }
 
     private void retrofitCallBack() {
-        mResultCallBack=new IResult() {
+        mResultCallBack = new IResult() {
             @Override
             public void notifySuccess(int requestId, Response<JsonObject> response) {
 
-                JsonObject jsonObject=response.body();
-                String empInfo=jsonObject.toString();
+                JsonObject jsonObject = response.body();
+                String empInfo = jsonObject.toString();
 
                 try {
-                    JSONObject object=new JSONObject(empInfo);
-                    int status=object.getInt("status");
-                    if(status==1){
+                    JSONObject object = new JSONObject(empInfo);
+                    int status = object.getInt("status");
+                    if (status == 1) {
 
-                        JSONArray jsonArray=object.getJSONArray("allemployee");
-                        for(int i=0; i<jsonArray.length(); i++) {
+                        JSONArray jsonArray = object.getJSONArray("allemployee");
+                        for (int i = 0; i < jsonArray.length(); i++) {
 
                             JSONObject jsonObjectEmp = jsonArray.getJSONObject(i);
                             EmployeeForm employeeForm = new EmployeeForm();
@@ -425,10 +429,8 @@ public class ActivityProfile extends AppCompatActivity {
                             employeeForm.setUserName(jsonObjectEmp.getString("User_Name"));
                             employeeForm.setHotelName(jsonObjectEmp.getString("Hotel_Name"));
                             employeeForm.setRole(jsonObjectEmp.getString("Role"));
-
                             employeeForm.setEmpMob(jsonObjectEmp.getString("Emp_Mob"));
                             employeeForm.setEmpAdharId(jsonObjectEmp.getString("Emp_Adhar_Id"));
-                            employeeForm.setBranch_Id(jsonObjectEmp.getInt("Branch_Id"));
                             employeeForm.setActiveStatus(jsonObjectEmp.getInt("Active_Status"));
                             employeeForm.setRole_Id(jsonObjectEmp.getInt("Role_Id"));
                             arrayListEmployee.add(employeeForm);
@@ -454,19 +456,23 @@ public class ActivityProfile extends AppCompatActivity {
         for (int i = 0; i < ArrayListEmployee.size(); i++) {
             int empId = ArrayListEmployee.get(i).getEmpId();
             if (employeeId == empId) {
+
+                btneEditEmp.setVisibility(View.VISIBLE);
+                btnUpdateEmp.setVisibility(View.GONE);
                 tvUserFullName.setText(ArrayListEmployee.get(i).getEmpName());
                 tvUser.setText(ArrayListEmployee.get(i).getUserName());
                 tvRole.setText(ArrayListEmployee.get(i).getRole());
                 String status = String.valueOf(ArrayListEmployee.get(i).getActiveStatus());
                 Password = ArrayListEmployee.get(i).getPassword();
+                empOldImage = arrayListEmployee.get(i).getEmpImg();
                 if (status == "1") {
                     tvActiveStatus.setText("Active");
                 } else {
                     tvActiveStatus.setText("InActive");
                 }
 
-                String image=ArrayListEmployee.get(i).getEmpImg();
-                Picasso.with(ActivityProfile.this).load(image).resize(500, 500).into(mPhoto);
+                // String image=ArrayListEmployee.get(i).getEmpImg();
+                Picasso.with(ActivityProfile.this).load(empOldImage).resize(500, 500).into(mPhoto);
 
 
                 String mobNo = ArrayListEmployee.get(i).getEmpMob();
@@ -482,62 +488,106 @@ public class ActivityProfile extends AppCompatActivity {
 
 
     private void updateBranch() {
-        int mob = Integer.parseInt(etvBranchMob.getText().toString());
-        int table = Integer.parseInt(tvNoOfTables.getText().toString());
-        int phone= Integer.parseInt(etvBranchphone.getText().toString());
+        if (isValidBranch()) {
 
-        initRetrofitCallback();
-        ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
-        mRetrofitService = new RetrofitService(mResultCallBack, ActivityProfile.this);
-        mRetrofitService.retrofitData(EDIT_BRANCH_DETAILS, (service.
-                editBranchDetails(etvBranchName.getText().toString(),
-                        etvBranchAddress.getText().toString(),
-                        etvBranchEmail.getText().toString(),
-                        mob,
-                        phone,
-                        tvGSTNNo.getText().toString(),
-                        table, tvBranchStartTime.getText().toString(),
-                        tvBranchEndTime.getText().toString(),
-                        mHotelId, mBranchId)));
+            int table = Integer.parseInt(tvNoOfTables.getText().toString());
+
+
+            initRetrofitCallback();
+             String branchPhone=  etvBranchphone.getText().toString();
+            ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
+            mRetrofitService = new RetrofitService(mResultCallBack, ActivityProfile.this);
+            mRetrofitService.retrofitData(EDIT_BRANCH_DETAILS, (service.
+                    editBranchDetails(etvBranchName.getText().toString(),
+                            etvBranchAddress.getText().toString(),
+                            etvBranchEmail.getText().toString(),
+                            etvBranchMob.getText().toString(),
+                            branchPhone,
+                            tvGSTNNo.getText().toString(),
+                            table, tvBranchStartTime.getText().toString(),
+                            tvBranchEndTime.getText().toString(),
+                            mHotelId, mBranchId)));
+        }
+    }
+
+    private boolean isValidBranch() {
+        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+        if (etvBranchName.getText().toString().equalsIgnoreCase("")) {
+            Toast.makeText(this, "Please enter Barnch name", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (etvBranchAddress.getText().toString().equalsIgnoreCase("")) {
+            Toast.makeText(this, "Please enter Barnch address", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (etvBranchMob.getText().toString().length()==0) {
+            Toast.makeText(this, "Please enter Barnch mobile no", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if ((etvBranchphone.getText().toString().length())==0)
+        {
+            Toast.makeText(this, "Please enter Barnch phone no", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (tvGSTNNo.getText().toString().equalsIgnoreCase("")) {
+            Toast.makeText(this, "Please enter GSTN  no", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (tvBranchStartTime.getText().toString().equalsIgnoreCase("")) {
+            Toast.makeText(this, "Please select start time", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (tvBranchEndTime.getText().toString().equalsIgnoreCase("")) {
+            Toast.makeText(this, "Please select end time", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (etvBranchMob.getText().toString().length() < 10 ) {
+            Toast.makeText(this, "Please enter valid  mobile no", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        else if(etvBranchphone.getText().toString().length() < 12){
+            Toast.makeText(this, "Please enter valid  phone no", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (etvBranchEmail.getText().toString().equalsIgnoreCase("")) {
+            Toast.makeText(this, "Please enter  email id", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (!etvBranchEmail.getText().toString().matches(emailPattern)) {
+            Toast.makeText(this, "Please enter valid email id", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
     }
 
     private void initRetrofitCallback() {
         mResultCallBack = new IResult() {
-            @SuppressLint("ResourceAsColor")
             @Override
             public void notifySuccess(int requestId, Response<JsonObject> response) {
                 JsonObject object = response.body();
                 String objectInfo = object.toString();
 
                 switch (requestId) {
-                    case BRANCH_DETAILS:
+                    case HOTEL_DETAILS:
 
                         try {
                             JSONObject jsonObject = new JSONObject(objectInfo);
                             int status = jsonObject.getInt("status");
 
                             if (status == 1) {
-                                JSONObject object1 = jsonObject.getJSONObject("Bdetail");
+                                JSONObject object1 = jsonObject.getJSONObject("hoteldetail");
                                 tvHotelname.setText(object1.getString("Hotel_Name").toString());
-                                tvBranchName.setText(object1.getString("Branch_Name").toString());
+                            //    tvBranchName.setText(object1.getString("Branch_Name").toString());
                                 //  mBranchName=object1.getString("Branch_Name").toString();
                                 tvBranchStartTime.setText(object1.getString("Start_Time").toString());
                                 tvBranchEndTime.setText(object1.getString("End_Time").toString());
 
-                                tvBranchAddress.setText(object1.getString("Branch_Address").toString());
-                                String email = object1.getString("Branch_Email").toString();
+                                tvBranchAddress.setText(object1.getString("Hotel_Address").toString());
+                                String email = object1.getString("Hotel_Email").toString();
                                 tvBranchEmail.setText(email);
-                                String hotelMob = object1.getString("Branch_Mob").toString();
+                                String hotelMob = object1.getString("Hotel_Mob").toString();
                                 tvBranchMob.setText(hotelMob);
 
-                                String branchPhone = object1.getString("Branch_Phone").toString();
+                                String branchPhone = object1.getString("Hotel_Phone").toString();
                                 tvBranchPhone.setText(branchPhone);
 
-                                mGstnNo = object1.getString("Branch_Gstnno");
-                                mTblNo = object1.getInt("Branch_Table_Count");
+                                mGstnNo = object1.getString("Hotel_Gstinno");
+                                mTblNo = object1.getInt("Hotel_Table_Count");
 
                                 tvGSTNNo.setText(mGstnNo);
-                                tvNoOfTables.setText(object1.getString("Branch_Table_Count").toString());
+                                tvNoOfTables.setText(object1.getString("Hotel_Table_Count").toString());
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -548,13 +598,12 @@ public class ActivityProfile extends AppCompatActivity {
 
                         try {
                             JSONObject jsonObject = new JSONObject(objectInfo);
-
                             int status = jsonObject.getInt("status");
                             if (status == 1) {
                                 Toast.makeText(ActivityProfile.this, "Updated Successfully", Toast.LENGTH_LONG).show();
-                               tvVisible();
-                               etvInVisible();
-                               getEmployeeList();
+                                tvVisible();
+                                etvInVisible();
+                                getEmployeeList();
 
                             } else {
                                 Toast.makeText(ActivityProfile.this, "Try Again..", Toast.LENGTH_LONG).show();
@@ -586,14 +635,12 @@ public class ActivityProfile extends AppCompatActivity {
 
                     case UPDATE_EMP_IMAGE:
                         try {
-                            JSONObject jsonObject=new JSONObject(objectInfo);
-                            int status=jsonObject.getInt("status");
-                            if(status==1)
-                            {
+                            JSONObject jsonObject = new JSONObject(objectInfo);
+                            int status = jsonObject.getInt("status");
+                            if (status == 1) {
                                 Toast.makeText(ActivityProfile.this, "Photo Updated Successfully", Toast.LENGTH_LONG).show();
-                            }
-                            else
-                            {
+                                updatePhoto.setVisibility(View.GONE);
+                            } else {
                                 Toast.makeText(ActivityProfile.this, "Try Again..", Toast.LENGTH_LONG).show();
 
                             }
@@ -610,7 +657,9 @@ public class ActivityProfile extends AppCompatActivity {
 
             @Override
             public void notifyError(int requestId, Throwable error) {
-                Toast.makeText(ActivityProfile.this, "" + error, Toast.LENGTH_LONG).show();
+                Log.d("","requestId"+requestId);
+                Log.d("","retrofitError"+error);
+               // Toast.makeText(ActivityProfile.this, "" + error, Toast.LENGTH_LONG).show();
 
 
             }
@@ -651,8 +700,7 @@ public class ActivityProfile extends AppCompatActivity {
         initRetrofitCallback();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, ActivityProfile.this);
-        mRetrofitService.retrofitData(BRANCH_DETAILS, (service.getBranchDetail(mHotelId,
-                mBranchId)));
+        mRetrofitService.retrofitData(HOTEL_DETAILS, (service.getHotelDetail(mHotelId)));
 
     }
 
@@ -667,21 +715,73 @@ public class ActivityProfile extends AppCompatActivity {
     }
 
     private void updateEmployee() {
-        initRetrofitCallback();
-        ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
-        mRetrofitService = new RetrofitService(mResultCallBack, ActivityProfile.this);
-        mRetrofitService.retrofitData(EMP_EDIT_DETAILS, (service.
-                editEmployeeDetail(employeeId,
-                        etvUserFullName.getText().toString(),
-                        "",
-                        etvMobileNo.getText().toString(),
-                        etvEmail.getText().toString(),
-                        etvCurrentAddress.getText().toString(),
-                        tvUser.getText().toString(),
-                        mHotelId,
-                        mBranchId
+        String image = empOldImage.substring(empOldImage.lastIndexOf("/") + 1);
+        if ((selectedData == "null")) {
+            if (image.equals("def_user.png")) {
+                selectedImage = "";
+                extension = "";
+            } else {
+                extension = "";
+                selectedImage = "";
+            }
+            Picasso.with(ActivityProfile.this)
+                    .load(empOldImage)
+                    .resize(500, 500)
+                    .into(mPhoto);
 
-                )));
+        } else {
+            selectedImage = selectedData;
+        }
+        if (isValidEmployee()) {
+            initRetrofitCallback();
+            ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
+            mRetrofitService = new RetrofitService(mResultCallBack, ActivityProfile.this);
+            mRetrofitService.retrofitData(
+                    EMP_EDIT_DETAILS, (service.
+                            editEmployeeDetail(employeeId,
+                                    etvUserFullName.getText().toString(),
+                                    selectedImage, image, extension,
+                                    etvMobileNo.getText().toString(),
+                                    etvEmail.getText().toString(),
+                                    etvCurrentAddress.getText().toString(),
+                                    tvUser.getText().toString(),
+                                    (etvAdharNo.getText().toString()),
+                                    mHotelId)));
+        }
+    }
+
+    private boolean isValidEmployee() {
+
+        String emailPattern = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+        String mobilePattern = "(0/91)?[7-9][0-9]{9}";
+        if (etvUserFullName.getText().toString().equalsIgnoreCase("")) {
+            Toast.makeText(this, "Please enter full name", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (etvCurrentAddress.getText().toString().equalsIgnoreCase("")) {
+            Toast.makeText(this, "Please enter Address", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (tvUser.getText().toString().equalsIgnoreCase("")) {
+            Toast.makeText(this, "Please enter username", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (!etvEmail.getText().toString().matches(emailPattern)) {
+            Toast.makeText(this, "Please enter valid email id", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (etvMobileNo.getText().toString().length()==0) {
+            Toast.makeText(this, "Please enter  mobile no", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (etvMobileNo.getText().toString().length() < 10) {
+            Toast.makeText(this, "Please enter valid mobile no", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (etvAdharNo.getText().toString().equalsIgnoreCase("")) {
+            Toast.makeText(this, "Please enter aadhar no", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (etvAdharNo.getText().toString().length() < 12) {
+            Toast.makeText(this, "Please enter  valid aadhar no", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
     }
 
     private void init() {
@@ -695,7 +795,7 @@ public class ActivityProfile extends AppCompatActivity {
         tvEmail = findViewById(R.id.tv_emp_email);
         tvAdharNo = findViewById(R.id.tv_emp_aadhar_number);
         tvCurrentAddress = findViewById(R.id.tv_emp_address);
-        arrayListEmployee=new ArrayList<>();
+        arrayListEmployee = new ArrayList<>();
 
         etvUserFullName = findViewById(R.id.etv_user_name);
         etvMobileNo = findViewById(R.id.etv_emp_mobno);
@@ -709,7 +809,7 @@ public class ActivityProfile extends AppCompatActivity {
         tvBranchEmail = findViewById(R.id.tv_branch_email);
         tvBranchAddress = findViewById(R.id.tv_branch_address);
         tvBranchMob = findViewById(R.id.tv_branch_mobno);
-        tvBranchPhone=findViewById(R.id.tv_branch_phone);
+        tvBranchPhone = findViewById(R.id.tv_branch_phone);
 
 
         etvHotelname = findViewById(R.id.etv_hotel_name);
@@ -717,7 +817,7 @@ public class ActivityProfile extends AppCompatActivity {
         etvBranchEmail = findViewById(R.id.etv_branch_email);
         etvBranchAddress = findViewById(R.id.etv_branch_address);
         etvBranchMob = findViewById(R.id.etv_branch_mobno);
-        etvBranchphone=findViewById(R.id.etv_branch_phone);
+        etvBranchphone = findViewById(R.id.etv_branch_phone);
 
         tvGSTNNo = findViewById(R.id.tv_gstn_no);
         tvNoOfTables = findViewById(R.id.tv_no_of_tables);
@@ -738,10 +838,10 @@ public class ActivityProfile extends AppCompatActivity {
 
         btnUpdateBranchAccount = findViewById(R.id.btn_update_branch_account);
         btnCancelBranchAccount = findViewById(R.id.btn_cancel_branch_account);
-        mPhoto=findViewById(R.id.img_user_photo);
+        mPhoto = findViewById(R.id.img_user_photo);
 
-        frameLayoutCamera=findViewById(R.id.iv_select_image);
-        updatePhoto=findViewById(R.id.btn_update_photo);
+        frameLayoutCamera = findViewById(R.id.iv_select_image);
+        updatePhoto = findViewById(R.id.btn_update_photo);
 
     }
 
@@ -759,7 +859,7 @@ public class ActivityProfile extends AppCompatActivity {
     }
 
     private void requestPermission() {
-        ActivityCompat.requestPermissions((Activity)this, new String[]{READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE}, REQUEST_PERMISSION);
+        ActivityCompat.requestPermissions((Activity) this, new String[]{READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE}, REQUEST_PERMISSION);
 
     }
 
@@ -808,9 +908,9 @@ public class ActivityProfile extends AppCompatActivity {
                 bitmapImage = exifInterface(picturePath, categoryBitmap);
                 selectedData = getImageString(bitmapImage);
 
-                byte[] decodedString = Base64.decode(selectedData,Base64.NO_WRAP);
-                InputStream inputStream  = new ByteArrayInputStream(decodedString);
-                Bitmap bitmap  = BitmapFactory.decodeStream(inputStream);
+                byte[] decodedString = Base64.decode(selectedData, Base64.NO_WRAP);
+                InputStream inputStream = new ByteArrayInputStream(decodedString);
+                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
                 mPhoto.setImageBitmap(bitmap);
 
                 /*if (selectedFilePath != null && !selectedFilePath.equals("")) {
@@ -823,7 +923,7 @@ public class ActivityProfile extends AppCompatActivity {
                     Toast.makeText(ActivityNewAddEmployee.this, "cannot upload image", Toast.LENGTH_SHORT).show();
                 }*/
             } else {
-                Toast.makeText(ActivityProfile.this, "size", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ActivityProfile.this, "upload image should be 1mb", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -848,6 +948,7 @@ public class ActivityProfile extends AppCompatActivity {
 
         return rotateBitmap(bitmap, orientation);
     }
+
     private Bitmap rotateBitmap(Bitmap bitmap, int orientation) {
         Matrix matrix = new Matrix();
         switch (orientation) {

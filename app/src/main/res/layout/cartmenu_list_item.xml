@@ -1,196 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardUseCompatPadding="true">
+    android:orientation="vertical">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/dimen_5dp">
-
-        <ImageView
-            android:id="@+id/ivCancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="@dimen/dimen_5dp"
-            android:layout_marginRight="@dimen/dimen_5dp"
-            android:visibility="gone" />
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/ivMenuImg"
-            android:layout_width="52dp"
-            android:layout_height="52dp"
-            android:layout_below="@+id/ivCancel" />
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/dimen_5dp"
+        android:paddingTop="15dp"
+        android:paddingEnd="@dimen/dimen_5dp"
+        android:paddingBottom="15dp">
 
         <TextView
-            android:id="@+id/tvCartMenuName"
+            android:id="@+id/tvFoodMenuQty"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/ivCancel"
-            android:layout_marginLeft="@dimen/dimen_10dp"
-            android:layout_toRightOf="@+id/ivMenuImg"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text="Menu Name"
-            android:textColor="@android:color/black"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1.6"
+            android:fontFamily="sans-serif"
+            android:gravity="center"
+            android:text="1 x"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp" />
 
-        <TableLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tvCartMenuName"
-            android:layout_marginLeft="@dimen/dimen_10dp"
-            android:layout_marginTop="5dp"
-            android:layout_toRightOf="@+id/ivMenuImg"
-            android:stretchColumns="*">
+            android:layout_gravity="center"
+            android:layout_weight="0.7"
+            android:orientation="vertical">
 
-            <TableRow
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvCartMenuName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:fontFamily="sans-serif-light"
+                    android:maxLines="1"
+                    android:text="Menu Name"
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tvLiqCartQty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
+                    android:text="(0 ml)"
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp"
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/tvFoodCartMenuPrice"
-                    android:text="Rs. 500"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp" />
-
-                <LinearLayout
-                    android:layout_height="40dp"
-                    android:gravity="center_horizontal">
-
-                    <android.support.v7.widget.CardView
-                        android:id="@+id/cardView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="30dp"
-                        app:cardElevation="2dp">
-
-                        <LinearLayout
-                            android:id="@+id/llQuantity"
-                            android:layout_width="wrap_content"
-                            android:layout_height="30dp"
-                            android:gravity="center_vertical|end">
-
-                            <TextView
-                                android:id="@+id/tvFoodMinusQty"
-                                android:layout_width="30dp"
-                                android:layout_height="match_parent"
-                                android:gravity="center"
-                                android:text="-"
-                                android:textColor="@color/colorPrimary"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:id="@+id/tvFoodMenuQty"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:padding="4dp"
-                                android:text="1"
-                                android:textColor="@color/colorPrimary"
-                                android:textSize="16sp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:id="@+id/tvFoodAddQty"
-                                android:layout_width="30dp"
-                                android:layout_height="match_parent"
-                                android:gravity="center"
-                                android:text="+"
-                                android:textColor="@color/colorPrimary"
-                                android:textStyle="bold" />
-
-                        </LinearLayout>
-                    </android.support.v7.widget.CardView>
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/tvQtyAmount"
-                    android:layout_marginRight="20dp"
-                    android:gravity="end"
-                    android:text="Rs. 1000"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp" />
-            </TableRow>
-        </TableLayout>
-
-        <!--<TextView
-            android:id="@+id/tvCartMenuName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/ivCancel"
-            android:layout_marginLeft="@dimen/dimen_10dp"
-            android:layout_toRightOf="@+id/ivMenuImg"
-            android:layout_weight="1"
-            android:ellipsize="end"
-            android:lines="1"
-            android:text="@string/menu_name"
-            android:textColor="@android:color/black"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tvCartMenuName"
-            android:layout_marginLeft="@dimen/dimen_10dp"
-            android:layout_toRightOf="@+id/ivMenuImg">
-
-            <TextView
-                android:id="@+id/tvMenuPrice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Rs. 200"
-                android:textColor="@android:color/black"
-                android:textSize="16sp" />
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/cardView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_gravity="center_vertical|end"
-                android:layout_marginBottom="4dp"
-                app:cardElevation="2dp">
-
-                <LinearLayout
-                    android:id="@+id/llQuantity"
                     android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:gravity="center_vertical|end">
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
+                    android:text="(Rs. 0)"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    android:visibility="gone" />
+            </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/ivMinusQty"
-                        android:layout_width="30dp"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="-"
-                        android:textColor="@color/colorPrimary"
-                        android:textStyle="bold" />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvMenuToppings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/tvMenuQty"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="4dp"
-                        android:text="1"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/tvQtyAmount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1.5"
+            android:fontFamily="sans-serif-light"
+            android:gravity="end"
+            android:paddingEnd="@dimen/dimen_20dp"
+            android:text="0"
+            android:textColor="@android:color/black"
+            android:textSize="14sp" />
+    </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/ivAddQty"
-                        android:layout_width="30dp"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="+"
-                        android:textColor="@color/colorPrimary"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
-            </android.support.v7.widget.CardView>
-        </RelativeLayout>-->
-    </RelativeLayout>
-</android.support.v7.widget.CardView>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:background="@color/colorDarkGray"
+        android:visibility="visible" />
+</LinearLayout>

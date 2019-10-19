@@ -81,7 +81,7 @@ public class ActivitySelectMenu extends AppCompatActivity {
         initRetrofitCallBackForCategory();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, this);
-        mRetrofitService.retrofitData(PARENT_CATEGORY_WITH_SUB, (service.GetAllCategory(hotelId, branchId)));
+        mRetrofitService.retrofitData(PARENT_CATEGORY_WITH_SUB, (service.GetAllCategory(hotelId)));
         showProgressDialog();
 
     }

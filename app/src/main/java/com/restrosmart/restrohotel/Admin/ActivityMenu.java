@@ -98,7 +98,7 @@ public class ActivityMenu extends AppCompatActivity {
         Sessionmanager sharedPreferanceManage = new Sessionmanager(this);
         HashMap<String, String> name_info = sharedPreferanceManage.getHotelDetails();
         mHotelId = Integer.parseInt(name_info.get(HOTEL_ID));
-        mBranchId = Integer.parseInt(name_info.get(BRANCH_ID));
+
 
         MenuListRetrofitServiceCall();
         btnAddMenu.setOnClickListener(new View.OnClickListener() {
@@ -141,8 +141,7 @@ public class ActivityMenu extends AppCompatActivity {
         initRetrofitCallback();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, getBaseContext());
-        mRetrofitService.retrofitData(PARENT_CATEGORY_WITH_TOPPINGS, (service.toppingDisplay(mHotelId,
-                (mBranchId), pcId)));
+        mRetrofitService.retrofitData(PARENT_CATEGORY_WITH_TOPPINGS, (service.toppingDisplay(mHotelId)));
 
 
             mCircularViewMenu = (CircleImageView) dialoglayoutMenu.findViewById(R.id.img_menu);
@@ -200,7 +199,6 @@ public class ActivityMenu extends AppCompatActivity {
                                 0,
                                 null,
                                 mHotelId,
-                                mBranchId,
                                 pcId,
                                 ToppingList
                         )));
@@ -209,10 +207,7 @@ public class ActivityMenu extends AppCompatActivity {
                 }
             });
 
-
-
-
-        btnCancel.setOnClickListener(new View.OnClickListener() {
+            btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 bottomSheetDialog.dismiss();
@@ -271,9 +266,7 @@ public class ActivityMenu extends AppCompatActivity {
         initRetrofitCallback();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, ActivityMenu.this);
-        mRetrofitService.retrofitData(MENU_LIST, (service.getMenus(Category_Id, pcId,
-                mBranchId,
-                mHotelId)));
+        mRetrofitService.retrofitData(MENU_LIST, (service.getMenus(Category_Id, pcId, mHotelId)));
     }
 
 
@@ -302,7 +295,7 @@ public class ActivityMenu extends AppCompatActivity {
 
                                     MenuDisplayForm menuForm = new MenuDisplayForm();
                                     menuForm.setMenu_Id(jsonObject2.getInt("Menu_Id"));
-                                    menuForm.setBranch_Id(jsonObject2.getInt("Branch_Id"));
+
                                     menuForm.setCategory_Id(jsonObject2.getInt("Category_Id"));
                                     menuForm.setMenu_Name(jsonObject2.getString("Menu_Name"));
                                     menuForm.setMenu_Image_Name(jsonObject2.getString("Menu_Image_Name"));
@@ -311,8 +304,6 @@ public class ActivityMenu extends AppCompatActivity {
                                     menuForm.setMenu_Descrip(jsonObject2.getString("Menu_Descrip"));
                                     menuForm.setHotel_Id(jsonObject2.getInt("Hotel_Id"));
                                     menuForm.setStatus(jsonObject2.getInt("Menu_Status"));
-
-
                                     JSONArray toppingArray = jsonObject2.getJSONArray("Topping");
 
                                     arrayListToppings = new ArrayList<>();
@@ -331,6 +322,8 @@ public class ActivityMenu extends AppCompatActivity {
                                     menuForm.setArrayListtoppings(arrayListToppings);
                                     arrayListMenu.add(menuForm);
                                 }
+
+
                                 callAdapter();
 
                             } else {
@@ -351,12 +344,12 @@ public class ActivityMenu extends AppCompatActivity {
                             int status = object.getInt("status");
                             if (status == 1) {
                                 JSONArray jsonArray = object.getJSONArray("Topping_List");
-
+                                arrayListToppingAddMenu.clear();
                                 for (int i = 0; i < jsonArray.length(); i++) {
 
                                     JSONObject jsonObject2 = jsonArray.getJSONObject(i);
                                     JSONArray jsonArray1 = jsonObject2.getJSONArray("Topping");
-                                    arrayListToppingAddMenu.clear();
+
                                     for (int in = 0; in < jsonArray1.length(); in++) {
                                         Log.v("", "jsonArray1.length()" + jsonArray1.length());
                                         JSONObject jsonObject3 = jsonArray1.getJSONObject(in);
@@ -390,10 +383,11 @@ public class ActivityMenu extends AppCompatActivity {
                             int status = addMenuObject.getInt("status");
                             if (status == 1) {
                                 Toast.makeText(ActivityMenu.this, "Menu Added Successfully..", Toast.LENGTH_LONG).show();
-                                MenuListRetrofitServiceCall();
+
                             } else {
                                 Toast.makeText(ActivityMenu.this, "Try again later..", Toast.LENGTH_LONG).show();
                             }
+                            MenuListRetrofitServiceCall();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -519,7 +513,7 @@ public class ActivityMenu extends AppCompatActivity {
                 mRetrofitService = new RetrofitService(mResultCallBack, ActivityMenu.this);
                 mRetrofitService.retrofitData(MENU_STATUS, (service.getMenuStatus(arrayListMenu.get(position).getMenu_Id(),
                         mHotelId,
-                        mBranchId, status)));
+                        status)));
 
             }
         },
@@ -532,7 +526,7 @@ public class ActivityMenu extends AppCompatActivity {
                         mRetrofitService = new RetrofitService(mResultCallBack, ActivityMenu.this);
                         mRetrofitService.retrofitData(MENU_DELETE, (service.getMenuDelete(arrayListMenu.get(position).getMenu_Id(),
                                 mHotelId,
-                                mBranchId, arrayListMenu.get(position).getCategory_Id(), pcId)));
+                              arrayListMenu.get(position).getCategory_Id(), pcId)));
 
                     }
                 }, arrayListMenu, new EditListener() {
@@ -575,8 +569,7 @@ public class ActivityMenu extends AppCompatActivity {
         initRetrofitCallback();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, getBaseContext());
-        mRetrofitService.retrofitData(PARENT_CATEGORY_WITH_TOPPINGS, (service.toppingDisplay(mHotelId,
-                (mBranchId), pcId)));
+        mRetrofitService.retrofitData(PARENT_CATEGORY_WITH_TOPPINGS, (service.toppingDisplay(mHotelId)));
 
         etvMenu.setText(arrayListMenu.get(editPosition).getMenu_Name());
 
@@ -641,7 +634,6 @@ public class ActivityMenu extends AppCompatActivity {
                                 0,
                                 arrayListMenu.get(editPosition).getMenu_Id(),
                                 mHotelId,
-                                mBranchId,
                                 Category_Id,
                                 pcId,
                                 ToppingList

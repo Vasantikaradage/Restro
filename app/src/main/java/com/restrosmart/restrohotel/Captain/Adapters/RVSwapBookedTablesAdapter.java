@@ -89,6 +89,7 @@ public class RVSwapBookedTablesAdapter extends RecyclerView.Adapter<RVSwapBooked
                 public void onClick(View v) {
                     Intent intent = new Intent(mContext, ActivityTableOrders.class);
                     intent.putExtra("orderId", arrayList.get(getAdapterPosition()).getOrderId());
+                    intent.putExtra("tableId", arrayList.get(getAdapterPosition()).getTableId());
                     intent.putExtra("custId", arrayList.get(getAdapterPosition()).getCustId());
                     mContext.startActivity(intent);
                 }

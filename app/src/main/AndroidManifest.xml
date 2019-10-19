@@ -42,7 +42,7 @@
             android:name=".MainActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".Admin.ActivityAdminLogin"
+            android:name=".Admin.ActivityLogin"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".Admin.ActivityNewAddEmployee" />
         <activity
@@ -96,9 +96,7 @@
         <activity android:name=".Admin.ActivityScratchCard" />
         <activity android:name=".Admin.ActivityRushHours" />
         <activity android:name=".Admin.ActivityPromoCode" />
-        <activity android:name=".Captain.Activities.ActivityTableOrders" />
-        <activity android:name=".SuperAdmin.Activities.ActivitySuperAdminLogin" />
-        <activity android:name=".Captain.Activities.ActivityCaptainDash" />
+        <activity android:name=".SuperAdmin.Activities.ActivitySADashBoradDrawer" />
         <!--
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="New Order Details"
@@ -157,7 +155,23 @@
 
         <activity android:name=".Admin.ActivitySelectMenu"/>
 
+        <activity android:name=".Admin.ActivityAssignTable"/>
 
+        <activity android:name=".Admin.ActivityMenuOrderDidplay"/>
+
+        <activity android:name=".SuperAdmin.Activities.ActivitySAEmpolyeeProfile"/>
+
+        <activity android:name=".SuperAdmin.Activities.ActivityAddAdmin"/>
+
+        <activity android:name=".SuperAdmin.Activities.ActivityAddHotel"/>
+
+
+        <activity android:name=".Captain.Activities.ActivityEditCartMenu"/>
+        <activity android:name=".Captain.Activities.ActivityCartBill" />
+        <activity android:name=".Captain.Activities.ActivityHotelMenu" />
+        <activity android:name=".Captain.Activities.ActivityTableOrders" />
+        <activity android:name=".Captain.Activities.ActivityCaptainDash" />
+        <activity android:name=".Captain.Activities.ActivityCapOrders" />
     </application>
 
 </manifest>

@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.github.ybq.android.spinkit.SpinKitView;
 import com.google.gson.JsonObject;
 import com.restrosmart.restrohotel.Captain.Adapters.RVSwapBookedAreaAdapter;
 import com.restrosmart.restrohotel.Captain.Adapters.RVSwapBookedTablesAdapter;
@@ -42,8 +43,9 @@ public class SwapTableFragment extends Fragment {
 
     private View view;
     private RecyclerView rvTables;
-    private RVSwapBookedAreaAdapter rvOrderTablesAdapter;
+    private SpinKitView skLoading;
     private LinearLayout llNoTables;
+    private RVSwapBookedAreaAdapter rvOrderTablesAdapter;
 
     private Sessionmanager mSessionmanager;
     private RetrofitService mRetrofitService;
@@ -77,13 +79,12 @@ public class SwapTableFragment extends Fragment {
         super.onDestroy();
 
         getContext().unregisterReceiver(mSwapTableReceiver);
-        rvOrderTablesAdapter.onDestroyFragment();
+        //rvOrderTablesAdapter.onDestroyFragment();
     }
 
     BroadcastReceiver mSwapTableReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-
             Toast.makeText(context, "Tables swapped successfully", Toast.LENGTH_SHORT).show();
             getBookedTable();
         }
@@ -93,7 +94,7 @@ public class SwapTableFragment extends Fragment {
         initRetrofitCallBack();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, getContext());
-        mRetrofitService.retrofitData(GET_BOOKED_TABLE, (service.getBookedTable(1, 1)));
+        mRetrofitService.retrofitData(GET_BOOKED_TABLE, (service.getBookedTable(1)));
     }
 
     private void initRetrofitCallBack() {
@@ -103,84 +104,83 @@ public class SwapTableFragment extends Fragment {
                 JsonObject jsonObject = response.body();
                 String mParentSubcategory = jsonObject.toString();
 
-                switch (requestId) {
-                    case GET_BOOKED_TABLE:
+                try {
+                    JSONObject object = new JSONObject(mParentSubcategory);
+                    int status = object.getInt("status");
+                    String msg = object.getString("message");
 
-                        try {
-                            JSONObject object = new JSONObject(mParentSubcategory);
-                            int status = object.getInt("status");
-                            if (status == 1) {
-                                areaSwapModelArrayList.clear();
-                                freeAreaSwapArrayList.clear();
+                    if (status == 1) {
+                        areaSwapModelArrayList.clear();
+                        freeAreaSwapArrayList.clear();
 
-                                JSONArray jsonArray = object.getJSONArray("bookedtable");
+                        JSONArray jsonArray = object.getJSONArray("bookedtable");
 
-                                for (int i = 0; i < jsonArray.length(); i++) {
-                                    tableSwapModelArrayList = new ArrayList<>();
-                                    JSONObject jsonObject2 = jsonArray.getJSONObject(i);
-                                    JSONArray jsonArray1 = jsonObject2.getJSONArray("tables");
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            tableSwapModelArrayList = new ArrayList<>();
+                            JSONObject jsonObject2 = jsonArray.getJSONObject(i);
+                            JSONArray jsonArray1 = jsonObject2.getJSONArray("tables");
 
-                                    for (int j = 0; j < jsonArray1.length(); j++) {
-                                        JSONObject jsonObject3 = jsonArray1.getJSONObject(j);
+                            for (int j = 0; j < jsonArray1.length(); j++) {
+                                JSONObject jsonObject3 = jsonArray1.getJSONObject(j);
 
-                                        TableSwapModel tableSwapModel = new TableSwapModel();
-                                        tableSwapModel.setTableId(jsonObject3.getInt("Table_Id"));
-                                        tableSwapModel.setCustId(jsonObject3.getInt("Cust_Id"));
+                                TableSwapModel tableSwapModel = new TableSwapModel();
+                                tableSwapModel.setTableId(jsonObject3.getInt("Table_Id"));
+                                tableSwapModel.setCustId(jsonObject3.getInt("Cust_Id"));
 
-                                        if (jsonObject3.has("Order_Id") && !jsonObject3.isNull("Order_Id")) {
-                                            tableSwapModel.setOrderId(jsonObject3.getInt("Order_Id"));
-                                        }
-
-                                        tableSwapModelArrayList.add(tableSwapModel);
-                                    }
-
-                                    AreaSwapModel areaSwapModel = new AreaSwapModel();
-                                    areaSwapModel.setAreaName(jsonObject2.getString("Area_Name"));
-                                    areaSwapModel.setTableSwapModelArrayList(tableSwapModelArrayList);
-
-                                    areaSwapModelArrayList.add(areaSwapModel);
+                                if (jsonObject3.has("Order_Id") && !jsonObject3.isNull("Order_Id")) {
+                                    tableSwapModel.setOrderId(jsonObject3.getInt("Order_Id"));
                                 }
 
-                                JSONArray jsonArray1 = object.getJSONArray("freetable");
-
-                                for (int i = 0; i < jsonArray1.length(); i++) {
-                                    freeTableSwapArrayList = new ArrayList<>();
-                                    JSONObject jsonObject2 = jsonArray1.getJSONObject(i);
-                                    JSONArray jsonArray2 = jsonObject2.getJSONArray("tables");
-
-                                    for (int j = 0; j < jsonArray2.length(); j++) {
-                                        JSONObject jsonObject3 = jsonArray2.getJSONObject(j);
-
-                                        TableSwapModel tableSwapModel = new TableSwapModel();
-                                        tableSwapModel.setTableId(jsonObject3.getInt("Table_Id"));
-
-                                        freeTableSwapArrayList.add(tableSwapModel);
-                                    }
-
-                                    AreaSwapModel areaSwapModel = new AreaSwapModel();
-                                    areaSwapModel.setAreaName(jsonObject2.getString("Area_Name"));
-                                    areaSwapModel.setTableSwapModelArrayList(freeTableSwapArrayList);
-
-                                    freeAreaSwapArrayList.add(areaSwapModel);
-                                }
-
-                                rvOrderTablesAdapter = new RVSwapBookedAreaAdapter(getContext(), areaSwapModelArrayList, freeAreaSwapArrayList);
-                                rvTables.setHasFixedSize(true);
-                                rvTables.setNestedScrollingEnabled(false);
-                                rvTables.setLayoutManager(new GridLayoutManager(getContext(), 1));
-                                rvTables.setItemAnimator(new DefaultItemAnimator());
-                                rvTables.setAdapter(rvOrderTablesAdapter);
-
-                                rvTables.setVisibility(View.VISIBLE);
-                                llNoTables.setVisibility(View.GONE);
-                            } else {
-                                rvTables.setVisibility(View.GONE);
-                                llNoTables.setVisibility(View.VISIBLE);
+                                tableSwapModelArrayList.add(tableSwapModel);
                             }
-                        } catch (Exception e) {
-                            e.printStackTrace();
+
+                            AreaSwapModel areaSwapModel = new AreaSwapModel();
+                            areaSwapModel.setAreaName(jsonObject2.getString("Area_Name"));
+                            areaSwapModel.setTableSwapModelArrayList(tableSwapModelArrayList);
+
+                            areaSwapModelArrayList.add(areaSwapModel);
                         }
-                        break;
+
+                        JSONArray jsonArray1 = object.getJSONArray("freetable");
+
+                        for (int i = 0; i < jsonArray1.length(); i++) {
+                            freeTableSwapArrayList = new ArrayList<>();
+                            JSONObject jsonObject2 = jsonArray1.getJSONObject(i);
+                            JSONArray jsonArray2 = jsonObject2.getJSONArray("tables");
+
+                            for (int j = 0; j < jsonArray2.length(); j++) {
+                                JSONObject jsonObject3 = jsonArray2.getJSONObject(j);
+
+                                TableSwapModel tableSwapModel = new TableSwapModel();
+                                tableSwapModel.setTableId(jsonObject3.getInt("Table_Id"));
+
+                                freeTableSwapArrayList.add(tableSwapModel);
+                            }
+
+                            AreaSwapModel areaSwapModel = new AreaSwapModel();
+                            areaSwapModel.setAreaName(jsonObject2.getString("Area_Name"));
+                            areaSwapModel.setTableSwapModelArrayList(freeTableSwapArrayList);
+
+                            freeAreaSwapArrayList.add(areaSwapModel);
+                        }
+
+                        rvOrderTablesAdapter = new RVSwapBookedAreaAdapter(getContext(), areaSwapModelArrayList, freeAreaSwapArrayList);
+                        rvTables.setHasFixedSize(true);
+                        rvTables.setNestedScrollingEnabled(false);
+                        rvTables.setLayoutManager(new GridLayoutManager(getContext(), 1));
+                        rvTables.setItemAnimator(new DefaultItemAnimator());
+                        rvTables.setAdapter(rvOrderTablesAdapter);
+
+                        rvTables.setVisibility(View.VISIBLE);
+                        llNoTables.setVisibility(View.GONE);
+                        skLoading.setVisibility(View.GONE);
+                    } else {
+                        rvTables.setVisibility(View.GONE);
+                        llNoTables.setVisibility(View.VISIBLE);
+                        skLoading.setVisibility(View.GONE);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
 
@@ -199,5 +199,6 @@ public class SwapTableFragment extends Fragment {
 
         rvTables = view.findViewById(R.id.rvTables);
         llNoTables = view.findViewById(R.id.llNoTables);
+        skLoading = view.findViewById(R.id.skLoading);
     }
 }
