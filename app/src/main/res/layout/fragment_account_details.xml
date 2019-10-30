@@ -12,6 +12,34 @@
         android:orientation="vertical"
         android:padding="10dp">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Do you have GSTN No :"/>
+
+        <RadioGroup
+            android:id="@+id/radio_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/radio_btn_yes"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Yes"
+                android:layout_weight="1"/>
+
+            <RadioButton
+                android:id="@+id/radio_btn_no"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="No"
+                android:layout_weight="1"/>
+
+
+        </RadioGroup>
+
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -24,26 +52,8 @@
                 android:layout_height="wrap_content"
                 android:hint="GSTN No"
                 android:maxLines="1"
-                android:textSize="16sp" />
-        </android.support.design.widget.TextInputLayout>
-
-
-
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/edt_hotel_rating"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:focusable="false"
-                android:hint="Hotel Rating"
-                android:inputType="text"
-                android:maxLines="1"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:visibility="gone"/>
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -61,7 +71,8 @@
                 android:maxLength="10"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:visibility="gone"/>
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -79,89 +90,208 @@
                 android:maxLength="12"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:visibility="gone"/>
         </android.support.design.widget.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
+            android:text="Add Image"
+            android:layout_margin="10dp"
+            android:layout_marginTop="10dp"
+            android:textSize="16sp" />
 
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/edt_hotel_address"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:focusable="false"
-                android:hint="Hotel Address"
-                android:inputType="text"
-                android:maxLines="1"
-                android:textSize="16sp" />
-        </android.support.design.widget.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
+            android:orientation="vertical">
 
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/edt_hotel_reg_date"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:focusable="false"
-                android:hint="Hotel Registration Date"
-                android:inputType="text"
-                android:maxLines="1"
-                android:textSize="16sp" />
-        </android.support.design.widget.TextInputLayout>
+                android:orientation="horizontal"
+                android:gravity="center"
+                >
 
-        <android.support.design.widget.TextInputLayout
+                <FrameLayout
+
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_margin="10dp"
+                    android:background="@color/colorGrey">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_add" />
+
+                </FrameLayout>
+
+                <FrameLayout
+
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_margin="10dp"
+                    android:background="@color/colorGrey">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_add" />
+
+                </FrameLayout>
+
+                <FrameLayout
+
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_margin="10dp"
+                    android:background="@color/colorGrey">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_add" />
+
+                </FrameLayout>
+
+            </LinearLayout>
+
+            <!--  <LinearLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal"
+                  android:gravity="center"
+                  android:weightSum="4">
+
+                  <ImageView
+                      android:layout_width="0dp"
+                      android:layout_height="90dp"
+                      android:layout_weight="1"
+                      android:layout_margin="5dp"
+                      android:background="@drawable/ic_add"/>
+
+                  <ImageView
+                      android:layout_width="0dp"
+                      android:layout_height="90dp"
+                      android:layout_weight="1"
+                      android:layout_margin="5dp"
+                      android:background="@drawable/ic_add"/>
+
+                  <ImageView
+                      android:layout_width="0dp"
+                      android:layout_height="90dp"
+                      android:layout_weight="1"
+                      android:layout_margin="5dp"
+                      android:background="@drawable/ic_add"/>
+              </LinearLayout>-->
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
+            android:orientation="vertical">
 
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/edt_hotel_visit_count"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:focusable="false"
-                android:hint="Hotel Visit Count"
-                android:inputType="text"
-                android:maxLines="1"
-                android:textSize="16sp" />
-        </android.support.design.widget.TextInputLayout>
+                android:orientation="horizontal"
+                android:gravity="center"
+                >
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
+                <FrameLayout
+                    android:id="@+id/ivAddCategory"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_margin="10dp"
+                    android:background="@color/colorGrey">
 
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/edt_hotel_ranking"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:focusable="false"
-                android:hint="Hotel Ranking"
-                android:inputType="text"
-                android:maxLines="1"
-                android:textSize="16sp" />
-        </android.support.design.widget.TextInputLayout>
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_add" />
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
+                </FrameLayout>
 
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/edt_hotel_status"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:focusable="false"
-                android:hint="Hotel status"
-                android:inputType="text"
-                android:maxLines="1"
-                android:textSize="16sp" />
-        </android.support.design.widget.TextInputLayout>
+                <FrameLayout
 
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_margin="10dp"
+                    android:background="@color/colorGrey">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_add" />
+
+                </FrameLayout>
+
+                <FrameLayout
+
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_margin="10dp"
+                    android:background="@color/colorGrey">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_add" />
+
+                </FrameLayout>
+
+            </LinearLayout>
+
+            <!--  <LinearLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal"
+                  android:gravity="center"
+                  android:weightSum="4">
+
+                  <ImageView
+                      android:layout_width="0dp"
+                      android:layout_height="90dp"
+                      android:layout_weight="1"
+                      android:layout_margin="5dp"
+                      android:background="@drawable/ic_add"/>
+
+                  <ImageView
+                      android:layout_width="0dp"
+                      android:layout_height="90dp"
+                      android:layout_weight="1"
+                      android:layout_margin="5dp"
+                      android:background="@drawable/ic_add"/>
+
+                  <ImageView
+                      android:layout_width="0dp"
+                      android:layout_height="90dp"
+                      android:layout_weight="1"
+                      android:layout_margin="5dp"
+                      android:background="@drawable/ic_add"/>
+              </LinearLayout>-->
+        </LinearLayout>
 
         <Button
             android:id="@+id/btn_account_hotel_details"

@@ -36,13 +36,13 @@
 
 
     <group
-        android:id="@+id/branch_sa_details"
+        android:id="@+id/hotel_sa_details"
         android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_branch_sa_details"
+            android:id="@+id/nav_hotel_sa_details"
             android:icon="@drawable/ic_credit_card"
             android:checkable="true"
-            android:title="Branch Details" />
+            android:title="Hotel Details" />
     </group>
 
     <group

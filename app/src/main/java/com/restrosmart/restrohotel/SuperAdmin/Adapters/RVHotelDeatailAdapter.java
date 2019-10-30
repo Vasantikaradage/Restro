@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.restrosmart.restrohotel.R;
 import com.restrosmart.restrohotel.SuperAdmin.Models.HotelForm;
@@ -33,7 +34,10 @@ public class RVHotelDeatailAdapter  extends RecyclerView.Adapter<RVHotelDeatailA
 
     @Override
     public void onBindViewHolder(@NonNull RVHotelDeatailAdapter.MyHolder myHolder, int i) {
-
+        myHolder.tvHotelName.setText(hotelFormArrayList.get(i).getHotelName());
+        myHolder.tvHotelMob.setText(hotelFormArrayList.get(i).getHotelMob());
+        myHolder.tvHotelEmail.setText(hotelFormArrayList.get(i).getHotelEmail());
+        myHolder.tvHotelAddress.setText(hotelFormArrayList.get(i).getHotelAddress());
     }
 
     @Override
@@ -42,8 +46,14 @@ public class RVHotelDeatailAdapter  extends RecyclerView.Adapter<RVHotelDeatailA
     }
 
     public class MyHolder extends RecyclerView.ViewHolder {
+        private TextView tvHotelName,tvHotelMob,tvHotelEmail,tvHotelAddress;
+
         public MyHolder(@NonNull View itemView) {
             super(itemView);
+            tvHotelName=itemView.findViewById(R.id.tv_hotel_name);
+            tvHotelEmail=itemView.findViewById(R.id.tv_hotel_email);
+            tvHotelMob=itemView.findViewById(R.id.tv_hotel_mob);
+            tvHotelAddress=itemView.findViewById(R.id.tv_hotel_address);
         }
     }
 }

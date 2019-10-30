@@ -45,7 +45,7 @@ public class AdapterNewOrder extends RecyclerView.Adapter<AdapterNewOrder.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull AdapterNewOrder.ViewHolder viewHolder, int i) {
-        String mob= String.valueOf(arrayList.get(i).getCust_mob_no());
+        String mob= (arrayList.get(i).getCust_mob_no());
         String orderId= String.valueOf(arrayList.get(i).getOrder_id());
         String tableID= String.valueOf(arrayList.get(i).getTableId());
         String orderStatus=arrayList.get(i).getOrder_Status_Name();
@@ -65,8 +65,10 @@ public class AdapterNewOrder extends RecyclerView.Adapter<AdapterNewOrder.ViewHo
         }
 
         viewHolder.mCustNo.setText(mob);
-        viewHolder.mOrderId.setText(orderId);
+        viewHolder.custName.setText(arrayList.get(i).getCustName());
+      //  viewHolder.mOrderId.setText(orderId);
         viewHolder.mtableId.setText(tableID);
+        viewHolder.mDateTime.setText(arrayList.get(i).getTime());
 
 
 
@@ -93,7 +95,7 @@ public class AdapterNewOrder extends RecyclerView.Adapter<AdapterNewOrder.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView suggestion;
-        private TextView mCustNo, mDateTime, mOrderId, mTotal,mtableId,circle_image;
+        private TextView mCustNo, mDateTime, mOrderId, mTotal,mtableId,circle_image,custName;
         private RecyclerView rvMenu;
         private ImageView cancelStamp;
 
@@ -103,8 +105,11 @@ public class AdapterNewOrder extends RecyclerView.Adapter<AdapterNewOrder.ViewHo
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             mCustNo = (TextView) itemView.findViewById(R.id.tv_cust_mobno);
+            custName=itemView.findViewById(R.id.tv_cust_name);
             mDateTime = (TextView) itemView.findViewById(R.id.tv_date_time);
-            mOrderId = (TextView) itemView.findViewById(R.id.order_id);
+          //
+            //
+            //  mOrderId = (TextView) itemView.findViewById(R.id.order_id);
             suggestion = (TextView) itemView.findViewById(R.id.suggestion);
             mtableId=itemView.findViewById(R.id.circle_image);
             circle_image=itemView.findViewById(R.id.circle_image);
@@ -115,7 +120,7 @@ public class AdapterNewOrder extends RecyclerView.Adapter<AdapterNewOrder.ViewHo
                 @Override
                 public void onClick(View view) {
                     Intent intent=new Intent(context, ActivityMenuOrderDidplay.class);
-                    intent.putExtra("menuArray", arrayList.get(getAdapterPosition()).getArrayList());
+                  //  intent.putExtra("menuArray", arrayList.get(getAdapterPosition()).getArrayList());
                     context.startActivity(intent);
 
                 }

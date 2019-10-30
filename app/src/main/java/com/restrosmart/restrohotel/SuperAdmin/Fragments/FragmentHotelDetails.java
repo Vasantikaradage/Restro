@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,14 +22,8 @@ import com.restrosmart.restrohotel.RetrofitService;
 import com.restrosmart.restrohotel.SuperAdmin.Activities.ActivityAddHotel;
 import com.restrosmart.restrohotel.SuperAdmin.Adapters.RVHotelDeatailAdapter;
 import com.restrosmart.restrohotel.SuperAdmin.Models.HotelForm;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-
 import retrofit2.Response;
-
 import static com.restrosmart.restrohotel.ConstantVariables.GET_SA_ALL_HOTEL;
 
 public class FragmentHotelDetails extends Fragment {
@@ -82,15 +77,13 @@ public class FragmentHotelDetails extends Fragment {
                 rvHotelDetails.setHasFixedSize(true);
                 rvHotelDetails.getLayoutManager().setMeasurementCacheEnabled(false);
                 rvHotelDeatailAdapter=new RVHotelDeatailAdapter(getActivity(),hotelFormArrayList);
-
-
-
-
+                rvHotelDetails.setAdapter(rvHotelDeatailAdapter);
             }
 
             @Override
             public void notifyError(int requestId, Throwable error) {
-
+                Log.d("","RequestId"+requestId);
+                Log.d("","RetrofitError"+error);
             }
         };
     }

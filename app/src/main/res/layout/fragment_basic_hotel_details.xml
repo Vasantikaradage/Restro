@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,21 +13,19 @@
         android:padding="10dp">
 
         <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/edt_hotel_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_weight="1">
-
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/edt_hotel_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Hotel Name"
-                    android:maxLines="1"
-                    android:textSize="16sp" />
-            </android.support.design.widget.TextInputLayout>
-
-
+                android:hint="Hotel Name"
+                android:maxLines="1"
+                android:textSize="16sp" />
+        </android.support.design.widget.TextInputLayout>
 
 
         <android.support.design.widget.TextInputLayout
@@ -39,9 +37,9 @@
                 android:id="@+id/edt_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:focusable="false"
+
                 android:hint="Hotel Email"
-                android:inputType="text"
+                android:inputType="textEmailAddress"
                 android:maxLines="1"
                 android:textSize="16sp" />
         </android.support.design.widget.TextInputLayout>
@@ -85,228 +83,71 @@
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/edt_hotel_area"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Area"
+                android:maxLines="1"
+                android:textSize="16sp" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="10dp">
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/edt_hotel_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:focusable="false"
+
                 android:hint="Hotel Address"
-                android:inputType="text"
+                android:inputType="textPostalAddress"
                 android:maxLines="1"
                 android:textSize="16sp" />
         </android.support.design.widget.TextInputLayout>
 
+
         <com.toptoche.searchablespinnerlibrary.SearchableSpinner
-            android:id="@+id/sp_hotel_type"
+            android:id="@+id/sp_country"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            app:hintText="Hotel Type">
+            app:hintText="Select Country">
+
+        </com.toptoche.searchablespinnerlibrary.SearchableSpinner>
+
+        <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+            android:id="@+id/sp_state"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:hintText="Select State">
+
+        </com.toptoche.searchablespinnerlibrary.SearchableSpinner>
+
+        <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+            android:id="@+id/sp_city"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:hintText="Select City">
 
         </com.toptoche.searchablespinnerlibrary.SearchableSpinner>
 
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Add Image"
-            android:layout_margin="10dp"
-            android:layout_marginTop="10dp"
-            android:textSize="16sp" />
+        <!--<com.toptoche.searchablespinnerlibrary.SearchableSpinner-->
+        <!--android:id="@+id/sp_hotel_type"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--app:hintText="Hotel Type">-->
 
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center"
-               >
-
-                <FrameLayout
-
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentBottom="true"
-                  android:layout_margin="10dp"
-                    android:background="@color/colorGrey">
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_add" />
-
-                </FrameLayout>
-
-                <FrameLayout
-
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_margin="10dp"
-                    android:background="@color/colorGrey">
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_add" />
-
-                </FrameLayout>
-
-                <FrameLayout
-
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_margin="10dp"
-                    android:background="@color/colorGrey">
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_add" />
-
-                </FrameLayout>
-
-            </LinearLayout>
-
-          <!--  <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:weightSum="4">
-
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="90dp"
-                    android:layout_weight="1"
-                    android:layout_margin="5dp"
-                    android:background="@drawable/ic_add"/>
-
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="90dp"
-                    android:layout_weight="1"
-                    android:layout_margin="5dp"
-                    android:background="@drawable/ic_add"/>
-
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="90dp"
-                    android:layout_weight="1"
-                    android:layout_margin="5dp"
-                    android:background="@drawable/ic_add"/>
-            </LinearLayout>-->
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center"
-                >
-
-                <FrameLayout
-                    android:id="@+id/ivAddCategory"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_margin="10dp"
-                    android:background="@color/colorGrey">
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_add" />
-
-                </FrameLayout>
-
-                <FrameLayout
-
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_margin="10dp"
-                    android:background="@color/colorGrey">
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_add" />
-
-                </FrameLayout>
-
-                <FrameLayout
-
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_margin="10dp"
-                    android:background="@color/colorGrey">
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_add" />
-
-                </FrameLayout>
-
-            </LinearLayout>
-
-            <!--  <LinearLayout
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:orientation="horizontal"
-                  android:gravity="center"
-                  android:weightSum="4">
-
-                  <ImageView
-                      android:layout_width="0dp"
-                      android:layout_height="90dp"
-                      android:layout_weight="1"
-                      android:layout_margin="5dp"
-                      android:background="@drawable/ic_add"/>
-
-                  <ImageView
-                      android:layout_width="0dp"
-                      android:layout_height="90dp"
-                      android:layout_weight="1"
-                      android:layout_margin="5dp"
-                      android:background="@drawable/ic_add"/>
-
-                  <ImageView
-                      android:layout_width="0dp"
-                      android:layout_height="90dp"
-                      android:layout_weight="1"
-                      android:layout_margin="5dp"
-                      android:background="@drawable/ic_add"/>
-              </LinearLayout>-->
-        </LinearLayout>
-
+        <!--</com.toptoche.searchablespinnerlibrary.SearchableSpinner>-->
 
 
         <Button

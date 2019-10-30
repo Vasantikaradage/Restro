@@ -18,8 +18,7 @@ import retrofit2.http.POST;
  */
 
 public interface ApiService {
-    String BASE_URL = "http://192.168.0.9/NewRestroSmart/";
-
+    String BASE_URL = "http://192.168.0.14/NewRestroSmart/";
 
     /*parent category display*/
     @POST("Category.php?category=cate_disp")
@@ -60,6 +59,23 @@ public interface ApiService {
                                         @Field("Emp_Address") String empAddress,
                                         @Field("User_Name") String userName,
                                         @Field("Emp_Adhar_Id") String adhar,
+                                        @Field("Hotel_Id") int hotelId);
+
+    /*Admin Edit employee*/
+    @POST("Employee_Signup.php?Empcall=Admin_Emp_Edit")
+    @FormUrlEncoded
+    Call<JsonObject> adminEditEmployeeDetail(@Field("Emp_Id") int empId,
+                                        @Field("Emp_Name") String empName,
+                                        @Field("Emp_Img") String image,
+                                        @Field("Img_Old_Name") String oldImageName,
+                                        @Field("Img_Type") String imageType,
+
+                                        @Field("Emp_Mob") String mobile,
+                                        @Field("Emp_Email") String empMobile,
+                                        @Field("Emp_Address") String empAddress,
+                                        @Field("User_Name") String userName,
+                                        @Field("Emp_Adhar_Id") String adhar,
+                                        @Field("Role_Id")int roleId,
                                         @Field("Hotel_Id") int hotelId);
 
     /*Update Employee photo*/
@@ -646,6 +662,43 @@ public interface ApiService {
     /*Fetching all hotel Details.*/
     @POST("Employee_Signup.php?Empcall=Get_Employee")
     Call<JsonObject> getSAHotelDetails();
+
+    /*Fetching all hotel Type.*/
+    @POST("SA_Hotel_Reg.php?sahotel=hotel_type")
+    Call<JsonObject> getSAHotelType();
+
+    /*Fetching Country dfetails*/
+    @POST("SA_Hotel_Reg.php?sahotel=country")
+    Call<JsonObject> getCountry();
+
+    /*Fetching state dfetails*/
+    @POST("SA_Hotel_Reg.php?sahotel=state")
+    @FormUrlEncoded
+    Call<JsonObject> getState(@Field("Country_Id")int countryId);
+
+    /*Fetching city dfetails*/
+    @POST("SA_Hotel_Reg.php?sahotel=city")
+    @FormUrlEncoded
+    Call<JsonObject> getCity(@Field("State_Id")int stateId);
+
+    /*Fetching city dfetails*/
+    @POST("SA_Hotel_Reg.php?sahotel=cuisine")
+    Call<JsonObject> getCuisine();
+
+    /*Fetching city dfetails*/
+    @POST("SA_Hotel_Reg.php?sahotel=hotel_reg")
+    @FormUrlEncoded
+    Call<JsonObject> hotelRegistration(@Field("Hotel_Name")String hotelName,
+                                       @Field("Hotel_Mob") String mob,
+                                       @Field("Hotel_Phone") String phone,
+                                       @Field("Hotel_Email") String email,
+                                       @Field("Hotel_Country") int countryId,
+                                       @Field("Hotel_State") int stateId,
+                                       @Field("Hotel_City") int cityId,
+                                       @Field("Hotel_Area") String hotelArea,
+                                       @Field("Hotel_Address") String hotelAddress,
+                                       @Field("SA_Id") int sa_id
+                                       /*@Field("action") String action*/);
 
 
 

@@ -126,32 +126,35 @@ public class ActivityLogin extends AppCompatActivity {
                     JSONObject jsonObject1 = new JSONObject(value);
 
                     int status = jsonObject1.getInt("status");
+                    String message=jsonObject1.getString("message");
                     if (status == 1) {
 
                         JSONObject jsonObject2 = jsonObject1.getJSONObject("user");
 
                         int roleId=jsonObject2.getInt("Role_Id");
-
+                        int empId = jsonObject2.getInt("Emp_Id");
                         if(roleId==1) {
-                            int empId = jsonObject2.getInt("Emp_Id");
                             int hotelId = jsonObject2.getInt("Hotel_Id");
                             String hotelName = jsonObject2.getString("Hotel_Name");
                             sessionmanager.saveHotelDetails(hotelId, hotelName, roleId, empId);
                             Intent intent = new Intent(ActivityLogin.this, ActivityAdminDrawer.class);
                             startActivity(intent);
-                            Toast.makeText(ActivityLogin.this, "Login successful", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ActivityLogin.this, "Login Successfully", Toast.LENGTH_SHORT).show();
                         }
                         else if(roleId==4){
                             Intent intent = new Intent(ActivityLogin.this, ActivityCaptainDash.class);
                             startActivity(intent);
-                            Toast.makeText(ActivityLogin.this, "Login successful", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ActivityLogin.this, "Login Successfully", Toast.LENGTH_SHORT).show();
 
                         }else
                         {
-                           // sessionmanager.saveHotelDetails(0, null, roleId, 0);
+
+
+                            String empName = jsonObject2.getString("Emp_Name");
+                            sessionmanager.saveSuperAdminDetails(empId, empName, roleId);
                             Intent intent = new Intent(ActivityLogin.this, ActivitySADashBoradDrawer.class);
                             startActivity(intent);
-                            Toast.makeText(ActivityLogin.this, "Login successful", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ActivityLogin.this, "Login Successfully", Toast.LENGTH_SHORT).show();
 
 
                         }
@@ -159,7 +162,10 @@ public class ActivityLogin extends AppCompatActivity {
                             btnAdminLogin.setVisibility(View.VISIBLE);
 
                     } else {
-                        Toast.makeText(ActivityLogin.this, "Employee not Active.. ", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ActivityLogin.this, message, Toast.LENGTH_SHORT).show();
+                        progressBar.setVisibility(View.GONE);
+                        btnAdminLogin.setVisibility(View.VISIBLE);
+
                     }
 
                     if (cbRememberMe.isChecked()) {

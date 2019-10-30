@@ -22,6 +22,7 @@ import com.restrosmart.restrohotel.SuperAdmin.Fragments.FragmentSAEmployee;
 import com.restrosmart.restrohotel.SuperAdmin.Fragments.FragmentSADashboard;
 import com.restrosmart.restrohotel.SuperAdmin.Fragments.FragmentSAReports;
 import com.restrosmart.restrohotel.SuperAdmin.Fragments.FragmentSASettings;
+import com.restrosmart.restrohotel.Utils.Sessionmanager;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -38,6 +39,7 @@ public class ActivitySADashBoradDrawer extends AppCompatActivity implements Navi
     private boolean isStartup = true;
     Fragment fragment = null;
     private String title = "";
+    private Sessionmanager sessionmanager;
 
 
 
@@ -93,7 +95,7 @@ public class ActivitySADashBoradDrawer extends AppCompatActivity implements Navi
             fragment.setArguments(args);
             title = "Our Employees";
         }
-        else if (id == R.id.nav_branch_sa_details) {
+        else if (id == R.id.nav_hotel_sa_details) {
             //  itemShow.setVisible(false);
             fragment = new FragmentHotelDetails();
             fragment.setArguments(args);
@@ -130,5 +132,6 @@ public class ActivitySADashBoradDrawer extends AppCompatActivity implements Navi
     private void init() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        sessionmanager=new Sessionmanager(ActivitySADashBoradDrawer.this);
     }
 }

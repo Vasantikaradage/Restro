@@ -7,8 +7,8 @@ import java.util.ArrayList;
 
 public class OrderModel  implements Parcelable {
 
-    private int  cust_mob_no,order_id,tableId;
-    private  String time,Order_Status_Name;
+    private int order_id,tableId;
+    private  String time,Order_Status_Name,custName,cust_mob_no;
     private ArrayList<MenuForm> arrayList;
 
     public String getOrder_Status_Name() {
@@ -20,11 +20,12 @@ public class OrderModel  implements Parcelable {
     }
 
     protected OrderModel(Parcel in) {
-        cust_mob_no = in.readInt();
+        cust_mob_no = in.readString();
         order_id = in.readInt();
         tableId = in.readInt();
         Order_Status_Name = in.readString();
         time = in.readString();
+        custName=in.readString();
     }
 
     public static final Creator<OrderModel> CREATOR = new Creator<OrderModel>() {
@@ -40,14 +41,11 @@ public class OrderModel  implements Parcelable {
     };
 
 
-
-
-
-    public int getCust_mob_no() {
+    public String getCust_mob_no() {
         return cust_mob_no;
     }
 
-    public void setCust_mob_no(int cust_mob_no) {
+    public void setCust_mob_no(String cust_mob_no) {
         this.cust_mob_no = cust_mob_no;
     }
 
@@ -83,6 +81,14 @@ public class OrderModel  implements Parcelable {
         this.arrayList = arrayList;
     }
 
+    public String getCustName() {
+        return custName;
+    }
+
+    public void setCustName(String custName) {
+        this.custName = custName;
+    }
+
     public OrderModel() {
     }
 
@@ -94,10 +100,11 @@ public class OrderModel  implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(cust_mob_no);
+        parcel.writeString(cust_mob_no);
         parcel.writeInt(order_id);
         parcel.writeInt(tableId);
         parcel.writeString(Order_Status_Name);
         parcel.writeString(time);
+        parcel.writeString(custName);
     }
 }

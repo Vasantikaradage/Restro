@@ -103,6 +103,7 @@ public class ConstantVariables {
     public  static  final  int ALLOCATE_TABLE_CAPTAIN=902;
     public  static  final  int ALLOCATED_TABLE_DEATILS=903;
     public  static  final  int EMPLOYEE_STATUS=904;
+    public  static  final  int ADMIN_EMP_EDIT=905;
 
 
     /*Captain*/
@@ -128,6 +129,13 @@ public class ConstantVariables {
     /*Super Admin*/
     public  static  final  int GET_SA_ALL_EMPLOYEE=1000;
     public  static  final  int GET_SA_ALL_HOTEL=1001;
+    public  static  final  int HOTEL_TYPE=1002;
+    public  static  final  int GET_COUNTRY=1003;
+    public  static  final  int GET_STATE=1004;
+    public  static  final  int GET_CITY=1005;
+    public  static  final  int HOTEL_CUISINE=1006;
+    public  static  final  int HOTEL_REGISTRATION=1007;
+
 
 }
 

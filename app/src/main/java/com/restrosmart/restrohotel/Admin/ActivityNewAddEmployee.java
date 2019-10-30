@@ -1,6 +1,7 @@
 package com.restrosmart.restrohotel.Admin;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -24,6 +25,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -64,6 +66,7 @@ import retrofit2.Response;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static com.restrosmart.restrohotel.ConstantVariables.ADD_NEW_EMPLOYEE;
+import static com.restrosmart.restrohotel.ConstantVariables.ADMIN_EMP_EDIT;
 import static com.restrosmart.restrohotel.ConstantVariables.BRANCH_INFO;
 import static com.restrosmart.restrohotel.ConstantVariables.EMP_EDIT_DETAILS;
 import static com.restrosmart.restrohotel.ConstantVariables.PICK_GALLERY_IMAGE;
@@ -98,6 +101,7 @@ public class ActivityNewAddEmployee extends AppCompatActivity {
     private File selectedFile;
     private Bitmap bitmapImage;
     private String imageOldName;
+    private ProgressDialog progressDialog;
 
 
     @Override
@@ -184,8 +188,9 @@ public class ActivityNewAddEmployee extends AppCompatActivity {
                                 if (image.equals("def_user.png")) {
                                     selectedImage = "";
                                     extension = "";
-                                } else {
+                                    image="";
 
+                                } else {
                                     selectedImage = "";
                                     extension= "";
                                 }
@@ -207,10 +212,11 @@ public class ActivityNewAddEmployee extends AppCompatActivity {
                                 String email = etEmail.getText().toString();
                                 String adhar=etAdhar.getText().toString();
                                 initRetrofitCallback();
+
                                 ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
                                 mRetrofitService = new RetrofitService(mResultCallBack, ActivityNewAddEmployee.this);
-                                mRetrofitService.retrofitData(EMP_EDIT_DETAILS, (service.
-                                        editEmployeeDetail(emp_id,
+                                mRetrofitService.retrofitData(ADMIN_EMP_EDIT, (service.
+                                        adminEditEmployeeDetail(emp_id,
                                                 name,
                                                 selectedImage,
                                                 image,
@@ -220,7 +226,9 @@ public class ActivityNewAddEmployee extends AppCompatActivity {
                                                 address,
                                                 username,
                                                 adhar,
+                                                roleId,
                                                 hotelId)));
+                                showProgrssDailog();
                             }
                         }
                     });
@@ -271,10 +279,25 @@ public class ActivityNewAddEmployee extends AppCompatActivity {
                         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
                         mRetrofitService = new RetrofitService(mResultCallBack, ActivityNewAddEmployee.this);
                         mRetrofitService.retrofitData(ADD_NEW_EMPLOYEE, (service.AddEmployee(signup)));
+                        showProgrssDailog();
                     }
                 }
             });
         }
+    }
+
+    private void showProgrssDailog() {
+
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            //Without this user can hide loader by tapping outside screen
+            progressDialog.setCancelable(false);
+            progressDialog.setCanceledOnTouchOutside(false);
+            progressDialog.setTitle(this.getResources().getString(R.string.app_name));
+            progressDialog.setMessage("Loading...");
+            progressDialog.show();
+
+
     }
 
     private boolean isValidEmpUpdate() {
@@ -419,6 +442,7 @@ public class ActivityNewAddEmployee extends AppCompatActivity {
                             } else {
                                 Toast.makeText(ActivityNewAddEmployee.this, "Try again..!", Toast.LENGTH_SHORT).show();
                             }
+                            progressDialog.dismiss();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -467,7 +491,7 @@ public class ActivityNewAddEmployee extends AppCompatActivity {
                         }
                         break;
 
-                    case EMP_EDIT_DETAILS:
+                    case ADMIN_EMP_EDIT:
                         JsonObject object1 = response.body();
                         String objectInfo = object1.toString();
                         try {
@@ -480,6 +504,7 @@ public class ActivityNewAddEmployee extends AppCompatActivity {
                             } else {
                                 Toast.makeText(ActivityNewAddEmployee.this, "Try Again..", Toast.LENGTH_LONG).show();
                             }
+                            progressDialog.dismiss();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

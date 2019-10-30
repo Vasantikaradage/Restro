@@ -38,7 +38,11 @@ public class ActivityAddHotel extends AppCompatActivity {
     @Override
     public boolean onSupportNavigateUp() {
         finish();
+        popFragment();
         return true;
+    }
+
+    private void popFragment() {
     }
 
     private void setupToolbar() {
@@ -52,4 +56,8 @@ public class ActivityAddHotel extends AppCompatActivity {
     private void init() {
         mToolbar = findViewById(R.id.toolbar);
     }
+
+
 }
+
+

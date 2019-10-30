@@ -8,21 +8,48 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import com.restrosmart.restrohotel.R;
 
 public  class AccountDetailsFragment extends Fragment {
-    private  String mGstnNo,mHotelRating,mHotelCgst,mHotelSgst,mHotelRegDate,mHotelVisitCnt,mHotelRanking,mHotelStatus;
+    private  String mGstnNo,mHotelCgst,mHotelSgst;
     private  View view;
     private Button btnSave;
-    private TextInputEditText edtGstnNo,edtHotelRating,edtHotelCgst,edtHotelSgst,edtHotelRegDate,edtHotelVisitCnt,edtHotelRanking,edtHotelStatus;
+    private TextInputEditText edtGstnNo,edtHotelCgst,edtHotelSgst;
+    private RadioButton radioButtonYes,radioButtonNo;
+    private RadioGroup radioGroupGstn;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_account_details, null);
         init();
+
+        radioGroupGstn.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                if(radioButtonYes.isChecked())
+                {
+                    edtGstnNo.setVisibility(View.VISIBLE);
+                    edtHotelCgst.setVisibility(View.VISIBLE);
+                    edtHotelSgst.setVisibility(View.VISIBLE);
+                }
+                else
+                {
+                    edtGstnNo.setVisibility(View.GONE);
+                    edtHotelCgst.setVisibility(View.GONE);
+                    edtHotelSgst.setVisibility(View.GONE);
+                }
+
+            }
+        });
+
+
         btnSave.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
 
@@ -44,10 +71,10 @@ public  class AccountDetailsFragment extends Fragment {
         outState.putString("gstnNo",mGstnNo );
         outState.putString("hotelCgst", mHotelCgst);
         outState.putString("hotelSgst", mHotelSgst);
-        outState.putString("hotelRanking", mHotelRanking);
+     /*   outState.putString("hotelRanking", mHotelRanking);
         outState.putString("hotelRating", mHotelRating);
         outState.putString("hotelVisitCnt",mHotelVisitCnt);
-        outState.putString("hotelStatus",mHotelStatus);
+        outState.putString("hotelStatus",mHotelStatus);*/
 
     }
 
@@ -60,19 +87,19 @@ public  class AccountDetailsFragment extends Fragment {
             mGstnNo = savedInstanceState.getString("gstnNo");
             mHotelCgst = savedInstanceState.getString("hotelCgst");
             mHotelSgst = savedInstanceState.getString("hotelSgst");
-            mHotelRanking = savedInstanceState.getString("hotelRanking");
+           /* mHotelRanking = savedInstanceState.getString("hotelRanking");
             mHotelRating = savedInstanceState.getString("hotelRating");
             mHotelVisitCnt=savedInstanceState.getString("hotelVisitCnt");
-            mHotelStatus=savedInstanceState.getString("hotelStatus");
+            mHotelStatus=savedInstanceState.getString("hotelStatus");*/
 
             edtGstnNo.setText(mGstnNo);
             edtHotelCgst.setText(mHotelCgst);
             edtHotelSgst.setText(mHotelSgst);
-            edtHotelRanking.setText(mHotelRanking);
+          /*  edtHotelRanking.setText(mHotelRanking);
             edtHotelRating.setText(mHotelRating);
             edtHotelVisitCnt.setText(mHotelVisitCnt);
             edtHotelStatus.setText(mHotelStatus);
-
+*/
 
         }
     }
@@ -83,15 +110,18 @@ public  class AccountDetailsFragment extends Fragment {
 
     private void init() {
         edtGstnNo=view.findViewById(R.id.edt_hote_gstn_no);
-        edtHotelRating=view.findViewById(R.id.edt_hotel_rating);
+      //  edtHotelRating=view.findViewById(R.id.edt_hotel_rating);
         edtHotelCgst=view.findViewById(R.id.edt_hotel_cgst);
-        edtHotelSgst=view.findViewById(R.id.edt_hotel_cgst);
-        edtHotelRegDate=view.findViewById(R.id.edt_hotel_reg_date);
-        edtHotelVisitCnt=view.findViewById(R.id.edt_hotel_visit_count);
-        edtHotelRanking=view.findViewById(R.id.edt_hotel_ranking);
-        edtHotelStatus=view.findViewById(R.id.edt_hotel_status);
+        edtHotelSgst=view.findViewById(R.id.edt_hotel_sgst);
+//        edtHotelRegDate=view.findViewById(R.id.edt_hotel_reg_date);
+//        edtHotelVisitCnt=view.findViewById(R.id.edt_hotel_visit_count);
+//        edtHotelRanking=view.findViewById(R.id.edt_hotel_ranking);
+//        edtHotelStatus=view.findViewById(R.id.edt_hotel_status);
 
         btnSave=view.findViewById(R.id.btn_account_hotel_details);
+        radioButtonYes=view.findViewById(R.id.radio_btn_yes);
+        radioButtonNo=view.findViewById(R.id.radio_btn_no);
+        radioGroupGstn=view.findViewById(R.id.radio_group);
 
 
     }

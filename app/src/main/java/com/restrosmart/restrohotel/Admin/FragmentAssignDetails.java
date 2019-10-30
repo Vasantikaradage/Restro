@@ -74,11 +74,7 @@ public class FragmentAssignDetails extends Fragment {
         HashMap<String, String> stringHashMap = sessionmanager.getHotelDetails();
         hotelId = Integer.parseInt(stringHashMap.get(HOTEL_ID));
 
-        retrofitCallBack();
-        ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
-        mRetrofitService = new RetrofitService(mResultCallBack, getActivity());
-        mRetrofitService.retrofitData(ALLOCATED_TABLE_DEATILS, service.captainTableDisplay(hotelId));
-        showProgressDialog();
+
 
         flBtnTableAssign.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,6 +83,16 @@ public class FragmentAssignDetails extends Fragment {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        retrofitCallBack();
+        ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
+        mRetrofitService = new RetrofitService(mResultCallBack, getActivity());
+        mRetrofitService.retrofitData(ALLOCATED_TABLE_DEATILS, service.captainTableDisplay(hotelId));
+        showProgressDialog();
     }
 
     private void showProgressDialog() {

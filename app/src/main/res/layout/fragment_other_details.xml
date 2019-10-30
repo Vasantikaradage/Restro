@@ -14,13 +14,45 @@
 
 
         <com.toptoche.searchablespinnerlibrary.SearchableSpinner
-            android:id="@+id/sp_country"
+            android:id="@+id/sp_hotel_type"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            app:hintText="Select Country">
-
+            app:hintText="Select Type">
         </com.toptoche.searchablespinnerlibrary.SearchableSpinner>
+
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/edt_hotel_table_count"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Table Count"
+                android:maxLines="1"
+                android:inputType="number"
+                android:textSize="16sp" />
+        </android.support.design.widget.TextInputLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cuisine"
+            android:textStyle="bold"
+            android:layout_margin="5dp"
+            android:textSize="16sp"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_cuisine"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp">
+        </android.support.v7.widget.RecyclerView>
+       <!-- </com.toptoche.searchablespinnerlibrary.SearchableSpinner>
 
         <com.toptoche.searchablespinnerlibrary.SearchableSpinner
             android:id="@+id/sp_state"
@@ -40,18 +72,39 @@
 
         </com.toptoche.searchablespinnerlibrary.SearchableSpinner>
 
-        <com.toptoche.searchablespinnerlibrary.SearchableSpinner
-            android:id="@+id/sp_area"
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            app:hintText="Select Area">
+            android:layout_weight="1">
 
-        </com.toptoche.searchablespinnerlibrary.SearchableSpinner>
-
-
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/edt_hotel_area"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Area"
+                android:maxLines="1"
+                android:textSize="16sp" />
+        </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/edt_hotel_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:hint="Hotel Address"
+                android:inputType="textPostalAddress"
+                android:maxLines="1"
+                android:textSize="16sp" />
+        </android.support.design.widget.TextInputLayout>-->
+
+
+      <!--  <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -80,7 +133,7 @@
                 android:maxLines="1"
                 android:textSize="16sp" />
         </android.support.design.widget.TextInputLayout>
-
+-->
         <Button
             android:id="@+id/btn_basic_location_details"
             android:layout_width="160dp"

@@ -276,6 +276,22 @@ public class Sessionmanager {
     }
 
 
+    public void saveSuperAdminDetails(int empId, String empName, int Role_Id) {
+        editor.putString(EMP_ID, String.valueOf(empId));
+        editor.putString(EMP_NAME, empName);
+        editor.putString(ROLE_ID, String.valueOf(Role_Id));
+        editor.commit();
+    }
+
+    public HashMap getSuperAdminDetails() {
+        HashMap<String, String> stringMap = new HashMap<String, String>();
+        stringMap.put("empName", pref.getString(HOTEL_NAME, null));
+        stringMap.put("roleId", pref.getString(ROLE_ID, null));
+        stringMap.put("empId", pref.getString(EMP_ID, null));
+        return stringMap;
+    }
+
+
 
 
         /*for(CartModel rvModel : cartRVModelArrayList){

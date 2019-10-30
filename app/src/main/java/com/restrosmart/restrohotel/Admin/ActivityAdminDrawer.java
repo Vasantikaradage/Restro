@@ -280,7 +280,7 @@ public class ActivityAdminDrawer extends AppCompatActivity
 
                             employeeForm.setEmpMob(jsonObjectEmp.getString("Emp_Mob"));
                             employeeForm.setEmpAdharId(jsonObjectEmp.getString("Emp_Adhar_Id"));
-                            employeeForm.setBranch_Id(jsonObjectEmp.getInt("Branch_Id"));
+
                             employeeForm.setActiveStatus(jsonObjectEmp.getInt("Active_Status"));
                             employeeForm.setRole_Id(jsonObjectEmp.getInt("Role_Id"));
                             arrayListEmployee.add(employeeForm);

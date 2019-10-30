@@ -75,6 +75,8 @@ public class FragmentTableDetails extends Fragment {
     private LinearLayout linearLayoutNoData;
     private ProgressDialog progressDialog;
     private MoveTableReceiver moveReceiver;
+    private  String count;
+
 
     @Nullable
     @Override
@@ -119,14 +121,14 @@ public class FragmentTableDetails extends Fragment {
             public void onClick(View view) {
                 LayoutInflater li = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 dialoglayout = li.inflate(R.layout.dialog_add_table_details, null);
-                dialog= new BottomSheetDialog(getActivity());
+                dialog = new BottomSheetDialog(getActivity());
                 dialog.setContentView(dialoglayout);
-                etvAreaName =dialoglayout.findViewById(R.id.etv_area_name);
-                etvTableCount=dialoglayout.findViewById(R.id.etv_table_count);
-                Button saveTable=dialoglayout.findViewById(R.id.btnSave);
-                tvTitle=dialoglayout.findViewById(R.id.tv_table_title);
+                etvAreaName = dialoglayout.findViewById(R.id.etv_area_name);
+                etvTableCount = dialoglayout.findViewById(R.id.etv_table_count);
+                Button saveTable = dialoglayout.findViewById(R.id.btnSave);
+                tvTitle = dialoglayout.findViewById(R.id.tv_table_title);
                 tvTitle.setVisibility(View.VISIBLE);
-                Button cancelTable=dialoglayout.findViewById(R.id.btnCancel);
+                Button cancelTable = dialoglayout.findViewById(R.id.btnCancel);
                 dialog.show();
 
                 cancelTable.setOnClickListener(new View.OnClickListener() {
@@ -136,15 +138,20 @@ public class FragmentTableDetails extends Fragment {
                     }
                 });
 
+
+
                 saveTable.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        initRetrofitCallBack();
-                        ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
-                        mRetrofitService = new RetrofitService(mResultCallBack, getActivity());
-                        mRetrofitService.retrofitData(ADD_TABLE_DETAILS, service.addtables(etvAreaName.getText().toString(),
-                                Integer.parseInt(etvTableCount.getText().toString()),
-                                hotelId));
+                        count= (etvTableCount.getText().toString());
+                        if (isValid()) {
+                            initRetrofitCallBack();
+                            ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
+                            mRetrofitService = new RetrofitService(mResultCallBack, getActivity());
+                            mRetrofitService.retrofitData(ADD_TABLE_DETAILS, service.addtables(etvAreaName.getText().toString(),
+                                    Integer.parseInt(count),
+                                    hotelId));
+                        }
 
                     }
                 });
@@ -153,7 +160,16 @@ public class FragmentTableDetails extends Fragment {
 
     }
 
-
+    private boolean isValid() {
+        if (etvAreaName.getText().toString().equalsIgnoreCase("")) {
+            Toast.makeText(getActivity(), "Please enter Area Name..", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (count.length()==0) {
+            Toast.makeText(getActivity(), "Please enter Table Count..", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
 
 
     private void showProgressDialog() {
@@ -188,9 +204,9 @@ public class FragmentTableDetails extends Fragment {
                             String objectInfo = object.toString();
                             JSONObject jsonObject = new JSONObject(objectInfo);
                             int status = jsonObject.getInt("status");
-                            String msg=jsonObject.getString("message");
+                            String msg = jsonObject.getString("message");
                             if (status == 1) {
-                                String statusInfo=jsonObject.getString("message");
+                                String statusInfo = jsonObject.getString("message");
                                 Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
                                 tableDetails();
 
@@ -230,18 +246,18 @@ public class FragmentTableDetails extends Fragment {
                                     JSONArray array = jsonObject1.getJSONArray("tableList");
 
                                     arrayListtTableId = new ArrayList<>();
-                                        for (int in = 0; in < array.length(); in++) {
-                                            if (jsonObject1.getInt("Area_Status") != 0) {
-                                                JSONObject jsonObject2 = array.getJSONObject(in);
-                                                TableFormId tableFormId = new TableFormId();
-                                                tableFormId.setTableId(jsonObject2.getInt("Table_Id"));
-                                                tableFormId.setTableStatus(jsonObject2.getInt("Table_Status"));
-                                                arrayListtTableId.add(tableFormId);
-                                            }
+                                    for (int in = 0; in < array.length(); in++) {
+                                        if (jsonObject1.getInt("Area_Status") != 0) {
+                                            JSONObject jsonObject2 = array.getJSONObject(in);
+                                            TableFormId tableFormId = new TableFormId();
+                                            tableFormId.setTableId(jsonObject2.getInt("Table_Id"));
+                                            tableFormId.setTableStatus(jsonObject2.getInt("Table_Status"));
+                                            arrayListtTableId.add(tableFormId);
                                         }
-                                        tableForm.setArrayTableFormIds(arrayListtTableId);
-                                        arrayListTable.add(tableForm);
                                     }
+                                    tableForm.setArrayTableFormIds(arrayListtTableId);
+                                    arrayListTable.add(tableForm);
+                                }
 
                             } else {
                                 linearLayoutNoData.setVisibility(View.VISIBLE);
@@ -377,7 +393,6 @@ public class FragmentTableDetails extends Fragment {
                 });
 
 
-
             }
         });
         rvTableDetails.setAdapter(rvTableDetailsAdapter);
@@ -389,7 +404,7 @@ public class FragmentTableDetails extends Fragment {
         rvTableDetails = view.findViewById(R.id.rv_table_details);
         arrayListTable = new ArrayList<>();
         arrayListtTableId = new ArrayList<>();
-         frameLayout=view.findViewById(R.id.fl_add_area);
+        frameLayout = view.findViewById(R.id.fl_add_area);
         linearLayoutNoData = view.findViewById(R.id.llNoTableData);
         freeTableSwapArrayList = new ArrayList<>();
         freeAreaSwapArrayList = new ArrayList<>();

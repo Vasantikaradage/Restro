@@ -144,8 +144,9 @@ public class FragmentTabNewOrders extends Fragment {
                             JSONObject jsonObjectCustD=jsonArrayOrder.getJSONObject(i);
                             orderModel=new OrderModel();
                             orderModel.setOrder_id(jsonObjectCustD.getInt("Order_Id"));
-                            orderModel.setCust_mob_no(jsonObjectCustD.getInt("Cust_Mob"));
+                            orderModel.setCust_mob_no(jsonObjectCustD.getString("Cust_Mob"));
                             orderModel.setTableId(jsonObjectCustD.getInt("Table_Id"));
+                            orderModel.setTime(jsonObjectCustD.getString("Order_Date"));
                             // orderModel.setArrayList();
 
 

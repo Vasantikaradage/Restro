@@ -172,7 +172,9 @@ public class ActivityAssignTable extends AppCompatActivity {
                                     JSONObject empObject = jsonArray.getJSONObject(i);
 
                                     String empRole = empObject.getString("Role");
-                                    if (empRole.equals("Captain")) {
+                                    int activeStatus=empObject.getInt("Active_Status");
+
+                                    if (empRole.equals("Captain") && (activeStatus==1)) {
                                         EmployeeForm employeeForm = new EmployeeForm();
                                         employeeForm.setRole_Id(empObject.getInt("Role_Id"));
                                         employeeForm.setEmpName(empObject.getString("Emp_Name"));

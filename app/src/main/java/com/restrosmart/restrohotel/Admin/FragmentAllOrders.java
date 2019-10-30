@@ -128,8 +128,10 @@ public class FragmentAllOrders extends Fragment {
                                 JSONObject jsonObjectCustD = jsonArrayOrder.getJSONObject(i);
                                 orderModel = new OrderModel();
                                 orderModel.setOrder_id(jsonObjectCustD.getInt("Order_Id"));
-                                orderModel.setCust_mob_no(jsonObjectCustD.getInt("Cust_Mob"));
+                                orderModel.setCust_mob_no(jsonObjectCustD.getString("Cust_Mob"));
                                 orderModel.setTableId(jsonObjectCustD.getInt("Table_Id"));
+                                orderModel.setCustName(jsonObjectCustD.getString("Cust_Name"));
+                                orderModel.setTime(jsonObjectCustD.getString("Order_Date"));
                                 orderModel.setOrder_Status_Name(jsonObjectCustD.getString("Order_Status_Name"));
                                 // orderModel.setArrayList();
 
@@ -184,9 +186,11 @@ public class FragmentAllOrders extends Fragment {
                                 JSONObject jsonObjectCustD = jsonArrayAccepeted.getJSONObject(i);
                                 orderModel = new OrderModel();
                                 orderModel.setOrder_id(jsonObjectCustD.getInt("Order_Id"));
-                                orderModel.setCust_mob_no(jsonObjectCustD.getInt("Cust_Mob"));
+                                orderModel.setCust_mob_no(jsonObjectCustD.getString("Cust_Mob"));
                                 orderModel.setTableId(jsonObjectCustD.getInt("Table_Id"));
+                                orderModel.setCustName(jsonObjectCustD.getString("Cust_Name"));
                                 orderModel.setOrder_Status_Name(jsonObjectCustD.getString("Order_Status_Name"));
+                                orderModel.setTime(jsonObjectCustD.getString("Order_Date"));
 
                                 // orderModel.setArrayList();
 
