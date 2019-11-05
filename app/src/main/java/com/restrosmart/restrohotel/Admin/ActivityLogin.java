@@ -98,7 +98,7 @@ public class ActivityLogin extends AppCompatActivity {
         tvAdminForgotPassword = findViewById(R.id.tvAdminForgotPassword);
         progressBar = findViewById(R.id.progressbar);
         btnAdminLogin = findViewById(R.id.btnAdminLogin);
-     //   btnAdminRegister = findViewById(R.id.btnAdminRegister);
+        //   btnAdminRegister = findViewById(R.id.btnAdminRegister);
     }
 
     private boolean isValid() {
@@ -126,46 +126,44 @@ public class ActivityLogin extends AppCompatActivity {
                     JSONObject jsonObject1 = new JSONObject(value);
 
                     int status = jsonObject1.getInt("status");
-                    String message=jsonObject1.getString("message");
+                    String message = jsonObject1.getString("message");
                     if (status == 1) {
 
                         JSONObject jsonObject2 = jsonObject1.getJSONObject("user");
 
-                        int roleId=jsonObject2.getInt("Role_Id");
+                        int roleId = jsonObject2.getInt("Role_Id");
                         int empId = jsonObject2.getInt("Emp_Id");
-                        if(roleId==1) {
+                        String empName = jsonObject2.getString("Emp_Name");
+
+                        if (roleId == 1) {
                             int hotelId = jsonObject2.getInt("Hotel_Id");
                             String hotelName = jsonObject2.getString("Hotel_Name");
                             sessionmanager.saveHotelDetails(hotelId, hotelName, roleId, empId);
                             Intent intent = new Intent(ActivityLogin.this, ActivityAdminDrawer.class);
                             startActivity(intent);
                             Toast.makeText(ActivityLogin.this, "Login Successfully", Toast.LENGTH_SHORT).show();
-                        }
-                        else if(roleId==4){
+                        } else if (roleId == 4) {
+                            int hotelId = jsonObject2.getInt("Hotel_Id");
+                            String hotelName = jsonObject2.getString("Hotel_Name");
+
+                            sessionmanager.saveHotelDetail(hotelId, hotelName);
+                            sessionmanager.saveCaptainDetails(empId, empName, roleId);
                             Intent intent = new Intent(ActivityLogin.this, ActivityCaptainDash.class);
                             startActivity(intent);
                             Toast.makeText(ActivityLogin.this, "Login Successfully", Toast.LENGTH_SHORT).show();
-
-                        }else
-                        {
-
-
-                            String empName = jsonObject2.getString("Emp_Name");
+                        } else {
                             sessionmanager.saveSuperAdminDetails(empId, empName, roleId);
                             Intent intent = new Intent(ActivityLogin.this, ActivitySADashBoradDrawer.class);
                             startActivity(intent);
                             Toast.makeText(ActivityLogin.this, "Login Successfully", Toast.LENGTH_SHORT).show();
-
-
                         }
-                            progressBar.setVisibility(View.GONE);
-                            btnAdminLogin.setVisibility(View.VISIBLE);
+                        progressBar.setVisibility(View.GONE);
+                        btnAdminLogin.setVisibility(View.VISIBLE);
 
                     } else {
                         Toast.makeText(ActivityLogin.this, message, Toast.LENGTH_SHORT).show();
                         progressBar.setVisibility(View.GONE);
                         btnAdminLogin.setVisibility(View.VISIBLE);
-
                     }
 
                     if (cbRememberMe.isChecked()) {

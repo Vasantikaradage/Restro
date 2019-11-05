@@ -18,7 +18,7 @@ import retrofit2.http.POST;
  */
 
 public interface ApiService {
-    String BASE_URL = "http://192.168.0.14/NewRestroSmart/";
+    String BASE_URL = "http://192.168.1.218/NewRestroSmart/";
 
     /*parent category display*/
     @POST("Category.php?category=cate_disp")
@@ -520,7 +520,8 @@ public interface ApiService {
     /*Scan table list*/
     @POST("Captain_Table.php?captables=scan_tablelist")
     @FormUrlEncoded
-    Call<JsonObject> getScanTable(@Field("Hotel_Id") int hotel_id);
+    Call<JsonObject> getScanTable(@Field("Hotel_Id") int hotel_id,
+                                  @Field("Emp_Id") int emp_id);
 
     /*Scan table confirm*/
     @POST("Captain_Table.php?captables=conf_tablelist")
@@ -528,12 +529,14 @@ public interface ApiService {
     Call<JsonObject> scanConfirmTable(@Field("Hotel_Id") int hotel_id,
                                       @Field("Table_Id") int Table_Id,
                                       @Field("Area_Id") int Area_Id,
+                                      @Field("Emp_Id") int Emp_Id,
                                       @Field("Table_conf_Status") int Table_conf_Status);
 
     /*Get booked table */
     @POST("Captain_Table.php?captables=book_free_table")
     @FormUrlEncoded
-    Call<JsonObject> getBookedTable(@Field("Hotel_Id") int hotel_id);
+    Call<JsonObject> getBookedTable(@Field("Hotel_Id") int hotel_id,
+                                    @Field("Emp_Id") int Emp_Id);
 
     /*Swap tables*/
     @POST("Captain_Table.php?captables=swap_table")

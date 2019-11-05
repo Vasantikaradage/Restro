@@ -291,25 +291,33 @@ public class Sessionmanager {
         return stringMap;
     }
 
+    public void saveCaptainDetails(int empId, String empName, int Role_Id) {
+        editor.putString(EMP_ID, String.valueOf(empId));
+        editor.putString(EMP_NAME, empName);
+        editor.putString(ROLE_ID, String.valueOf(Role_Id));
+        editor.commit();
+    }
 
+    public HashMap getCaptainDetails() {
+        HashMap<String, String> stringMap = new HashMap<String, String>();
+        stringMap.put("empName", pref.getString(HOTEL_NAME, null));
+        stringMap.put("roleId", pref.getString(ROLE_ID, null));
+        stringMap.put("empId", pref.getString(EMP_ID, null));
+        return stringMap;
+    }
 
+    public void saveHotelDetail(int hotelId, String hotelName) {
+        editor.putString(HOTEL_ID, String.valueOf(hotelId));
+        editor.putString(HOTEL_NAME, hotelName);
+        editor.commit();
+    }
 
-        /*for(CartModel rvModel : cartRVModelArrayList){
-            if(rvModel.getProductID() != null && rvModel.getProductID().equals(cartRVModel.getProductID())){
-
-                String produtQty = Integer.parseInt(cartRVModel.getProductQty()) + "1";
-
-                Log.v("productid", cartRVModel.getProductID());
-                Log.v("rvproductid", cartRVModel.getProductID());
-                Log.v("rvproductqty", cartRVModel.getProductQty());
-                Log.v("cartproductid", cartRVModel.getProductID());
-                Log.v("cartproductqty", cartRVModel.getProductQty());
-
-                cartRVModel.setProductQty(produtQty);
-            }else {
-                cartRVModelArrayList.add(cartRVModel);
-            }
-        }*/
+    public HashMap getHotelDetail() {
+        HashMap<String, String> stringMap = new HashMap<String, String>();
+        stringMap.put("hotelId", pref.getString(HOTEL_ID, null));
+        stringMap.put("hotelName", pref.getString(HOTEL_NAME, null));
+        return stringMap;
+    }
 
     /**
      * Save Table No & User Id

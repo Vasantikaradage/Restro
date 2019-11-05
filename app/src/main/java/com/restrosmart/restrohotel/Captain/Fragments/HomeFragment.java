@@ -34,11 +34,14 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import retrofit2.Response;
 
 import static com.restrosmart.restrohotel.ConstantVariables.SCAN_TABLE;
 import static com.restrosmart.restrohotel.ConstantVariables.TABLE_CONF_STATUS;
+import static com.restrosmart.restrohotel.Utils.Sessionmanager.EMP_ID;
+import static com.restrosmart.restrohotel.Utils.Sessionmanager.HOTEL_ID;
 
 public class HomeFragment extends Fragment {
 
@@ -56,6 +59,7 @@ public class HomeFragment extends Fragment {
     private ArrayList<ScanTableModel> scanTableModelArrayList;
 
     private ProgressDialog progressDialog;
+    private HashMap<String, String> userDetails, hotelDetails;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -64,6 +68,8 @@ public class HomeFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_home, container, false);
 
         init();
+        userDetails = mSessionmanager.getCaptainDetails();
+        hotelDetails = mSessionmanager.getHotelDetail();
         getScanTable();
         return view;
     }
@@ -109,14 +115,14 @@ public class HomeFragment extends Fragment {
         initRetrofitCallBack();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, getContext());
-        mRetrofitService.retrofitData(TABLE_CONF_STATUS, (service.scanConfirmTable(1, tableId, areaId, tableConfStatus)));
+        mRetrofitService.retrofitData(TABLE_CONF_STATUS, (service.scanConfirmTable(Integer.parseInt(hotelDetails.get(HOTEL_ID)), tableId, areaId, Integer.parseInt(userDetails.get(EMP_ID)), tableConfStatus)));
     }
 
     private void getScanTable() {
         initRetrofitCallBack();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, getContext());
-        mRetrofitService.retrofitData(SCAN_TABLE, (service.getScanTable(1)));
+        mRetrofitService.retrofitData(SCAN_TABLE, (service.getScanTable(Integer.parseInt(hotelDetails.get(HOTEL_ID)), Integer.parseInt(userDetails.get(EMP_ID)))));
     }
 
     private void initRetrofitCallBack() {
@@ -164,7 +170,6 @@ public class HomeFragment extends Fragment {
 
                                 if (areaTableModelArrayList != null && areaTableModelArrayList.size() > 0) {
                                     ScanTableRVAdapter scanTableRVAdapter = new ScanTableRVAdapter(getContext(), areaTableModelArrayList);
-
                                     rvScanTable.setHasFixedSize(true);
                                     rvScanTable.setNestedScrollingEnabled(false);
                                     rvScanTable.setLayoutManager(new GridLayoutManager(getContext(), 1));
@@ -173,17 +178,17 @@ public class HomeFragment extends Fragment {
 
                                     rvScanTable.setVisibility(View.VISIBLE);
                                     llNoTables.setVisibility(View.GONE);
-                                    skLoading.setVisibility(View.GONE);
                                 } else {
                                     rvScanTable.setVisibility(View.GONE);
                                     llNoTables.setVisibility(View.VISIBLE);
-                                    skLoading.setVisibility(View.GONE);
                                 }
                             } else {
                                 rvScanTable.setVisibility(View.GONE);
                                 llNoTables.setVisibility(View.VISIBLE);
-                                skLoading.setVisibility(View.GONE);
                             }
+
+                            skLoading.setVisibility(View.GONE);
+
                         } catch (Exception e) {
                             e.printStackTrace();
                         }

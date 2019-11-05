@@ -34,10 +34,13 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import retrofit2.Response;
 
 import static com.restrosmart.restrohotel.ConstantVariables.GET_BOOKED_TABLE;
+import static com.restrosmart.restrohotel.Utils.Sessionmanager.EMP_ID;
+import static com.restrosmart.restrohotel.Utils.Sessionmanager.HOTEL_ID;
 
 public class SwapTableFragment extends Fragment {
 
@@ -53,6 +56,7 @@ public class SwapTableFragment extends Fragment {
 
     private ArrayList<AreaSwapModel> areaSwapModelArrayList, freeAreaSwapArrayList;
     private ArrayList<TableSwapModel> tableSwapModelArrayList, freeTableSwapArrayList;
+    private HashMap<String, String> userDetails, hotelDetails;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -61,7 +65,8 @@ public class SwapTableFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_swap_table, container, false);
 
         init();
-
+        userDetails = mSessionmanager.getCaptainDetails();
+        hotelDetails = mSessionmanager.getHotelDetail();
         getBookedTable();
 
         return view;
@@ -94,7 +99,7 @@ public class SwapTableFragment extends Fragment {
         initRetrofitCallBack();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, getContext());
-        mRetrofitService.retrofitData(GET_BOOKED_TABLE, (service.getBookedTable(1)));
+        mRetrofitService.retrofitData(GET_BOOKED_TABLE, (service.getBookedTable(Integer.parseInt(hotelDetails.get(HOTEL_ID)), Integer.parseInt(userDetails.get(EMP_ID)))));
     }
 
     private void initRetrofitCallBack() {
@@ -107,78 +112,87 @@ public class SwapTableFragment extends Fragment {
                 try {
                     JSONObject object = new JSONObject(mParentSubcategory);
                     int status = object.getInt("status");
-                    String msg = object.getString("message");
+                    //String msg = object.getString("message");
 
                     if (status == 1) {
                         areaSwapModelArrayList.clear();
                         freeAreaSwapArrayList.clear();
 
-                        JSONArray jsonArray = object.getJSONArray("bookedtable");
+                        if (object.has("bookedtable")) {
+                            JSONArray jsonArray = object.getJSONArray("bookedtable");
 
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            tableSwapModelArrayList = new ArrayList<>();
-                            JSONObject jsonObject2 = jsonArray.getJSONObject(i);
-                            JSONArray jsonArray1 = jsonObject2.getJSONArray("tables");
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                tableSwapModelArrayList = new ArrayList<>();
+                                JSONObject jsonObject2 = jsonArray.getJSONObject(i);
+                                JSONArray jsonArray1 = jsonObject2.getJSONArray("tables");
 
-                            for (int j = 0; j < jsonArray1.length(); j++) {
-                                JSONObject jsonObject3 = jsonArray1.getJSONObject(j);
+                                for (int j = 0; j < jsonArray1.length(); j++) {
+                                    JSONObject jsonObject3 = jsonArray1.getJSONObject(j);
 
-                                TableSwapModel tableSwapModel = new TableSwapModel();
-                                tableSwapModel.setTableId(jsonObject3.getInt("Table_Id"));
-                                tableSwapModel.setCustId(jsonObject3.getInt("Cust_Id"));
+                                    TableSwapModel tableSwapModel = new TableSwapModel();
+                                    tableSwapModel.setTableId(jsonObject3.getInt("Table_Id"));
+                                    tableSwapModel.setCustId(jsonObject3.getInt("Cust_Id"));
 
-                                if (jsonObject3.has("Order_Id") && !jsonObject3.isNull("Order_Id")) {
-                                    tableSwapModel.setOrderId(jsonObject3.getInt("Order_Id"));
+                                    if (jsonObject3.has("Order_Id") && !jsonObject3.isNull("Order_Id")) {
+                                        tableSwapModel.setOrderId(jsonObject3.getInt("Order_Id"));
+                                    }
+
+                                    tableSwapModelArrayList.add(tableSwapModel);
                                 }
 
-                                tableSwapModelArrayList.add(tableSwapModel);
+                                AreaSwapModel areaSwapModel = new AreaSwapModel();
+                                areaSwapModel.setAreaName(jsonObject2.getString("Area_Name"));
+                                areaSwapModel.setTableSwapModelArrayList(tableSwapModelArrayList);
+
+                                areaSwapModelArrayList.add(areaSwapModel);
                             }
-
-                            AreaSwapModel areaSwapModel = new AreaSwapModel();
-                            areaSwapModel.setAreaName(jsonObject2.getString("Area_Name"));
-                            areaSwapModel.setTableSwapModelArrayList(tableSwapModelArrayList);
-
-                            areaSwapModelArrayList.add(areaSwapModel);
                         }
 
-                        JSONArray jsonArray1 = object.getJSONArray("freetable");
+                        if (object.has("freetable")) {
+                            JSONArray jsonArray1 = object.getJSONArray("freetable");
 
-                        for (int i = 0; i < jsonArray1.length(); i++) {
-                            freeTableSwapArrayList = new ArrayList<>();
-                            JSONObject jsonObject2 = jsonArray1.getJSONObject(i);
-                            JSONArray jsonArray2 = jsonObject2.getJSONArray("tables");
+                            for (int i = 0; i < jsonArray1.length(); i++) {
+                                freeTableSwapArrayList = new ArrayList<>();
+                                JSONObject jsonObject2 = jsonArray1.getJSONObject(i);
+                                JSONArray jsonArray2 = jsonObject2.getJSONArray("tables");
 
-                            for (int j = 0; j < jsonArray2.length(); j++) {
-                                JSONObject jsonObject3 = jsonArray2.getJSONObject(j);
+                                for (int j = 0; j < jsonArray2.length(); j++) {
+                                    JSONObject jsonObject3 = jsonArray2.getJSONObject(j);
 
-                                TableSwapModel tableSwapModel = new TableSwapModel();
-                                tableSwapModel.setTableId(jsonObject3.getInt("Table_Id"));
+                                    TableSwapModel tableSwapModel = new TableSwapModel();
+                                    tableSwapModel.setTableId(jsonObject3.getInt("Table_Id"));
 
-                                freeTableSwapArrayList.add(tableSwapModel);
+                                    freeTableSwapArrayList.add(tableSwapModel);
+                                }
+
+                                AreaSwapModel areaSwapModel = new AreaSwapModel();
+                                areaSwapModel.setAreaName(jsonObject2.getString("Area_Name"));
+                                areaSwapModel.setTableSwapModelArrayList(freeTableSwapArrayList);
+
+                                freeAreaSwapArrayList.add(areaSwapModel);
                             }
-
-                            AreaSwapModel areaSwapModel = new AreaSwapModel();
-                            areaSwapModel.setAreaName(jsonObject2.getString("Area_Name"));
-                            areaSwapModel.setTableSwapModelArrayList(freeTableSwapArrayList);
-
-                            freeAreaSwapArrayList.add(areaSwapModel);
                         }
+                        if (areaSwapModelArrayList.size() != 0 && freeAreaSwapArrayList.size() != 0) {
+                            rvOrderTablesAdapter = new RVSwapBookedAreaAdapter(getContext(), areaSwapModelArrayList, freeAreaSwapArrayList);
+                            rvTables.setHasFixedSize(true);
+                            rvTables.setNestedScrollingEnabled(false);
+                            rvTables.setLayoutManager(new GridLayoutManager(getContext(), 1));
+                            rvTables.setItemAnimator(new DefaultItemAnimator());
+                            rvTables.setAdapter(rvOrderTablesAdapter);
 
-                        rvOrderTablesAdapter = new RVSwapBookedAreaAdapter(getContext(), areaSwapModelArrayList, freeAreaSwapArrayList);
-                        rvTables.setHasFixedSize(true);
-                        rvTables.setNestedScrollingEnabled(false);
-                        rvTables.setLayoutManager(new GridLayoutManager(getContext(), 1));
-                        rvTables.setItemAnimator(new DefaultItemAnimator());
-                        rvTables.setAdapter(rvOrderTablesAdapter);
-
-                        rvTables.setVisibility(View.VISIBLE);
-                        llNoTables.setVisibility(View.GONE);
-                        skLoading.setVisibility(View.GONE);
+                            rvTables.setVisibility(View.VISIBLE);
+                            llNoTables.setVisibility(View.GONE);
+                        } else {
+                            rvTables.setVisibility(View.GONE);
+                            llNoTables.setVisibility(View.VISIBLE);
+                        }
                     } else {
                         rvTables.setVisibility(View.GONE);
                         llNoTables.setVisibility(View.VISIBLE);
-                        skLoading.setVisibility(View.GONE);
                     }
+
+                    skLoading.setVisibility(View.GONE);
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

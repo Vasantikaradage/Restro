@@ -22,10 +22,14 @@ import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
 
+import java.util.HashMap;
+
 import retrofit2.Response;
 
 import static com.restrosmart.restrohotel.ConstantVariables.GET_CAPTAIN_PROFILE;
 import static com.restrosmart.restrohotel.ConstantVariables.TABLE_CONF_STATUS;
+import static com.restrosmart.restrohotel.Utils.Sessionmanager.EMP_ID;
+import static com.restrosmart.restrohotel.Utils.Sessionmanager.HOTEL_ID;
 
 public class CaptainProfileFragment extends Fragment {
 
@@ -38,6 +42,7 @@ public class CaptainProfileFragment extends Fragment {
     private IResult mResultCallBack;
 
     private ProgressDialog progressDialog;
+    private HashMap<String, String> userDetails, hotelDetails;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -50,7 +55,8 @@ public class CaptainProfileFragment extends Fragment {
         /*progressDialog = new ProgressDialog(getContext());
         progressDialog.setMessage("Please wait...");
         progressDialog.show();*/
-
+        userDetails = mSessionmanager.getCaptainDetails();
+        hotelDetails = mSessionmanager.getHotelDetail();
         getCaptainProfile();
         return view;
     }
@@ -59,7 +65,7 @@ public class CaptainProfileFragment extends Fragment {
         initRetrofitCallBack();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, getContext());
-        mRetrofitService.retrofitData(GET_CAPTAIN_PROFILE, (service.getCaptainProfile(1, 78)));
+        mRetrofitService.retrofitData(GET_CAPTAIN_PROFILE, (service.getCaptainProfile(Integer.parseInt(hotelDetails.get(HOTEL_ID)), Integer.parseInt(userDetails.get(EMP_ID)))));
     }
 
     private void initRetrofitCallBack() {
@@ -117,6 +123,8 @@ public class CaptainProfileFragment extends Fragment {
     }
 
     private void init() {
+        mSessionmanager = new Sessionmanager(getContext());
+
         ivCapProfileImg = view.findViewById(R.id.ivCapProfileImg);
         tvUsername = view.findViewById(R.id.tvUsername);
         tvEmpRole = view.findViewById(R.id.tvEmpRole);
