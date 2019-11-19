@@ -18,7 +18,7 @@ import retrofit2.http.POST;
  */
 
 public interface ApiService {
-    String BASE_URL = "http://192.168.1.218/NewRestroSmart/";
+    String BASE_URL = "http://192.168.1.213:8080/NewRestroSmart/";
 
     /*parent category display*/
     @POST("Category.php?category=cate_disp")
@@ -65,18 +65,18 @@ public interface ApiService {
     @POST("Employee_Signup.php?Empcall=Admin_Emp_Edit")
     @FormUrlEncoded
     Call<JsonObject> adminEditEmployeeDetail(@Field("Emp_Id") int empId,
-                                        @Field("Emp_Name") String empName,
-                                        @Field("Emp_Img") String image,
-                                        @Field("Img_Old_Name") String oldImageName,
-                                        @Field("Img_Type") String imageType,
+                                             @Field("Emp_Name") String empName,
+                                             @Field("Emp_Img") String image,
+                                             @Field("Img_Old_Name") String oldImageName,
+                                             @Field("Img_Type") String imageType,
 
-                                        @Field("Emp_Mob") String mobile,
-                                        @Field("Emp_Email") String empMobile,
-                                        @Field("Emp_Address") String empAddress,
-                                        @Field("User_Name") String userName,
-                                        @Field("Emp_Adhar_Id") String adhar,
-                                        @Field("Role_Id")int roleId,
-                                        @Field("Hotel_Id") int hotelId);
+                                             @Field("Emp_Mob") String mobile,
+                                             @Field("Emp_Email") String empMobile,
+                                             @Field("Emp_Address") String empAddress,
+                                             @Field("User_Name") String userName,
+                                             @Field("Emp_Adhar_Id") String adhar,
+                                             @Field("Role_Id") int roleId,
+                                             @Field("Hotel_Id") int hotelId);
 
     /*Update Employee photo*/
     @POST("Branch.php?branch=branch_disp")
@@ -192,7 +192,7 @@ public interface ApiService {
                                  @Field("Pc_Id") int Pc_Id);
 
     /*category display*/
-   // @POST("Category.php?category=allmenu")
+    // @POST("Category.php?category=allmenu")
     @POST("Admin_Category.php?category=allmenu")
     @FormUrlEncoded
     Call<JsonObject> GetAllCategory(@Field("Hotel_Id") int Hotel_Id);
@@ -289,22 +289,6 @@ public interface ApiService {
     @POST("User_Category.php?user_cate=menu_display")
     @FormUrlEncoded
     Call<JsonObject> getCategory(@Field("Hotel_Id") int Hotel_Id);
-
-    @POST("Payment.php?payment=Pay_disp")
-    @FormUrlEncoded
-    Call<JsonObject> getPaymentMethods(@Field("Hotel_Id") int Hotel_Id,
-                                       @Field("Branch_Id") int Branch_Id);
-
-    @POST("User_Category.php?user_cate=user_menulist")
-    @FormUrlEncoded
-    Call<JsonObject> getSubCategoryMenu(@Field("Hotel_Id") int Hotel_Id,
-                                        @Field("Branch_Id") int Branch_Id,
-                                        @Field("Pc_Id") int Pc_Id);
-
-    @POST("User_Category.php?user_cate=water_bottle")
-    @FormUrlEncoded
-    Call<JsonObject> getWaterBottle(@Field("Hotel_Id") int Hotel_Id,
-                                    @Field("Branch_Id") int Branch_Id);
 
 
     /*category display*/
@@ -507,13 +491,13 @@ public interface ApiService {
 
     /*new Order*/
     @POST("Admin_Order.php?order=order_disp")
-            @FormUrlEncoded
-            Call<JsonObject> Order(@Field("Hotel_Id") int hotel_id);
+    @FormUrlEncoded
+    Call<JsonObject> Order(@Field("Hotel_Id") int hotel_id);
 
     /*active table*/
     @POST("Admin_Dashboard.php?admin_dash=Active_Table")
-            @FormUrlEncoded
-            Call<JsonObject> activeTable(@Field("Hotel_Id") int hotel_id);
+    @FormUrlEncoded
+    Call<JsonObject> activeTable(@Field("Hotel_Id") int hotel_id);
 
 
     /*CAPTAIN START*/
@@ -553,72 +537,114 @@ public interface ApiService {
                                        @Field("Emp_Id") int emp_id);
 
     /*Get table orders*/
-    @POST("Captain_Table.php?captables=table_order")
+    @POST("user/order_list.php")
     @FormUrlEncoded
     Call<JsonObject> getTableOrders(@Field("Hotel_Id") int hotel_id,
-                                    @Field("Table_Id") int table_id,
-                                    @Field("Cust_Id") int cust_id);
+                                    @Field("Cust_Id") int cust_id,
+                                    @Field("u_key") String u_key);
 
-    @POST("User_Category.php?user_cate=liquor_list")
+    /*get parcel/take away Orders*/
+    @POST("Captain_Table.php?captables=table_order")
+    @FormUrlEncoded
+    Call<JsonObject> getParcelTakeOrders(@Field("Hotel_Id") int hotel_id);
+
+    /*get free tables*/
+    @POST("Captain.php?captain=Cap_Table")
+    @FormUrlEncoded
+    Call<JsonObject> getFreeTables(@Field("Hotel_Id") int hotel_id,
+                                   @Field("Emp_Id") int emp_id);
+
+    /*register customer from captain for having here orders*/
+    @POST("Captain.php?captain=Cap_Customer")
+    @FormUrlEncoded
+    Call<JsonObject> registerCustomer(@Field("Hotel_Id") int hotel_id,
+                                      @Field("Table_Id") int table_id,
+                                      @Field("Ccust_Name") String cust_name,
+                                      @Field("Ccust_Mob") String cust_mob);
+
+    @POST("user/get_menulist.php")
+    @FormUrlEncoded
+    Call<JsonObject> getSubCategoryMenu(@Field("Hotel_Id") int Hotel_Id,
+                                        @Field("Pc_Id") int Pc_Id,
+                                        @Field("u_key") String u_key);
+
+    @POST("user/get_liquorlist.php")
+    @FormUrlEncoded
+    Call<JsonObject> getLiqourCategory(@Field("Hotel_Id") int Hotel_Id,
+                                       @Field("Pc_Id") int Pc_Id,
+                                       @Field("u_key") String u_key);
+
+    @POST("user/water_bottle.php")
+    @FormUrlEncoded
+    Call<JsonObject> getWaterBottle(@Field("Hotel_Id") int Hotel_Id,
+                                    @Field("u_key") String u_key);
+
+    /*@POST("User_Category.php?user_cate=liquor_list")
     @FormUrlEncoded
     Call<JsonObject> getLiqourCategory(@Field("Hotel_Id") int Hotel_Id,
                                        @Field("Branch_Id") int Branch_Id,
-                                       @Field("Pc_Id") int Pc_Id);
+                                       @Field("Pc_Id") int Pc_Id);*/
 
     /*Add to cart*/
-    @POST("User_Cart.php?user_cart=Cart")
+    @POST("user/cart.php")
     @FormUrlEncoded
     Call<JsonObject> addToCart(@Field("Order_Id") int Order_Id,
                                @Field("Table_Id") int Table_Id,
                                @Field("Cust_Id") int Cust_Id,
                                @Field("Hotel_Id") int Hotel_Id,
-                               @Field("Branch_Id") int Branch_Id,
-                               @Field("Menu_Id") int Menu_Id,
+                               @Field("Menu_Id") String Menu_Id,
+                               @Field("Menu_Name") String Menu_Name,
+                               @Field("Menu_Price") String Menu_Price,
                                @Field("Qty") int Qty,
+                               @Field("Flavour_Name") String Flavour_Name,
+                               @Field("Flav_Qty") int Flav_Qty,
+                               @Field("Unit_Name") String Unit_Name,
+                               @Field("Unit_Cost") String Unit_Cost,
                                @Field("toppingarray") String Topping_list,
                                @Field("Menu_Status") int Menu_Status,
                                @Field("Conf_Status") int Conf_Status,
                                @Field("FL_Status") int FL_Status,
-                               @Field("Order_Status") int Order_Status);
+                               @Field("Order_Status") int Order_Status,
+                               @Field("u_key") String u_key);
+
 
     /*display cart menu*/
-    @POST("User_Cart.php?user_cart=Cart_Disp")
+    @POST("user/cart_display.php")
     @FormUrlEncoded
-    Call<JsonObject> getCartMenu(@Field("Hotel_Id") int Hotel_Id,
-                                 @Field("Branch_Id") int Branch_Id,
-                                 @Field("Order_Id") int Order_Id);
+    Call<JsonObject> getCartDisplay(@Field("Hotel_Id") int Hotel_Id,
+                                    @Field("Order_Id") int Order_Id,
+                                    @Field("Cust_Id") int Cust_Id,
+                                    @Field("Table_Id") int Table_Id,
+                                    @Field("u_key") String u_key);
+
+    /*remove cart menu*/
+    @POST("user/cart_menu_delete.php")
+    @FormUrlEncoded
+    Call<JsonObject> removeCartMenu(@Field("Hotel_Id") int Hotel_Id,
+                                    @Field("Order_Detail_Id") int Order_Detail_Id,
+                                    @Field("u_key") String u_key);
+
+    /*save cart menu*/
+    @POST("user/cart_menu_edit.php")
+    @FormUrlEncoded
+    Call<JsonObject> saveCartMenu(@Field("Hotel_Id") int Hotel_Id,
+                                  @Field("Order_Detail_Id") int Order_Detail_Id,
+                                  @Field("Qty") String Qty,
+                                  @Field("FL_Status") String FL_Status,
+                                  @Field("toppingarraylist") String toppingarraylist,
+                                  @Field("u_key") String u_key);
 
     /*place order*/
-    @POST("User_Cart.php?user_cart=Place_Order")
+    @POST("user/place_order.php")
     @FormUrlEncoded
     Call<JsonObject> placeOrder(@Field("Hotel_Id") int Hotel_Id,
-                                @Field("Branch_Id") int Branch_Id,
                                 @Field("Table_Id") int Table_Id,
                                 @Field("Cust_Id") int Cust_Id,
                                 @Field("Order_Id") int Order_Id,
-                                @Field("Order_Msg") String Order_Msg);
-
-    /*remove cart menu*/
-    @POST("User_Cart.php?user_cart=CartMenu_delete")
-    @FormUrlEncoded
-    Call<JsonObject> removeCartMenu(@Field("Hotel_Id") int Hotel_Id,
-                                    @Field("Branch_Id") int Branch_Id,
-                                    @Field("Order_Detail_Id") int Order_Detail_Id);
-
-    /*save cart menu*/
-    @POST("User_Cart.php?user_cart=CartMenu_Edit")
-    @FormUrlEncoded
-    Call<JsonObject> saveCartMenu(@Field("Hotel_Id") int Hotel_Id,
-                                  @Field("Branch_Id") int Branch_Id,
-                                  @Field("Order_Detail_Id") int Order_Detail_Id,
-                                  @Field("Qty") String Qty,
-                                  @Field("toppingarraylist") String toppingarraylist);
+                                @Field("Order_Msg") String Order_Msg,
+                                @Field("Sub_Total") float Sub_Total,
+                                @Field("u_key") String u_key);
     /*CAPTAIN END*/
-
-
-
-
-
 
 
     /*Employee Image Update*/
@@ -646,7 +672,6 @@ public interface ApiService {
                                    @Field("Emp_Id") int empId,
                                    @Field("Area_Id") int areaId,
                                    @Field("Hotel_Id") int hotel_id);
-
 
 
     //table display for Captain
@@ -677,12 +702,12 @@ public interface ApiService {
     /*Fetching state dfetails*/
     @POST("SA_Hotel_Reg.php?sahotel=state")
     @FormUrlEncoded
-    Call<JsonObject> getState(@Field("Country_Id")int countryId);
+    Call<JsonObject> getState(@Field("Country_Id") int countryId);
 
     /*Fetching city dfetails*/
     @POST("SA_Hotel_Reg.php?sahotel=city")
     @FormUrlEncoded
-    Call<JsonObject> getCity(@Field("State_Id")int stateId);
+    Call<JsonObject> getCity(@Field("State_Id") int stateId);
 
     /*Fetching city dfetails*/
     @POST("SA_Hotel_Reg.php?sahotel=cuisine")
@@ -691,7 +716,7 @@ public interface ApiService {
     /*Fetching city dfetails*/
     @POST("SA_Hotel_Reg.php?sahotel=hotel_reg")
     @FormUrlEncoded
-    Call<JsonObject> hotelRegistration(@Field("Hotel_Name")String hotelName,
+    Call<JsonObject> hotelRegistration(@Field("Hotel_Name") String hotelName,
                                        @Field("Hotel_Mob") String mob,
                                        @Field("Hotel_Phone") String phone,
                                        @Field("Hotel_Email") String email,
@@ -701,8 +726,7 @@ public interface ApiService {
                                        @Field("Hotel_Area") String hotelArea,
                                        @Field("Hotel_Address") String hotelAddress,
                                        @Field("SA_Id") int sa_id
-                                       /*@Field("action") String action*/);
-
+            /*@Field("action") String action*/);
 
 
 }

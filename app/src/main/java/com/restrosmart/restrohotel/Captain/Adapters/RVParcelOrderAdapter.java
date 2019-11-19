@@ -29,8 +29,7 @@ public class RVParcelOrderAdapter extends RecyclerView.Adapter<RVParcelOrderAdap
     @Override
     public RVParcelOrderAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.parcel_order_item, viewGroup, false);
-        ViewHolder holder = new ViewHolder(itemView);
-        return holder;
+        return new ViewHolder(itemView);
     }
 
     @Override
@@ -44,6 +43,11 @@ public class RVParcelOrderAdapter extends RecyclerView.Adapter<RVParcelOrderAdap
     @Override
     public int getItemCount() {
         return arrayList.size();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

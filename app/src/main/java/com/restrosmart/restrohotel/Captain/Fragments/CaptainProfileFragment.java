@@ -42,7 +42,7 @@ public class CaptainProfileFragment extends Fragment {
     private IResult mResultCallBack;
 
     private ProgressDialog progressDialog;
-    private HashMap<String, String> userDetails, hotelDetails;
+    private HashMap<String, String> capDetails, hotelDetails;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -55,7 +55,7 @@ public class CaptainProfileFragment extends Fragment {
         /*progressDialog = new ProgressDialog(getContext());
         progressDialog.setMessage("Please wait...");
         progressDialog.show();*/
-        userDetails = mSessionmanager.getCaptainDetails();
+        capDetails = mSessionmanager.getCaptainDetails();
         hotelDetails = mSessionmanager.getHotelDetail();
         getCaptainProfile();
         return view;
@@ -65,7 +65,7 @@ public class CaptainProfileFragment extends Fragment {
         initRetrofitCallBack();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, getContext());
-        mRetrofitService.retrofitData(GET_CAPTAIN_PROFILE, (service.getCaptainProfile(Integer.parseInt(hotelDetails.get(HOTEL_ID)), Integer.parseInt(userDetails.get(EMP_ID)))));
+        mRetrofitService.retrofitData(GET_CAPTAIN_PROFILE, (service.getCaptainProfile(Integer.parseInt(hotelDetails.get(HOTEL_ID)), Integer.parseInt(capDetails.get(EMP_ID)))));
     }
 
     private void initRetrofitCallBack() {

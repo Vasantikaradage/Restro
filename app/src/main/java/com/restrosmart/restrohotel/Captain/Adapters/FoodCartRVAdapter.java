@@ -90,8 +90,9 @@ public class FoodCartRVAdapter extends RecyclerView.Adapter<FoodCartRVAdapter.It
 
                     Bundle bundle = new Bundle();
                     bundle.putInt("OrderDetailId", foodCartModel.getOrderDetailId());
+                    bundle.putInt("FlStatus", 1);
                     bundle.putString("MenuName", foodCartModel.getMenuName());
-                    bundle.putString("MenuOrderMsg", foodCartModel.getMenuOrderMsg());
+                    //bundle.putString("MenuOrderMsg", foodCartModel.getMenuOrderMsg());
                     bundle.putInt("MenuQty", foodCartModel.getMenuQty());
                     bundle.putFloat("MenuPrice", foodCartModel.getMenuPrice());
                     bundle.putParcelableArrayList("ToppingsList", foodCartModel.getToppingsModelArrayList());
@@ -111,8 +112,9 @@ public class FoodCartRVAdapter extends RecyclerView.Adapter<FoodCartRVAdapter.It
 
                     Bundle bundle = new Bundle();
                     bundle.putInt("OrderDetailId", foodCartModel.getOrderDetailId());
+                    bundle.putInt("FlStatus", 1);
                     bundle.putString("MenuName", foodCartModel.getMenuName());
-                    bundle.putString("MenuOrderMsg", foodCartModel.getMenuOrderMsg());
+                    //bundle.putString("MenuOrderMsg", foodCartModel.getMenuOrderMsg());
                     bundle.putInt("MenuQty", foodCartModel.getMenuQty());
                     bundle.putFloat("MenuPrice", foodCartModel.getMenuPrice());
                     bundle.putParcelableArrayList("ToppingsList", foodCartModel.getToppingsModelArrayList());

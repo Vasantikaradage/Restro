@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 import com.restrosmart.restrohotel.Captain.Adapters.RVLiquorBrandsAdapter;
@@ -35,6 +36,7 @@ import java.util.HashMap;
 import retrofit2.Response;
 
 import static com.restrosmart.restrohotel.ConstantVariables.LIQOUR_CATEGORY;
+import static com.restrosmart.restrohotel.ConstantVariables.UNIQUE_KEY;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.BRANCH_ID;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.HOTEL_ID;
 
@@ -81,7 +83,7 @@ public class FragmentLiquorsMenu extends Fragment {
 
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, getContext());
-        mRetrofitService.retrofitData(LIQOUR_CATEGORY, (service.getLiqourCategory(Integer.parseInt(hotelDetails.get(HOTEL_ID)), Integer.parseInt(hotelDetails.get(BRANCH_ID)), categoryId)));
+        mRetrofitService.retrofitData(LIQOUR_CATEGORY, (service.getLiqourCategory(Integer.parseInt(hotelDetails.get(HOTEL_ID)), categoryId, UNIQUE_KEY)));
     }
 
     private void initRetrofitCallback() {
@@ -99,6 +101,8 @@ public class FragmentLiquorsMenu extends Fragment {
                             JSONObject jsonObject = new JSONObject(responseValue);
 
                             int status = jsonObject.getInt("status");
+                            String msg = jsonObject.getString("message");
+
                             if (status == 1) {
                                 JSONArray jsonArray = jsonObject.getJSONArray("list");
                                 liquorBrandsModelArrayList.clear();
@@ -191,6 +195,8 @@ public class FragmentLiquorsMenu extends Fragment {
                                 //rvLiquorBrands.setLayoutManager(new GridLayoutManager(getContext(), 4, LinearLayoutManager.VERTICAL, false));
                                 rvLiquorBrandsAdapter = new RVLiquorBrandsAdapter(getContext(), liquorBrandsModelArrayList);
                                 rvLiquorBrands.setAdapter(rvLiquorBrandsAdapter);
+                            } else {
+                                Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
                             }
                         } catch (Exception e) {
                             e.printStackTrace();

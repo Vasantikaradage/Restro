@@ -9,6 +9,7 @@ import com.restrosmart.restrohotel.Captain.Fragments.FragmentParcelOrders;
 import com.restrosmart.restrohotel.Captain.Fragments.FragmentTableOrders;
 import com.restrosmart.restrohotel.Captain.Models.OrderModel;
 import com.restrosmart.restrohotel.Captain.Models.UserCategory;
+import com.restrosmart.restrohotel.Model.FreeTables;
 
 import java.util.ArrayList;
 

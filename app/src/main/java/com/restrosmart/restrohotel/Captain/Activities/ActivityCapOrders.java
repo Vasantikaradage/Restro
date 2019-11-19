@@ -21,6 +21,7 @@ import com.restrosmart.restrohotel.Captain.Models.ToppingsModel;
 import com.restrosmart.restrohotel.Captain.Models.UserCategory;
 import com.restrosmart.restrohotel.Interfaces.ApiService;
 import com.restrosmart.restrohotel.Interfaces.IResult;
+import com.restrosmart.restrohotel.Model.FreeTables;
 import com.restrosmart.restrohotel.R;
 import com.restrosmart.restrohotel.RetrofitClientInstance;
 import com.restrosmart.restrohotel.RetrofitService;
@@ -36,8 +37,11 @@ import java.util.HashMap;
 import retrofit2.Response;
 
 import static com.restrosmart.restrohotel.ConstantVariables.DASHBOARD_CATEGORY;
+import static com.restrosmart.restrohotel.ConstantVariables.GET_BOOKED_TABLE;
+import static com.restrosmart.restrohotel.ConstantVariables.GET_UNBOOKED_TABLE;
 import static com.restrosmart.restrohotel.ConstantVariables.ORDER_DETAILS;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.BRANCH_ID;
+import static com.restrosmart.restrohotel.Utils.Sessionmanager.EMP_ID;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.HOTEL_ID;
 
 public class ActivityCapOrders extends AppCompatActivity {
@@ -71,8 +75,6 @@ public class ActivityCapOrders extends AppCompatActivity {
         init();
         setupToolbar();
 
-        //Todo remove saveHotelDetails it will saved on login
-        mSessionmanager.saveHotelDetails(1, "Krishna Hotel", 5, 1, 78);
         hotelDetails = mSessionmanager.getHotelDetails();
         hotelId = Integer.parseInt(hotelDetails.get(HOTEL_ID));
 
@@ -86,10 +88,14 @@ public class ActivityCapOrders extends AppCompatActivity {
     }
 
     private void getOrderData() {
-        initRetrofitCallback();
+        llTabPager.setVisibility(View.VISIBLE);
+        skLoading.setVisibility(View.GONE);
+        setViewPagerAdapter();
+
+        /*initRetrofitCallback();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, this);
-        mRetrofitService.retrofitData(ORDER_DETAILS, (service.Order(hotelId)));
+        mRetrofitService.retrofitData(ORDER_DETAILS, (service.getParcelTakeOrders(hotelId)));*/
     }
 
     private void getMenuCategories() {
@@ -208,8 +214,11 @@ public class ActivityCapOrders extends AppCompatActivity {
                                 }
 
                                 llTabPager.setVisibility(View.VISIBLE);
-                                skLoading.setVisibility(View.GONE);
+                            } else {
+                                llTabPager.setVisibility(View.GONE);
                             }
+
+                            skLoading.setVisibility(View.GONE);
 
                             setViewPagerAdapter();
                         } catch (JSONException e) {

@@ -33,7 +33,6 @@ public class Sessionmanager {
 
     public static final String PC_ID = "pc_id";
 
-    public static final String USER = "user";
     public static final String EMP_NAME = "emp_name";
     public static final String EMP_EMAIL = "emp_email";
     public static final String EMP_MOB = "emp_mob";
@@ -68,6 +67,9 @@ public class Sessionmanager {
     public static final String USER_ID = "UserId";
     private static final String CART_COUNT = "CartCount";
     private static final String ORDER_ID = "OrderId";
+    public static final String CUST_ID = "CustID";
+    public static final String CUST_NAME = "CustName";
+    public static final String CUST_MOB = "CustMob";
 
 
 
@@ -237,7 +239,7 @@ public class Sessionmanager {
 
     }
 
-    public void setWaterBottleDetail(int waterBottleId, String waterBottleName, String waterBottleImage, float waterBottlePrice) {
+    public void setWaterBottleDetail(String waterBottleId, String waterBottleName, String waterBottleImage, float waterBottlePrice) {
         editor.putString(WATER_BOTTLE_ID, String.valueOf(waterBottleId));
         editor.putString(WATER_BOTTLE_NAME, waterBottleName);
         editor.putString(WATER_BOTTLE_IMAGE, waterBottleImage);
@@ -319,26 +321,43 @@ public class Sessionmanager {
         return stringMap;
     }
 
-    /**
-     * Save Table No & User Id
-     */
-    public void saveUserDetails(int tableNo, String userId) {
-        editor.putInt(TABLE_NO, tableNo);
-        editor.putString(USER_ID, userId);
+    public void saveCustDetails(String custId, String custName, String custMob) {
+        editor.putString(CUST_ID, custId);
+        editor.putString(CUST_NAME, custName);
+        editor.putString(CUST_MOB, custMob);
         editor.commit();
     }
 
-    /**
+    public HashMap<String, String> getCustDetails() {
+        HashMap<String, String> hashMap = new HashMap<String, String>();
+        hashMap.put(CUST_ID, pref.getString(CUST_ID, null));
+        hashMap.put(CUST_NAME, pref.getString(CUST_NAME, null));
+        hashMap.put(CUST_MOB, pref.getString(CUST_MOB, null));
+        return hashMap;
+    }
+
+
+   /* *//**
+     * Save Table No & User Id
+     *//*
+    public void saveUserDetails(String custId) {
+        editor.putString(USER_ID, custId);
+        editor.putString(USER_NAME, custName);
+        editor.putString(USER_MOBILE, custMob);
+        editor.commit();
+    }
+
+    *//**
      * Get Table No & User Id
-     */
-    public HashMap<String, String> getUserDetails() {
+     *//*
+    public HashMap<String, String> getCustDetails() {
         HashMap<String, String> userDetails = new HashMap<String, String>();
         userDetails.put("tableNo", String.valueOf(pref.getInt(TABLE_NO, 0)));
         userDetails.put("userId", pref.getString(USER_ID, null));
         return userDetails;
 
     }
-
+*/
     /**
      * Save cart count
      */

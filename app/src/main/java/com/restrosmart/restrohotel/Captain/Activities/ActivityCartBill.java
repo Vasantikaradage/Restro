@@ -48,8 +48,10 @@ import retrofit2.Response;
 
 import static com.restrosmart.restrohotel.ConstantVariables.GET_CART_MENU;
 import static com.restrosmart.restrohotel.ConstantVariables.PLACE_ORDER;
+import static com.restrosmart.restrohotel.ConstantVariables.UNIQUE_KEY;
 import static com.restrosmart.restrohotel.ConstantVariables.WATER_ADD_TO_CART;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.BRANCH_ID;
+import static com.restrosmart.restrohotel.Utils.Sessionmanager.CUST_ID;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.HOTEL_ID;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.TABLE_NO;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.USER_ID;
@@ -61,7 +63,7 @@ import static com.restrosmart.restrohotel.Utils.Sessionmanager.WATER_BOTTLE_PRIC
 public class ActivityCartBill extends AppCompatActivity implements View.OnClickListener {
 
     private Toolbar mToolbar;
-    private TextView tvSubTotal;
+    private TextView tvSubTotal, tvTotalAmount;
     private RecyclerView rvFoodCart, rvLiquorCart;
     private FoodCartRVAdapter foodCartRVAdapter;
     private LiquorCartRVAdapter liquorCartRVAdapter;
@@ -87,6 +89,7 @@ public class ActivityCartBill extends AppCompatActivity implements View.OnClickL
     private HashMap<String, String> hotelDetails, userDetails;
 
     private String waterBottleId, waterBottleName, waterBottleImage, waterBottlePrice;
+    private float subTotalAmount, totalAmount = 0.0f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +99,7 @@ public class ActivityCartBill extends AppCompatActivity implements View.OnClickL
         init();
         setupToolbar();
 
-        userDetails = mSessionmanager.getUserDetails();
+        userDetails = mSessionmanager.getCustDetails();
         hotelDetails = mSessionmanager.getHotelDetails();
 
         HashMap<String, String> hashMap = mSessionmanager.getWaterBottleDetail();
@@ -213,22 +216,38 @@ public class ActivityCartBill extends AppCompatActivity implements View.OnClickL
         initRetrofitCallback();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, this);
-        mRetrofitService.retrofitData(PLACE_ORDER, (service.placeOrder(Integer.parseInt(hotelDetails.get(HOTEL_ID)), Integer.parseInt(hotelDetails.get(BRANCH_ID)), Integer.parseInt(userDetails.get(TABLE_NO)), Integer.parseInt(userDetails.get(USER_ID)), mSessionmanager.getOrderID(), edtNote.getText().toString())));
+        mRetrofitService.retrofitData(PLACE_ORDER, (service.placeOrder(Integer.parseInt(hotelDetails.get(HOTEL_ID)),
+                Integer.parseInt(hotelDetails.get(TABLE_NO)),
+                Integer.parseInt(userDetails.get(CUST_ID)),
+                mSessionmanager.getOrderID(),
+                edtNote.getText().toString(),
+                subTotalAmount,
+                UNIQUE_KEY)));
     }
 
     private void getCartMenu() {
         initRetrofitCallback();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, this);
-        mRetrofitService.retrofitData(GET_CART_MENU, (service.getCartMenu(Integer.parseInt(hotelDetails.get(HOTEL_ID)), Integer.parseInt(hotelDetails.get(BRANCH_ID)), mSessionmanager.getOrderID())));
+        mRetrofitService.retrofitData(GET_CART_MENU, (service.getCartDisplay(Integer.parseInt(hotelDetails.get(HOTEL_ID)),
+                mSessionmanager.getOrderID(),
+                Integer.parseInt(userDetails.get(CUST_ID)),
+                Integer.parseInt(hotelDetails.get(TABLE_NO)),
+                UNIQUE_KEY)));
     }
 
     private void WaterAddToCart() {
         initRetrofitCallback();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, this);
-        mRetrofitService.retrofitData(WATER_ADD_TO_CART, (service.addToCart(mSessionmanager.getOrderID(), Integer.parseInt(userDetails.get(TABLE_NO)), Integer.parseInt(userDetails.get(USER_ID)), Integer.parseInt(hotelDetails.get(HOTEL_ID)), Integer.parseInt(hotelDetails.get(BRANCH_ID)), 0,
-                1, "", 0, 0, 1, 0)));
+        mRetrofitService.retrofitData(WATER_ADD_TO_CART, (service.addToCart(mSessionmanager.getOrderID(),
+                Integer.parseInt(hotelDetails.get(TABLE_NO)),
+                Integer.parseInt(userDetails.get(USER_ID)),
+                Integer.parseInt(hotelDetails.get(HOTEL_ID)),
+                waterBottleId,
+                waterBottleName,
+                waterBottlePrice, 1,
+                "", 0, "", "", "", 0, 0, 1, 0, UNIQUE_KEY)));
     }
 
     private void initRetrofitCallback() {
@@ -245,9 +264,9 @@ public class ActivityCartBill extends AppCompatActivity implements View.OnClickL
                             JSONObject jsonObject = new JSONObject(responseValue);
 
                             int status = jsonObject.getInt("status");
+                            String msg = jsonObject.getString("message");
 
                             if (status == 1) {
-
                                 if (jsonObject.has("Food")) {
                                     JSONArray jsonArrayFood = jsonObject.getJSONArray("Food");
                                     if (jsonArrayFood != null) {
@@ -262,11 +281,11 @@ public class ActivityCartBill extends AppCompatActivity implements View.OnClickL
                                             FoodCartModel foodCartModel = new FoodCartModel();
 
                                             foodCartModel.setOrderDetailId(jsonObjectFood.getInt("Order_Detail_Id"));
-                                            foodCartModel.setMenuId(jsonObjectFood.getInt("menuId"));
+                                            foodCartModel.setMenuId(jsonObjectFood.getString("menuId"));
                                             foodCartModel.setMenuName(jsonObjectFood.getString("menuName"));
                                             foodCartModel.setMenuPrice(Float.parseFloat(df2.format(Float.parseFloat(jsonObjectFood.getString("menuPrice")))));
                                             foodCartModel.setMenuQty(jsonObjectFood.getInt("menuQty"));
-                                            foodCartModel.setMenuOrderMsg(jsonObjectFood.getString("orderMsg"));
+                                            //foodCartModel.setMenuOrderMsg(jsonObjectFood.getString("orderMsg"));
                                             foodCartModel.setMenuQtyPrice(Float.parseFloat(df2.format(Float.parseFloat(jsonObjectFood.getString("menuQtyPrice")))));
 
                                             JSONArray jsonArray = jsonObjectFood.getJSONArray("Topping");
@@ -330,7 +349,7 @@ public class ActivityCartBill extends AppCompatActivity implements View.OnClickL
                                             liquorCartModel.setOrderDetailId(jsonObjectLiquor.getInt("Order_Detail_Id"));
                                             liquorCartModel.setLiqId(jsonObjectLiquor.getInt("liqId"));
                                             liquorCartModel.setLiqName(jsonObjectLiquor.getString("liqName"));
-                                            liquorCartModel.setLiqOrderMsg(jsonObjectLiquor.getString("orderMsg"));
+                                            //liquorCartModel.setLiqOrderMsg(jsonObjectLiquor.getString("orderMsg"));
                                             liquorCartModel.setLiqMLQty(jsonObjectLiquor.getString("liqMLQty"));
                                             liquorCartModel.setLiqPrice(Float.parseFloat(df2.format(Float.parseFloat(jsonObjectLiquor.getString("liqPrice")))));
                                             liquorCartModel.setLiqQty(jsonObjectLiquor.getInt("liqQty"));
@@ -380,15 +399,8 @@ public class ActivityCartBill extends AppCompatActivity implements View.OnClickL
                                     }
                                 }
 
-                        /*  if (foodCartModelArrayList != null && liquorCartModelArrayList != null) {
-                                nestedCart.setVisibility(View.VISIBLE);
-                                llPlaceOrder.setVisibility(View.VISIBLE);
-                                llCartEmpty.setVisibility(View.GONE);
-                            } else {
-                                nestedCart.setVisibility(View.GONE);
-                                llPlaceOrder.setVisibility(View.GONE);
-                                llCartEmpty.setVisibility(View.VISIBLE);
-                            }*/
+                                subTotalAmount = Float.parseFloat(df2.format(Float.parseFloat(jsonObject.getString("totalamt"))));
+                                tvSubTotal.setText(String.valueOf(subTotalAmount));
 
                                 nestedCart.setVisibility(View.VISIBLE);
                                 llPlaceOrder.setVisibility(View.VISIBLE);
@@ -398,6 +410,9 @@ public class ActivityCartBill extends AppCompatActivity implements View.OnClickL
                                 llPlaceOrder.setVisibility(View.GONE);
                                 llCartEmpty.setVisibility(View.VISIBLE);
                             }
+
+                            totalAmount = Float.parseFloat(df2.format(Float.parseFloat(jsonObject.getString("maintotal"))));
+                            tvTotalAmount.setText(getResources().getString(R.string.currency) + " " + String.valueOf(totalAmount));
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -409,16 +424,18 @@ public class ActivityCartBill extends AppCompatActivity implements View.OnClickL
                             JSONObject jsonObject1 = new JSONObject(responseValue);
 
                             int status = jsonObject1.getInt("status");
+                            String msg = jsonObject1.getString("message");
+
                             if (status == 1) {
                                 getCartMenu();
 
-                                Toast.makeText(ActivityCartBill.this, "Added in cart", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ActivityCartBill.this, msg, Toast.LENGTH_SHORT).show();
                                 mSessionmanager.saveCartCount();
                                 mSessionmanager.saveOrderID(jsonObject1.getInt("Order_Id"));
                                 Intent intent = new Intent("com.restrosmart.restro.addmenu");
                                 sendBroadcast(intent);
                             } else {
-                                Toast.makeText(ActivityCartBill.this, getResources().getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ActivityCartBill.this, msg, Toast.LENGTH_SHORT).show();
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -430,12 +447,15 @@ public class ActivityCartBill extends AppCompatActivity implements View.OnClickL
                             JSONObject jsonObject1 = new JSONObject(responseValue);
 
                             int status = jsonObject1.getInt("status");
+                            String msg = jsonObject1.getString("message");
+
                             if (status == 1) {
-                                Toast.makeText(ActivityCartBill.this, "Order placed", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ActivityCartBill.this, msg, Toast.LENGTH_SHORT).show();
                                 mSessionmanager.resetCartCount();
                                 mSessionmanager.deleteOrderID();
+
                             } else {
-                                Toast.makeText(ActivityCartBill.this, getResources().getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ActivityCartBill.this, msg, Toast.LENGTH_SHORT).show();
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -483,11 +503,13 @@ public class ActivityCartBill extends AppCompatActivity implements View.OnClickL
         foodCartModelArrayList = new ArrayList<>();
         liquorCartModelArrayList = new ArrayList<>();
 
+        mToolbar = findViewById(R.id.toolbar);
         tvSubTotal = findViewById(R.id.tvSubTotal);
         rvFoodCart = findViewById(R.id.rvFoodCart);
         rvLiquorCart = findViewById(R.id.rvLiquorCart);
         nestedCart = findViewById(R.id.nestedCart);
         rlTotalPayment = findViewById(R.id.rlTotalPayment);
+        tvTotalAmount = findViewById(R.id.tvTotalAmount);
         llPlaceOrder = findViewById(R.id.llPlaceOrder);
         llCartEmpty = findViewById(R.id.llCartEmpty);
         btnAddWaterBottle = findViewById(R.id.btnAddWaterBottle);

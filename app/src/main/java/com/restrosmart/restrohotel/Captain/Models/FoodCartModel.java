@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class FoodCartModel {
 
-    private int orderDetailId, menuId, menuQty;
-    private String menuName, menuOrderMsg;
+    private int orderDetailId, menuQty;
+    private String menuId, menuName, menuOrderMsg;
     private float menuPrice, menuQtyPrice;
     private ArrayList<ToppingsModel> toppingsModelArrayList;
     private ArrayList<ToppingsModel> AllToppingsModelArrayList;
@@ -18,11 +18,11 @@ public class FoodCartModel {
         this.orderDetailId = orderDetailId;
     }
 
-    public int getMenuId() {
+    public String getMenuId() {
         return menuId;
     }
 
-    public void setMenuId(int menuId) {
+    public void setMenuId(String menuId) {
         this.menuId = menuId;
     }
 

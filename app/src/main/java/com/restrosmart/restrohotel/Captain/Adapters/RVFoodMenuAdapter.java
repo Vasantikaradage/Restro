@@ -41,7 +41,9 @@ import java.util.HashMap;
 import retrofit2.Response;
 
 import static com.restrosmart.restrohotel.ConstantVariables.FOOD_ADD_TO_CART;
+import static com.restrosmart.restrohotel.ConstantVariables.UNIQUE_KEY;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.BRANCH_ID;
+import static com.restrosmart.restrohotel.Utils.Sessionmanager.CUST_ID;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.HOTEL_ID;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.TABLE_NO;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.USER_ID;
@@ -70,7 +72,7 @@ public class RVFoodMenuAdapter extends RecyclerView.Adapter<RVFoodMenuAdapter.It
         this.arrayList = arrayList;
         mSessionmanager = new Sessionmanager(mContext);
 
-        userDetails = mSessionmanager.getUserDetails();
+        userDetails = mSessionmanager.getCustDetails();
         hotelDetails = mSessionmanager.getHotelDetails();
 
         slideDown = AnimationUtils.loadAnimation(mContext, R.anim.slide_down);
@@ -236,8 +238,16 @@ public class RVFoodMenuAdapter extends RecyclerView.Adapter<RVFoodMenuAdapter.It
 
             ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
             mRetrofitService = new RetrofitService(mResultCallBack, mContext);
-            mRetrofitService.retrofitData(FOOD_ADD_TO_CART, (service.addToCart(mSessionmanager.getOrderID(), Integer.parseInt(userDetails.get(TABLE_NO)), Integer.parseInt(userDetails.get(USER_ID)), Integer.parseInt(hotelDetails.get(HOTEL_ID)), Integer.parseInt(hotelDetails.get(BRANCH_ID)), arrayList.get(getAdapterPosition()).getMenuId(),
-                    Integer.parseInt(tvMenuQty.getText().toString()), toppingsList, 0, 0, 1, 0)));
+            mRetrofitService.retrofitData(FOOD_ADD_TO_CART, (service.addToCart(mSessionmanager.getOrderID(),
+                    Integer.parseInt(hotelDetails.get(TABLE_NO)),
+                    Integer.parseInt(userDetails.get(CUST_ID)),
+                    Integer.parseInt(hotelDetails.get(HOTEL_ID)),
+                    String.valueOf(arrayList.get(getAdapterPosition()).getMenuId()),
+                    arrayList.get(getAdapterPosition()).getMenuName(),
+                    String.valueOf(arrayList.get(getAdapterPosition()).getMenuPrice()),
+                    Integer.parseInt(tvMenuQty.getText().toString()),
+                    "",0,"", "",
+                    toppingsList, 0, 0, 1, 0, UNIQUE_KEY)));
         }
 
         private void initRetrofitCallback() {
@@ -251,10 +261,11 @@ public class RVFoodMenuAdapter extends RecyclerView.Adapter<RVFoodMenuAdapter.It
                         JSONObject jsonObject = new JSONObject(responseValue);
 
                         int status = jsonObject.getInt("status");
+                        String msg = jsonObject.getString("message");
 
                         progressDialog.dismiss();
                         if (status == 1) {
-                            Toast.makeText(mContext, "Added in cart", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
                             toppingsList = null;
                             tvMenuQty.setText("1");
                             mSessionmanager.saveCartCount();
@@ -264,7 +275,7 @@ public class RVFoodMenuAdapter extends RecyclerView.Adapter<RVFoodMenuAdapter.It
                             //intent.putExtra("menuname", arrayList.get(getAdapterPosition()).getMenuName());
                             mContext.sendBroadcast(intent);
                         } else {
-                            Toast.makeText(mContext, mContext.getResources().getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -287,7 +298,8 @@ public class RVFoodMenuAdapter extends RecyclerView.Adapter<RVFoodMenuAdapter.It
             try {
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("Topping_Id", toppingsArrayList.get(i).getToppingsId());
-                //jsonObject.put("Topping_Name", arrayListToppings.get.getStudentName());
+                jsonObject.put("Topping_Name", toppingsArrayList.get(i).getToppingsName());
+                jsonObject.put("Topping_Price", toppingsArrayList.get(i).getToppingsPrice());
                 jsonArray.put(jsonObject);
             } catch (Exception e) {
                 e.printStackTrace();

@@ -89,6 +89,7 @@ public class LiquorCartRVAdapter extends RecyclerView.Adapter<LiquorCartRVAdapte
 
                     Bundle bundle = new Bundle();
                     bundle.putInt("OrderDetailId", liquorCartModel.getOrderDetailId());
+                    bundle.putInt("FlStatus", 2);
                     bundle.putString("MenuName", liquorCartModel.getLiqName());
                     bundle.putString("MenuOrderMsg", liquorCartModel.getLiqOrderMsg());
                     bundle.putInt("MenuQty", liquorCartModel.getLiqQty());
@@ -111,6 +112,7 @@ public class LiquorCartRVAdapter extends RecyclerView.Adapter<LiquorCartRVAdapte
 
                     Bundle bundle = new Bundle();
                     bundle.putInt("OrderDetailId", liquorCartModel.getOrderDetailId());
+                    bundle.putInt("FlStatus", 2);
                     bundle.putString("MenuName", liquorCartModel.getLiqName());
                     bundle.putString("MenuOrderMsg", liquorCartModel.getLiqOrderMsg());
                     bundle.putInt("MenuQty", liquorCartModel.getLiqQty());

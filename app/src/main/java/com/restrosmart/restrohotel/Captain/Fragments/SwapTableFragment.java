@@ -56,7 +56,7 @@ public class SwapTableFragment extends Fragment {
 
     private ArrayList<AreaSwapModel> areaSwapModelArrayList, freeAreaSwapArrayList;
     private ArrayList<TableSwapModel> tableSwapModelArrayList, freeTableSwapArrayList;
-    private HashMap<String, String> userDetails, hotelDetails;
+    private HashMap<String, String> capDetails, hotelDetails;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -65,7 +65,7 @@ public class SwapTableFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_swap_table, container, false);
 
         init();
-        userDetails = mSessionmanager.getCaptainDetails();
+        capDetails = mSessionmanager.getCaptainDetails();
         hotelDetails = mSessionmanager.getHotelDetail();
         getBookedTable();
 
@@ -99,7 +99,7 @@ public class SwapTableFragment extends Fragment {
         initRetrofitCallBack();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, getContext());
-        mRetrofitService.retrofitData(GET_BOOKED_TABLE, (service.getBookedTable(Integer.parseInt(hotelDetails.get(HOTEL_ID)), Integer.parseInt(userDetails.get(EMP_ID)))));
+        mRetrofitService.retrofitData(GET_BOOKED_TABLE, (service.getBookedTable(Integer.parseInt(hotelDetails.get(HOTEL_ID)), Integer.parseInt(capDetails.get(EMP_ID)))));
     }
 
     private void initRetrofitCallBack() {

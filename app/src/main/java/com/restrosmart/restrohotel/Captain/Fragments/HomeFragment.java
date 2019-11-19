@@ -59,7 +59,7 @@ public class HomeFragment extends Fragment {
     private ArrayList<ScanTableModel> scanTableModelArrayList;
 
     private ProgressDialog progressDialog;
-    private HashMap<String, String> userDetails, hotelDetails;
+    private HashMap<String, String> capDetails, hotelDetails;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -68,7 +68,7 @@ public class HomeFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_home, container, false);
 
         init();
-        userDetails = mSessionmanager.getCaptainDetails();
+        capDetails = mSessionmanager.getCaptainDetails();
         hotelDetails = mSessionmanager.getHotelDetail();
         getScanTable();
         return view;
@@ -115,14 +115,14 @@ public class HomeFragment extends Fragment {
         initRetrofitCallBack();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, getContext());
-        mRetrofitService.retrofitData(TABLE_CONF_STATUS, (service.scanConfirmTable(Integer.parseInt(hotelDetails.get(HOTEL_ID)), tableId, areaId, Integer.parseInt(userDetails.get(EMP_ID)), tableConfStatus)));
+        mRetrofitService.retrofitData(TABLE_CONF_STATUS, (service.scanConfirmTable(Integer.parseInt(hotelDetails.get(HOTEL_ID)), tableId, areaId, Integer.parseInt(capDetails.get(EMP_ID)), tableConfStatus)));
     }
 
     private void getScanTable() {
         initRetrofitCallBack();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, getContext());
-        mRetrofitService.retrofitData(SCAN_TABLE, (service.getScanTable(Integer.parseInt(hotelDetails.get(HOTEL_ID)), Integer.parseInt(userDetails.get(EMP_ID)))));
+        mRetrofitService.retrofitData(SCAN_TABLE, (service.getScanTable(Integer.parseInt(hotelDetails.get(HOTEL_ID)), Integer.parseInt(capDetails.get(EMP_ID)))));
     }
 
     private void initRetrofitCallBack() {

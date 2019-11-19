@@ -1,12 +1,15 @@
 package com.restrosmart.restrohotel.Captain.Activities;
 
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.drawable.LayerDrawable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -68,6 +71,40 @@ public class ActivityHotelMenu extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         unregisterReceiver(mAnimationReceiver);
+    }
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        showCancelDialog();
+    }
+
+    private void showCancelDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.app_name)
+                .setMessage(getResources().getString(R.string.cancel_dialog_content))
+                .setPositiveButton(R.string.later, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        finish();
+                        /*progressDialog = new ProgressDialog(ActivityTeacherHome.this);
+                        progressDialog.setTitle(getResources().getString(R.string.app_name));
+                        progressDialog.setCanceledOnTouchOutside(false);
+                        progressDialog.setMessage(getResources().getString(R.string.please_wait));
+                        progressDialog.show();*/
+                    }
+                })
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        finish();
+                    }
+                })
+                .setCancelable(true)
+                .setIcon(R.drawable.ic_action_btn_delete);
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 
     @Override
@@ -269,7 +306,7 @@ public class ActivityHotelMenu extends AppCompatActivity {
     private void setupToolbar() {
         mToolbar.setTitle(categoryName);
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        /*getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -277,7 +314,7 @@ public class ActivityHotelMenu extends AppCompatActivity {
             public void onClick(View v) {
                 finish();
             }
-        });
+        });*/
     }
 
     private void init() {

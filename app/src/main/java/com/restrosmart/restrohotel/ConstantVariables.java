@@ -107,6 +107,7 @@ public class ConstantVariables {
 
 
     /*Captain*/
+    public static final String UNIQUE_KEY = "!#3%75^@123";
     public  static  final  int SCAN_TABLE=800;
     public  static  final  int TABLE_CONF_STATUS=801;
     public  static  final  int GET_CAPTAIN_PROFILE=802;
@@ -121,6 +122,8 @@ public class ConstantVariables {
     public  static  final  int GET_CART_MENU=810;
     public  static  final  int REMOVE_MENU_CART=811;
     public  static  final  int SAVE_MENU_CART=812;
+    public  static  final  int GET_UNBOOKED_TABLE=813;
+    public  static  final  int REGISTER_CUSTOMER=814;
 
 
 

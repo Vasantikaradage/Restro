@@ -49,9 +49,11 @@ import java.util.HashMap;
 import retrofit2.Response;
 
 import static com.restrosmart.restrohotel.ConstantVariables.FOOD_SUB_CATEGORY_MENU;
+import static com.restrosmart.restrohotel.ConstantVariables.UNIQUE_KEY;
 import static com.restrosmart.restrohotel.ConstantVariables.WATER_ADD_TO_CART;
 import static com.restrosmart.restrohotel.ConstantVariables.WATER_BOTTLE_DETAIL;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.BRANCH_ID;
+import static com.restrosmart.restrohotel.Utils.Sessionmanager.CUST_ID;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.HOTEL_ID;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.TABLE_NO;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.USER_ID;
@@ -68,8 +70,8 @@ public class FragmentFoodMenu extends Fragment {
     private ArrayList<FoodSubMenuModel> foodSubMenuModelArrayList;
 
     private int oldPosition = 0;
-    private int categoryId, waterBottleId;
-    private String waterBottleName, waterBottleImage;
+    private int categoryId;
+    private String waterBottleId, waterBottleName, waterBottleImage;
     private float waterBottlePrice;
 
     private DecimalFormat df2;
@@ -78,6 +80,7 @@ public class FragmentFoodMenu extends Fragment {
     private RetrofitService mRetrofitService;
     private Sessionmanager mSessionmanager;
 
+    private BottomSheetDialog bottomSheetDialog;
     private LoadingDialog loadingDialog;
     private ProgressDialog progressDialog;
     private TextView tvWBottleQty;
@@ -94,7 +97,7 @@ public class FragmentFoodMenu extends Fragment {
 
         categoryId = getArguments().getInt("categoryId");
 
-        userDetails = mSessionmanager.getUserDetails();
+        userDetails = mSessionmanager.getCustDetails();
         hotelDetails = mSessionmanager.getHotelDetails();
 
         loadingDialog.showLoadingDialog();
@@ -115,22 +118,29 @@ public class FragmentFoodMenu extends Fragment {
         initRetrofitCallback();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, getContext());
-        mRetrofitService.retrofitData(WATER_BOTTLE_DETAIL, (service.getWaterBottle(Integer.parseInt(hotelDetails.get(HOTEL_ID)), Integer.parseInt(hotelDetails.get(BRANCH_ID)))));
+        mRetrofitService.retrofitData(WATER_BOTTLE_DETAIL, (service.getWaterBottle(Integer.parseInt(hotelDetails.get(HOTEL_ID)), UNIQUE_KEY)));
     }
 
     private void getCategoryMenus() {
         initRetrofitCallback();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, getContext());
-        mRetrofitService.retrofitData(FOOD_SUB_CATEGORY_MENU, (service.getSubCategoryMenu(Integer.parseInt(hotelDetails.get(HOTEL_ID)), Integer.parseInt(hotelDetails.get(BRANCH_ID)), categoryId)));
+        mRetrofitService.retrofitData(FOOD_SUB_CATEGORY_MENU, (service.getSubCategoryMenu(Integer.parseInt(hotelDetails.get(HOTEL_ID)), categoryId, UNIQUE_KEY)));
     }
 
     private void WaterAddToCart() {
         initRetrofitCallback();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, getContext());
-        mRetrofitService.retrofitData(WATER_ADD_TO_CART, (service.addToCart(mSessionmanager.getOrderID(), Integer.parseInt(userDetails.get(TABLE_NO)), Integer.parseInt(userDetails.get(USER_ID)), Integer.parseInt(hotelDetails.get(HOTEL_ID)), Integer.parseInt(hotelDetails.get(BRANCH_ID)), 0,
-                Integer.parseInt(tvWBottleQty.getText().toString()), "", 0, 0, 1, 0)));
+        mRetrofitService.retrofitData(WATER_ADD_TO_CART, (service.addToCart(mSessionmanager.getOrderID(),
+                Integer.parseInt(hotelDetails.get(TABLE_NO)),
+                Integer.parseInt(userDetails.get(CUST_ID)),
+                Integer.parseInt(hotelDetails.get(HOTEL_ID)),
+                waterBottleId,
+                waterBottleName,
+                String.valueOf(waterBottlePrice),
+                Integer.parseInt(tvWBottleQty.getText().toString()),
+                "",0,"", "","", 0, 0, 1, 0, UNIQUE_KEY)));
     }
 
     private void initRetrofitCallback() {
@@ -146,13 +156,19 @@ public class FragmentFoodMenu extends Fragment {
                             JSONObject jsonObject1 = new JSONObject(responseValue);
 
                             int status = jsonObject1.getInt("status");
+                            String msg = jsonObject1.getString("message");
+
                             if (status == 1) {
-                                waterBottleId = jsonObject1.getInt("Menu_Id");
-                                waterBottleName = jsonObject1.getString("Menu_Name");
-                                waterBottleImage = jsonObject1.getString("Menu_Image_Name");
-                                waterBottlePrice = Float.parseFloat(df2.format(Float.parseFloat(jsonObject1.getString("Non_Ac_Rate"))));
+                                JSONObject jsonObject2 = jsonObject1.getJSONObject("Water_bottle_details");
+
+                                waterBottleId = jsonObject2.getString("Water_Id");
+                                waterBottleName = jsonObject2.getString("Water_Name");
+                                waterBottleImage = jsonObject2.getString("Water_Img");
+                                waterBottlePrice = Float.parseFloat(df2.format(Float.parseFloat(jsonObject2.getString("Water_Price"))));
 
                                 mSessionmanager.setWaterBottleDetail(waterBottleId, waterBottleName, waterBottleImage, waterBottlePrice);
+                            } else {
+                                Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -164,18 +180,20 @@ public class FragmentFoodMenu extends Fragment {
                             JSONObject jsonObject1 = new JSONObject(responseValue);
 
                             int status = jsonObject1.getInt("status");
+                            String msg = jsonObject1.getString("message");
+
                             progressDialog.dismiss();
                             if (status == 1) {
-                                Toast.makeText(getContext(), "Added in cart", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+                                bottomSheetDialog.dismiss();
                                 tvWBottleQty.setText("1");
 
                                 mSessionmanager.saveCartCount();
                                 mSessionmanager.saveOrderID(jsonObject1.getInt("Order_Id"));
-                                Toast.makeText(getContext(), String.valueOf(jsonObject1.getInt("Order_Id")), Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent("com.restrosmart.restro.addmenu");
                                 getContext().sendBroadcast(intent);
                             } else {
-                                Toast.makeText(getContext(), getContext().getResources().getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -187,6 +205,8 @@ public class FragmentFoodMenu extends Fragment {
                             JSONObject jsonObject1 = new JSONObject(responseValue);
 
                             int status = jsonObject1.getInt("status");
+                            String msg = jsonObject1.getString("message");
+
                             if (status == 1) {
                                 JSONArray jsonArray = jsonObject1.getJSONArray("Menulist");
 
@@ -266,6 +286,8 @@ public class FragmentFoodMenu extends Fragment {
                                     }
                                 });
                                 rvVegCategory.setAdapter(rvFoodSubCategoryAdapter);
+                            } else {
+                                Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -288,39 +310,39 @@ public class FragmentFoodMenu extends Fragment {
     private void showDiag() {
 
         View view1 = ((Activity) getContext()).getLayoutInflater().inflate(R.layout.circular_dialog, null);
-        final BottomSheetDialog dialog = new BottomSheetDialog(getContext());
-        dialog.setContentView(view1);
-        dialog.setCancelable(false);
-        dialog.setCanceledOnTouchOutside(false);
+        bottomSheetDialog = new BottomSheetDialog(getContext());
+        bottomSheetDialog.setContentView(view1);
+        bottomSheetDialog.setCancelable(false);
+        bottomSheetDialog.setCanceledOnTouchOutside(false);
 
-        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+        bottomSheetDialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
             public void onShow(DialogInterface dialogInterface) {
-                revealShow(dialog, true, null);
+                revealShow(bottomSheetDialog, true, null);
             }
         });
 
-        dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+        bottomSheetDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
             @Override
             public boolean onKey(DialogInterface dialogInterface, int i, KeyEvent keyEvent) {
                 if (i == KeyEvent.KEYCODE_BACK) {
-                    revealShow(dialog, false, dialog);
+                    revealShow(bottomSheetDialog, false, bottomSheetDialog);
                     return true;
                 }
                 return false;
             }
         });
 
-        FrameLayout flClose = dialog.findViewById(R.id.flClose);
-        Button btnAddWBottle = dialog.findViewById(R.id.btnAddWBottle);
-        TextView tvMinusWBottleQty = dialog.findViewById(R.id.tvMinusWBottleQty);
-        tvWBottleQty = dialog.findViewById(R.id.tvWBottleQty);
-        TextView tvAddWBottleQty = dialog.findViewById(R.id.tvAddWBottleQty);
+        FrameLayout flClose = bottomSheetDialog.findViewById(R.id.flClose);
+        Button btnAddWBottle = bottomSheetDialog.findViewById(R.id.btnAddWBottle);
+        TextView tvMinusWBottleQty = bottomSheetDialog.findViewById(R.id.tvMinusWBottleQty);
+        tvWBottleQty = bottomSheetDialog.findViewById(R.id.tvWBottleQty);
+        TextView tvAddWBottleQty = bottomSheetDialog.findViewById(R.id.tvAddWBottleQty);
 
         flClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                revealShow(dialog, false, dialog);
+                revealShow(bottomSheetDialog, false, bottomSheetDialog);
             }
         });
 
@@ -355,7 +377,7 @@ public class FragmentFoodMenu extends Fragment {
         });
 
         ((View) view1.getParent()).setBackgroundColor(getResources().getColor(android.R.color.transparent));
-        dialog.show();
+        bottomSheetDialog.show();
     }
 
     private void revealShow(BottomSheetDialog dialogView, boolean b, final Dialog dialog) {

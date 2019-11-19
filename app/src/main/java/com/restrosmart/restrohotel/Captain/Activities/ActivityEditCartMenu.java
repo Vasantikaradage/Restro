@@ -36,6 +36,7 @@ import retrofit2.Response;
 
 import static com.restrosmart.restrohotel.ConstantVariables.REMOVE_MENU_CART;
 import static com.restrosmart.restrohotel.ConstantVariables.SAVE_MENU_CART;
+import static com.restrosmart.restrohotel.ConstantVariables.UNIQUE_KEY;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.BRANCH_ID;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.HOTEL_ID;
 
@@ -46,7 +47,7 @@ public class ActivityEditCartMenu extends AppCompatActivity implements View.OnCl
     private RecyclerView rvToppings;
 
     private String toppingsList;
-    private int OrderDetailId;
+    private int OrderDetailId, flStatus;
     private ArrayList<ToppingsModel> toppingsModelArrayList, allToppingsModelArrayList;
 
     private IResult mResultCallBack;
@@ -70,7 +71,7 @@ public class ActivityEditCartMenu extends AppCompatActivity implements View.OnCl
         if (bundle != null) {
 
             OrderDetailId = bundle.getInt("OrderDetailId");
-
+            flStatus = bundle.getInt("FlStatus");
             tvMenuName.setText(bundle.getString("MenuName"));
             tvMenuQty.setText(String.valueOf(bundle.getInt("MenuQty")));
             tvMenuPrice.setText(getResources().getString(R.string.currency) + String.valueOf(bundle.getFloat("MenuPrice")));
@@ -211,7 +212,7 @@ public class ActivityEditCartMenu extends AppCompatActivity implements View.OnCl
         initRetrofitCallback();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, this);
-        mRetrofitService.retrofitData(REMOVE_MENU_CART, (service.removeCartMenu(Integer.parseInt(hotelDetails.get(HOTEL_ID)), Integer.parseInt(hotelDetails.get(BRANCH_ID)), OrderDetailId)));
+        mRetrofitService.retrofitData(REMOVE_MENU_CART, (service.removeCartMenu(Integer.parseInt(hotelDetails.get(HOTEL_ID)), OrderDetailId, UNIQUE_KEY)));
     }
 
     private void saveMenuCart() {
@@ -222,8 +223,8 @@ public class ActivityEditCartMenu extends AppCompatActivity implements View.OnCl
         initRetrofitCallback();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, this);
-        mRetrofitService.retrofitData(SAVE_MENU_CART, (service.saveCartMenu(Integer.parseInt(hotelDetails.get(HOTEL_ID)), Integer.parseInt(hotelDetails.get(BRANCH_ID)), OrderDetailId,
-                tvMenuQty.getText().toString(), toppingsList)));
+        mRetrofitService.retrofitData(SAVE_MENU_CART, (service.saveCartMenu(Integer.parseInt(hotelDetails.get(HOTEL_ID)), OrderDetailId,
+                tvMenuQty.getText().toString(), String.valueOf(flStatus), toppingsList, UNIQUE_KEY)));
     }
 
     private void initRetrofitCallback() {
@@ -241,16 +242,17 @@ public class ActivityEditCartMenu extends AppCompatActivity implements View.OnCl
                             JSONObject jsonObject = new JSONObject(responseValue);
 
                             int status = jsonObject.getInt("status");
+                            String msg = jsonObject.getString("message");
 
                             progressDialog.dismiss();
                             if (status == 1) {
                                 Intent intent = new Intent("com.restrosmart.restro.refreshcart");
                                 sendBroadcast(intent);
-                                Toast.makeText(ActivityEditCartMenu.this, "Menu removed", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ActivityEditCartMenu.this, msg, Toast.LENGTH_SHORT).show();
                                 mSessionmanager.deleteCartCount();
                                 finish();
                             } else {
-                                Toast.makeText(ActivityEditCartMenu.this, getResources().getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ActivityEditCartMenu.this, msg, Toast.LENGTH_SHORT).show();
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -263,15 +265,16 @@ public class ActivityEditCartMenu extends AppCompatActivity implements View.OnCl
                             JSONObject jsonObject = new JSONObject(responseValue);
 
                             int status = jsonObject.getInt("status");
+                            String msg = jsonObject.getString("message");
 
                             progressDialog.dismiss();
                             if (status == 1) {
                                 Intent intent = new Intent("com.restrosmart.restro.refreshcart");
                                 sendBroadcast(intent);
-                                Toast.makeText(ActivityEditCartMenu.this, "Menu updated", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ActivityEditCartMenu.this, msg, Toast.LENGTH_SHORT).show();
                                 finish();
                             } else {
-                                Toast.makeText(ActivityEditCartMenu.this, getResources().getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ActivityEditCartMenu.this, msg, Toast.LENGTH_SHORT).show();
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -295,7 +298,8 @@ public class ActivityEditCartMenu extends AppCompatActivity implements View.OnCl
             try {
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("Topping_Id", toppingsArrayList.get(i).getToppingsId());
-                //jsonObject.put("Topping_Name", arrayListToppings.get.getStudentName());
+                jsonObject.put("Topping_Name", toppingsArrayList.get(i).getToppingsName());
+                jsonObject.put("Topping_Price", toppingsArrayList.get(i).getToppingsPrice());
                 jsonArray.put(jsonObject);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -306,10 +310,10 @@ public class ActivityEditCartMenu extends AppCompatActivity implements View.OnCl
     }
 
     private void setupToolbar() {
-        mToolbar.setTitle("Edit Menu");
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
+        getSupportActionBar().setTitle("Edit Menu");
     }
 
     private void init() {

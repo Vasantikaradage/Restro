@@ -150,6 +150,8 @@
     <string name="plus">+</string>
     <string name="default_qty">1</string>
     <string name="btn_add">add</string>
+    <string name="cancel_dialog_content">Are you want to cancel the order or place order later?</string>
+    <string name="later">Later</string>
 
     <string-array name="tables_array">
         <item>1</item>

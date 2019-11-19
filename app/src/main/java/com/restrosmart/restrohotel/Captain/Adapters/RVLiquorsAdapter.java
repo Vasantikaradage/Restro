@@ -42,7 +42,9 @@ import java.util.HashMap;
 import retrofit2.Response;
 
 import static com.restrosmart.restrohotel.ConstantVariables.LIQOUR_ADD_TO_CART;
+import static com.restrosmart.restrohotel.ConstantVariables.UNIQUE_KEY;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.BRANCH_ID;
+import static com.restrosmart.restrohotel.Utils.Sessionmanager.CUST_ID;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.HOTEL_ID;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.TABLE_NO;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.USER_ID;
@@ -55,7 +57,9 @@ public class RVLiquorsAdapter extends RecyclerView.Adapter<RVLiquorsAdapter.Item
     private RVFlavourUnitsAdapter rvFlavourUnitsAdapter;
     private String toppingsList;
     private int flavourId;
+    private String flavourName;
     private TextView tvLiqourQty;
+    private String selectedUnitName, selectedUnitPrice;
 
     private BottomSheetDialog dialogView;
     private ProgressDialog progressDialog;
@@ -71,7 +75,7 @@ public class RVLiquorsAdapter extends RecyclerView.Adapter<RVLiquorsAdapter.Item
         this.mContext = context;
         this.mSessionmanager = new Sessionmanager(mContext);
 
-        userDetails = mSessionmanager.getUserDetails();
+        userDetails = mSessionmanager.getCustDetails();
         hotelDetails = mSessionmanager.getHotelDetails();
     }
 
@@ -151,9 +155,12 @@ public class RVLiquorsAdapter extends RecyclerView.Adapter<RVLiquorsAdapter.Item
             Picasso.with(mContext).load(flavoursModelArrayList.get(0).getFlavourImg()).into(ivFullFlavour);
             tvFlavourName.setText(flavoursModelArrayList.get(0).getFlavourName());
             flavourId = flavoursModelArrayList.get(0).getFlavourId();
+            flavourName = flavoursModelArrayList.get(0).getFlavourName();
 
             ArrayList<FlavourUnitModel> flavourUnitModelArrayList = flavoursModelArrayList.get(0).getFlavourUnitModelArrayList();
             tvUnitPrice.setText(mContext.getResources().getString(R.string.currency) + " " + String.valueOf(flavourUnitModelArrayList.get(0).getUnitPrice()));
+            selectedUnitName = flavourUnitModelArrayList.get(0).getUnitName();
+            selectedUnitPrice = String.valueOf(flavourUnitModelArrayList.get(0).getUnitPrice());
 
             /*Liqour flavours recyclerview*/
             rvLiquorFlavours.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
@@ -167,6 +174,7 @@ public class RVLiquorsAdapter extends RecyclerView.Adapter<RVLiquorsAdapter.Item
                     Picasso.with(mContext).load(flavoursModelArrayList1.get(adapterPosition).getFlavourImg()).into(ivFullFlavour);
                     tvFlavourName.setText(flavoursModelArrayList1.get(adapterPosition).getFlavourName());
                     flavourId = flavoursModelArrayList.get(adapterPosition).getFlavourId();
+                    flavourName = flavoursModelArrayList.get(adapterPosition).getFlavourName();
                     rvFlavourUnitsAdapter.refreshList(flavoursModelArrayList1.get(adapterPosition).getFlavourUnitModelArrayList());
                     tvUnitPrice.setText(mContext.getResources().getString(R.string.currency) + " " + String.valueOf(flavoursModelArrayList1.get(adapterPosition).getFlavourUnitModelArrayList().get(0).getUnitPrice()));
                 }
@@ -179,6 +187,8 @@ public class RVLiquorsAdapter extends RecyclerView.Adapter<RVLiquorsAdapter.Item
                 @Override
                 public void unitSelected(int adapterPosition, ArrayList<FlavourUnitModel> arrayList) {
                     tvUnitPrice.setText(mContext.getResources().getString(R.string.currency) + " " + String.valueOf(arrayList.get(adapterPosition).getUnitPrice()));
+                    selectedUnitName = arrayList.get(adapterPosition).getUnitName();
+                    selectedUnitPrice = String.valueOf(arrayList.get(adapterPosition).getUnitPrice());
                 }
             });
             rvUnits.setAdapter(rvFlavourUnitsAdapter);
@@ -249,8 +259,16 @@ public class RVLiquorsAdapter extends RecyclerView.Adapter<RVLiquorsAdapter.Item
 
             ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
             mRetrofitService = new RetrofitService(mResultCallBack, mContext);
-            mRetrofitService.retrofitData(LIQOUR_ADD_TO_CART, (service.addToCart(mSessionmanager.getOrderID(), Integer.parseInt(userDetails.get(TABLE_NO)), Integer.parseInt(userDetails.get(USER_ID)), Integer.parseInt(hotelDetails.get(HOTEL_ID)), Integer.parseInt(hotelDetails.get(BRANCH_ID)), flavourId,
-                    Integer.parseInt(tvLiqourQty.getText().toString()), toppingsList, 0, 0, 2, 0)));
+            mRetrofitService.retrofitData(LIQOUR_ADD_TO_CART, (service.addToCart(mSessionmanager.getOrderID(),
+                    Integer.parseInt(hotelDetails.get(TABLE_NO)),
+                    Integer.parseInt(userDetails.get(CUST_ID)),
+                    Integer.parseInt(hotelDetails.get(HOTEL_ID)),
+                    String.valueOf(flavourId), "", "", 0,
+                    flavourName,
+                    Integer.parseInt(tvLiqourQty.getText().toString()),
+                    selectedUnitName,
+                    selectedUnitPrice,
+                    toppingsList, 0, 0, 2, 0, UNIQUE_KEY)));
         }
 
         private void initRetrofitCallback() {
@@ -264,9 +282,11 @@ public class RVLiquorsAdapter extends RecyclerView.Adapter<RVLiquorsAdapter.Item
                         JSONObject jsonObject = new JSONObject(responseValue);
 
                         int status = jsonObject.getInt("status");
+                        String msg = jsonObject.getString("message");
+
                         progressDialog.dismiss();
                         if (status == 1) {
-                            Toast.makeText(mContext, "Added in cart", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
                             tvLiqourQty.setText("1");
                             mSessionmanager.saveCartCount();
                             mSessionmanager.saveOrderID(jsonObject.getInt("Order_Id"));
@@ -275,7 +295,7 @@ public class RVLiquorsAdapter extends RecyclerView.Adapter<RVLiquorsAdapter.Item
                             //intent.putExtra("menuname", arraylist.get(getAdapterPosition()).getMenuName());
                             mContext.sendBroadcast(intent);
                         } else {
-                            Toast.makeText(mContext, mContext.getResources().getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -297,7 +317,8 @@ public class RVLiquorsAdapter extends RecyclerView.Adapter<RVLiquorsAdapter.Item
                 try {
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("Topping_Id", toppingsArrayList.get(i).getToppingsId());
-                    //jsonObject.put("Topping_Name", arrayListToppings.get.getStudentName());
+                    jsonObject.put("Topping_Name", toppingsArrayList.get(i).getToppingsName());
+                    jsonObject.put("Topping_Price", toppingsArrayList.get(i).getToppingsPrice());
                     jsonArray.put(jsonObject);
                 } catch (Exception e) {
                     e.printStackTrace();
