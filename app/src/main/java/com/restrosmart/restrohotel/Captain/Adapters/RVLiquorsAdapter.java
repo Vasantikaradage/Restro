@@ -102,7 +102,6 @@ public class RVLiquorsAdapter extends RecyclerView.Adapter<RVLiquorsAdapter.Item
     public class ItemViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView ivImage;
-        private AlertDialog flavourDialog;
 
         public ItemViewHolder(View itemView) {
             super(itemView);
@@ -260,8 +259,8 @@ public class RVLiquorsAdapter extends RecyclerView.Adapter<RVLiquorsAdapter.Item
             ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
             mRetrofitService = new RetrofitService(mResultCallBack, mContext);
             mRetrofitService.retrofitData(LIQOUR_ADD_TO_CART, (service.addToCart(mSessionmanager.getOrderID(),
-                    Integer.parseInt(hotelDetails.get(TABLE_NO)),
-                    Integer.parseInt(userDetails.get(CUST_ID)),
+                    Integer.parseInt(userDetails.get(TABLE_NO)),
+                    userDetails.get(CUST_ID),
                     Integer.parseInt(hotelDetails.get(HOTEL_ID)),
                     String.valueOf(flavourId), "", "", 0,
                     flavourName,

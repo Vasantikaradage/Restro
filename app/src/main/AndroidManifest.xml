@@ -22,7 +22,7 @@
         android:theme="@style/AppTheme"
         android:windowSoftInputMode="stateAlwaysVisible"
         tools:ignore="GoogleAppIndexingWarning">
-
+        <activity android:name=".Captain.Activities.ActivityCapSpecificOrders"></activity>
         <activity android:name=".ActivitySplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -137,8 +137,8 @@
         <activity
             android:name=".Admin.ActivityAddPromocode"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:windowSoftInputMode="adjustResize|stateHidden"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
             android:name=".Admin.ActivityAddRushHours"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -152,21 +152,13 @@
             android:name=".Admin.ActivityDailyOfferAdd"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait" />
-
-        <activity android:name=".Admin.ActivitySelectMenu"/>
-
-        <activity android:name=".Admin.ActivityAssignTable"/>
-
-        <activity android:name=".Admin.ActivityMenuOrderDidplay"/>
-
-        <activity android:name=".SuperAdmin.Activities.ActivitySAEmpolyeeProfile"/>
-
-        <activity android:name=".SuperAdmin.Activities.ActivityAddAdmin"/>
-
-        <activity android:name=".SuperAdmin.Activities.ActivityAddHotel"/>
-
-
-        <activity android:name=".Captain.Activities.ActivityEditCartMenu"/>
+        <activity android:name=".Admin.ActivitySelectMenu" />
+        <activity android:name=".Admin.ActivityAssignTable" />
+        <activity android:name=".Admin.ActivityMenuOrderDidplay" />
+        <activity android:name=".SuperAdmin.Activities.ActivitySAEmpolyeeProfile" />
+        <activity android:name=".SuperAdmin.Activities.ActivityAddAdmin" />
+        <activity android:name=".SuperAdmin.Activities.ActivityAddHotel" />
+        <activity android:name=".Captain.Activities.ActivityEditCartMenu" />
         <activity android:name=".Captain.Activities.ActivityCartBill" />
         <activity android:name=".Captain.Activities.ActivityHotelMenu" />
         <activity android:name=".Captain.Activities.ActivityTableOrders" />

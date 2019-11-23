@@ -56,7 +56,8 @@ public class ActivityTableOrders extends AppCompatActivity {
     private ArrayList<ToppingsModel> mToppingsModelArrayList;
     private ArrayList<String> mOrderIdArrayList;
 
-    private int mOrderId, mTableId, mCustId;
+    private int mOrderId, mTableId;
+    private String mCustId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +74,7 @@ public class ActivityTableOrders extends AppCompatActivity {
         if (bundle != null) {
             mOrderId = bundle.getInt("orderId");
             mTableId = bundle.getInt("tableId");
-            mCustId = bundle.getInt("custId");
+            mCustId = bundle.getString("custId");
         }
 
         getTableOrders();

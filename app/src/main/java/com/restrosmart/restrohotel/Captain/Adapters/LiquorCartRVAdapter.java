@@ -40,7 +40,7 @@ public class LiquorCartRVAdapter extends RecyclerView.Adapter<LiquorCartRVAdapte
         holder.tvCartMenuName.setText(arrayList.get(position).getLiqName());
         holder.tvFoodCartMenuPrice.setText("(" + mContext.getResources().getString(R.string.currency) + String.valueOf(arrayList.get(position).getLiqPrice()) + ")");
         holder.tvLiqCartQty.setText("(" + String.valueOf(arrayList.get(position).getLiqMLQty()) + ")");
-        holder.tvFoodMenuQty.setText(String.valueOf(arrayList.get(position).getLiqQty()) + " x");
+        holder.tvFoodMenuQty.setText("x " + String.valueOf(arrayList.get(position).getLiqQty()));
         holder.tvQtyAmount.setText(mContext.getResources().getString(R.string.currency) + String.valueOf(arrayList.get(position).getLiqQtyPrice()));
 
         holder.tvLiqCartQty.setVisibility(View.VISIBLE);

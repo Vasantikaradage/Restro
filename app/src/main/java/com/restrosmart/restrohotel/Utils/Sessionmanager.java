@@ -33,6 +33,7 @@ public class Sessionmanager {
 
     public static final String PC_ID = "pc_id";
 
+    //Employee Details
     public static final String EMP_NAME = "emp_name";
     public static final String EMP_EMAIL = "emp_email";
     public static final String EMP_MOB = "emp_mob";
@@ -41,8 +42,6 @@ public class Sessionmanager {
     public static final String EMP_ACT_STATUS = "emp_status";
     public static final String EMP_ADD = "emp_add";
     public static final String EMP_ID = "empId";
-
-    //public static final String HOTEL_ID = "hotel_id";
     public static final String EMP_ADHAR = "emp_adhar";
     public static final String EMP_IMG = "emp_img";
 
@@ -52,6 +51,7 @@ public class Sessionmanager {
     public static final String BRANCH_ID = "branchId";
     public static final String ROLE_ID = "roleId";
 
+    //Water bottle details
     public static final String WATER_BOTTLE_ID = "waterId";
     public static final String WATER_BOTTLE_NAME = "waterName";
     public static final String WATER_BOTTLE_IMAGE = "waterImage";
@@ -72,9 +72,7 @@ public class Sessionmanager {
     public static final String CUST_MOB = "CustMob";
 
 
-
     public Sessionmanager(Context mcontext) {
-
         this.mContext = mcontext;
         pref = mContext.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
         editor = pref.edit();
@@ -110,9 +108,6 @@ public class Sessionmanager {
         editor.commit();
     }
 
-
-
-
     //save Login info
     public void createSession(UserForm user) {
 
@@ -132,10 +127,6 @@ public class Sessionmanager {
         editor.putBoolean(ISLOGIN, true);
         editor.commit();
     }
-
-
-    //  return  user;
-
 
     public void CheckLogin() {
 
@@ -166,7 +157,7 @@ public class Sessionmanager {
         }
     }
 
-    public void CheckLogout() {
+    void CheckLogout() {
         editor.remove(EMP_EMAIL);
         editor.remove(EMP_ID);
         editor.remove(EMP_NAME);
@@ -197,7 +188,6 @@ public class Sessionmanager {
         mContext.startActivity(i);
     }
 
-
     //method to check direct login
     public boolean isLogin() {
         return pref.getBoolean(ISLOGIN, false);
@@ -224,7 +214,6 @@ public class Sessionmanager {
 
         return stringMap;
     }
-
 
     //save position info
     public int setTabposition(int position) {
@@ -257,26 +246,22 @@ public class Sessionmanager {
         return hashMap;
     }
 
-    public void saveHotelDetails(int hotelId, String hotelName, int role,  int empId) {
+    public void saveHotelDetails(int hotelId, String hotelName, int role, int empId) {
         editor.putString(HOTEL_ID, String.valueOf(hotelId));
         editor.putString(HOTEL_NAME, hotelName);
         editor.putString(ROLE_ID, String.valueOf(role));
-
         editor.putString(EMP_ID, String.valueOf(empId));
         editor.commit();
     }
 
     public HashMap getHotelDetails() {
         HashMap<String, String> stringMap = new HashMap<String, String>();
-
         stringMap.put("hotelId", pref.getString(HOTEL_ID, null));
         stringMap.put("hotelName", pref.getString(HOTEL_NAME, null));
         stringMap.put("roleId", pref.getString(ROLE_ID, null));
-
         stringMap.put("empId", pref.getString(EMP_ID, null));
         return stringMap;
     }
-
 
     public void saveSuperAdminDetails(int empId, String empName, int Role_Id) {
         editor.putString(EMP_ID, String.valueOf(empId));
@@ -308,23 +293,11 @@ public class Sessionmanager {
         return stringMap;
     }
 
-    public void saveHotelDetail(int hotelId, String hotelName) {
-        editor.putString(HOTEL_ID, String.valueOf(hotelId));
-        editor.putString(HOTEL_NAME, hotelName);
-        editor.commit();
-    }
-
-    public HashMap getHotelDetail() {
-        HashMap<String, String> stringMap = new HashMap<String, String>();
-        stringMap.put("hotelId", pref.getString(HOTEL_ID, null));
-        stringMap.put("hotelName", pref.getString(HOTEL_NAME, null));
-        return stringMap;
-    }
-
-    public void saveCustDetails(String custId, String custName, String custMob) {
+    public void saveCustDetails(String custId, String custName, String custMob, int tableNo) {
         editor.putString(CUST_ID, custId);
         editor.putString(CUST_NAME, custName);
         editor.putString(CUST_MOB, custMob);
+        editor.putInt(TABLE_NO, tableNo);
         editor.commit();
     }
 
@@ -333,11 +306,19 @@ public class Sessionmanager {
         hashMap.put(CUST_ID, pref.getString(CUST_ID, null));
         hashMap.put(CUST_NAME, pref.getString(CUST_NAME, null));
         hashMap.put(CUST_MOB, pref.getString(CUST_MOB, null));
+        hashMap.put(TABLE_NO, String.valueOf(pref.getInt(TABLE_NO, 0)));
         return hashMap;
     }
 
+    public void deleteCustDetails() {
+        editor.remove(CUST_ID);
+        editor.remove(CUST_NAME);
+        editor.remove(CUST_MOB);
+        editor.remove(TABLE_NO);
+        editor.commit();
+    }
 
-   /* *//**
+    /* *//**
      * Save Table No & User Id
      *//*
     public void saveUserDetails(String custId) {
@@ -358,6 +339,7 @@ public class Sessionmanager {
 
     }
 */
+
     /**
      * Save cart count
      */
@@ -411,21 +393,5 @@ public class Sessionmanager {
         editor.remove(ORDER_ID);
         editor.commit();
     }
-
-    public void saveHotelDetails(int hotelId, String hotelName, int role, int brancId, int empId) {
-        editor.putString(HOTEL_ID, String.valueOf(hotelId));
-        editor.putString(HOTEL_NAME, hotelName);
-        editor.putString(ROLE_ID, String.valueOf(role));
-        editor.putString(BRANCH_ID, String.valueOf(brancId));
-        editor.putString(EMP_ID, String.valueOf(empId));
-        editor.commit();
-    }
-
-
-
-
-
-
-
 
 }

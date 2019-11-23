@@ -44,7 +44,7 @@ public class FoodCartRVAdapter extends RecyclerView.Adapter<FoodCartRVAdapter.It
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
         holder.tvCartMenuName.setText(arrayList.get(position).getMenuName());
         holder.tvFoodCartMenuPrice.setText("(" + mContext.getResources().getString(R.string.currency) + String.valueOf(arrayList.get(position).getMenuPrice()) + ")");
-        holder.tvFoodMenuQty.setText(String.valueOf(arrayList.get(position).getMenuQty()) + " x");
+        holder.tvFoodMenuQty.setText("x " + String.valueOf(arrayList.get(position).getMenuQty()));
         holder.tvQtyAmount.setText(mContext.getResources().getString(R.string.currency) + String.valueOf(arrayList.get(position).getMenuQtyPrice()));
 
         if (arrayList.get(position).getToppingsModelArrayList() != null && arrayList.get(position).getToppingsModelArrayList().size() > 0) {

@@ -47,14 +47,15 @@ public class RVSwapFreeTablesAdapter extends RecyclerView.Adapter<RVSwapFreeTabl
 
     private Context mContext;
     private ArrayList<TableSwapModel> arrayList;
-    private int mOldTableId, mCustId;
+    private int mOldTableId;
+    private String mCustId;
     private Dialog swapDialog;
     private ProgressDialog progressDialog;
 
     private RetrofitService mRetrofitService;
     private IResult mResultCallBack;
 
-    RVSwapFreeTablesAdapter(Context context, ArrayList<TableSwapModel> tableSwapModelArrayList, int tableId, int custId) {
+    RVSwapFreeTablesAdapter(Context context, ArrayList<TableSwapModel> tableSwapModelArrayList, int tableId, String custId) {
         this.mContext = context;
         this.arrayList = tableSwapModelArrayList;
         this.mOldTableId = tableId;

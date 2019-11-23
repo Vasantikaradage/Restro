@@ -21,13 +21,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 import com.restrosmart.restrohotel.Captain.Activities.ActivityHotelMenu;
 import com.restrosmart.restrohotel.Captain.Adapters.RVTableOrderAdapter;
+import com.restrosmart.restrohotel.Captain.Interfaces.CapOrderDeleteListener;
+import com.restrosmart.restrohotel.Captain.Models.AllOrderModel;
 import com.restrosmart.restrohotel.Captain.Models.OrderModel;
 import com.restrosmart.restrohotel.Captain.Models.UserCategory;
 import com.restrosmart.restrohotel.Interfaces.ApiService;
@@ -62,7 +63,7 @@ public class FragmentTableOrders extends Fragment implements View.OnClickListene
     private LinearLayout llNoData;
     private FloatingActionButton fabAddMenu;
 
-    private ArrayList<OrderModel> orderModelArrayList;
+    private ArrayList<AllOrderModel> orderModelArrayList;
     private ArrayList<UserCategory> userCategoryArrayList;
     private ArrayList<FreeTables> freeTablesArrayList;
 
@@ -95,7 +96,18 @@ public class FragmentTableOrders extends Fragment implements View.OnClickListene
         userCategoryArrayList = getArguments().getParcelableArrayList("arrayListUserCategory");
 
         if (orderModelArrayList != null && orderModelArrayList.size() > 0) {
-            RVTableOrderAdapter rvTableOrderAdapter = new RVTableOrderAdapter(getContext(), orderModelArrayList);
+            RVTableOrderAdapter rvTableOrderAdapter = new RVTableOrderAdapter(getContext(), hotelId, orderModelArrayList, new CapOrderDeleteListener() {
+                @Override
+                public void deleteOrder(int arraylistSize) {
+                    if (arraylistSize > 0) {
+                        rvTableOrders.setVisibility(View.VISIBLE);
+                        llNoData.setVisibility(View.GONE);
+                    } else {
+                        rvTableOrders.setVisibility(View.GONE);
+                        llNoData.setVisibility(View.VISIBLE);
+                    }
+                }
+            });
             rvTableOrders.setHasFixedSize(true);
             rvTableOrders.setNestedScrollingEnabled(false);
             rvTableOrders.setLayoutManager(new GridLayoutManager(getContext(), 1));
@@ -123,6 +135,15 @@ public class FragmentTableOrders extends Fragment implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
+        /*if (v.getId() == R.id.fabAddMenu) {
+            Intent intent = new Intent(getContext(), ActivityHotelMenu.class);
+            intent.putExtra("categoryPos", 0);
+            intent.putExtra("categoryId", userCategoryArrayList.get(0).getCategoryId());
+            intent.putExtra("categoryName", userCategoryArrayList.get(0).getCategoryName());
+            intent.putParcelableArrayListExtra("arrayList", userCategoryArrayList);
+            getContext().startActivity(intent);
+        }*/
+
         if (v.getId() == R.id.fabAddMenu) {
             AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
             LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -227,7 +248,6 @@ public class FragmentTableOrders extends Fragment implements View.OnClickListene
     private void showProgrssDailog() {
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        //Without this user can hide loader by tapping outside screen
         progressDialog.setCancelable(false);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setTitle(this.getResources().getString(R.string.app_name));
@@ -259,8 +279,14 @@ public class FragmentTableOrders extends Fragment implements View.OnClickListene
                                 String id = jsonObject1.getString("Cap_Cust_Id");
                                 String name = jsonObject1.getString("Ccust_Name");
                                 String mob = jsonObject1.getString("Ccust_Mob");
+                                int tableNo = jsonObject1.getInt("Ctable_Id");
 
-                                mSessionmanager.saveCustDetails(id, name, mob);
+                                //Todo remove below code
+                                mSessionmanager.deleteCustDetails();
+                                mSessionmanager.resetCartCount();
+                                mSessionmanager.deleteOrderID();
+
+                                mSessionmanager.saveCustDetails(id, name, mob, tableNo);
 
                                 Intent intent = new Intent(getContext(), ActivityHotelMenu.class);
                                 intent.putExtra("categoryPos", 0);

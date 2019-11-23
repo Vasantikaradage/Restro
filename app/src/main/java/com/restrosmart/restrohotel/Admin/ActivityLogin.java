@@ -146,7 +146,7 @@ public class ActivityLogin extends AppCompatActivity {
                             int hotelId = jsonObject2.getInt("Hotel_Id");
                             String hotelName = jsonObject2.getString("Hotel_Name");
 
-                            sessionmanager.saveHotelDetail(hotelId, hotelName);
+                            sessionmanager.saveHotelDetails(hotelId, hotelName, roleId, empId);
                             sessionmanager.saveCaptainDetails(empId, empName, roleId);
                             Intent intent = new Intent(ActivityLogin.this, ActivityCaptainDash.class);
                             startActivity(intent);

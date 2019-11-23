@@ -69,7 +69,7 @@ public class HomeFragment extends Fragment {
 
         init();
         capDetails = mSessionmanager.getCaptainDetails();
-        hotelDetails = mSessionmanager.getHotelDetail();
+        hotelDetails = mSessionmanager.getHotelDetails();
         getScanTable();
         return view;
     }

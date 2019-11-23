@@ -136,16 +136,15 @@
     <string name="period" translatable="false">%1$s – %2$s</string>
 
 
-
     <string name="cart_empty">Cart Empty</string>
-     <string name="cart_price_details">Price Details</string>
+    <string name="cart_price_details">Price Details</string>
     <string name="cart_sub_total">Sub Total (\u20B9)</string>
 
 
     <string name="currency">&#8377;</string>
     <string name="something_wrong">Something went wrong. Please try again later.</string>
-     <string name="not_available">NA</string>
-     <string name="taste_sweet"> (Sweet)</string>
+    <string name="not_available">NA</string>
+    <string name="taste_sweet"> (Sweet)</string>
     <string name="minus">-</string>
     <string name="plus">+</string>
     <string name="default_qty">1</string>
@@ -159,7 +158,6 @@
         <item>5</item>
         <item>10</item>
     </string-array>
-
 
 
 </resources>

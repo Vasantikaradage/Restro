@@ -15,6 +15,9 @@ import android.widget.Toast;
 import com.github.ybq.android.spinkit.SpinKitView;
 import com.google.gson.JsonObject;
 import com.restrosmart.restrohotel.Captain.Adapters.CapViewPagerAdapter;
+import com.restrosmart.restrohotel.Captain.Models.AllOrderModel;
+import com.restrosmart.restrohotel.Captain.Models.CapMenuModel;
+import com.restrosmart.restrohotel.Captain.Models.CapOrderModel;
 import com.restrosmart.restrohotel.Captain.Models.MenuModel;
 import com.restrosmart.restrohotel.Captain.Models.OrderModel;
 import com.restrosmart.restrohotel.Captain.Models.ToppingsModel;
@@ -31,6 +34,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -54,8 +58,9 @@ public class ActivityCapOrders extends AppCompatActivity {
     private LinearLayout llTabPager;
     private SpinKitView skLoading;
 
-    private ArrayList<OrderModel> arrayListParcelOrder, arrayListTableOrder;
-    private ArrayList<MenuModel> arrayListParcelMenu, arrayListTableMenu;
+    private ArrayList<AllOrderModel> arrayListParcelAllOrder, arrayListTableAllOrder;
+    private ArrayList<CapOrderModel> arrayListParcelOrder, arrayListTableOrder;
+    private ArrayList<CapMenuModel> arrayListParcelMenu, arrayListTableMenu;
     private ArrayList<ToppingsModel> arrayListParcelToppings, arrayListTableToppings;
 
     private RetrofitService mRetrofitService;
@@ -64,6 +69,7 @@ public class ActivityCapOrders extends AppCompatActivity {
 
     private HashMap<String, String> hotelDetails;
     private int hotelId;
+    private DecimalFormat df2;
 
     private ArrayList<UserCategory> arrayListUserCategory;
 
@@ -77,7 +83,12 @@ public class ActivityCapOrders extends AppCompatActivity {
 
         hotelDetails = mSessionmanager.getHotelDetails();
         hotelId = Integer.parseInt(hotelDetails.get(HOTEL_ID));
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getOrderData();
         getMenuCategories();
     }
 
@@ -88,14 +99,14 @@ public class ActivityCapOrders extends AppCompatActivity {
     }
 
     private void getOrderData() {
-        llTabPager.setVisibility(View.VISIBLE);
+        /*llTabPager.setVisibility(View.VISIBLE);
         skLoading.setVisibility(View.GONE);
-        setViewPagerAdapter();
+        setViewPagerAdapter();*/
 
-        /*initRetrofitCallback();
+        initRetrofitCallback();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, this);
-        mRetrofitService.retrofitData(ORDER_DETAILS, (service.getParcelTakeOrders(hotelId)));*/
+        mRetrofitService.retrofitData(ORDER_DETAILS, (service.getHaveParcelOrders(hotelId)));
     }
 
     private void getMenuCategories() {
@@ -115,111 +126,140 @@ public class ActivityCapOrders extends AppCompatActivity {
                 switch (requestId) {
                     case ORDER_DETAILS:
                         try {
-
                             JSONObject jsonObjectOrder = new JSONObject(responseString);
                             int status = jsonObjectOrder.getInt("status");
+                            String msg = jsonObjectOrder.getString("message");
 
                             if (status == 1) {
 
                                 // Parcel Orders
-                                if (jsonObjectOrder.has("NewOngoingOrder")) {
-                                    JSONArray jsonArrayOrder = jsonObjectOrder.getJSONArray("NewOngoingOrder");
-                                    arrayListParcelOrder.clear();
+                                if (jsonObjectOrder.has("takeaway")) {
+                                    JSONArray jsonArrayOrder = jsonObjectOrder.getJSONArray("takeaway");
+                                    arrayListParcelAllOrder.clear();
 
                                     for (int i = 0; i < jsonArrayOrder.length(); i++) {
-                                        JSONObject jsonObjectCustD = jsonArrayOrder.getJSONObject(i);
-                                        OrderModel orderModel = new OrderModel();
-                                        orderModel.setOrder_id(jsonObjectCustD.getInt("Order_Id"));
-                                        orderModel.setCustName(jsonObjectCustD.getString("Cust_Name"));
-                                        orderModel.setCustMobNo(jsonObjectCustD.getString("Cust_Mob"));
-                                        orderModel.setTime(jsonObjectCustD.getString("Order_Date"));
-                                        orderModel.setTableId(jsonObjectCustD.getInt("Table_Id"));
 
-                                        arrayListParcelMenu = new ArrayList<>();
-                                        JSONArray jsonArrayMenu = jsonObjectCustD.getJSONArray("order");
+                                        JSONObject jsonObjectTakeAway = jsonArrayOrder.getJSONObject(i);
+                                        AllOrderModel allOrderModel = new AllOrderModel();
+                                        allOrderModel.setCustId(jsonObjectTakeAway.getString("CustId"));
+                                        allOrderModel.setCustName(jsonObjectTakeAway.getString("CustName"));
+                                        allOrderModel.setCustMob(jsonObjectTakeAway.getString("CustMob"));
 
-                                        for (int j = 0; j < jsonArrayMenu.length(); j++) {
-                                            JSONObject jsonObjectMenu = jsonArrayMenu.getJSONObject(j);
-                                            MenuModel menuModel = new MenuModel();
-                                            menuModel.setMenuName(jsonObjectMenu.getString("menuName"));
-                                            menuModel.setLiqMLQty(jsonObjectMenu.getString("liqMLQty"));
-                                            menuModel.setMenuDisp(jsonObjectMenu.getString("orderMsg"));
-                                            menuModel.setMenuPrice(jsonObjectMenu.getInt("menuPrice"));
-                                            menuModel.setMenuQty(jsonObjectMenu.getInt("menuQty"));
+                                        arrayListParcelOrder = new ArrayList<>();
+                                        JSONArray jsonArrayODetails = jsonObjectTakeAway.getJSONArray("allorders");
 
-                                            arrayListParcelToppings = new ArrayList<>();
-                                            JSONArray jsonArrayToppings = jsonObjectMenu.getJSONArray("Topping");
+                                        for (int j = 0; j < jsonArrayODetails.length(); j++) {
+                                            JSONObject jsonObjectOders = jsonArrayODetails.getJSONObject(j);
+                                            CapOrderModel capOrderModel = new CapOrderModel();
+                                            capOrderModel.setOrderId(jsonObjectOders.getInt("Order_Id"));
+                                            capOrderModel.setOrderDate(jsonObjectOders.getString("Order_Date"));
 
-                                            for (int k = 0; k < jsonArrayToppings.length(); k++) {
-                                                JSONObject jsonObjectToppings = jsonArrayToppings.getJSONObject(k);
-                                                ToppingsModel toppingsModel = new ToppingsModel();
-                                                toppingsModel.setToppingsId(jsonObjectToppings.getInt("topId"));
-                                                toppingsModel.setToppingsName(jsonObjectToppings.getString("topName"));
-                                                arrayListParcelToppings.add(toppingsModel);
+                                            arrayListParcelMenu = new ArrayList<>();
+                                            JSONArray jsonArrayMenu = jsonObjectOders.getJSONArray("order");
+
+                                            for (int k = 0; k < jsonArrayMenu.length(); k++) {
+                                                JSONObject jsonObjectMenu = jsonArrayMenu.getJSONObject(k);
+
+                                                CapMenuModel capMenuModel = new CapMenuModel();
+                                                capMenuModel.setOrderDetailId(jsonObjectMenu.getInt("Order_Detail_Id"));
+                                                capMenuModel.setMenuId(jsonObjectMenu.getString("menuId"));
+                                                capMenuModel.setMenuName(jsonObjectMenu.getString("menuName"));
+                                                capMenuModel.setLiqMLQty(jsonObjectMenu.getString("liqMLQty"));
+                                                capMenuModel.setMenuPrice(Float.parseFloat(df2.format(Float.parseFloat(jsonObjectMenu.getString("menuPrice")))));
+                                                capMenuModel.setMenuQty(jsonObjectMenu.getInt("menuQty"));
+
+                                                arrayListParcelToppings = new ArrayList<>();
+                                                JSONArray jsonArrayToppings = jsonObjectMenu.getJSONArray("Topping");
+
+                                                for (int l = 0; l < jsonArrayToppings.length(); l++) {
+                                                    JSONObject jsonObjectToppings = jsonArrayToppings.getJSONObject(l);
+                                                    ToppingsModel toppingsModel = new ToppingsModel();
+                                                    toppingsModel.setToppingsId(jsonObjectToppings.getInt("topId"));
+                                                    toppingsModel.setToppingsName(jsonObjectToppings.getString("topName"));
+                                                    arrayListParcelToppings.add(toppingsModel);
+                                                }
+
+                                                capMenuModel.setToppingsModelArrayList(arrayListParcelToppings);
+                                                arrayListParcelMenu.add(capMenuModel);
                                             }
 
-                                            menuModel.setArrayListToppings(arrayListParcelToppings);
-                                            arrayListParcelMenu.add(menuModel);
+                                            capOrderModel.setCapMenuModelArrayList(arrayListParcelMenu);
+                                            arrayListParcelOrder.add(capOrderModel);
                                         }
 
-                                        orderModel.setArrayList(arrayListParcelMenu);
-                                        arrayListParcelOrder.add(orderModel);
+                                        allOrderModel.setCapOrderModelArrayList(arrayListParcelOrder);
+                                        arrayListParcelAllOrder.add(allOrderModel);
                                     }
                                 }
 
                                 // Table order
-                                if (jsonObjectOrder.has("CompletCancelorder")) {
-                                    JSONArray jsonArrayAccepeted = jsonObjectOrder.getJSONArray("CompletCancelorder");
-                                    arrayListTableOrder.clear();
+                                if (jsonObjectOrder.has("Havinghere")) {
+                                    JSONArray jsonArrayOrder = jsonObjectOrder.getJSONArray("Havinghere");
+                                    arrayListTableAllOrder.clear();
 
-                                    for (int i = 0; i < jsonArrayAccepeted.length(); i++) {
-                                        JSONObject jsonObjectCustD = jsonArrayAccepeted.getJSONObject(i);
-                                        OrderModel orderModel = new OrderModel();
-                                        orderModel.setOrder_id(jsonObjectCustD.getInt("Order_Id"));
-                                        orderModel.setCustName(jsonObjectCustD.getString("Cust_Name"));
-                                        orderModel.setCustMobNo(jsonObjectCustD.getString("Cust_Mob"));
-                                        orderModel.setTime(jsonObjectCustD.getString("Order_Date"));
-                                        orderModel.setTableId(jsonObjectCustD.getInt("Table_Id"));
+                                    for (int i = 0; i < jsonArrayOrder.length(); i++) {
 
-                                        arrayListTableMenu = new ArrayList<>();
-                                        JSONArray jsonArrayMenu = jsonObjectCustD.getJSONArray("order");
+                                        JSONObject jsonObjectTakeAway = jsonArrayOrder.getJSONObject(i);
+                                        AllOrderModel allOrderModel = new AllOrderModel();
+                                        allOrderModel.setCustId(jsonObjectTakeAway.getString("CustId"));
+                                        allOrderModel.setCustName(jsonObjectTakeAway.getString("CustName"));
+                                        allOrderModel.setCustMob(jsonObjectTakeAway.getString("CustMob"));
+                                        allOrderModel.setTableNo(jsonObjectTakeAway.getInt("TableId"));
 
-                                        for (int j = 0; j < jsonArrayMenu.length(); j++) {
-                                            JSONObject jsonObjectMenu = jsonArrayMenu.getJSONObject(j);
-                                            MenuModel menuModel = new MenuModel();
-                                            menuModel.setMenuName(jsonObjectMenu.getString("menuName"));
-                                            menuModel.setLiqMLQty(jsonObjectMenu.getString("liqMLQty"));
-                                            menuModel.setMenuDisp(jsonObjectMenu.getString("orderMsg"));
-                                            menuModel.setMenuPrice(jsonObjectMenu.getInt("menuPrice"));
-                                            menuModel.setMenuQty(jsonObjectMenu.getInt("menuQty"));
+                                        arrayListTableOrder = new ArrayList<>();
+                                        JSONArray jsonArrayODetails = jsonObjectTakeAway.getJSONArray("allorders");
 
-                                            arrayListTableToppings = new ArrayList<>();
-                                            JSONArray jsonArrayToppings = jsonObjectMenu.getJSONArray("Topping");
+                                        for (int j = 0; j < jsonArrayODetails.length(); j++) {
+                                            JSONObject jsonObjectOders = jsonArrayODetails.getJSONObject(j);
+                                            CapOrderModel capOrderModel = new CapOrderModel();
+                                            capOrderModel.setOrderId(jsonObjectOders.getInt("Order_Id"));
+                                            capOrderModel.setOrderDate(jsonObjectOders.getString("Order_Date"));
 
-                                            for (int k = 0; k < jsonArrayToppings.length(); k++) {
-                                                JSONObject jsonObjectToppings = jsonArrayToppings.getJSONObject(k);
-                                                ToppingsModel toppingsModel = new ToppingsModel();
-                                                toppingsModel.setToppingsId(jsonObjectToppings.getInt("topId"));
-                                                toppingsModel.setToppingsName(jsonObjectToppings.getString("topName"));
-                                                arrayListTableToppings.add(toppingsModel);
+                                            arrayListTableMenu = new ArrayList<>();
+                                            JSONArray jsonArrayMenu = jsonObjectOders.getJSONArray("order");
+
+                                            for (int k = 0; k < jsonArrayMenu.length(); k++) {
+                                                JSONObject jsonObjectMenu = jsonArrayMenu.getJSONObject(k);
+
+                                                CapMenuModel capMenuModel = new CapMenuModel();
+                                                capMenuModel.setOrderDetailId(jsonObjectMenu.getInt("Order_Detail_Id"));
+                                                capMenuModel.setMenuId(jsonObjectMenu.getString("menuId"));
+                                                capMenuModel.setMenuName(jsonObjectMenu.getString("menuName"));
+                                                capMenuModel.setLiqMLQty(jsonObjectMenu.getString("liqMLQty"));
+                                                capMenuModel.setMenuPrice(Float.parseFloat(df2.format(Float.parseFloat(jsonObjectMenu.getString("menuPrice")))));
+                                                capMenuModel.setMenuQty(jsonObjectMenu.getInt("menuQty"));
+
+                                                arrayListTableToppings = new ArrayList<>();
+                                                JSONArray jsonArrayToppings = jsonObjectMenu.getJSONArray("Topping");
+
+                                                for (int l = 0; l < jsonArrayToppings.length(); l++) {
+                                                    JSONObject jsonObjectToppings = jsonArrayToppings.getJSONObject(l);
+                                                    ToppingsModel toppingsModel = new ToppingsModel();
+                                                    toppingsModel.setToppingsId(jsonObjectToppings.getInt("topId"));
+                                                    toppingsModel.setToppingsName(jsonObjectToppings.getString("topName"));
+                                                    arrayListTableToppings.add(toppingsModel);
+                                                }
+
+                                                capMenuModel.setToppingsModelArrayList(arrayListTableToppings);
+                                                arrayListTableMenu.add(capMenuModel);
                                             }
 
-                                            menuModel.setArrayListToppings(arrayListTableToppings);
-                                            arrayListTableMenu.add(menuModel);
-
+                                            capOrderModel.setCapMenuModelArrayList(arrayListTableMenu);
+                                            arrayListTableOrder.add(capOrderModel);
                                         }
-                                        orderModel.setArrayList(arrayListTableMenu);
-                                        arrayListTableOrder.add(orderModel);
+
+                                        allOrderModel.setCapOrderModelArrayList(arrayListTableOrder);
+                                        arrayListTableAllOrder.add(allOrderModel);
                                     }
                                 }
 
                                 llTabPager.setVisibility(View.VISIBLE);
                             } else {
+                                Toast.makeText(ActivityCapOrders.this, msg, Toast.LENGTH_SHORT).show();
                                 llTabPager.setVisibility(View.GONE);
                             }
 
                             skLoading.setVisibility(View.GONE);
-
                             setViewPagerAdapter();
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -245,8 +285,6 @@ public class ActivityCapOrders extends AppCompatActivity {
                                     userCategory.setCategoryName(jsonObject2.getString("Name"));
                                     arrayListUserCategory.add(userCategory);
                                 }
-
-                                getOrderData();
                             }
 
                         } catch (JSONException e) {
@@ -265,10 +303,12 @@ public class ActivityCapOrders extends AppCompatActivity {
     }
 
     private void setViewPagerAdapter() {
+        tabLayout.removeAllTabs();
+
         tabLayout.addTab(tabLayout.newTab().setText("Parcel Orders"));
         tabLayout.addTab(tabLayout.newTab().setText("Table Orders"));
 
-        capViewPagerAdapter = new CapViewPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount(), arrayListParcelOrder, arrayListTableOrder, arrayListUserCategory);
+        capViewPagerAdapter = new CapViewPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount(), arrayListParcelAllOrder, arrayListTableAllOrder, arrayListUserCategory);
         viewPager.setAdapter(capViewPagerAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -298,8 +338,9 @@ public class ActivityCapOrders extends AppCompatActivity {
 
     private void init() {
         mSessionmanager = new Sessionmanager(this);
-        arrayListParcelOrder = new ArrayList<>();
-        arrayListTableOrder = new ArrayList<>();
+        df2 = new DecimalFormat(".##");
+        arrayListParcelAllOrder = new ArrayList<>();
+        arrayListTableAllOrder = new ArrayList<>();
         arrayListUserCategory = new ArrayList<>();
 
         mToolbar = findViewById(R.id.toolbar);

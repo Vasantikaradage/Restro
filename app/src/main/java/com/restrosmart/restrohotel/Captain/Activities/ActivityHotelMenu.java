@@ -1,12 +1,13 @@
 package com.restrosmart.restrohotel.Captain.Activities;
 
-import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.drawable.LayerDrawable;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
@@ -15,7 +16,6 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.restrosmart.restrohotel.Captain.Fragments.FragmentFoodMenu;
 import com.restrosmart.restrohotel.Captain.Fragments.FragmentLiquorsMenu;
@@ -38,6 +38,7 @@ public class ActivityHotelMenu extends AppCompatActivity {
     private int menuPosition;
 
     private Sessionmanager sessionManager;
+    public static Handler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +56,18 @@ public class ActivityHotelMenu extends AppCompatActivity {
         }
 
         setupToolbar();
+
+        handler = new Handler() {
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                switch(msg.what) {
+                    case 0:
+                        finish();
+                        break;
+                }
+            }
+
+        };
     }
 
     @Override

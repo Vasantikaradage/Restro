@@ -50,7 +50,6 @@ import static com.restrosmart.restrohotel.ConstantVariables.GET_CART_MENU;
 import static com.restrosmart.restrohotel.ConstantVariables.PLACE_ORDER;
 import static com.restrosmart.restrohotel.ConstantVariables.UNIQUE_KEY;
 import static com.restrosmart.restrohotel.ConstantVariables.WATER_ADD_TO_CART;
-import static com.restrosmart.restrohotel.Utils.Sessionmanager.BRANCH_ID;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.CUST_ID;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.HOTEL_ID;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.TABLE_NO;
@@ -71,7 +70,6 @@ public class ActivityCartBill extends AppCompatActivity implements View.OnClickL
     private RelativeLayout rlTotalPayment;
     private NestedScrollView nestedCart;
     private Button btnAddWaterBottle;
-    private AlertDialog alertDialog;
     private EditText edtNote;
 
     private DecimalFormat df2;
@@ -182,7 +180,7 @@ public class ActivityCartBill extends AppCompatActivity implements View.OnClickL
                 alert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int i) {
-                        alertDialog.dismiss();
+                        dialog.dismiss();
                         placeOrder();
                     }
                 });
@@ -190,7 +188,7 @@ public class ActivityCartBill extends AppCompatActivity implements View.OnClickL
                 alert.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int i) {
-                        alertDialog.dismiss();
+                        dialog.dismiss();
                     }
                 });
                 alert.show();
@@ -217,8 +215,8 @@ public class ActivityCartBill extends AppCompatActivity implements View.OnClickL
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, this);
         mRetrofitService.retrofitData(PLACE_ORDER, (service.placeOrder(Integer.parseInt(hotelDetails.get(HOTEL_ID)),
-                Integer.parseInt(hotelDetails.get(TABLE_NO)),
-                Integer.parseInt(userDetails.get(CUST_ID)),
+                Integer.parseInt(userDetails.get(TABLE_NO)),
+                userDetails.get(CUST_ID),
                 mSessionmanager.getOrderID(),
                 edtNote.getText().toString(),
                 subTotalAmount,
@@ -231,8 +229,8 @@ public class ActivityCartBill extends AppCompatActivity implements View.OnClickL
         mRetrofitService = new RetrofitService(mResultCallBack, this);
         mRetrofitService.retrofitData(GET_CART_MENU, (service.getCartDisplay(Integer.parseInt(hotelDetails.get(HOTEL_ID)),
                 mSessionmanager.getOrderID(),
-                Integer.parseInt(userDetails.get(CUST_ID)),
-                Integer.parseInt(hotelDetails.get(TABLE_NO)),
+                userDetails.get(CUST_ID),
+                Integer.parseInt(userDetails.get(TABLE_NO)),
                 UNIQUE_KEY)));
     }
 
@@ -241,8 +239,8 @@ public class ActivityCartBill extends AppCompatActivity implements View.OnClickL
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, this);
         mRetrofitService.retrofitData(WATER_ADD_TO_CART, (service.addToCart(mSessionmanager.getOrderID(),
-                Integer.parseInt(hotelDetails.get(TABLE_NO)),
-                Integer.parseInt(userDetails.get(USER_ID)),
+                Integer.parseInt(userDetails.get(TABLE_NO)),
+                userDetails.get(CUST_ID),
                 Integer.parseInt(hotelDetails.get(HOTEL_ID)),
                 waterBottleId,
                 waterBottleName,
@@ -320,17 +318,23 @@ public class ActivityCartBill extends AppCompatActivity implements View.OnClickL
                                             foodCartModelArrayList.add(foodCartModel);
                                         }
 
-                                        if (foodCartModelArrayList != null && foodCartModelArrayList.size() > 0) {
-                                            foodCartRVAdapter = new FoodCartRVAdapter(ActivityCartBill.this, foodCartModelArrayList);
+                                       /* if (foodCartModelArrayList != null && foodCartModelArrayList.size() > 0) {
 
-                                            rvFoodCart.setHasFixedSize(true);
-                                            rvFoodCart.setNestedScrollingEnabled(false);
-                                            rvFoodCart.setLayoutManager(new GridLayoutManager(ActivityCartBill.this, 1));
-                                            rvFoodCart.setItemAnimator(new DefaultItemAnimator());
-                                            rvFoodCart.setAdapter(foodCartRVAdapter);
-                                        }
+                                        }*/
+                                    } else {
+                                        foodCartModelArrayList.clear();
                                     }
+                                } else {
+                                    foodCartModelArrayList.clear();
                                 }
+
+                                foodCartRVAdapter = new FoodCartRVAdapter(ActivityCartBill.this, foodCartModelArrayList);
+
+                                rvFoodCart.setHasFixedSize(true);
+                                rvFoodCart.setNestedScrollingEnabled(false);
+                                rvFoodCart.setLayoutManager(new GridLayoutManager(ActivityCartBill.this, 1));
+                                rvFoodCart.setItemAnimator(new DefaultItemAnimator());
+                                rvFoodCart.setAdapter(foodCartRVAdapter);
 
                                 if (jsonObject.has("Liquor")) {
                                     JSONArray jsonArrayLiquor = jsonObject.getJSONArray("Liquor");
@@ -387,17 +391,23 @@ public class ActivityCartBill extends AppCompatActivity implements View.OnClickL
                                             liquorCartModelArrayList.add(liquorCartModel);
                                         }
 
-                                        if (liquorCartModelArrayList != null && liquorCartModelArrayList.size() > 0) {
-                                            liquorCartRVAdapter = new LiquorCartRVAdapter(ActivityCartBill.this, liquorCartModelArrayList);
+                                        /*if (liquorCartModelArrayList != null && liquorCartModelArrayList.size() > 0) {
 
-                                            rvLiquorCart.setHasFixedSize(true);
-                                            rvLiquorCart.setNestedScrollingEnabled(false);
-                                            rvLiquorCart.setLayoutManager(new GridLayoutManager(ActivityCartBill.this, 1));
-                                            rvLiquorCart.setItemAnimator(new DefaultItemAnimator());
-                                            rvLiquorCart.setAdapter(liquorCartRVAdapter);
-                                        }
+                                        }*/
+                                    } else {
+                                        liquorCartModelArrayList.clear();
                                     }
+                                } else {
+                                    liquorCartModelArrayList.clear();
                                 }
+
+                                liquorCartRVAdapter = new LiquorCartRVAdapter(ActivityCartBill.this, liquorCartModelArrayList);
+
+                                rvLiquorCart.setHasFixedSize(true);
+                                rvLiquorCart.setNestedScrollingEnabled(false);
+                                rvLiquorCart.setLayoutManager(new GridLayoutManager(ActivityCartBill.this, 1));
+                                rvLiquorCart.setItemAnimator(new DefaultItemAnimator());
+                                rvLiquorCart.setAdapter(liquorCartRVAdapter);
 
                                 subTotalAmount = Float.parseFloat(df2.format(Float.parseFloat(jsonObject.getString("totalamt"))));
                                 tvSubTotal.setText(String.valueOf(subTotalAmount));
@@ -406,9 +416,16 @@ public class ActivityCartBill extends AppCompatActivity implements View.OnClickL
                                 llPlaceOrder.setVisibility(View.VISIBLE);
                                 llCartEmpty.setVisibility(View.GONE);
                             } else {
+                                foodCartModelArrayList.clear();
+                                liquorCartModelArrayList.clear();
                                 nestedCart.setVisibility(View.GONE);
                                 llPlaceOrder.setVisibility(View.GONE);
                                 llCartEmpty.setVisibility(View.VISIBLE);
+                            }
+
+                            if (foodCartModelArrayList.size() == 0 && liquorCartModelArrayList.size() == 0) {
+                                mSessionmanager.resetCartCount();
+                                mSessionmanager.deleteOrderID();
                             }
 
                             totalAmount = Float.parseFloat(df2.format(Float.parseFloat(jsonObject.getString("maintotal"))));
@@ -453,6 +470,9 @@ public class ActivityCartBill extends AppCompatActivity implements View.OnClickL
                                 Toast.makeText(ActivityCartBill.this, msg, Toast.LENGTH_SHORT).show();
                                 mSessionmanager.resetCartCount();
                                 mSessionmanager.deleteOrderID();
+                                mSessionmanager.deleteCustDetails();
+                                finish();
+                                ActivityHotelMenu.handler.sendEmptyMessage(0);
 
                             } else {
                                 Toast.makeText(ActivityCartBill.this, msg, Toast.LENGTH_SHORT).show();
@@ -461,7 +481,6 @@ public class ActivityCartBill extends AppCompatActivity implements View.OnClickL
                             e.printStackTrace();
                         }
                         break;
-
                 }
 
                 progressDialog.dismiss();

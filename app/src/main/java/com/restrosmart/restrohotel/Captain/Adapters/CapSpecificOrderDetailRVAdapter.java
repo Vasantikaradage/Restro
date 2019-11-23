@@ -8,21 +8,20 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.restrosmart.restrohotel.Captain.Models.OrderStatusOrderList;
+import com.restrosmart.restrohotel.Captain.Models.CapMenuModel;
 import com.restrosmart.restrohotel.Captain.Models.OrderStatusOrders;
 import com.restrosmart.restrohotel.R;
 
 import java.util.ArrayList;
 
-public class OrderDetailRVAdapter extends RecyclerView.Adapter<OrderDetailRVAdapter.ItemViewHolder> {
+public class CapSpecificOrderDetailRVAdapter extends RecyclerView.Adapter<CapSpecificOrderDetailRVAdapter.ItemViewHolder> {
 
     private Context mContext;
-    private ArrayList<OrderStatusOrders> arrayList;
+    private ArrayList<CapMenuModel> arrayList;
 
-    public OrderDetailRVAdapter(Context context, ArrayList<OrderStatusOrders> ordersArrayList) {
+    CapSpecificOrderDetailRVAdapter(Context context, ArrayList<CapMenuModel> ordersArrayList) {
         this.mContext = context;
         this.arrayList = ordersArrayList;
     }
@@ -36,12 +35,15 @@ public class OrderDetailRVAdapter extends RecyclerView.Adapter<OrderDetailRVAdap
 
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
-        holder.tvCartMenuName.setText(arrayList.get(position).getOrderMenuName());
-        holder.tvFoodCartMenuPrice.setText("(" + mContext.getResources().getString(R.string.currency) + String.valueOf(arrayList.get(position).getOrderMenuPrice()) + ")");
-        holder.tvFoodMenuQty.setText("x " + String.valueOf(arrayList.get(position).getOrderMenuQty()));
-        holder.tvQtyAmount.setText(mContext.getResources().getString(R.string.currency) + String.valueOf(arrayList.get(position).getTotalMenuPrice()));
 
-        if (arrayList.get(position).getToppingsModelArrayList() != null && arrayList.get(position).getToppingsModelArrayList().size() > 0) {
+        CapMenuModel capMenuModel = arrayList.get(position);
+
+        holder.tvCartMenuName.setText(capMenuModel.getMenuName());
+        //holder.tvFoodCartMenuPrice.setText("(" + mContext.getResources().getString(R.string.currency) + String.valueOf(capMenuModel.getMenuPrice()) + ")");
+        holder.tvFoodMenuQty.setText("x " + String.valueOf(capMenuModel.getMenuQty()));
+        holder.tvQtyAmount.setText(mContext.getResources().getString(R.string.currency) + String.valueOf(capMenuModel.getMenuPrice()));
+
+        if (capMenuModel.getToppingsModelArrayList() != null && capMenuModel.getToppingsModelArrayList().size() > 0) {
             FoodLiqCartTopAdapter foodLiqCartTopAdapter = new FoodLiqCartTopAdapter(mContext, arrayList.get(position).getToppingsModelArrayList());
             holder.rvMenuToppings.setHasFixedSize(true);
             holder.rvMenuToppings.setNestedScrollingEnabled(false);

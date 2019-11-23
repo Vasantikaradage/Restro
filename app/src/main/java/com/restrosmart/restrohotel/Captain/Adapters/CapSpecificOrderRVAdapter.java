@@ -11,22 +11,23 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.restrosmart.restrohotel.Captain.Models.OrderStatusOrderList;
+import com.restrosmart.restrohotel.Captain.Models.CapMenuModel;
+import com.restrosmart.restrohotel.Captain.Models.CapOrderModel;
 import com.restrosmart.restrohotel.R;
 
 import java.util.ArrayList;
 
-public class AllOrdersRVAdapter extends RecyclerView.Adapter<AllOrdersRVAdapter.ItemViewHolder> {
+public class CapSpecificOrderRVAdapter extends RecyclerView.Adapter<CapSpecificOrderRVAdapter.ItemViewHolder> {
 
     private Context mContext;
     private ArrayList<String> mOrderIdArrayList;
-    private ArrayList<OrderStatusOrderList> mArrayList;
+    private ArrayList<CapOrderModel> mArrayList;
     private ArrayList<Integer> counter = new ArrayList<Integer>();
 
-    public AllOrdersRVAdapter(Context context, ArrayList<String> orderIdArrayList, ArrayList<OrderStatusOrderList> orderStatusOrderListArrayList) {
+    public CapSpecificOrderRVAdapter(Context context, ArrayList<String> orderIdArrayList, ArrayList<CapOrderModel> capOrderModelArrayList) {
         this.mContext = context;
         this.mOrderIdArrayList = orderIdArrayList;
-        this.mArrayList = orderStatusOrderListArrayList;
+        this.mArrayList = capOrderModelArrayList;
 
         for (int i = 0; i < mOrderIdArrayList.size(); i++) {
             counter.add(0);
@@ -35,23 +36,23 @@ public class AllOrdersRVAdapter extends RecyclerView.Adapter<AllOrdersRVAdapter.
 
     @NonNull
     @Override
-    public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
+    public CapSpecificOrderRVAdapter.ItemViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.all_order_list_item, viewGroup, false);
         return new ItemViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull CapSpecificOrderRVAdapter.ItemViewHolder holder, int position) {
         holder.tvOrderName.setText(mOrderIdArrayList.get(position).toString());
 
-        OrderStatusOrderList orderStatusOrderList = mArrayList.get(position);
+        ArrayList<CapMenuModel> capMenuModelArrayList = mArrayList.get(position).getCapMenuModelArrayList();
 
-        OrderDetailRVAdapter orderDetailRVAdapter = new OrderDetailRVAdapter(mContext, orderStatusOrderList.getOrderStatusOrders());
+        CapSpecificOrderDetailRVAdapter capSpecificOrderDetailRVAdapter = new CapSpecificOrderDetailRVAdapter(mContext, capMenuModelArrayList);
         holder.rvSpecificOrder.setHasFixedSize(true);
         holder.rvSpecificOrder.setNestedScrollingEnabled(false);
         holder.rvSpecificOrder.setLayoutManager(new GridLayoutManager(mContext, 1));
         holder.rvSpecificOrder.setItemAnimator(new DefaultItemAnimator());
-        holder.rvSpecificOrder.setAdapter(orderDetailRVAdapter);
+        holder.rvSpecificOrder.setAdapter(capSpecificOrderDetailRVAdapter);
     }
 
     @Override

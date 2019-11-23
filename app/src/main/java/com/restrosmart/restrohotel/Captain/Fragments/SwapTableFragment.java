@@ -66,7 +66,7 @@ public class SwapTableFragment extends Fragment {
 
         init();
         capDetails = mSessionmanager.getCaptainDetails();
-        hotelDetails = mSessionmanager.getHotelDetail();
+        hotelDetails = mSessionmanager.getHotelDetails();
         getBookedTable();
 
         return view;
@@ -131,7 +131,7 @@ public class SwapTableFragment extends Fragment {
 
                                     TableSwapModel tableSwapModel = new TableSwapModel();
                                     tableSwapModel.setTableId(jsonObject3.getInt("Table_Id"));
-                                    tableSwapModel.setCustId(jsonObject3.getInt("Cust_Id"));
+                                    tableSwapModel.setCustId(jsonObject3.getString("Cust_Id"));
 
                                     if (jsonObject3.has("Order_Id") && !jsonObject3.isNull("Order_Id")) {
                                         tableSwapModel.setOrderId(jsonObject3.getInt("Order_Id"));

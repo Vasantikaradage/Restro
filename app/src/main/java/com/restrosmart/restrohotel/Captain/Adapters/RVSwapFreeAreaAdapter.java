@@ -19,9 +19,10 @@ public class RVSwapFreeAreaAdapter extends RecyclerView.Adapter<RVSwapFreeAreaAd
 
     private Context mContext;
     private ArrayList<AreaSwapModel> arrayList;
-    private int mOldTableId, mCustId;
+    private int mOldTableId;
+    private String mCustId;
 
-    public RVSwapFreeAreaAdapter(Context context, ArrayList<AreaSwapModel> areaSwapModelArrayList, int tableId, int custId) {
+    public RVSwapFreeAreaAdapter(Context context, ArrayList<AreaSwapModel> areaSwapModelArrayList, int tableId, String custId) {
         this.mContext = context;
         this.arrayList = areaSwapModelArrayList;
         this.mOldTableId = tableId;

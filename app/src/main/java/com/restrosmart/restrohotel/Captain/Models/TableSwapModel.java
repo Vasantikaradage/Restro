@@ -2,13 +2,14 @@ package com.restrosmart.restrohotel.Captain.Models;
 
 public class TableSwapModel {
 
-    private int custId, tableId, orderId;
+    private String custId;
+    private int tableId, orderId;
 
-    public int getCustId() {
+    public String getCustId() {
         return custId;
     }
 
-    public void setCustId(int custId) {
+    public void setCustId(String custId) {
         this.custId = custId;
     }
 

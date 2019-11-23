@@ -56,7 +56,7 @@ public class CaptainProfileFragment extends Fragment {
         progressDialog.setMessage("Please wait...");
         progressDialog.show();*/
         capDetails = mSessionmanager.getCaptainDetails();
-        hotelDetails = mSessionmanager.getHotelDetail();
+        hotelDetails = mSessionmanager.getHotelDetails();
         getCaptainProfile();
         return view;
     }

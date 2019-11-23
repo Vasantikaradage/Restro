@@ -124,6 +124,7 @@ public class ConstantVariables {
     public  static  final  int SAVE_MENU_CART=812;
     public  static  final  int GET_UNBOOKED_TABLE=813;
     public  static  final  int REGISTER_CUSTOMER=814;
+    public  static  final  int CAP_DELETE_ORDER=815;
 
 
 

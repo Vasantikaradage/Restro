@@ -133,14 +133,14 @@ public class FragmentFoodMenu extends Fragment {
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, getContext());
         mRetrofitService.retrofitData(WATER_ADD_TO_CART, (service.addToCart(mSessionmanager.getOrderID(),
-                Integer.parseInt(hotelDetails.get(TABLE_NO)),
-                Integer.parseInt(userDetails.get(CUST_ID)),
+                Integer.parseInt(userDetails.get(TABLE_NO)),
+                userDetails.get(CUST_ID),
                 Integer.parseInt(hotelDetails.get(HOTEL_ID)),
                 waterBottleId,
                 waterBottleName,
                 String.valueOf(waterBottlePrice),
                 Integer.parseInt(tvWBottleQty.getText().toString()),
-                "",0,"", "","", 0, 0, 1, 0, UNIQUE_KEY)));
+                "", 0, "", "", "", 0, 0, 1, 0, UNIQUE_KEY)));
     }
 
     private void initRetrofitCallback() {

@@ -528,7 +528,7 @@ public interface ApiService {
     Call<JsonObject> swapTable(@Field("Hotel_Id") int hotel_id,
                                @Field("Old_TableNo") int oldtable_id,
                                @Field("New_TableNo") int newtable_id,
-                               @Field("Cust_Id") int cust_id);
+                               @Field("Cust_Id") String cust_id);
 
     /*Get Captain Profile*/
     @POST("Employee_Signup.php?Empcall=Emp_Profile")
@@ -540,13 +540,20 @@ public interface ApiService {
     @POST("user/order_list.php")
     @FormUrlEncoded
     Call<JsonObject> getTableOrders(@Field("Hotel_Id") int hotel_id,
-                                    @Field("Cust_Id") int cust_id,
+                                    @Field("Cust_Id") String cust_id,
                                     @Field("u_key") String u_key);
 
     /*get parcel/take away Orders*/
-    @POST("Captain_Table.php?captables=table_order")
+    @POST("Captain_Table.php?captables=table_orders")
     @FormUrlEncoded
-    Call<JsonObject> getParcelTakeOrders(@Field("Hotel_Id") int hotel_id);
+    Call<JsonObject> getHaveParcelOrders(@Field("Hotel_Id") int hotel_id);
+
+    /*delete Order*/
+    @POST("Captain_Order.php?caporders=cap_order_delete")
+    @FormUrlEncoded
+    Call<JsonObject> capDeleteOrder(@Field("Hotel_Id") int hotel_id,
+                                    @Field("Table_Id") int table_id,
+                                    @Field("Cust_Id") String cust_id);
 
     /*get free tables*/
     @POST("Captain.php?captain=Cap_Table")
@@ -590,7 +597,7 @@ public interface ApiService {
     @FormUrlEncoded
     Call<JsonObject> addToCart(@Field("Order_Id") int Order_Id,
                                @Field("Table_Id") int Table_Id,
-                               @Field("Cust_Id") int Cust_Id,
+                               @Field("Cust_Id") String Cust_Id,
                                @Field("Hotel_Id") int Hotel_Id,
                                @Field("Menu_Id") String Menu_Id,
                                @Field("Menu_Name") String Menu_Name,
@@ -613,7 +620,7 @@ public interface ApiService {
     @FormUrlEncoded
     Call<JsonObject> getCartDisplay(@Field("Hotel_Id") int Hotel_Id,
                                     @Field("Order_Id") int Order_Id,
-                                    @Field("Cust_Id") int Cust_Id,
+                                    @Field("Cust_Id") String Cust_Id,
                                     @Field("Table_Id") int Table_Id,
                                     @Field("u_key") String u_key);
 
@@ -639,7 +646,7 @@ public interface ApiService {
     @FormUrlEncoded
     Call<JsonObject> placeOrder(@Field("Hotel_Id") int Hotel_Id,
                                 @Field("Table_Id") int Table_Id,
-                                @Field("Cust_Id") int Cust_Id,
+                                @Field("Cust_Id") String Cust_Id,
                                 @Field("Order_Id") int Order_Id,
                                 @Field("Order_Msg") String Order_Msg,
                                 @Field("Sub_Total") float Sub_Total,
@@ -727,7 +734,6 @@ public interface ApiService {
                                        @Field("Hotel_Address") String hotelAddress,
                                        @Field("SA_Id") int sa_id
             /*@Field("action") String action*/);
-
 
 }
 

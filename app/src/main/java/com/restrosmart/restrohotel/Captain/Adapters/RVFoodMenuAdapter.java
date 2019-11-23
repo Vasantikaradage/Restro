@@ -91,13 +91,15 @@ public class RVFoodMenuAdapter extends RecyclerView.Adapter<RVFoodMenuAdapter.It
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, final int position) {
 
-        holder.tvVegMenuName.setText(arrayList.get(position).getMenuName());
-        holder.tvMenuDesc.setText("(" + arrayList.get(position).getMenuDesc() + ")");
-        holder.tvMenuPrice.setText(mContext.getResources().getString(R.string.currency) + String.valueOf(arrayList.get(position).getMenuPrice()));
+        FoodMenuModel foodMenuModel = arrayList.get(position);
 
-        if (arrayList.get(position).getMenuTaste() == 1) {
+        holder.tvVegMenuName.setText(foodMenuModel.getMenuName());
+        holder.tvMenuDesc.setText("(" + foodMenuModel.getMenuDesc() + ")");
+        holder.tvMenuPrice.setText(mContext.getResources().getString(R.string.currency) + String.valueOf(foodMenuModel.getMenuPrice()));
+
+        if (foodMenuModel.getMenuTaste() == 1) {
             holder.tvSweet.setVisibility(View.VISIBLE);
-        } else if (arrayList.get(position).getMenuTaste() == 2) {
+        } else if (foodMenuModel.getMenuTaste() == 2) {
             holder.ivSpicy.setVisibility(View.VISIBLE);
         } else {
             holder.tvSweet.setVisibility(View.GONE);
@@ -105,7 +107,7 @@ public class RVFoodMenuAdapter extends RecyclerView.Adapter<RVFoodMenuAdapter.It
         }
 
         Picasso.with(mContext)
-                .load(arrayList.get(position).getMenuImage())
+                .load(foodMenuModel.getMenuImage())
                 .into(holder.ivMenuImg);
 
         final boolean isExpanded = position == mExpandedPosition;
@@ -141,9 +143,9 @@ public class RVFoodMenuAdapter extends RecyclerView.Adapter<RVFoodMenuAdapter.It
             holder.llToppings.setAnimation(slideUp);
         }*/
 
-        if (arrayList.get(position).getToppingsModelArrayList() != null && arrayList.get(position).getToppingsModelArrayList().size() > 0) {
+        if (foodMenuModel.getToppingsModelArrayList() != null && foodMenuModel.getToppingsModelArrayList().size() > 0) {
             holder.rvMenuTopping.setLayoutManager(new GridLayoutManager(mContext, 1));
-            RVToppingsAdapter rvToppingsAdapter = new RVToppingsAdapter(mContext, arrayList.get(position).getToppingsModelArrayList(), new ToppingsListener() {
+            RVToppingsAdapter rvToppingsAdapter = new RVToppingsAdapter(mContext, foodMenuModel.getToppingsModelArrayList(), new ToppingsListener() {
                 @Override
                 public void AddRemoveToppings(ArrayList<ToppingsModel> arrayList) {
                     if (arrayList != null && arrayList.size() > 0) {
@@ -239,14 +241,14 @@ public class RVFoodMenuAdapter extends RecyclerView.Adapter<RVFoodMenuAdapter.It
             ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
             mRetrofitService = new RetrofitService(mResultCallBack, mContext);
             mRetrofitService.retrofitData(FOOD_ADD_TO_CART, (service.addToCart(mSessionmanager.getOrderID(),
-                    Integer.parseInt(hotelDetails.get(TABLE_NO)),
-                    Integer.parseInt(userDetails.get(CUST_ID)),
+                    Integer.parseInt(userDetails.get(TABLE_NO)),
+                    userDetails.get(CUST_ID),
                     Integer.parseInt(hotelDetails.get(HOTEL_ID)),
                     String.valueOf(arrayList.get(getAdapterPosition()).getMenuId()),
                     arrayList.get(getAdapterPosition()).getMenuName(),
                     String.valueOf(arrayList.get(getAdapterPosition()).getMenuPrice()),
                     Integer.parseInt(tvMenuQty.getText().toString()),
-                    "",0,"", "",
+                    "", 0, "", "",
                     toppingsList, 0, 0, 1, 0, UNIQUE_KEY)));
         }
 
@@ -314,103 +316,3 @@ public class RVFoodMenuAdapter extends RecyclerView.Adapter<RVFoodMenuAdapter.It
         notifyDataSetChanged();
     }
 }
-
-/*btnAddMenu.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    LayoutInflater li = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                    View dialoglayout = li.inflate(R.layout.bottom_sheet_add_to_cart, null);
-                    dialog = new BottomSheetDialog(mContext);
-                    dialog.setContentView(dialoglayout);
-
-                    tvToppingsLabel = dialog.findViewById(R.id.tvToppingsLabel);
-                    rvToppings = dialog.findViewById(R.id.rvToppings);
-                    tvMinusQty = dialog.findViewById(R.id.tvMinusQty);
-                    tvMenuQty = dialog.findViewById(R.id.tvMenuQty);
-                    tvAddQty = dialog.findViewById(R.id.tvAddQty);
-                    btnAdd = dialog.findViewById(R.id.btnAdd);
-
-                    *//*Toppings recyclerview*//*
-                    if (arrayList.get(getAdapterPosition()).getToppingsModelArrayList() != null && arrayList.get(getAdapterPosition()).getToppingsModelArrayList().size() > 0) {
-
-                        rvToppings.setLayoutManager(new LinearLayoutManager(mContext));
-                        RVToppingsAdapter rvToppingsAdapter = new RVToppingsAdapter(mContext, arrayList.get(getAdapterPosition()).getToppingsModelArrayList(), new ToppingsListener() {
-                            @Override
-                            public void AddRemoveToppings(ArrayList<ToppingsModel> arrayList) {
-                                if (arrayList != null && arrayList.size() > 0) {
-                                    toppingsList = getToppingList(arrayList);
-                                } else {
-                                    toppingsList = null;
-                                }
-                            }
-                        });
-                        rvToppings.setAdapter(rvToppingsAdapter);
-                        rvToppings.setVisibility(View.VISIBLE);
-                        tvToppingsLabel.setVisibility(View.VISIBLE);
-                    } else {
-                        tvToppingsLabel.setVisibility(View.GONE);
-                        rvToppings.setVisibility(View.GONE);
-                    }
-
-                    dialog.show();
-
-                    btnAdd.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            progressDialog = new ProgressDialog(mContext);
-                            progressDialog.setMessage("Adding to cart...");
-                            progressDialog.show();
-                            MenuAddToCart();
-
-                            *//*FoodMenuModel foodMenuModel = arrayList.get(getAdapterPosition());
-
-                            FoodCartModel foodCartModel = new FoodCartModel();
-                            foodCartModel.setMenuId(foodMenuModel.getMenuId());
-                            foodCartModel.setMenuName(foodMenuModel.getMenuName());
-                            foodCartModel.setMenuImage(foodMenuModel.getMenuImage());
-                            foodCartModel.setMenuPrice(foodMenuModel.getMenuPrice());
-                            foodCartModel.setMenuQtyPrice(foodMenuModel.getMenuPrice());
-                            foodCartModel.setMenuQty(Integer.parseInt(tvMenuQty.getText().toString()));
-                            sessionmanager.addToFoodCart(mContext, foodCartModel);
-
-                            Intent intent = new Intent("com.restrosmart.restro.addmenu");
-                            intent.putExtra("menuname", arrayList.get(getAdapterPosition()).getMenuName());
-                            mContext.sendBroadcast(intent);
-                            dialog.dismiss();*//*
-                        }
-                    });
-
-                    tvAddQty.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-
-                            *//*FoodMenuModel foodMenuModel = arrayList.get(getAdapterPosition());
-                            sessionmanager.updateQtyFoodCart(mContext, 1, foodMenuModel.getMenuId());*//*
-
-                            tvMenuQty.setText(String.valueOf(Integer.parseInt(tvMenuQty.getText().toString()) + 1));
-                        }
-                    });
-
-                    tvMinusQty.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-
-                            if (Integer.parseInt(tvMenuQty.getText().toString()) == 1) {
-                                tvMenuQty.setText(String.valueOf(1));
-
-                                *//*FoodMenuModel foodMenuModel1 = arrayList.get(getAdapterPosition());
-                                sessionmanager.removeMenuFoodCart(mContext, foodMenuModel1.getMenuId());
-
-                                Intent intent = new Intent("com.restrosmart.restro.addmenu");
-                                intent.putExtra("menuname", arrayList.get(getAdapterPosition()).getMenuName());
-                                mContext.sendBroadcast(intent);*//*
-                            } else {
-                                *//*FoodMenuModel foodMenuModel = arrayList.get(getAdapterPosition());
-                                sessionmanager.updateQtyFoodCart(mContext, 0, foodMenuModel.getMenuId());*//*
-                                tvMenuQty.setText(String.valueOf(Integer.parseInt(tvMenuQty.getText().toString()) - 1));
-                            }
-                        }
-                    });
-                }
-            });*/
