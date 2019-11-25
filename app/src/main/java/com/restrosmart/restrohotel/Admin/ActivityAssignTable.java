@@ -132,7 +132,7 @@ public class ActivityAssignTable extends AppCompatActivity {
     }
 
     private void setUpToolBar() {
-        tvTitle.setText("Assign Table To Emplyoee");
+        tvTitle.setText("Assign Table To Employee");
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
@@ -172,9 +172,9 @@ public class ActivityAssignTable extends AppCompatActivity {
                                     JSONObject empObject = jsonArray.getJSONObject(i);
 
                                     String empRole = empObject.getString("Role");
-                                    int activeStatus=empObject.getInt("Active_Status");
+                                    int activeStatus = empObject.getInt("Active_Status");
 
-                                    if (empRole.equals("Captain") && (activeStatus==1)) {
+                                    if (empRole.equals("Captain") && (activeStatus == 1)) {
                                         EmployeeForm employeeForm = new EmployeeForm();
                                         employeeForm.setRole_Id(empObject.getInt("Role_Id"));
                                         employeeForm.setEmpName(empObject.getString("Emp_Name"));
@@ -241,7 +241,7 @@ public class ActivityAssignTable extends AppCompatActivity {
                         try {
                             JSONObject object1 = new JSONObject(objectInfo);
                             int status = object1.getInt("status");
-                            String msg=object1.getString("message");
+                            String msg = object1.getString("message");
                             if (status == 1) {
                                 Toast.makeText(ActivityAssignTable.this, msg, Toast.LENGTH_SHORT).show();
                                 finish();

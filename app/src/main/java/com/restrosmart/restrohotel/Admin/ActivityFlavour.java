@@ -18,9 +18,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.ybq.android.spinkit.SpinKitView;
 import com.google.gson.JsonObject;
 import com.restrosmart.restrohotel.Adapter.AdapterDisplayFlavour;
 import com.restrosmart.restrohotel.Adapter.RVAdapterUnitView;
@@ -91,6 +93,8 @@ public class ActivityFlavour extends AppCompatActivity {
     private Toolbar mTopToolbar;
     private Intent intent;
     int count = 0;
+    private SpinKitView skLoading;
+    private LinearLayout linearLayoutNodata;
 
 
     @Override
@@ -107,6 +111,7 @@ public class ActivityFlavour extends AppCompatActivity {
         intent = getIntent();
 
         flavourDisplay();
+        skLoading.setVisibility(View.VISIBLE);
         frameLayoutBtnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -195,13 +200,21 @@ public class ActivityFlavour extends AppCompatActivity {
                 save.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        FlavourUnitForm unitForm = new FlavourUnitForm();
-                        unitForm.setUnitName(unitName.getText().toString());
-                        unitForm.setUnitPrice(Integer.parseInt(unitPrice.getText().toString()));
-                        arrayListUnit.add(unitForm);
-                        alertDialog.dismiss();
+                        if (unitName.getText().toString().length() == 0 || unitPrice.getText().toString().length() == 0) {
+                            alertMsg();
+
+                        } else {
+                            FlavourUnitForm unitForm = new FlavourUnitForm();
+                            unitForm.setUnitName(unitName.getText().toString());
+                            unitForm.setUnitPrice(Integer.parseInt(unitPrice.getText().toString()));
+                            arrayListUnit.add(unitForm);
+                            alertDialog.dismiss();
+                        }
+
+
                     }
                 });
+
 
                 cancel.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -270,6 +283,7 @@ public class ActivityFlavour extends AppCompatActivity {
                             0,
                             jsonArray.toString())));
                 }
+                skLoading.setVisibility(View.VISIBLE);
             }
 
 
@@ -308,6 +322,7 @@ public class ActivityFlavour extends AppCompatActivity {
                             JSONObject object = new JSONObject(value);
                             int status = object.getInt("status");
                             if (status == 1) {
+                                linearLayoutNodata.setVisibility(View.GONE);
 
                                 JSONArray jsonArray = object.getJSONArray("flavour");
                                 arrayListFlavour.clear();
@@ -335,6 +350,10 @@ public class ActivityFlavour extends AppCompatActivity {
                                     arrayListFlavour.add(flavourForm);
                                 }
                                 callAdapter();
+                            }else {
+                                skLoading.setVisibility(View.GONE);
+                                linearLayoutNodata.setVisibility(View.VISIBLE);
+
                             }
 
                         } catch (JSONException e) {
@@ -354,8 +373,9 @@ public class ActivityFlavour extends AppCompatActivity {
                                 bottomSheetDialog.dismiss();
                                 flavourDisplay();
                             } else {
-                                Toast.makeText(ActivityFlavour.this, "Try Again..", Toast.LENGTH_LONG).show();
+                                Toast.makeText(ActivityFlavour.this, object.getString("message"), Toast.LENGTH_LONG).show();
                             }
+                            skLoading.setVisibility(View.GONE);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -372,9 +392,10 @@ public class ActivityFlavour extends AppCompatActivity {
                             if (status == 1) {
                                 Toast.makeText(ActivityFlavour.this, "Flavour Deleted Successfully", Toast.LENGTH_LONG).show();
                             } else {
-                                Toast.makeText(ActivityFlavour.this, "Try Again..", Toast.LENGTH_LONG).show();
+                                Toast.makeText(ActivityFlavour.this, object.getString("message"), Toast.LENGTH_LONG).show();
 
                             }
+                            skLoading.setVisibility(View.GONE);
 
                             flavourDisplay();
                         } catch (JSONException e) {
@@ -392,12 +413,12 @@ public class ActivityFlavour extends AppCompatActivity {
                             if (status == 1) {
                                 Toast.makeText(ActivityFlavour.this, "Flavour Updaetd Successfully", Toast.LENGTH_LONG).show();
                                 bottomSheetDialog.dismiss();
+                                flavourDisplay();
                             } else {
-                                Toast.makeText(ActivityFlavour.this, "Try Again..", Toast.LENGTH_LONG).show();
+                                Toast.makeText(ActivityFlavour.this, object.getString("message"), Toast.LENGTH_LONG).show();
 
                             }
-
-
+                            skLoading.setVisibility(View.GONE);
                             flavourDisplay();
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -414,8 +435,10 @@ public class ActivityFlavour extends AppCompatActivity {
                                 Toast.makeText(ActivityFlavour.this, "Flavour Status Updated Successfully", Toast.LENGTH_LONG).show();
                                 flavourDisplay();
                             } else {
-                                Toast.makeText(ActivityFlavour.this, "Try Again..", Toast.LENGTH_LONG).show();
+                                Toast.makeText(ActivityFlavour.this, jsonObjectmenu.getString("message"), Toast.LENGTH_LONG).show();
                             }
+                            skLoading.setVisibility(View.GONE);
+                            flavourDisplay();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -426,8 +449,8 @@ public class ActivityFlavour extends AppCompatActivity {
 
             @Override
             public void notifyError(int requestId, Throwable error) {
-                Log.d("","requestId"+requestId);
-                Log.d("","RetrofitError"+error);
+                Log.d("", "requestId" + requestId);
+                Log.d("", "RetrofitError" + error);
             }
         };
     }
@@ -451,7 +474,8 @@ public class ActivityFlavour extends AppCompatActivity {
                 ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
                 mRetrofitService = new RetrofitService(mResultCallBack, ActivityFlavour.this);
                 mRetrofitService.retrofitData(FLAVOUR_STATUS, (service.getFlavourStatus(arrayListFlavour.get(position).getFlavourId(),
-                        mHotelId,status)));
+                        mHotelId, status)));
+                skLoading.setVisibility(View.VISIBLE);
             }
         }, arrayListflavourUnit, new EditListener() {
             @Override
@@ -468,6 +492,7 @@ public class ActivityFlavour extends AppCompatActivity {
                         mHotelId,
                         arrayListFlavour.get(position).getFlavourId())
                 ));
+                skLoading.setVisibility(View.VISIBLE);
 
             }
         });
@@ -547,6 +572,11 @@ public class ActivityFlavour extends AppCompatActivity {
                 unitName = dialogLayoutField.findViewById(R.id.etv_unit_name);
                 unitPrice = dialogLayoutField.findViewById(R.id.etv_unit_price);
 
+//                if(unitName.getText().toString().length()==0 && unitPrice.getText().toString().length()==0){
+//                    alertMsg();
+//
+//                }else {
+
 
                 save.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -571,6 +601,8 @@ public class ActivityFlavour extends AppCompatActivity {
                         adapterUnitView.notifyDataSetChanged();
                     }
                 });
+                alertDialog.dismiss();
+                // }
 
                 cancel.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -578,6 +610,7 @@ public class ActivityFlavour extends AppCompatActivity {
                         alertDialog.dismiss();
                     }
                 });
+                //   }
                 alertDialog.show();
 
 
@@ -637,7 +670,8 @@ public class ActivityFlavour extends AppCompatActivity {
                             flavourIntent.putExtra("pcId", intent.getIntExtra("pcId", 0));
                             flavourIntent.putExtra("menuId", intent.getIntExtra("menuId", 0));
                             startActivityForResult(flavourIntent, IMAGE_RESULT_OK);
-                        }});
+                        }
+                    });
 
                     image = arrayListFlavour.get(position).getFlavourImage().substring(arrayListFlavour.get(position).getFlavourImage().lastIndexOf("/") + 1);
                     if (image_result == null) {
@@ -647,22 +681,19 @@ public class ActivityFlavour extends AppCompatActivity {
                                 .resize(500, 500)
                                 .into(circleImageView);
 
-                        if(image.equals("def_flav.png"))
-                        {
+                        if (image.equals("def_flav.png")) {
                             mFinalImageName = "null";
-                        }else {
+                        } else {
                             mFinalImageName = image.substring(image.lastIndexOf("/") + 1);
                         }
                     } else {
 
-                            mFinalImageName = image_result.substring(image_result.lastIndexOf("/") + 1);
+                        mFinalImageName = image_result.substring(image_result.lastIndexOf("/") + 1);
                         Picasso.with(dialoglayout.getContext())
                                 .load(image_result)
                                 .resize(500, 500)
                                 .into(circleImageView);
                     }
-
-
 
 
                     initRetrofitCall();
@@ -674,11 +705,16 @@ public class ActivityFlavour extends AppCompatActivity {
                             mHotelId,
                             jsonArray.toString())));
                 }
+                skLoading.setVisibility(View.VISIBLE);
             }
 
 
         });
 
+    }
+
+    private void alertMsg() {
+        Toast.makeText(this, "please enter unit name and price", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -713,5 +749,7 @@ public class ActivityFlavour extends AppCompatActivity {
         arrayListUnitName = new ArrayList<EditText>();
         arrayListUnitPrice = new ArrayList<EditText>();
         arrayListUnit = new ArrayList<>();
+        skLoading=findViewById(R.id.skLoading);
+        linearLayoutNodata=findViewById(R.id.llNoFlavourData);
     }
 }

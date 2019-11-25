@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/tv_order"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:textSize="16sp"
+        android:text="Order"/>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_order"
+        app:cardBackgroundColor="@color/cardview_light_background">
+
+
+        <LinearLayout
+            android:id="@+id/linear_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/linear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+
+                <TextView
+                    android:id="@+id/tx_menu_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.6"
+                    android:maxLines="2"
+                    android:gravity="start"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    android:fontFamily="sans-serif"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/menu_name"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+
+                <TextView
+                    android:id="@+id/tx_menu_qty"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.7"
+                    android:gravity="center"
+                    android:textColor="@color/gray"
+                    android:textSize="14sp"
+                    android:fontFamily="sans-serif"
+                    android:text="@string/menu_qty"/>
+
+                <TextView
+                    android:id="@+id/tx_menu_price"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.7"
+                    android:layout_marginEnd="5dp"
+                    android:gravity="end"
+                    android:text="@string/menu_price"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    android:fontFamily="sans-serif"/>
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvOrderTopping"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp">
+            </android.support.v7.widget.RecyclerView>
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+</RelativeLayout>

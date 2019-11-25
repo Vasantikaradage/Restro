@@ -159,5 +159,12 @@
         <item>10</item>
     </string-array>
 
+    <string name="cannot_upload_file">Cannot upload file</string>
+    <string name="selected_pdf_size">Selected pdf size should be less than 1 MB</string>
+    <string name="selected_image_size">Selected image size should be less than 1 MB</string>
+
+    <string name="permission_granted">Permission Granted</string>
+    <string name="permission_denied">Permission Denied</string>
+
 
 </resources>

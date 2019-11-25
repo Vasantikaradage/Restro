@@ -5,10 +5,26 @@ import android.os.Parcelable;
 
 public class EmployeeSAForm implements Parcelable {
 
-    private  String empName,empImg,empEmail,empMob,empAddress,userName,hotelName,Password,empAdharId,Role;
-    private  int empId,Role_Id,activeStatus;
+    private  String empName,empImg,empEmail,empMob,empAddress,userName,hotelName,Password,empAdharId,Role,Hotel_Name;
+    private  int empId,Role_Id,activeStatus,hotelId;
 
     public EmployeeSAForm() {
+    }
+
+    public String getHotel_Name() {
+        return Hotel_Name;
+    }
+
+    public void setHotel_Name(String hotel_Name) {
+        Hotel_Name = hotel_Name;
+    }
+
+    public int getHotelId() {
+        return hotelId;
+    }
+
+    public void setHotelId(int hotelId) {
+        this.hotelId = hotelId;
     }
 
     public String getEmpName() {
@@ -132,6 +148,8 @@ public class EmployeeSAForm implements Parcelable {
         Role = in.readString();
         empId = in.readInt();
         Role_Id = in.readInt();
+        hotelId=in.readInt();
+        hotelName=in.readString();
         activeStatus = in.readInt();
     }
 
@@ -167,5 +185,7 @@ public class EmployeeSAForm implements Parcelable {
         parcel.writeInt(empId);
         parcel.writeInt(Role_Id);
         parcel.writeInt(activeStatus);
+        parcel.writeString(hotelName);
+        parcel.writeInt(hotelId);
     }
 }

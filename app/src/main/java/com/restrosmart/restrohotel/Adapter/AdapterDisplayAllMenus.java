@@ -11,6 +11,9 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ImageSpan;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -76,20 +79,20 @@ public class AdapterDisplayAllMenus extends RecyclerView.Adapter<AdapterDisplayA
 
     @NonNull
     @Override
-    public AdapterDisplayAllMenus.MyHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public MyHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_menu_list, parent, false);
         MyHolder holder = new MyHolder(view);
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final AdapterDisplayAllMenus.MyHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final MyHolder holder, final int position) {
         Picasso.with(context).load(arrayListMenu.get(position).getMenu_Image_Name())
                 .memoryPolicy(MemoryPolicy.NO_CACHE)
                 .memoryPolicy(MemoryPolicy.NO_STORE)
                 .into(holder.image);
 
-        holder.mMenuName.setText(arrayListMenu.get(position).getMenu_Name());
+
         holder.mMenuDisp.setText(arrayListMenu.get(position).getMenu_Descrip());
         holder.mMenuPrice.setText("\u20B9 " + arrayListMenu.get(position).getNon_Ac_Rate());
 
@@ -104,11 +107,21 @@ public class AdapterDisplayAllMenus extends RecyclerView.Adapter<AdapterDisplayA
         arrayListToppings=arrayListMenu.get(position).getArrayListtoppings();
         int mTeste = arrayListMenu.get(position).getMenu_Test();
         if (mTeste == 1) {
-            holder.mMenuTeste.setVisibility(View.VISIBLE);
+           // holder.mMenuTeste.setVisibility(View.VISIBLE);
+            holder.mMenuName.setText(arrayListMenu.get(position).getMenu_Name()+" (Sweet)");
             holder.mMenuTeste.setText("(Sweet)");
         } else if (mTeste == 2) {
-            holder.img_spicy.setVisibility(View.VISIBLE);
-        } else {
+            holder.mMenuName.setText(arrayListMenu.get(position).getMenu_Name());
+
+//            SpannableStringBuilder ssb = new SpannableStringBuilder(arrayListMenu.get(position).getMenu_Name());
+//            ssb.setSpan(new ImageSpan(context, R.drawable.ic_spicy2), 1, 0, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+//            holder.mMenuName.setText(ssb, TextView.BufferType.SPANNABLE);
+           // holder.mMenuName.setText(arrayListMenu.get(position).getMenu_Name()+" "+R.drawable.ic_spicy2);
+           // holder.img_spicy.setVisibility(View.VISIBLE);
+        } else  {
+            holder.mMenuName.setText(arrayListMenu.get(position).getMenu_Name());
+            holder.mMenuTeste.setVisibility(View.GONE);
+            holder.img_spicy.setVisibility(View.GONE);
 
         }
 
@@ -298,7 +311,21 @@ public class AdapterDisplayAllMenus extends RecyclerView.Adapter<AdapterDisplayA
         TextView tvDescription=dialoglayout.findViewById(R.id.tv_description);
         rvTopping=dialoglayout.findViewById(R.id.rv_menu_toppings);
         imageBtnCancel=dialoglayout.findViewById(R.id.btn_cancel);
-        menuName.setText(arrayListMenu.get(position).getMenu_Name());
+        int menuTaste=arrayListMenu.get(position).getMenu_Test();
+
+
+        if(menuTaste==1) {
+            menuName.setText(arrayListMenu.get(position).getMenu_Name() +"(Sweet)");
+        }
+        else if(menuTaste==2){
+            menuName.setText(arrayListMenu.get(position).getMenu_Name() +"(Spicy)");
+//            SpannableStringBuilder ssb = new SpannableStringBuilder(arrayListMenu.get(position).getMenu_Name());
+//            ssb.setSpan(new ImageSpan(context, R.drawable.ic_spicy2), 0, 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+//            menuName.setText(ssb, TextView.BufferType.SPANNABLE);
+        }
+        else {
+            menuName.setText(arrayListMenu.get(position).getMenu_Name());
+        }
         String price = String.valueOf(arrayListMenu.get(position).getNon_Ac_Rate());
         menuPrice.setText("\u20B9 "+price);
 
@@ -351,7 +378,7 @@ public class AdapterDisplayAllMenus extends RecyclerView.Adapter<AdapterDisplayA
         TextView mMenuName, mMenuDisp, mMenuTeste, mMenuOption,mMenuPrice,mMenustatus;
         private ImageView image;
         private ImageView img_spicy;
-        private LinearLayout llMenu;
+        private RelativeLayout llMenu;
 
         public MyHolder(View itemView) {
             super(itemView);

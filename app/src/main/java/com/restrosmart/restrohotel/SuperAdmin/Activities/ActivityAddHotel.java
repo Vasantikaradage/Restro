@@ -6,6 +6,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.Toast;
 
 
 import com.restrosmart.restrohotel.R;
@@ -13,6 +15,7 @@ import com.restrosmart.restrohotel.SuperAdmin.Fragments.HotelBasicDetailsFragmen
 
 public class ActivityAddHotel extends AppCompatActivity {
     private Toolbar mToolbar;
+    private    FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -23,7 +26,7 @@ public class ActivityAddHotel extends AppCompatActivity {
         init();
         setupToolbar();
 
-        FragmentManager fragmentManager = this.getSupportFragmentManager();
+    fragmentManager = this.getSupportFragmentManager();
 
         // Begin Fragment transaction.
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -37,20 +40,34 @@ public class ActivityAddHotel extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        finish();
-        popFragment();
+       /* if (getFragmentManager().getBackStackEntryCount() != 0) {
+            getFragmentManager().popBackStack();
+        }*/
+       onBackPressed();
         return true;
     }
 
-    private void popFragment() {
-    }
+
 
     private void setupToolbar() {
         //mToolbar.setTitle("Add Client Form");
         setSupportActionBar(mToolbar);
-        mToolbar.setNavigationIcon(R.drawable.ic_back);
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        //getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
+       mToolbar.setNavigationIcon(R.drawable.ic_back);
+       mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               if (fragmentManager.getBackStackEntryCount() != 0) {
+                  fragmentManager.popBackStack();
+
+               }
+               else {
+                   onBackPressed();
+               }
+            //   Toast.makeText(ActivityAddHotel.this, "123"+fragmentManager.getBackStackEntryCount(), Toast.LENGTH_SHORT).show();
+           }
+       });
+       // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+       // getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
     }
 
     private void init() {

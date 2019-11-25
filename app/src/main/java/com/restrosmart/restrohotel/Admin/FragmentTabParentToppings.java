@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.github.ybq.android.spinkit.SpinKitView;
 import com.google.gson.JsonObject;
 import com.restrosmart.restrohotel.Adapter.AdapterDisplayAllToppings;
 
@@ -69,6 +70,7 @@ public class FragmentTabParentToppings extends Fragment {
     private ApiService apiService;
     private ArrayList<ToppingsForm> toppingsForms;
     private String imageName, mFinalImageName, image;
+    private SpinKitView skLoading;
 
 
     @Nullable
@@ -77,6 +79,7 @@ public class FragmentTabParentToppings extends Fragment {
         view = inflater.inflate(R.layout.fragment_menu_items, null);
 
         init();
+        skLoading.setVisibility(View.GONE);
         Bundle bundle = getArguments();
         toppingsForms = bundle.getParcelableArrayList("toppingObject");
 
@@ -184,7 +187,8 @@ public class FragmentTabParentToppings extends Fragment {
                                 Integer.parseInt(etvToppingPrice.getText().toString()),
                                 mHotelId, toppingsForms.get(position).getPcId(),
                                 toppingsForms.get(position).getToppingId()));
-                    }}
+                    }
+                        skLoading.setVisibility(View.VISIBLE);}
                 });
 
                 btnCancel.setOnClickListener(new View.OnClickListener() {
@@ -199,6 +203,7 @@ public class FragmentTabParentToppings extends Fragment {
             @Override
             public void getDeleteListenerPosition(int position) {
                 initRetrofitCallBack();
+                skLoading.setVisibility(View.VISIBLE);
                 ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
                 mRetrofitService = new RetrofitService(mResultCallBack, getActivity());
                 mRetrofitService.retrofitData(TOPPING_DELETE, service.toppingDelete(toppingsForms.get(position).getToppingId(),
@@ -237,6 +242,7 @@ public class FragmentTabParentToppings extends Fragment {
                             } else {
                                 Toast.makeText(getActivity(), "Something went wrong..!", Toast.LENGTH_LONG).show();
                             }
+                            skLoading.setVisibility(View.GONE);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -259,6 +265,7 @@ public class FragmentTabParentToppings extends Fragment {
                             } else {
                                 Toast.makeText(getActivity(), "Something went wrong..!", Toast.LENGTH_LONG).show();
                             }
+                            skLoading.setVisibility(View.GONE);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -278,6 +285,7 @@ public class FragmentTabParentToppings extends Fragment {
     private void init() {
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_menu_item);
         mSessionmanager = new Sessionmanager(getActivity());
+        skLoading=view.findViewById(R.id.skLoading);
     }
 
     public static Fragment newInstance(ArrayList<ToppingsForm> toppingsForms, int position) {

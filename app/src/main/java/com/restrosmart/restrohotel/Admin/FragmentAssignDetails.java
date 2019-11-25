@@ -126,14 +126,12 @@ public class FragmentAssignDetails extends Fragment {
                                  rvTableDetails.setVisibility(View.VISIBLE);
                                 JSONArray jsonArray = jsonObject.getJSONArray("assignedtable");
                                 arrayListTable.clear();
-                                // freeAreaSwapArrayList.clear();
+
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     JSONObject jsonObject1 = jsonArray.getJSONObject(i);
                                     CaptainTableForm captainTableForm = new CaptainTableForm();
                                     captainTableForm.setCaptainName(jsonObject1.getString("Emp_Name"));
                                     captainTableForm.setArea_Name(jsonObject1.getString("Area_Name").toString());
-                                   // captainTableForm.setTableCount(jsonObject1.getInt("Table_Count"));
-                                  //  captainTableForm.setArea_Status(jsonObject1.getInt("Area_Status"));
                                     JSONArray array = jsonObject1.getJSONArray("table");
 
                                     arrayListtTableId = new ArrayList<>();
@@ -167,16 +165,13 @@ public class FragmentAssignDetails extends Fragment {
 
             @Override
             public void notifyError(int requestId, Throwable error) {
-
                 Log.d("","requestId"+requestId);
                 Log.d("","RetrofitError"+error);
-
             }
         };
     }
 
     private void rvSetAdapter() {
-
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         rvTableDetails.setLayoutManager(linearLayoutManager);
         rvTableDetails.setHasFixedSize(true);

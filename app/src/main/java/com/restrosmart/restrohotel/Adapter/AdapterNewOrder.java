@@ -3,19 +3,13 @@ package com.restrosmart.restrohotel.Adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.ImageView;
+import android.view.ViewGroup;import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.restrosmart.restrohotel.Admin.ActivityMenuOrderDidplay;
-import com.restrosmart.restrohotel.Admin.ActivityNewOrderViewDetails;
 import com.restrosmart.restrohotel.Model.OrderModel;
 import com.restrosmart.restrohotel.R;
 
@@ -36,7 +30,7 @@ public class AdapterNewOrder extends RecyclerView.Adapter<AdapterNewOrder.ViewHo
 
     @NonNull
     @Override
-    public AdapterNewOrder.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.fragment_new_oder_header, viewGroup, false);
 
         ViewHolder holder = new ViewHolder(itemView);
@@ -44,7 +38,7 @@ public class AdapterNewOrder extends RecyclerView.Adapter<AdapterNewOrder.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AdapterNewOrder.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         String mob= (arrayList.get(i).getCust_mob_no());
         String orderId= String.valueOf(arrayList.get(i).getOrder_id());
         String tableID= String.valueOf(arrayList.get(i).getTableId());
@@ -120,8 +114,8 @@ public class AdapterNewOrder extends RecyclerView.Adapter<AdapterNewOrder.ViewHo
                 @Override
                 public void onClick(View view) {
                     Intent intent=new Intent(context, ActivityMenuOrderDidplay.class);
-                  //  intent.putExtra("menuArray", arrayList.get(getAdapterPosition()).getArrayList());
-                    context.startActivity(intent);
+                    intent.putExtra("menuArray", arrayList.get(getAdapterPosition()).getArrayList());
+                   context.startActivity(intent);
 
                 }
             });

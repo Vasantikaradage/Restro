@@ -57,7 +57,7 @@ public  class FragmentToppings extends Fragment {
     private  RetrofitService mRetrofitService;
     private IResult mResultCallBack;
     private  int hotelId,branchId;
-    private  ProgressDialog progressDialog;
+   // private  ProgressDialog progressDialog;
     private  int mPcId=1;
     private FrameLayout flAddToppings;
     private  View dialoglayout;
@@ -186,19 +186,19 @@ public  class FragmentToppings extends Fragment {
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, getActivity());
         mRetrofitService.retrofitData(PARENT_CATEGORY_WITH_TOPPINGS, (service.toppingDisplay(hotelId)));
-         showProgressDialog();
+        // showProgressDialog();
     }
 
-    private void showProgressDialog() {
-        progressDialog = new ProgressDialog(getContext());
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        //Without this user can hide loader by tapping outside screen
-        progressDialog.setCancelable(false);
-        progressDialog.setCanceledOnTouchOutside(false);
-        progressDialog.setTitle(getContext().getResources().getString(R.string.app_name));
-        progressDialog.setMessage("Loading...");
-        progressDialog.show();
-    }
+//    private void showProgressDialog() {
+//        progressDialog = new ProgressDialog(getContext());
+//        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+//        //Without this user can hide loader by tapping outside screen
+//        progressDialog.setCancelable(false);
+//        progressDialog.setCanceledOnTouchOutside(false);
+//        progressDialog.setTitle(getContext().getResources().getString(R.string.app_name));
+//        progressDialog.setMessage("Loading...");
+//        progressDialog.show();
+   // }
 
     private void initRetrofitCallBackForToppings() {
         
@@ -213,7 +213,7 @@ public  class FragmentToppings extends Fragment {
                       try {
                           JSONObject object = new JSONObject(mParentSubcategory);
                           int status = object.getInt("status");
-                          progressDialog.dismiss();
+                         // progressDialog.dismiss();
                           if (status == 1) {
                               mFragmentTitleList.clear();
                               JSONArray jsonArray = object.getJSONArray("Topping_List");
@@ -256,7 +256,7 @@ public  class FragmentToppings extends Fragment {
 
                           }
                           setupViewPager(viewPager);
-                          progressDialog.dismiss();
+                          //progressDialog.dismiss();
                       } catch (JSONException e) {
                           e.printStackTrace();
                       }
@@ -275,6 +275,10 @@ public  class FragmentToppings extends Fragment {
                               getActivity().sendBroadcast(intent);
                               dialog.dismiss();
 
+                          }
+                          else {
+                              Toast.makeText(getActivity(),object.getString("message"),Toast.LENGTH_LONG).show();
+                              dialog.dismiss();
                           }
                       } catch (JSONException e) {
                           e.printStackTrace();

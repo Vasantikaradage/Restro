@@ -24,4 +24,9 @@ public class CountryForm {
     public String toString() {
         return countryName;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
 }

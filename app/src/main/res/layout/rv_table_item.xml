@@ -40,7 +40,8 @@
                 android:layout_width="60dp"
                 android:layout_height="70dp"
                 android:layout_gravity="center"
-                android:background="@color/colorGrey"
+                android:background="@drawable/background_selector"
+
                 android:padding="5dp" />
 
         </FrameLayout>

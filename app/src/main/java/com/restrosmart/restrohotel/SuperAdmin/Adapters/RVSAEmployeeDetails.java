@@ -21,6 +21,7 @@ import com.restrosmart.restrohotel.RetrofitClientInstance;
 import com.restrosmart.restrohotel.RetrofitService;
 import com.restrosmart.restrohotel.SuperAdmin.Activities.ActivitySAEmpolyeeProfile;
 import com.restrosmart.restrohotel.SuperAdmin.Models.EmployeeSAForm;
+import com.restrosmart.restrohotel.SuperAdmin.Models.EmployeeSAHotelForm;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RVSAEmployeeDetails extends RecyclerView.Adapter<RVSAEmployeeDetails.MyHolder> {
 
-    List<EmployeeSAForm> arrayListSAEmployees;
+    List<EmployeeSAHotelForm> arrayListSAEmployees;
     private Context context;
     private View view;
     private int emp_id, status1;
@@ -44,7 +45,7 @@ public class RVSAEmployeeDetails extends RecyclerView.Adapter<RVSAEmployeeDetail
     private String status_value;
 
 
-    public RVSAEmployeeDetails(FragmentActivity activity, ArrayList<EmployeeSAForm> arrayListEmployee) {
+    public RVSAEmployeeDetails(FragmentActivity activity, ArrayList<EmployeeSAHotelForm> arrayListEmployee) {
         this.context = activity;
         this.arrayListSAEmployees = arrayListEmployee;
     }
@@ -52,24 +53,24 @@ public class RVSAEmployeeDetails extends RecyclerView.Adapter<RVSAEmployeeDetail
     @NonNull
     @Override
     public RVSAEmployeeDetails.MyHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.fragment_view_employee_list, viewGroup, false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.fragment_hotel_emp_list, viewGroup, false);
         MyHolder vh = new MyHolder(view); // pass the view to View Holder
         return vh;
     }
 
     @Override
     public void onBindViewHolder(@NonNull final RVSAEmployeeDetails.MyHolder myHolder, final int position) {
-        myHolder.mName.setText(arrayListSAEmployees.get(position).getEmpName());
-        myHolder.mDesignation.setText(arrayListSAEmployees.get(position).getRole());
-        status1 = (arrayListSAEmployees.get(position).getActiveStatus());
+        myHolder.mHotelName.setText(arrayListSAEmployees.get(position).getHotelName());
+      //  myHolder.mDesignation.setText(arrayListSAEmployees.get(position).getRole());
+        //status1 = (arrayListSAEmployees.get(position).getActiveStatus());
 
         //     sessionmanager = new Sessionmanager(context);
         //  HashMap<String, String> name_info = sessionmanager.getHotelDetails();
 
         //  hotelId = name_info.get(HOTEL_ID);
 
-        String path = arrayListSAEmployees.get(position).getEmpImg();
-        Picasso.with(context).load(path).into(myHolder.circleImageView);
+       // String path = arrayListSAEmployees.get(position).getEmpImg();
+       // Picasso.with(context).load(path).into(myHolder.circleImageView);
 
     /*    holder.circleImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,13 +82,13 @@ public class RVSAEmployeeDetails extends RecyclerView.Adapter<RVSAEmployeeDetail
         shortAnimationDuration = context.getResources().getInteger(
                 android.R.integer.config_shortAnimTime);
 */
-        if (status1 == 1) {
+      /*  if (status1 == 1) {
             myHolder.status.setChecked(true);
         } else {
             myHolder.status.setChecked(false);
         }
-
-        myHolder.status.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+*/
+       /* myHolder.status.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 emp_id = arrayListSAEmployees.get(position).getEmpId();
@@ -99,18 +100,18 @@ public class RVSAEmployeeDetails extends RecyclerView.Adapter<RVSAEmployeeDetail
                     statusChange();
                 }
             }
-        });
+        });*/
 
-        myHolder.relativeLayout.setOnClickListener(new View.OnClickListener() {
+     /*   myHolder.relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, ActivitySAEmpolyeeProfile.class);
+               *//* Intent intent = new Intent(context, ActivitySAEmpolyeeProfile.class);
                 intent.putExtra("empId", arrayListSAEmployees.get(position).getEmpId());
                 intent.putExtra("empRole", arrayListSAEmployees.get(position).getRole());
                 intent.putParcelableArrayListExtra("Emp_detail", (ArrayList<? extends Parcelable>) arrayListSAEmployees);
-                context.startActivity(intent);
+                context.startActivity(intent);*//*
             }
-        });
+        });*/
     }
 
     private void statusChange() {
@@ -134,19 +135,20 @@ public class RVSAEmployeeDetails extends RecyclerView.Adapter<RVSAEmployeeDetail
     public class MyHolder extends RecyclerView.ViewHolder {
 
         private CircleImageView circleImageView;
-        private TextView mName;
+        private TextView mName,mHotelName;
         private TextView mDesignation;
         private RelativeLayout relativeLayout;
         private Switch status;
 
         public MyHolder(@NonNull View itemView) {
             super(itemView);
+            mHotelName=itemView.findViewById(R.id.tv_hotel_name);
 
-            circleImageView = (CircleImageView) itemView.findViewById(R.id.civ_emp_profile);
+        /*    circleImageView = (CircleImageView) itemView.findViewById(R.id.civ_emp_profile);
             mDesignation = (TextView) itemView.findViewById(R.id.tv_emp_designation);
             mName = (TextView) itemView.findViewById(R.id.tv_emp_name);
             status = (Switch) itemView.findViewById(R.id.switch_status);
-            relativeLayout = (RelativeLayout) itemView.findViewById(R.id.relative_employee);
+            relativeLayout = (RelativeLayout) itemView.findViewById(R.id.relative_employee);*/
         }
     }
 }

@@ -25,7 +25,7 @@ public class AdapterDisplayAllFlavourView extends RecyclerView.Adapter<AdapterDi
 
     @NonNull
     @Override
-    public AdapterDisplayAllFlavourView.MyHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public MyHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.rv_flavour_all_view, viewGroup, false);
 
         MyHolder holder = new MyHolder(view);
@@ -33,7 +33,7 @@ public class AdapterDisplayAllFlavourView extends RecyclerView.Adapter<AdapterDi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AdapterDisplayAllFlavourView.MyHolder myHolder, int i) {
+    public void onBindViewHolder(@NonNull MyHolder myHolder, int i) {
         myHolder.unitName.setText(arrayListFlavourUnitForm.get(i).getUnitName());
 
         String price = String.valueOf(arrayListFlavourUnitForm.get(i).getUnitPrice());

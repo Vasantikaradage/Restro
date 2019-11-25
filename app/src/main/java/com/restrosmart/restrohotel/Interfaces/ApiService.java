@@ -690,13 +690,15 @@ public interface ApiService {
 
     /*Super Admin*/
 
-    /*Fetching all employee Details.*/
-    @POST("Employee_Signup.php?Empcall=Get_Employee")
-    Call<JsonObject> getSAEmployees();
+    /*Fetching all admin employee Details.*/
+    @POST("SA_Emp.php?saemp=SA_Employee")
+    @FormUrlEncoded
+    Call<JsonObject> getSAEmployees(@Field("SA_Id") int saId);
 
     /*Fetching all hotel Details.*/
-    @POST("Employee_Signup.php?Empcall=Get_Employee")
-    Call<JsonObject> getSAHotelDetails();
+    @POST("SA_Hotel_Reg.php?sahotel=hotel_disp")
+    @FormUrlEncoded
+    Call<JsonObject> getSAHotelDetails(@Field("SA_Id") int saId);
 
     /*Fetching all hotel Type.*/
     @POST("SA_Hotel_Reg.php?sahotel=hotel_type")
@@ -709,21 +711,25 @@ public interface ApiService {
     /*Fetching state dfetails*/
     @POST("SA_Hotel_Reg.php?sahotel=state")
     @FormUrlEncoded
-    Call<JsonObject> getState(@Field("Country_Id") int countryId);
+    Call<JsonObject> getState(@Field("Country_Id")int countryId);
 
     /*Fetching city dfetails*/
     @POST("SA_Hotel_Reg.php?sahotel=city")
     @FormUrlEncoded
-    Call<JsonObject> getCity(@Field("State_Id") int stateId);
+    Call<JsonObject> getCity(@Field("State_Id")int stateId);
 
-    /*Fetching city dfetails*/
+    /*Fetching cuisine dfetails*/
     @POST("SA_Hotel_Reg.php?sahotel=cuisine")
     Call<JsonObject> getCuisine();
 
-    /*Fetching city dfetails*/
+    /*Fetching cuisine dfetails*/
+    @POST("SA_Hotel_Reg.php?sahotel=tags")
+    Call<JsonObject> getTags();
+
+    /*Fetching hotel basic registration dfetails*/
     @POST("SA_Hotel_Reg.php?sahotel=hotel_reg")
     @FormUrlEncoded
-    Call<JsonObject> hotelRegistration(@Field("Hotel_Name") String hotelName,
+    Call<JsonObject> hotelRegistration(@Field("Hotel_Name")String hotelName,
                                        @Field("Hotel_Mob") String mob,
                                        @Field("Hotel_Phone") String phone,
                                        @Field("Hotel_Email") String email,
@@ -732,8 +738,37 @@ public interface ApiService {
                                        @Field("Hotel_City") int cityId,
                                        @Field("Hotel_Area") String hotelArea,
                                        @Field("Hotel_Address") String hotelAddress,
-                                       @Field("SA_Id") int sa_id
-            /*@Field("action") String action*/);
+                                       @Field("SA_Id") int sa_id,
+
+                                       @Field("Hotel_Type_Id") int hotel_type_id,
+                                       @Field("Hotel_Table_Count") int hotel_table_count,
+                                       @Field("cusisinearray") String cuisineArray,
+                                       @Field("tagsarray") String tagsArray,
+
+                                       @Field("Hotel_Gstinno") String gstn,
+                                       @Field("Hotel_CGST")String cgst,
+                                       @Field("Hotel_SGST") String sgst);
+
+    /*Fetching image details*/
+    @POST("SA_Hotel_Reg.php?sahotel=hotel_img")
+    @FormUrlEncoded
+    Call<JsonObject> saveHotelImage(@Field("Hotel_Id")int hotelId,
+                                    @Field("Hotel_Img") String imageBitmap,
+                                    @Field("Img_Ext") String extension );
+
+
+
+
+
+
+    //   /*feathing hotel Other details */
+    @POST("SA_Hotel_Reg.php?sahotel=hotel_Other_detail")
+    @FormUrlEncoded
+    Call<JsonObject>otherHotelDetails(@Field("Hotel_Type_Id") int hotel_type_id,
+                                      @Field("Hotel_Table_Count") String hotel_table_count,
+                                      @Field("Hotel_Id") int hotelId,
+                                      @Field("cusisinearray") String cuisineArray,
+                                      @Field("tagsarray") String tagsArray);
 
 }
 

@@ -16,6 +16,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.ybq.android.spinkit.SpinKitView;
 import com.google.gson.JsonObject;
 import com.restrosmart.restrohotel.Adapter.RVToppingsAdapter;
 import com.restrosmart.restrohotel.Interfaces.ApiService;
@@ -68,6 +69,7 @@ public class ActivityAddNewMenu extends AppCompatActivity {
     private ArrayList<ToppingsForm> arrayListToppingsEditinfo;
     private int pcId;
     private ApiService apiService;
+       private SpinKitView skLoading;
 
 
     @Override
@@ -77,6 +79,7 @@ public class ActivityAddNewMenu extends AppCompatActivity {
 
         init();
         setUpToolBar();
+        skLoading.setVisibility(View.GONE);
 
         intent = getIntent();
         pcId = intent.getIntExtra("pc_Id", 0);
@@ -158,7 +161,7 @@ public class ActivityAddNewMenu extends AppCompatActivity {
                         String image = intent.getStringExtra("ImageName");
 
                         String strImage=image.substring(image.lastIndexOf("/") + 1);
-                        if ((strImage.equals("def_menu.png")) || (strImage.equals("def_liquore.png"))) {
+                        if ((strImage.equals("def_menu.png")) || (strImage.equals("def_liq.png"))) {
                             mFinalImageName = "null";
                         } else {
                             mFinalImageName = image.substring(image.lastIndexOf("/") + 1);
@@ -171,6 +174,7 @@ public class ActivityAddNewMenu extends AppCompatActivity {
                                 .into(mCircularImageView);
                     }
                     int price = Integer.parseInt(etxMenuPrice.getText().toString());
+                    skLoading.setVisibility(View.VISIBLE);
                     ApiService service1 = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
                     mRetrofitService = new RetrofitService(mResultCallBack, ActivityAddNewMenu.this);
                     mRetrofitService.retrofitData(EDIT_MENU, (service1.editMenu(etxMenuName.getText().toString(),
@@ -184,6 +188,8 @@ public class ActivityAddNewMenu extends AppCompatActivity {
                             intent.getIntExtra("pc_Id", 0),
                             ToppingList
                     )));
+
+
                 }
             });
 
@@ -238,6 +244,7 @@ public class ActivityAddNewMenu extends AppCompatActivity {
                         mFinalImageName = imageName.substring(imageName.lastIndexOf("/") + 1);
                     }
                     getRetrofitDataforMenusave();
+                    skLoading.setVisibility(View.VISIBLE);
                 }
             });
             btnCancelMenu.setOnClickListener(new View.OnClickListener() {
@@ -305,9 +312,10 @@ public class ActivityAddNewMenu extends AppCompatActivity {
                                 Toast.makeText(ActivityAddNewMenu.this, "Menu Added Successfully..", Toast.LENGTH_LONG).show();
                                 finish();
                             } else {
-                                Toast.makeText(ActivityAddNewMenu.this, "Try again later..", Toast.LENGTH_LONG).show();
+                                Toast.makeText(ActivityAddNewMenu.this,  addMenuObject.getString("message"), Toast.LENGTH_LONG).show();
 
                             }
+                            skLoading.setVisibility(View.GONE);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -318,15 +326,16 @@ public class ActivityAddNewMenu extends AppCompatActivity {
                         String editMenu = menuObject.toString();
 
                         try {
-                            JSONObject addMenuObject = new JSONObject(editMenu);
-                            int status = addMenuObject.getInt("status");
+                            JSONObject editMenuObject = new JSONObject(editMenu);
+                            int status = editMenuObject.getInt("status");
                             if (status == 1) {
                                 Toast.makeText(ActivityAddNewMenu.this, "Menu Updated Successfully..", Toast.LENGTH_LONG).show();
                                 finish();
                             } else {
-                                Toast.makeText(ActivityAddNewMenu.this, "Try again later..", Toast.LENGTH_LONG).show();
+                                Toast.makeText(ActivityAddNewMenu.this,  editMenuObject.getString("message"), Toast.LENGTH_LONG).show();
 
                             }
+                            skLoading.setVisibility(View.GONE);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -336,6 +345,8 @@ public class ActivityAddNewMenu extends AppCompatActivity {
 
             @Override
             public void notifyError(int requestId, Throwable error) {
+                Log.d("","requestId"+requestId);
+                Log.d("","RetrofitError"+error);
 
             }
         };
@@ -390,6 +401,7 @@ public class ActivityAddNewMenu extends AppCompatActivity {
 
     private void init() {
         mSessionManager = new Sessionmanager(this);
+        skLoading=findViewById(R.id.skLoading);
         mToolbar = findViewById(R.id.toolbar);
         tvTitle = mToolbar.findViewById(R.id.tx_title);
         rvTopping = findViewById(R.id.rv_toppings);
@@ -438,6 +450,7 @@ public class ActivityAddNewMenu extends AppCompatActivity {
             Toast.makeText(this, "Please enter all fields", Toast.LENGTH_SHORT).show();
         }else {
             initRetrofitCallBack();
+
             String ToppingList = getToppingList();
 
             ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);

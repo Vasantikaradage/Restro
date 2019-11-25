@@ -144,70 +144,69 @@ public class ActivityMenu extends AppCompatActivity {
         mRetrofitService.retrofitData(PARENT_CATEGORY_WITH_TOPPINGS, (service.toppingDisplay(mHotelId)));
 
 
-            mCircularViewMenu = (CircleImageView) dialoglayoutMenu.findViewById(R.id.img_menu);
-            Picasso.with(ActivityMenu.this)
-                    .load(R.drawable.ic_steak)
-                    .resize(500, 500)
-                    .into(mCircularViewMenu);
+        mCircularViewMenu = (CircleImageView) dialoglayoutMenu.findViewById(R.id.img_menu);
+        Picasso.with(ActivityMenu.this)
+                .load(R.drawable.ic_steak)
+                .resize(500, 500)
+                .into(mCircularViewMenu);
 
 
-            btnCamara.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(ActivityMenu.this, ActivityMenuGallery.class);
-                    intent.putExtra("Pc_Id", pcId);
-                    intent.putExtra("Category_Id", Category_Id);
-                    startActivityForResult(intent, IMAGE_RESULT_OK);
+        btnCamara.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ActivityMenu.this, ActivityMenuGallery.class);
+                intent.putExtra("Pc_Id", pcId);
+                intent.putExtra("Category_Id", Category_Id);
+                startActivityForResult(intent, IMAGE_RESULT_OK);
+            }
+        });
+
+
+        btnSave.setVisibility(View.VISIBLE);
+        txTitle.setVisibility(View.VISIBLE);
+        btnUpdate.setVisibility(View.GONE);
+        txEditTitle.setVisibility(View.GONE);
+
+        etvMenu.setText("");
+        Picasso.with(ActivityMenu.this)
+                .load(imageName)
+                .resize(500, 500)
+                .into(mCircularViewMenu);
+
+
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (imageName == null) {
+                    mFinalImageName = "null";
+                } else {
+                    mFinalImageName = imageName.substring(imageName.lastIndexOf("/") + 1);
                 }
-            });
 
+                if (etvMenu.getText().toString().length() == 0) {
+                    Toast.makeText(ActivityMenu.this, "Please enter menu name", Toast.LENGTH_LONG).show();
+                } else {
 
-            btnSave.setVisibility(View.VISIBLE);
-            txTitle.setVisibility(View.VISIBLE);
-            btnUpdate.setVisibility(View.GONE);
-            txEditTitle.setVisibility(View.GONE);
-
-            etvMenu.setText("");
-            Picasso.with(ActivityMenu.this)
-                    .load(imageName)
-                    .resize(500, 500)
-                    .into(mCircularViewMenu);
-
-
-
-            btnSave.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (imageName == null) {
-                        mFinalImageName = "null";
-                    } else {
-                        mFinalImageName = imageName.substring(imageName.lastIndexOf("/") + 1);
-                    }
-
-                    if (etvMenu.getText().toString().length() == 0) {
-                        Toast.makeText(ActivityMenu.this, "Please enter menu name", Toast.LENGTH_LONG).show();
-                    } else {
-
-                        initRetrofitCallback();
-                        String ToppingList = getToppingList();
-                        ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
-                        mRetrofitService = new RetrofitService(mResultCallBack, ActivityMenu.this);
-                        mRetrofitService.retrofitData(ADD_MENU, (service.getMenuAdd(etvMenu.getText().toString(),
-                                null,
-                                mFinalImageName,
-                                Category_Id,
-                                0,
-                                null,
-                                mHotelId,
-                                pcId,
-                                ToppingList
-                        )));
-                        bottomSheetDialog.dismiss();
-                    }
+                    initRetrofitCallback();
+                    String ToppingList = getToppingList();
+                    ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
+                    mRetrofitService = new RetrofitService(mResultCallBack, ActivityMenu.this);
+                    mRetrofitService.retrofitData(ADD_MENU, (service.getMenuAdd(etvMenu.getText().toString(),
+                            "",
+                            mFinalImageName,
+                            Category_Id,
+                            0,
+                            "",
+                            mHotelId,
+                            pcId,
+                            ToppingList
+                    )));
+                    bottomSheetDialog.dismiss();
                 }
-            });
+            }
+        });
 
-            btnCancel.setOnClickListener(new View.OnClickListener() {
+        btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 bottomSheetDialog.dismiss();
@@ -383,9 +382,10 @@ public class ActivityMenu extends AppCompatActivity {
                             int status = addMenuObject.getInt("status");
                             if (status == 1) {
                                 Toast.makeText(ActivityMenu.this, "Menu Added Successfully..", Toast.LENGTH_LONG).show();
+                               // finish();
 
                             } else {
-                                Toast.makeText(ActivityMenu.this, "Try again later..", Toast.LENGTH_LONG).show();
+                                Toast.makeText(ActivityMenu.this, addMenuObject.getString("message"), Toast.LENGTH_LONG).show();
                             }
                             MenuListRetrofitServiceCall();
                         } catch (JSONException e) {
@@ -401,10 +401,12 @@ public class ActivityMenu extends AppCompatActivity {
                             int status = editMenuObject.getInt("status");
                             if (status == 1) {
                                 Toast.makeText(ActivityMenu.this, "Menu Updated Successfully..", Toast.LENGTH_LONG).show();
+                              finish();
                                 MenuListRetrofitServiceCall();
                             } else {
                                 Toast.makeText(ActivityMenu.this, "Try again later..", Toast.LENGTH_LONG).show();
                             }
+                            MenuListRetrofitServiceCall();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -422,6 +424,7 @@ public class ActivityMenu extends AppCompatActivity {
                             } else {
                                 Toast.makeText(ActivityMenu.this, "Something went wrong...! Try Again..", Toast.LENGTH_LONG).show();
                             }
+                            MenuListRetrofitServiceCall();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -440,6 +443,7 @@ public class ActivityMenu extends AppCompatActivity {
                             } else {
                                 Toast.makeText(ActivityMenu.this, "Try Again..", Toast.LENGTH_LONG).show();
                             }
+                            MenuListRetrofitServiceCall();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -526,7 +530,7 @@ public class ActivityMenu extends AppCompatActivity {
                         mRetrofitService = new RetrofitService(mResultCallBack, ActivityMenu.this);
                         mRetrofitService.retrofitData(MENU_DELETE, (service.getMenuDelete(arrayListMenu.get(position).getMenu_Id(),
                                 mHotelId,
-                              arrayListMenu.get(position).getCategory_Id(), pcId)));
+                                arrayListMenu.get(position).getCategory_Id(), pcId)));
 
                     }
                 }, arrayListMenu, new EditListener() {
@@ -573,78 +577,77 @@ public class ActivityMenu extends AppCompatActivity {
 
         etvMenu.setText(arrayListMenu.get(editPosition).getMenu_Name());
 
-            Picasso.with(ActivityMenu.this)
-                    .load(arrayListMenu.get(editPosition).getMenu_Image_Name())
-                    .resize(500,
-                            500)
-                    .into(mCircularViewMenu);
+        Picasso.with(ActivityMenu.this)
+                .load(arrayListMenu.get(editPosition).getMenu_Image_Name())
+                .resize(500,
+                        500)
+                .into(mCircularViewMenu);
 
 
+        btnCamara.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ActivityMenu.this, ActivityMenuGallery.class);
+                intent.putExtra("Pc_Id", pcId);
+                intent.putExtra("Category_Id", Category_Id);
+                startActivityForResult(intent, IMAGE_RESULT_OK);
+            }
+        });
 
-            btnCamara.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(ActivityMenu.this, ActivityMenuGallery.class);
-                    intent.putExtra("Pc_Id", pcId);
-                    intent.putExtra("Category_Id", Category_Id);
-                    startActivityForResult(intent, IMAGE_RESULT_OK);
-                }
-            });
+        btnUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-            btnUpdate.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+                image = arrayListMenu.get(editPosition).getMenu_Image_Name().substring(arrayListMenu.get(editPosition).getMenu_Image_Name().lastIndexOf("/") + 1);
+                if (imageName == null) {
+                    mFinalImageName = "null";
 
-                    image = arrayListMenu.get(editPosition).getMenu_Image_Name().substring(arrayListMenu.get(editPosition).getMenu_Image_Name().lastIndexOf("/") + 1);
-                    if (imageName == null) {
+                    Picasso.with(ActivityMenu.this)
+                            .load(arrayListMenu.get(editPosition).getMenu_Image_Name())
+                            .resize(500, 500)
+                            .into(mCircularViewMenu);
+
+                    if (image.equals("def_liq.png")) {
                         mFinalImageName = "null";
-
-                        Picasso.with(ActivityMenu.this)
-                                .load(arrayListMenu.get(editPosition).getMenu_Image_Name())
-                                .resize(500, 500)
-                                .into(mCircularViewMenu);
-
-                        if (image.equals("def_liquore.png")) {
-                            mFinalImageName = "null";
-                        } else {
-                            mFinalImageName = image.substring(image.lastIndexOf("/") + 1);
-                        }
                     } else {
-                        mFinalImageName = imageName.substring(imageName.lastIndexOf("/") + 1);
-                        Picasso.with(ActivityMenu.this)
-                                .load(imageName)
-                                .resize(500, 500)
-                                .into(mCircularViewMenu);
-
+                        mFinalImageName = image.substring(image.lastIndexOf("/") + 1);
                     }
+                } else {
+                    mFinalImageName = imageName.substring(imageName.lastIndexOf("/") + 1);
+                    Picasso.with(ActivityMenu.this)
+                            .load(imageName)
+                            .resize(500, 500)
+                            .into(mCircularViewMenu);
+
+                }
 
 //                    if (etvMenu.getText().toString().length() == 0) {
 //                        Toast.makeText(ActivityMenu.this, "Please enter menu name", Toast.LENGTH_LONG).show();
 //                    } else {
 
-                        initRetrofitCallback();
+                initRetrofitCallback();
 
-                        String ToppingList = getToppingList();
-                        ApiService service1 = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
-                        mRetrofitService = new RetrofitService(mResultCallBack, ActivityMenu.this);
-                        mRetrofitService.retrofitData(EDIT_MENU, (service1.editMenu(etvMenu.getText().toString(),
-                                "",
-                                mFinalImageName,
-                                0,
-                                0,
-                                arrayListMenu.get(editPosition).getMenu_Id(),
-                                mHotelId,
-                                Category_Id,
-                                pcId,
-                                ToppingList
-                        )));
-                        bottomSheetDialog.dismiss();
+                String ToppingList = getToppingList();
+                ApiService service1 = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
+                mRetrofitService = new RetrofitService(mResultCallBack, ActivityMenu.this);
+                mRetrofitService.retrofitData(EDIT_MENU, (service1.editMenu(etvMenu.getText().toString(),
+                        "",
+                        mFinalImageName,
+                        0,
+                        0,
+                        arrayListMenu.get(editPosition).getMenu_Id(),
+                        mHotelId,
+                        Category_Id,
+                        pcId,
+                        ToppingList
+                )));
+                bottomSheetDialog.dismiss();
 
 
-                   //
-                    // }
-                }
-            });
+                //
+                // }
+            }
+        });
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override

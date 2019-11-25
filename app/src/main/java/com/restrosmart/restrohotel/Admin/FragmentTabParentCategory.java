@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.ybq.android.spinkit.SpinKitView;
 import com.google.gson.JsonObject;
 import com.restrosmart.restrohotel.Adapter.AdapterDisplayAllCategory;
 import com.restrosmart.restrohotel.Interfaces.ApiService;
@@ -42,6 +44,7 @@ import java.util.HashMap;
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Response;
 
+import static android.support.v7.widget.StaggeredGridLayoutManager.VERTICAL;
 import static com.restrosmart.restrohotel.ConstantVariables.DELETE_CATEGORY;
 import static com.restrosmart.restrohotel.ConstantVariables.EDIT_CATEGORY;
 import static com.restrosmart.restrohotel.ConstantVariables.IMAGE_RESULT_OK;
@@ -67,6 +70,8 @@ public class FragmentTabParentCategory extends Fragment {
     private CircleImageView mImageView;
     private String imageName, image, mFinalImageName;
     private BottomSheetDialog dialog;
+    private SpinKitView skLoading;
+
     private ApiService apiService;
 
     @Nullable
@@ -75,21 +80,25 @@ public class FragmentTabParentCategory extends Fragment {
         view = inflater.inflate(R.layout.fragment_menu_items, null);
 
         init();
+
         Bundle bundle = getArguments();
         final ArrayList<CategoryForm> categoryForms = bundle.getParcelableArrayList("menuobj");
+        skLoading.setVisibility(View.GONE);
+
 
         HashMap<String, String> name_info = mSessionmanager.getHotelDetails();
         mHotelId = Integer.parseInt(name_info.get(HOTEL_ID));
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(linearLayoutManager);
+
+        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, VERTICAL);
+        recyclerView.setLayoutManager(staggeredGridLayoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.getLayoutManager().setMeasurementCacheEnabled(false);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
 
         adapterDisplayAllMenu = new AdapterDisplayAllCategory(getActivity(), categoryForms, new DeleteListener() {
             @Override
             public void getDeleteListenerPosition(int position) {
+                skLoading.setVisibility(View.VISIBLE);
                 initRetrofitCallback();
                 ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
                 mRetrofitService = new RetrofitService(mResultCallBack, getActivity());
@@ -180,6 +189,7 @@ public class FragmentTabParentCategory extends Fragment {
 
                         }
                         getRetrofitDataUpdate();
+                        skLoading.setVisibility(View.VISIBLE);
                     }
 
                     //category edit web service call
@@ -210,7 +220,7 @@ public class FragmentTabParentCategory extends Fragment {
 
             }
         });
-        recyclerView.setLayoutManager(gridLayoutManager);
+        recyclerView.setLayoutManager(staggeredGridLayoutManager);
         recyclerView.setAdapter(adapterDisplayAllMenu);
         adapterDisplayAllMenu.notifyDataSetChanged();
         return view;
@@ -234,8 +244,9 @@ public class FragmentTabParentCategory extends Fragment {
                                 getActivity().sendBroadcast(intent);
                             }else
                             {
-                                Toast.makeText(getActivity(), "Try again...", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), object.getString("message"), Toast.LENGTH_SHORT).show();
                             }
+                            skLoading.setVisibility(View.GONE);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -255,12 +266,15 @@ public class FragmentTabParentCategory extends Fragment {
                                 getActivity().sendBroadcast(intent1);
                                 dialog.dismiss();
                             } else {
-                                Toast.makeText(getActivity(), "Try again...", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(),object.getString("message") , Toast.LENGTH_SHORT).show();
 
                             }
+                            skLoading.setVisibility(View.GONE);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+
+
                         break;
                 }
 
@@ -278,6 +292,7 @@ public class FragmentTabParentCategory extends Fragment {
     private void init() {
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_menu_item);
         mSessionmanager = new Sessionmanager(getActivity());
+        skLoading=view.findViewById(R.id.skLoading);
     }
 
     public static Fragment newInstance(ArrayList<CategoryForm> menu, int position) {

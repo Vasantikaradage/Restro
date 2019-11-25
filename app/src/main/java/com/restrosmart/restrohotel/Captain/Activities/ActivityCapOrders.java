@@ -71,6 +71,8 @@ public class ActivityCapOrders extends AppCompatActivity {
     private int hotelId;
     private DecimalFormat df2;
 
+
+
     private ArrayList<UserCategory> arrayListUserCategory;
 
     @Override

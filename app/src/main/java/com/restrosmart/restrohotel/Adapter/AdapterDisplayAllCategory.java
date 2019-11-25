@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.restrosmart.restrohotel.Admin.ActivityMenu;
@@ -33,8 +34,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 /**
  * Created by SHREE on 11/10/2018.
  */
-public class
-AdapterDisplayAllCategory extends RecyclerView.Adapter<AdapterDisplayAllCategory.MyHolder> {
+public class AdapterDisplayAllCategory extends RecyclerView.Adapter<AdapterDisplayAllCategory.MyHolder> {
     private Context context;
     private List<CategoryForm> arrayList;
     private EditListener editListener;
@@ -134,14 +134,14 @@ AdapterDisplayAllCategory extends RecyclerView.Adapter<AdapterDisplayAllCategory
 
     public class MyHolder extends RecyclerView.ViewHolder {
         TextView tx_name;
-        CircleImageView circleImageView;
+        ImageView circleImageView;
         ImageButton imgBtnEdit, imagBtnDelete;
         // Button btnCategory;
 
         public MyHolder(final View itemView) {
             super(itemView);
 
-            circleImageView = (CircleImageView) itemView.findViewById(R.id.circle_image);
+            circleImageView = (ImageView) itemView.findViewById(R.id.circle_image);
             tx_name = (TextView) itemView.findViewById(R.id.tv_category_name);
             imgBtnEdit = itemView.findViewById(R.id.btn_edit_button);
             imagBtnDelete = itemView.findViewById(R.id.btn_delete_button);

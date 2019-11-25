@@ -138,7 +138,20 @@ public class ConstantVariables {
     public  static  final  int GET_STATE=1004;
     public  static  final  int GET_CITY=1005;
     public  static  final  int HOTEL_CUISINE=1006;
+
     public  static  final  int HOTEL_REGISTRATION=1007;
+    public  static  final  int HOTEL_TAGS=1008;
+    public  static  final  int HOTEL_OTHER_DETAILS=1009;
+
+    public  static  final  int HOTEL_ADD_PHOTO=1016;
+
+    public  static  final  int IMAGE1=1010;
+    public  static  final  int IMAGE2=1011;
+    public  static  final  int IMAGE3=1012;
+    public  static  final  int IMAGE4=1013;
+    public  static  final  int IMAGE5=1014;
+    public  static  final  int IMAGE6=1015;
+
 
 
 }

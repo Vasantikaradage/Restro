@@ -25,6 +25,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.ybq.android.spinkit.SpinKitView;
 import com.google.gson.JsonObject;
 import com.restrosmart.restrohotel.Adapter.CategoryViewPagerAdapter;
 
@@ -36,6 +37,7 @@ import com.restrosmart.restrohotel.Model.ParentCategoryForm;
 import com.restrosmart.restrohotel.R;
 import com.restrosmart.restrohotel.RetrofitClientInstance;
 import com.restrosmart.restrohotel.RetrofitService;
+import com.restrosmart.restrohotel.Utils.LoadingDialog;
 import com.restrosmart.restrohotel.Utils.Sessionmanager;
 import com.squareup.picasso.Picasso;
 
@@ -60,7 +62,8 @@ public class FragmentMenuItems extends Fragment {
     private TabLayout tabLayout;
     private Toolbar toolbar;
     private ViewPager viewPager;
-    private ProgressDialog progressDialog;
+    private SpinKitView skLoading;
+
     private LinearLayout llNoCategoryData;
 
     private RetrofitService mRetrofitService;
@@ -111,7 +114,7 @@ public class FragmentMenuItems extends Fragment {
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, getActivity());
         mRetrofitService.retrofitData(PARENT_CATEGORY_WITH_SUB, (service.GetAllCategory(hotelId)));
-        showProgressDialog();
+       // showProgressDialog();
 
 
         btnCategory.setOnClickListener(new View.OnClickListener() {
@@ -167,7 +170,7 @@ public class FragmentMenuItems extends Fragment {
                             mFinalImageName = suffix.substring(start1 + 1);*/
                                 mFinalImageName = imageName.substring(imageName.lastIndexOf("/") + 1);
                             }
-
+                            skLoading.setVisibility(View.VISIBLE);
                             saveCategoryInformation();
                         }
                     }
@@ -192,6 +195,8 @@ public class FragmentMenuItems extends Fragment {
                         mFinalImageName,
                         hotelId,
                         mPcId));
+
+               // showProgressDialog();
             }
         });
     }
@@ -200,16 +205,7 @@ public class FragmentMenuItems extends Fragment {
         Toast.makeText(getActivity(),"Please enter the category name",Toast.LENGTH_LONG).show();
     }
 
-    private void showProgressDialog() {
-        progressDialog = new ProgressDialog(getContext());
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        //Without this user can hide loader by tapping outside screen
-        progressDialog.setCancelable(false);
-        progressDialog.setCanceledOnTouchOutside(false);
-        progressDialog.setTitle(getContext().getResources().getString(R.string.app_name));
-        progressDialog.setMessage("Uploading Menu");
-        progressDialog.show();
-    }
+
 
     @Override
     public void onResume() {
@@ -238,6 +234,8 @@ public class FragmentMenuItems extends Fragment {
         fragmentCategoryModelArrayList = new ArrayList<>();
         addParentCategoryinfoModels = new ArrayList<>();
         arrayList = new ArrayList<>();
+
+        skLoading = getActivity().findViewById(R.id.skLoading);
     }
 
     private void initRetrofitCallBackForCategory() {
@@ -253,6 +251,8 @@ public class FragmentMenuItems extends Fragment {
                             JSONObject object = new JSONObject(mParentSubcategory);
                             int status = object.getInt("status");
                             if (status == 1) {
+                                llNoCategoryData.setVisibility(View.GONE);
+
                                 JSONObject jsonObject1 = object.getJSONObject("AllMenu");
 
                                 mFragmentTitleList.clear();
@@ -293,9 +293,11 @@ public class FragmentMenuItems extends Fragment {
 
                             } else {
 
+                                llNoCategoryData.setVisibility(View.VISIBLE);
                             }
+                           skLoading.setVisibility(View.GONE);
                             setupViewPager(viewPager);
-                            progressDialog.dismiss();
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -317,10 +319,11 @@ public class FragmentMenuItems extends Fragment {
                             }
                             else
                             {
-                                Toast.makeText(getActivity(), "Try again...", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getActivity(), object.getString("message"), Toast.LENGTH_LONG).show();
                                 dialog.dismiss();
 
                             }
+                            skLoading.setVisibility(View.GONE);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

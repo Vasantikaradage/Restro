@@ -1,12 +1,39 @@
 package com.restrosmart.restrohotel.Model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 
-public  class MenuForm {
+public  class MenuForm  implements Parcelable {
     private String menuName,menuDisp,liqMLQty;
     private  int menuPrice,menuQty;
 
     private ArrayList<ToppingsForm> arrayListToppings;
+
+    public MenuForm() {
+    }
+
+    protected MenuForm(Parcel in) {
+        menuName = in.readString();
+        menuDisp = in.readString();
+        liqMLQty = in.readString();
+        menuPrice = in.readInt();
+        menuQty = in.readInt();
+        arrayListToppings = in.createTypedArrayList(ToppingsForm.CREATOR);
+    }
+
+    public static final Creator<MenuForm> CREATOR = new Creator<MenuForm>() {
+        @Override
+        public MenuForm createFromParcel(Parcel in) {
+            return new MenuForm(in);
+        }
+
+        @Override
+        public MenuForm[] newArray(int size) {
+            return new MenuForm[size];
+        }
+    };
 
     public String getLiqMLQty() {
         return liqMLQty;
@@ -54,5 +81,20 @@ public  class MenuForm {
 
     public void setArrayListToppings(ArrayList<ToppingsForm> arrayListToppings) {
         this.arrayListToppings = arrayListToppings;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(menuName);
+        dest.writeString(menuDisp);
+        dest.writeString(liqMLQty);
+        dest.writeInt(menuPrice);
+        dest.writeInt(menuQty);
+        dest.writeTypedList(arrayListToppings);
     }
 }

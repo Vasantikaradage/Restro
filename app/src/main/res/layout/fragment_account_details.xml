@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,286 +16,336 @@
         android:orientation="vertical"
         android:padding="10dp">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Do you have GSTN No :"/>
 
-        <RadioGroup
-            android:id="@+id/radio_group"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/radio_btn_yes"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Yes"
-                android:layout_weight="1"/>
-
-            <RadioButton
-                android:id="@+id/radio_btn_no"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="No"
-                android:layout_weight="1"/>
-
-
-        </RadioGroup>
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_weight="1">
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/edt_hote_gstn_no"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="GSTN No"
-                android:maxLines="1"
-                android:textSize="16sp"
-                android:visibility="gone"/>
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/edt_hotel_cgst"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:digits="0123456789"
-                android:hint="Hotel CGST"
-                android:inputType="number"
-                android:maxLength="10"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:textSize="16sp"
-                android:visibility="gone"/>
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/edt_hotel_sgst"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:digits="0123456789"
-                android:hint="Hotel SGST"
-                android:inputType="number"
-                android:maxLength="12"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:textSize="16sp"
-                android:visibility="gone"/>
-        </android.support.design.widget.TextInputLayout>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Add Image"
-            android:layout_margin="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_margin="5dp"
+            android:layout_marginTop="5dp"
+            android:drawableLeft="@drawable/ic_tax"
+            android:drawablePadding="5dp"
+            android:text="GSTN No"
+            android:textColor="@color/colorPrimary" />
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            app:cardUseCompatPadding="true">
+
+            <RadioGroup
+                android:id="@+id/radio_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radio_btn_yes"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Yes" />
+
+                <RadioButton
+                    android:id="@+id/radio_btn_no"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="No" />
+
+
+            </RadioGroup>
+
+            <LinearLayout
+                android:id="@+id/linear_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:visibility="gone">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_weight="1">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/edt_hote_gstn_no"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="GSTN"
+                        android:maxLines="1"
+                        android:textSize="16sp"
+                        android:visibility="gone" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/edt_hotel_cgst"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:digits="0123456789"
+                        android:hint="CGST"
+                        android:inputType="number"
+                        android:maxLength="10"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:textSize="16sp"
+                        android:visibility="gone" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/edt_hotel_sgst"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:digits="0123456789"
+                        android:hint="SGST"
+                        android:inputType="number"
+                        android:maxLength="12"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:textSize="16sp"
+                        android:visibility="gone" />
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_marginTop="25dp"
+            android:drawableLeft="@drawable/ic_image"
+
+            android:drawablePadding="5dp"
+            android:text="Hotel Images"
+            android:textColor="@color/colorPrimary"
             android:textSize="16sp" />
 
-
-        <LinearLayout
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            app:cardUseCompatPadding="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center"
-                >
+                android:orientation="vertical"
+                android:padding="10dp">
 
-                <FrameLayout
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_margin="10dp"
-                    android:background="@color/colorGrey">
 
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_add" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal">
 
-                </FrameLayout>
+                        <FrameLayout
+                            android:id="@+id/fl_image1"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentBottom="true"
+                            android:layout_margin="10dp"
+                            android:background="@color/colorGrey">
 
-                <FrameLayout
+                            <ImageView
+                                android:id="@+id/image1"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_add" />
 
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_margin="10dp"
-                    android:background="@color/colorGrey">
+                        </FrameLayout>
 
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_add" />
+                        <FrameLayout
+                            android:id="@+id/fl_image2"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentBottom="true"
+                            android:layout_margin="10dp"
+                            android:background="@color/colorGrey">
 
-                </FrameLayout>
+                            <ImageView
+                                android:id="@+id/image2"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_add" />
 
-                <FrameLayout
+                        </FrameLayout>
 
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_margin="10dp"
-                    android:background="@color/colorGrey">
+                        <FrameLayout
+                            android:id="@+id/fl_image3"
 
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_add" />
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentBottom="true"
+                            android:layout_margin="10dp"
+                            android:background="@color/colorGrey">
 
-                </FrameLayout>
+                            <ImageView
+                                android:id="@+id/image3"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_add" />
+
+                        </FrameLayout>
+
+                    </LinearLayout>
+
+                    <!--  <LinearLayout
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:orientation="horizontal"
+                          android:gravity="center"
+                          android:weightSum="4">
+
+                          <ImageView
+                              android:layout_width="0dp"
+                              android:layout_height="90dp"
+                              android:layout_weight="1"
+                              android:layout_margin="5dp"
+                              android:background="@drawable/ic_add"/>
+
+                          <ImageView
+                              android:layout_width="0dp"
+                              android:layout_height="90dp"
+                              android:layout_weight="1"
+                              android:layout_margin="5dp"
+                              android:background="@drawable/ic_add"/>
+
+                          <ImageView
+                              android:layout_width="0dp"
+                              android:layout_height="90dp"
+                              android:layout_weight="1"
+                              android:layout_margin="5dp"
+                              android:background="@drawable/ic_add"/>
+                      </LinearLayout>-->
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <FrameLayout
+                            android:id="@+id/fl_image4"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentBottom="true"
+                            android:layout_margin="10dp"
+                            android:background="@color/colorGrey">
+
+                            <ImageView
+                                android:id="@+id/image4"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_add" />
+
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:id="@+id/fl_image5"
+
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentBottom="true"
+                            android:layout_margin="10dp"
+                            android:background="@color/colorGrey">
+
+                            <ImageView
+                                android:id="@+id/image5"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_add" />
+
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:id="@+id/fl_image6"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentBottom="true"
+                            android:layout_margin="10dp"
+                            android:background="@color/colorGrey">
+
+                            <ImageView
+                                android:id="@+id/image6"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_add" />
+
+                        </FrameLayout>
+
+                    </LinearLayout>
+
+                    <!--  <LinearLayout
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:orientation="horizontal"
+                          android:gravity="center"
+                          android:weightSum="4">
+
+                          <ImageView
+                              android:layout_width="0dp"
+                              android:layout_height="90dp"
+                              android:layout_weight="1"
+                              android:layout_margin="5dp"
+                              android:background="@drawable/ic_add"/>
+
+                          <ImageView
+                              android:layout_width="0dp"
+                              android:layout_height="90dp"
+                              android:layout_weight="1"
+                              android:layout_margin="5dp"
+                              android:background="@drawable/ic_add"/>
+
+                          <ImageView
+                              android:layout_width="0dp"
+                              android:layout_height="90dp"
+                              android:layout_weight="1"
+                              android:layout_margin="5dp"
+                              android:background="@drawable/ic_add"/>
+                      </LinearLayout>-->
+                </LinearLayout>
 
             </LinearLayout>
+        </android.support.v7.widget.CardView>
 
-            <!--  <LinearLayout
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:orientation="horizontal"
-                  android:gravity="center"
-                  android:weightSum="4">
-
-                  <ImageView
-                      android:layout_width="0dp"
-                      android:layout_height="90dp"
-                      android:layout_weight="1"
-                      android:layout_margin="5dp"
-                      android:background="@drawable/ic_add"/>
-
-                  <ImageView
-                      android:layout_width="0dp"
-                      android:layout_height="90dp"
-                      android:layout_weight="1"
-                      android:layout_margin="5dp"
-                      android:background="@drawable/ic_add"/>
-
-                  <ImageView
-                      android:layout_width="0dp"
-                      android:layout_height="90dp"
-                      android:layout_weight="1"
-                      android:layout_margin="5dp"
-                      android:background="@drawable/ic_add"/>
-              </LinearLayout>-->
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center"
-                >
-
-                <FrameLayout
-                    android:id="@+id/ivAddCategory"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_margin="10dp"
-                    android:background="@color/colorGrey">
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_add" />
-
-                </FrameLayout>
-
-                <FrameLayout
-
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_margin="10dp"
-                    android:background="@color/colorGrey">
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_add" />
-
-                </FrameLayout>
-
-                <FrameLayout
-
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_margin="10dp"
-                    android:background="@color/colorGrey">
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_add" />
-
-                </FrameLayout>
-
-            </LinearLayout>
-
-            <!--  <LinearLayout
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:orientation="horizontal"
-                  android:gravity="center"
-                  android:weightSum="4">
-
-                  <ImageView
-                      android:layout_width="0dp"
-                      android:layout_height="90dp"
-                      android:layout_weight="1"
-                      android:layout_margin="5dp"
-                      android:background="@drawable/ic_add"/>
-
-                  <ImageView
-                      android:layout_width="0dp"
-                      android:layout_height="90dp"
-                      android:layout_weight="1"
-                      android:layout_margin="5dp"
-                      android:background="@drawable/ic_add"/>
-
-                  <ImageView
-                      android:layout_width="0dp"
-                      android:layout_height="90dp"
-                      android:layout_weight="1"
-                      android:layout_margin="5dp"
-                      android:background="@drawable/ic_add"/>
-              </LinearLayout>-->
-        </LinearLayout>
 
         <Button
             android:id="@+id/btn_account_hotel_details"
@@ -304,4 +358,14 @@
             android:textColor="@android:color/white"
             android:textSize="16sp" />
     </LinearLayout>
+
+    <com.github.ybq.android.spinkit.SpinKitView
+        android:id="@+id/skLoading"
+        style="@style/SpinKitView.Large.FadingCircle"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        app:SpinKit_Color="@color/colorPrimary" />
+
+    </FrameLayout>
 </android.support.v4.widget.NestedScrollView>
