@@ -13,7 +13,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@+id/title_name">
 
         <LinearLayout
@@ -30,6 +30,7 @@
                 app:reverseLayout="true">
 
             </android.support.v7.widget.RecyclerView>
+<!--
 
             <ImageView
                 android:id="@+id/iv_btn_edit"
@@ -49,9 +50,10 @@
                 android:layout_marginEnd="5dp"
                 android:visibility="gone"
                 android:src="@drawable/ic_cancel_background_primary" />
+-->
 
 
-            <android.support.v7.widget.CardView
+         <!--   <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -162,10 +164,35 @@
                         android:visibility="gone" />
                 </LinearLayout>
 
-            </android.support.v7.widget.CardView>
-
+            </android.support.v7.widget.CardView>-->
 
         </LinearLayout>
+
+
     </ScrollView>
+
+    <FrameLayout
+        android:id="@+id/ivAddRushHours"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:padding="@dimen/dimen_5dp">
+
+        <ImageView
+            android:id="@+id/image_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/circle_bg_gradient" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_action_add" />
+
+    </FrameLayout>
+
 
 </RelativeLayout>

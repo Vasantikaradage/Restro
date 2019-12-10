@@ -333,4 +333,9 @@ public class HotelForm implements Parcelable {
         dest.writeInt(hotelId);
         dest.writeInt(superAdminId);
     }
+
+    @Override
+    public String toString() {
+        return hotelName;
+    }
 }

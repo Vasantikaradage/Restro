@@ -69,7 +69,7 @@ public class ActivityAddNewMenu extends AppCompatActivity {
     private ArrayList<ToppingsForm> arrayListToppingsEditinfo;
     private int pcId;
     private ApiService apiService;
-       private SpinKitView skLoading;
+    private SpinKitView skLoading;
 
 
     @Override
@@ -244,7 +244,7 @@ public class ActivityAddNewMenu extends AppCompatActivity {
                         mFinalImageName = imageName.substring(imageName.lastIndexOf("/") + 1);
                     }
                     getRetrofitDataforMenusave();
-                    skLoading.setVisibility(View.VISIBLE);
+
                 }
             });
             btnCancelMenu.setOnClickListener(new View.OnClickListener() {
@@ -291,9 +291,11 @@ public class ActivityAddNewMenu extends AppCompatActivity {
                                     }
                                 }
                             } else {
+                                skLoading.setVisibility(View.GONE);
 
                             }
                             callAdapter();
+                            skLoading.setVisibility(View.GONE);
                             // progressDialog.dismiss();
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -347,6 +349,8 @@ public class ActivityAddNewMenu extends AppCompatActivity {
             public void notifyError(int requestId, Throwable error) {
                 Log.d("","requestId"+requestId);
                 Log.d("","RetrofitError"+error);
+                finish();
+                skLoading.setVisibility(View.GONE);
 
             }
         };
@@ -446,11 +450,12 @@ public class ActivityAddNewMenu extends AppCompatActivity {
 
     private void getRetrofitDataforMenusave() {
 
-        if((etxMenuName.getText().toString().length()==0) ||(etxMenuPrice.getText().toString().length()==0)||(etxMenuDiscription.getText().toString().length()==0)){
+        if((etxMenuName.getText().toString().length()==0) ||(etxMenuPrice.getText().toString().length()==0)){
             Toast.makeText(this, "Please enter all fields", Toast.LENGTH_SHORT).show();
+
         }else {
             initRetrofitCallBack();
-
+            skLoading.setVisibility(View.VISIBLE);
             String ToppingList = getToppingList();
 
             ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);

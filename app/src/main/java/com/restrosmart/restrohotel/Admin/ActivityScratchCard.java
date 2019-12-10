@@ -28,7 +28,7 @@ public class ActivityScratchCard extends AppCompatActivity {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent scratchCardIntent=new Intent(ActivityScratchCard.this,ActivityAddScratchCard.class);
+                Intent scratchCardIntent=new Intent(ActivityScratchCard.this, ActivityDisplayScratchCard.class);
                 startActivity(scratchCardIntent);
             }
         });

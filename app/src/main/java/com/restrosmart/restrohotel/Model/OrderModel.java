@@ -8,24 +8,29 @@ import java.util.ArrayList;
 public class OrderModel  implements Parcelable {
 
     private int order_id,tableId;
-    private  String time,Order_Status_Name,custName,cust_mob_no;
-    private ArrayList<MenuForm> arrayList;
+    private  String time, OrderStatusName,custName, custMob,tableNo, orderMsg,orderTitle;
+    private ArrayList<AdminOrderModel> arrayList;
 
-    public String getOrder_Status_Name() {
-        return Order_Status_Name;
+    public String getOrderStatusName() {
+        return OrderStatusName;
     }
 
-    public void setOrder_Status_Name(String order_Status_Name) {
-        Order_Status_Name = order_Status_Name;
+    public void setOrderStatusName(String orderStatusName) {
+        OrderStatusName = orderStatusName;
     }
+
+
 
     protected OrderModel(Parcel in) {
-        cust_mob_no = in.readString();
+        custMob = in.readString();
         order_id = in.readInt();
         tableId = in.readInt();
-        Order_Status_Name = in.readString();
+        OrderStatusName = in.readString();
         time = in.readString();
         custName=in.readString();
+        tableNo = in.readString();
+        orderMsg =in.readString();
+        orderTitle=in.readString();
     }
 
     public static final Creator<OrderModel> CREATOR = new Creator<OrderModel>() {
@@ -41,12 +46,20 @@ public class OrderModel  implements Parcelable {
     };
 
 
-    public String getCust_mob_no() {
-        return cust_mob_no;
+    public String getOrderTitle() {
+        return orderTitle;
     }
 
-    public void setCust_mob_no(String cust_mob_no) {
-        this.cust_mob_no = cust_mob_no;
+    public void setOrderTitle(String orderTitle) {
+        this.orderTitle = orderTitle;
+    }
+
+    public String getCustMob() {
+        return custMob;
+    }
+
+    public void setCustMob(String custMob) {
+        this.custMob = custMob;
     }
 
     public int getOrder_id() {
@@ -73,11 +86,11 @@ public class OrderModel  implements Parcelable {
         this.time = time;
     }
 
-    public ArrayList<MenuForm> getArrayList() {
+    public ArrayList<AdminOrderModel> getArrayList() {
         return arrayList;
     }
 
-    public void setArrayList(ArrayList<MenuForm> arrayList) {
+    public void setArrayList(ArrayList<AdminOrderModel> arrayList) {
         this.arrayList = arrayList;
     }
 
@@ -87,6 +100,23 @@ public class OrderModel  implements Parcelable {
 
     public void setCustName(String custName) {
         this.custName = custName;
+    }
+
+
+    public String getTableNo() {
+        return tableNo;
+    }
+
+    public void setTableNo(String tableNo) {
+        this.tableNo = tableNo;
+    }
+
+    public String getOrderMsg() {
+        return orderMsg;
+    }
+
+    public void setOrderMsg(String orderMsg) {
+        this.orderMsg = orderMsg;
     }
 
     public OrderModel() {
@@ -100,11 +130,15 @@ public class OrderModel  implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(cust_mob_no);
+        parcel.writeString(custMob);
         parcel.writeInt(order_id);
         parcel.writeInt(tableId);
-        parcel.writeString(Order_Status_Name);
+        parcel.writeString(OrderStatusName);
         parcel.writeString(time);
         parcel.writeString(custName);
+        parcel.writeString(tableNo);
+        parcel.writeString(orderMsg);
+        parcel.writeString(orderTitle);
+
     }
 }

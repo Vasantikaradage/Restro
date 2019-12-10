@@ -103,7 +103,7 @@ public class AdapterTableDisplay extends RecyclerView.Adapter<AdapterTableDispla
                 load(R.drawable.ic_table_green)
                 .resize(500, 500).
                        into(myHolder.imageView);*/
-        String id = String.valueOf(arrayListTableId.get(i).getTableId());
+        String id = String.valueOf(arrayListTableId.get(i).getTableNo());
       myHolder.textView.setText(id);
       if(arrayListTableId.get(i).getTableStatus()==1) {
 
@@ -245,7 +245,7 @@ public class AdapterTableDisplay extends RecyclerView.Adapter<AdapterTableDispla
 
                            tvOldArea.setText(oldAreaName);
                             tvNewArea.setText(selectedArea);
-                            String tableId= String.valueOf(arrayListTableId.get(getAdapterPosition()).getTableId());
+                            String tableId= String.valueOf(arrayListTableId.get(getAdapterPosition()).getTableNo());
                             tvTableId.setText(tableId);
 
                             sessionmanager = new Sessionmanager(mContext);

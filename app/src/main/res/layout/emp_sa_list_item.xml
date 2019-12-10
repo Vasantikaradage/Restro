@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/relative_employee"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/white">
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/civ_emp_profile"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="5dp"
+            android:padding="5dp"
+            android:src="@drawable/ic_action_user" />
+
+        <TextView
+            android:id="@+id/tv_emp_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@id/switch_status"
+            android:layout_toEndOf="@id/civ_emp_profile"
+            android:text="Aditya Patil"
+            android:fontFamily="sans-serif-light"
+            android:layout_marginStart="5dp"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tv_emp_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_emp_name"
+            android:layout_marginStart="5dp"
+            android:layout_toStartOf="@id/switch_status"
+            android:layout_toEndOf="@id/civ_emp_profile"
+            android:text="NA"
+            android:textColor="#49494D" />
+
+        <TextView
+            android:id="@+id/tv_emp_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_emp_email"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@id/civ_emp_profile"
+            android:text="NA" />
+
+        <Switch
+            android:id="@+id/switch_status"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="5dp"
+            android:textOff="Inactive"
+            android:textOn="Active"
+            android:visibility="visible" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/tv_emp_phone"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="10dp"
+            android:background="@color/gray_btn_bg_color" />
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

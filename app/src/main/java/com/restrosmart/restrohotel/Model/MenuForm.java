@@ -6,7 +6,7 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 
 public  class MenuForm  implements Parcelable {
-    private String menuName,menuDisp,liqMLQty;
+    private String menuName,menuDisp,liqMLQty, menuOrderMsg;
     private  int menuPrice,menuQty;
 
     private ArrayList<ToppingsForm> arrayListToppings;
@@ -20,6 +20,7 @@ public  class MenuForm  implements Parcelable {
         liqMLQty = in.readString();
         menuPrice = in.readInt();
         menuQty = in.readInt();
+        menuOrderMsg =in.readString();
         arrayListToppings = in.createTypedArrayList(ToppingsForm.CREATOR);
     }
 
@@ -34,6 +35,14 @@ public  class MenuForm  implements Parcelable {
             return new MenuForm[size];
         }
     };
+
+    public String getMenuOrderMsg() {
+        return menuOrderMsg;
+    }
+
+    public void setMenuOrderMsg(String menuOrderMsg) {
+        this.menuOrderMsg = menuOrderMsg;
+    }
 
     public String getLiqMLQty() {
         return liqMLQty;
@@ -96,5 +105,6 @@ public  class MenuForm  implements Parcelable {
         dest.writeInt(menuPrice);
         dest.writeInt(menuQty);
         dest.writeTypedList(arrayListToppings);
+        dest.writeString(menuOrderMsg);
     }
 }

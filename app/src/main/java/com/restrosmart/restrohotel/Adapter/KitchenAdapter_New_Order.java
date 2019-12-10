@@ -62,7 +62,7 @@ public class KitchenAdapter_New_Order extends RecyclerView.Adapter<RecyclerView.
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
         if (holder instanceof HeaderViewHolder) {
-            //((HeaderViewHolder) holder).mCustNo.setText(arrayList.get(position).getCust_mob_no());
+            //((HeaderViewHolder) holder).mCustNo.setText(arrayList.get(position).getCustMob());
             ((HeaderViewHolder) holder).mOrderId.setText(arrayList.get(position).getOrder_id());
            // ((HeaderViewHolder) holder).mKitchenDateTime.setText(arrayList.get(position).getTime());
           //  Resources res = context.getResources();

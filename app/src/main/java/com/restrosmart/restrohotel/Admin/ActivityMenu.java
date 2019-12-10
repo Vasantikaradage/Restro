@@ -185,6 +185,7 @@ public class ActivityMenu extends AppCompatActivity {
 
                 if (etvMenu.getText().toString().length() == 0) {
                     Toast.makeText(ActivityMenu.this, "Please enter menu name", Toast.LENGTH_LONG).show();
+
                 } else {
 
                     initRetrofitCallback();

@@ -9,6 +9,7 @@ public class ToppingsForm implements Parcelable {
     private  int pcId;
     private  int toppingId;
     private  String image;
+    private  int topQty;
     public boolean selected=false;
 
     protected ToppingsForm(Parcel in) {
@@ -17,6 +18,7 @@ public class ToppingsForm implements Parcelable {
         pcId = in.readInt();
         toppingId = in.readInt();
         image = in.readString();
+        topQty=in.readInt();
         selected = in.readByte() != 0;
     }
 
@@ -51,7 +53,13 @@ public class ToppingsForm implements Parcelable {
     public ToppingsForm() {
     }
 
+    public int getTopQty() {
+        return topQty;
+    }
 
+    public void setTopQty(int topQty) {
+        this.topQty = topQty;
+    }
 
     public String getToppingsName() {
         return toppingsName;
@@ -98,6 +106,7 @@ public class ToppingsForm implements Parcelable {
         parcel.writeInt(pcId);
         parcel.writeInt(toppingId);
         parcel.writeString(image);
+        parcel.writeInt(topQty);
         parcel.writeByte((byte) (selected ? 1 : 0));
     }
 

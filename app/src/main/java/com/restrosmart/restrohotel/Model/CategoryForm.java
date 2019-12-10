@@ -3,6 +3,8 @@ package com.restrosmart.restrohotel.Model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
+
 /**
  * Created by SHREE on 17/10/2018.
  */
@@ -15,6 +17,17 @@ public class CategoryForm implements Parcelable {
     private  int Branch_Id;
     private  int Pc_Id;
     private  String default_image;
+
+    private ArrayList<MenuDisplayForm> menuDisplayFormArrayList;
+
+
+    public ArrayList<MenuDisplayForm> getMenuDisplayFormArrayList() {
+        return menuDisplayFormArrayList;
+    }
+
+    public void setMenuDisplayFormArrayList(ArrayList<MenuDisplayForm> menuDisplayFormArrayList) {
+        this.menuDisplayFormArrayList = menuDisplayFormArrayList;
+    }
 
     public CategoryForm() {
     }
@@ -37,6 +50,7 @@ public class CategoryForm implements Parcelable {
         Branch_Id = in.readInt();
         Pc_Id = in.readInt();
         default_image=in.readString();
+        menuDisplayFormArrayList = in.createTypedArrayList(MenuDisplayForm.CREATOR);
     }
 
     public static final Creator<CategoryForm> CREATOR = new Creator<CategoryForm>() {
@@ -122,6 +136,7 @@ public class CategoryForm implements Parcelable {
         dest.writeInt(Branch_Id);
         dest.writeInt(Pc_Id);
         dest.writeString(default_image);
+        dest.writeTypedList(menuDisplayFormArrayList);
     }
 
     @Override

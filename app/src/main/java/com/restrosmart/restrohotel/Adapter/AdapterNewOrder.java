@@ -22,10 +22,12 @@ public class AdapterNewOrder extends RecyclerView.Adapter<AdapterNewOrder.ViewHo
     private static final int TYPE_FOOTER = 1;
     private Context context;
     private ArrayList<OrderModel> arrayList;
+    private  ArrayList<String> arrayListIds;
 
-    public AdapterNewOrder(Context context, ArrayList<OrderModel> arrayList) {
+    public AdapterNewOrder(Context context, ArrayList<OrderModel> arrayList,ArrayList<String> arrayList1) {
         this.context = context;
         this.arrayList = arrayList;
+        arrayListIds=arrayList1;
     }
 
     @NonNull
@@ -39,10 +41,12 @@ public class AdapterNewOrder extends RecyclerView.Adapter<AdapterNewOrder.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        String mob= (arrayList.get(i).getCust_mob_no());
+        String mob= (arrayList.get(i).getCustMob());
         String orderId= String.valueOf(arrayList.get(i).getOrder_id());
         String tableID= String.valueOf(arrayList.get(i).getTableId());
-        String orderStatus=arrayList.get(i).getOrder_Status_Name();
+        String orderStatus=arrayList.get(i).getOrderStatusName();
+
+       // arrayListIds.add("Order " + (i+ 1));
 
         if(orderStatus.equals("Ready"))
         {
@@ -107,14 +111,16 @@ public class AdapterNewOrder extends RecyclerView.Adapter<AdapterNewOrder.ViewHo
             suggestion = (TextView) itemView.findViewById(R.id.suggestion);
             mtableId=itemView.findViewById(R.id.circle_image);
             circle_image=itemView.findViewById(R.id.circle_image);
-            rvMenu=itemView.findViewById(R.id.recycler);
+           // rvMenu=itemView.findViewById(R.id.recycler);
             cancelStamp=itemView.findViewById(R.id.image_cancel);
+
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent=new Intent(context, ActivityMenuOrderDidplay.class);
-                    intent.putExtra("menuArray", arrayList.get(getAdapterPosition()).getArrayList());
+                    intent.putExtra("orderArray", arrayList);
+                    intent.putExtra("arrayListIds",arrayListIds);
                    context.startActivity(intent);
 
                 }
@@ -151,7 +157,7 @@ public class AdapterNewOrder extends RecyclerView.Adapter<AdapterNewOrder.ViewHo
             HeaderViewHolder headerHolder = (HeaderViewHolder) holder;
             Toast.makeText(context,"HeaderViewHolder"+position,Toast.LENGTH_LONG).show();
 
-            String mob= String.valueOf(arrayList.get(position).getCust_mob_no());
+            String mob= String.valueOf(arrayList.get(position).getCustMob());
             String orderNo= String.valueOf(arrayList.get(position).getOrder_id());
             ((headerHolder) ).mCustNo.setText(mob);
             ((headerHolder) ).mOrderId.setText(orderNo);

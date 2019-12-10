@@ -40,9 +40,9 @@ public class FragmentTabPCancelledOrders extends Fragment {
 
         RecyclerView recyclerView = (RecyclerView)getActivity().findViewById(R.id.recycler_cancel_order);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(linearLayoutManager);
+       /* recyclerView.setLayoutManager(linearLayoutManager);
         AdapterNewOrder adapterNewOrder = new AdapterNewOrder(getActivity(), arraylistOrderCancel);
-        recyclerView.setAdapter(adapterNewOrder);
+        recyclerView.setAdapter(adapterNewOrder);*/
 
 
     }

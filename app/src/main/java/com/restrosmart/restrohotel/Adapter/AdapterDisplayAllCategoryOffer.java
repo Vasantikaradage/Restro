@@ -4,10 +4,13 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.JsonObject;
@@ -41,16 +44,25 @@ public class AdapterDisplayAllCategoryOffer extends RecyclerView.Adapter<Adapter
     private List<CategoryForm> arrayList;
     private  RetrofitService mRetrofitService;
     private IResult mResultCallBack;
-    private ArrayList<MenuDisplayForm> arrayListMenu=new ArrayList<>();
-    private RecyclerView rvMenu;
-    private  Sessionmanager sessionmanager;
-    private  int hotelId,branchId;
 
+
+    private  Sessionmanager sessionmanager;
+    private  int hotelId;
+
+
+    private  MyHolder myHolder;
+    private  int pos;
     private int mExpandedPosition = -1, previousExpandedPosition;
+
+    private ArrayList<Integer> counter = new ArrayList<Integer>();
+
 
     public AdapterDisplayAllCategoryOffer(Context activity, ArrayList<CategoryForm> arrayList) {
         this.context = activity;
         this.arrayList = arrayList;
+        for (int i = 0; i < arrayList.size(); i++) {
+            counter.add(0);
+        }
     }
 
     @NonNull
@@ -62,59 +74,47 @@ public class AdapterDisplayAllCategoryOffer extends RecyclerView.Adapter<Adapter
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final MyHolder holder, int position) {
         holder.tx_name.setText(arrayList.get(position).getCategory_Name());
 
-        final boolean isExpanded = position == mExpandedPosition;
-        rvMenu.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
+         ArrayList<MenuDisplayForm> arrayListMenu=arrayList.get(position).getMenuDisplayFormArrayList();
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
+        holder.rvMenu.setHasFixedSize(true);
+        holder.rvMenu.setLayoutManager(linearLayoutManager);
+
+        AdapterDisplayAllMenusOffer displayAllMenus = new AdapterDisplayAllMenusOffer(context, arrayListMenu);
+        holder. rvMenu.setAdapter(displayAllMenus);
+
+       /* pos=position;
+        myHolder=holder;
+
+        final boolean isExpanded = position==mExpandedPosition;
+        holder.rvMenu.setVisibility(isExpanded?View.VISIBLE:View.GONE);
         holder.itemView.setActivated(isExpanded);
-
-        sessionmanager = new Sessionmanager(context);
-        HashMap<String, String> name_info = sessionmanager.getHotelDetails();
-        hotelId = Integer.parseInt(name_info.get(HOTEL_ID));
-
-        initRetrofitCallBack();
-        ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
-        mRetrofitService = new RetrofitService(mResultCallBack,context);
-        mRetrofitService.retrofitData(PARENT_CATEGORY_WITH_SUB, (service.getMenus(arrayList.get(position).getCategory_id(),arrayList.get(position).getPc_Id(),hotelId )));
-      /*  holder.tvReschedule.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
-        holder.viewLine.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
-        holder.viewLine1.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
-        holder.itemView.setActivated(isExpanded);
-
-        holder.tvReschedule.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                positionListerner.positionListern(i);
-
-            }
-        });
-*/
-
-
-
-        if (isExpanded)
-            previousExpandedPosition = position;
-
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mExpandedPosition = isExpanded ? -1 : position;
-                notifyItemChanged(previousExpandedPosition);
-                notifyItemChanged(position);
-
-                // holder.btnAdd.setAnimation(rightToLeft);
-                //  holder.cvQty.setAnimation(leftToRight);
-
-                /*selectedPos = position;
-                notifyDataSetChanged();*/
+                mExpandedPosition = isExpanded ? -1:pos;
+                TransitionManager.beginDelayedTransition(holder.rvMenu);
+                notifyDataSetChanged();
             }
-        });
+        });*/
 
-    }
 
-    private void initRetrofitCallBack() {
+        /*final boolean isExpanded = position == mExpandedPosition;
+        holder.rvMenu.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
+        holder.itemView.setActivated(isExpanded);
+*/
+      /*  sessionmanager = new Sessionmanager(context);
+        HashMap<String, String> name_info = sessionmanager.getHotelDetails();
+        hotelId = Integer.parseInt(name_info.get(HOTEL_ID));
+
+   //     initRetrofitCallBack();
+        ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
+        mRetrofitService = new RetrofitService(mResultCallBack,context);
+        mRetrofitService.retrofitData(PARENT_CATEGORY_WITH_SUB, (service.getMenus(arrayList.get(position).getCategory_id(),arrayList.get(position).getPc_Id(),hotelId )));
+
         mResultCallBack=new IResult() {
             @Override
             public void notifySuccess(int requestId, Response<JsonObject> response) {
@@ -125,11 +125,11 @@ public class AdapterDisplayAllCategoryOffer extends RecyclerView.Adapter<Adapter
 
                     int status = jsonObject1.getInt("status");
                     if (status == 1) {
-                       // llNoMenuData.setVisibility(View.GONE);
+                        // llNoMenuData.setVisibility(View.GONE);
 
                         JSONArray jsonArray = jsonObject1.getJSONArray("submenu");
 
-                       arrayListMenu.clear();
+                        arrayListMenu.clear();
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jsonObject2 = jsonArray.getJSONObject(i);
 
@@ -147,7 +147,7 @@ public class AdapterDisplayAllCategoryOffer extends RecyclerView.Adapter<Adapter
 
                             JSONArray toppingArray=jsonObject2.getJSONArray("Topping");
 
-                           /* arrayListToppings=new ArrayList<>();
+                           *//* arrayListToppings=new ArrayList<>();
                             for(int in=0; in<toppingArray.length(); in++)
                             {
 
@@ -159,14 +159,19 @@ public class AdapterDisplayAllCategoryOffer extends RecyclerView.Adapter<Adapter
                                 arrayListToppings.add(toppingsForm);
                             }
 
-                            menuForm.setArrayListtoppings(arrayListToppings);*/
+                            menuForm.setArrayListtoppings(arrayListToppings);*//*
                             arrayListMenu.add(menuForm);
                         }
-                        callAdapter();
+                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
+                        holder.rvMenu.setHasFixedSize(true);
+                        holder.rvMenu.setLayoutManager(linearLayoutManager);
+
+                        AdapterDisplayAllMenusOffer displayAllMenus = new AdapterDisplayAllMenusOffer(context, arrayListMenu);
+                        holder. rvMenu.setAdapter(displayAllMenus);
 
                     } else {
-                       // llNoMenuData.setVisibility(View.VISIBLE);
-                       // progressBar.setVisibility(View.GONE);
+                        // llNoMenuData.setVisibility(View.VISIBLE);
+                        // progressBar.setVisibility(View.GONE);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -179,16 +184,44 @@ public class AdapterDisplayAllCategoryOffer extends RecyclerView.Adapter<Adapter
 
             }
         };
+        */
+        /*  holder.tvReschedule.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
+        holder.viewLine.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
+        holder.viewLine1.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
+        holder.itemView.setActivated(isExpanded);
+
+        holder.tvReschedule.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                positionListerner.positionListern(i);
+
+            }
+        });
+*/
+
+
+
+       /* if (isExpanded)
+            previousExpandedPosition = position;
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mExpandedPosition = isExpanded ? -1 : pos;
+                notifyItemChanged(previousExpandedPosition);
+                notifyItemChanged(pos);
+
+                // holder.btnAdd.setAnimation(rightToLeft);
+                //  holder.cvQty.setAnimation(leftToRight);
+
+                *//*selectedPos = position;
+                notifyDataSetChanged();*//*
+            }
+        });*/
+
     }
 
-    private void callAdapter() {
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
-        rvMenu.setHasFixedSize(true);
-        rvMenu.setLayoutManager(linearLayoutManager);
-
-        AdapterDisplayAllMenusOffer displayAllMenus = new AdapterDisplayAllMenusOffer(context, arrayListMenu);
-        rvMenu.setAdapter(displayAllMenus);
-    }
 
     @Override
     public int getItemCount() {
@@ -198,9 +231,9 @@ public class AdapterDisplayAllCategoryOffer extends RecyclerView.Adapter<Adapter
     public class MyHolder extends RecyclerView.ViewHolder {
         private  TextView tx_name;
         private  CircleImageView circleImageView;
-        private ImageButton imgBtnEdit, imagBtnDelete;
-
-
+        private ImageView ivArrow ;
+        private  RecyclerView rvMenu;
+        private LinearLayout linearLayout;
 
 
         public MyHolder(final View itemView) {
@@ -208,9 +241,27 @@ public class AdapterDisplayAllCategoryOffer extends RecyclerView.Adapter<Adapter
 
             circleImageView = (CircleImageView) itemView.findViewById(R.id.circle_image);
             tx_name = (TextView) itemView.findViewById(R.id.tv_category_name);
-            imgBtnEdit = itemView.findViewById(R.id.btn_edit_button);
-            imagBtnDelete = itemView.findViewById(R.id.btn_delete_button);
-            rvMenu=itemView.findViewById(R.id.rv_menu);
+            ivArrow=itemView.findViewById(R.id.ivArrow);
+            rvMenu=itemView.findViewById(R.id.rvMenu);
+            linearLayout=itemView.findViewById(R.id.linear_layout);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    if (counter.get(getAdapterPosition()) % 2 == 0) {
+                        rvMenu.setVisibility(View.VISIBLE);
+                        linearLayout.setVisibility(View.VISIBLE);
+                        ivArrow.setImageDrawable(context.getDrawable(R.drawable.ic_up_arrow_16dp));
+                    } else {
+                        rvMenu.setVisibility(View.GONE);
+                        linearLayout.setVisibility(View.GONE);
+                        ivArrow.setImageDrawable(context.getDrawable(R.drawable.ic_down_arrow_16dp));
+                    }
+
+                    counter.set(getAdapterPosition(), counter.get(getAdapterPosition()) + 1);
+                }
+            });
 
 
         }

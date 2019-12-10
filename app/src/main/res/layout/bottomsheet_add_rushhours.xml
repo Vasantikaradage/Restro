@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/linear_layout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/colorPrimary"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_add_promocode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center_horizontal|center"
+            android:text="Add RushHours"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_edit_promocode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center_horizontal"
+            android:text="Edit RushHours"
+            android:textColor="@color/white"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linear_layout">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+
+            android:padding="10dp">
+
+
+            <!--  <TextView
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:text="@string/price"
+                  android:padding="5dp"
+                  android:textColor="@color/colorPrimary"
+                  android:textStyle="bold"/>
+
+              <EditText
+                  android:id="@+id/et_price"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_centerHorizontal="true"
+                  android:layout_marginEnd="10dp"
+                  android:background="@drawable/texview_outline_black"
+                  android:layout_marginStart="10dp"
+                  android:layout_below="@+id/tx_category"
+                  android:padding="10dp"
+                  android:inputType="number"
+                  android:singleLine="true"
+                  android:hint="Enter Amount(%)"/>
+
+              <TextView
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:text="Promo Code"
+                  android:padding="5dp"
+                  android:textColor="@color/colorPrimary"
+                  android:textStyle="bold"/>
+
+              <EditText
+                  android:id="@+id/et_promocode"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_centerHorizontal="true"
+                  android:layout_marginEnd="10dp"
+                  android:maxLength="4"
+                  android:background="@drawable/texview_outline_black"
+                  android:layout_marginStart="10dp"
+
+                  android:layout_below="@+id/tx_category"
+                  android:padding="10dp"
+                  android:inputType="textCapCharacters"
+                  android:singleLine="true"
+                  android:hint="Enter PromoCode"/>-->
+
+
+            <!-- <TextView
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:text="Select Dates"
+                 android:padding="5dp"
+                 android:layout_marginTop="10dp"
+                 android:textColor="@color/colorPrimary"
+                 android:textStyle="bold"/>
+
+             <android.support.v7.widget.CardView
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 app:cardUseCompatPadding="true">-->
+
+            <!--    <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:orientation="vertical">-->
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="Select Date"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/et_select_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/texview_outline_black"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:hint="Enter From Date"
+                android:padding="10dp"
+                android:singleLine="true" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="From Time"
+
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/et_from_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/texview_outline_black"
+
+
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:hint="Enter From Time"
+                android:padding="10dp"
+                android:singleLine="true" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="To Time"
+
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/et_to_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/texview_outline_black"
+
+
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:hint="Enter To Time"
+                android:padding="10dp"
+                android:singleLine="true" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="Description"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/et_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/texview_outline_black"
+
+                android:hint="Enter Description"
+                android:inputType="textMultiLine"
+                android:padding="10dp" />
+
+
+            <!--     <TextView
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:padding="5dp"
+                     android:text="Menu"
+                     android:textColor="@color/colorPrimary"
+                     android:textStyle="bold" />
+
+                 <Spinner
+                     android:id="@+id/sp_parent_category"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     />-->
+
+            <!--  </LinearLayout>
+          </android.support.v7.widget.CardView>-->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/etx_category_name"
+                android:layout_marginTop="@dimen/dimen_20dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center">
+
+                <Button
+                    android:id="@+id/btnCancel"
+                    android:layout_width="110dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/button_outline_dark"
+                    android:text="Cancel"
+                    android:textColor="@color/colorPrimary" />
+
+                <Button
+                    android:id="@+id/btnSave"
+                    android:layout_width="110dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="@dimen/dimen_20dp"
+                    android:background="@drawable/button_outline_dark"
+                    android:text="Save"
+                    android:textColor="@color/colorPrimary"
+                    android:visibility="visible" />
+
+
+                <Button
+                    android:id="@+id/btnUpdate"
+                    android:layout_width="110dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="@dimen/dimen_20dp"
+                    android:background="@drawable/button_outline_dark"
+                    android:text="Update"
+                    android:textColor="@color/colorPrimary"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

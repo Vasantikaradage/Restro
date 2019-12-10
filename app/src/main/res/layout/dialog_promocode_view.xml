@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+   <RelativeLayout
+        android:id="@+id/relative"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:padding="@dimen/dimen_20dp"
+            android:text="PromoCode Details"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
+        <!--<ImageView
+            android:id="@+id/ivEditDialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/ivCloseDialog"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:src="@drawable/ic_close_white" />-->
+
+        <ImageView
+            android:id="@+id/ivCloseDialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:padding="@dimen/dimen_20dp"
+            android:src="@drawable/ic_close_white" />
+    </RelativeLayout>
+  <!--  <android.support.v7.widget.CardView
+        android:id="@+id/cardview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="5dp"
+        android:layout_below="@+id/relative"
+        app:cardCornerRadius="5dp"
+        app:cardUseCompatPadding="true">-->
+
+
+    <LinearLayout
+        android:id="@+id/linear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/relative"
+        android:orientation="vertical"
+
+        android:visibility="visible">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_gravity="center"
+        android:background="@drawable/oie_transparent"
+        android:gravity="center"
+        android:padding="15dp">
+
+        <TextView
+            android:id="@+id/tv_price"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_weight="0.5"
+            android:background="@drawable/offer_add_bg"
+            android:gravity="center"
+            android:padding="5dp"
+            android:textSize="14sp" />
+
+
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="100dp"
+            android:layout_weight="0.5"
+            android:background="@drawable/offer_add_bg"
+            android:gravity="center"
+            android:text="Select Date"
+            android:textColor="@color/gray"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_promocode_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="Promo code Name"
+        android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/tv_promo_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center"
+            android:padding="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="Promo code Description"
+            android:textSize="16sp" />
+
+
+
+        <!--   <EditText
+               android:id="@+id/etv_offer"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_gravity="center"
+               android:layout_marginStart="35dp"
+               android:layout_marginEnd="35dp"
+               android:layout_marginBottom="10dp"
+               android:background="@drawable/offer_name_bg"
+               android:fontFamily="sans-serif-light"
+               android:gravity="center"
+               android:hint="Enter Promo Code"
+
+               android:maxLength="7"
+               android:padding="10dp"
+               android:textSize="20sp" />-->
+
+
+
+        </LinearLayout>
+    </RelativeLayout>
+
+   <!-- <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/cardview"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="@dimen/dimen_20dp"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/btnDelete"
+            android:layout_width="110dp"
+            android:layout_height="40dp"
+            android:background="@drawable/button_outline_dark"
+            android:text="Delete"
+            android:textColor="@color/colorPrimary" />
+
+        <Button
+            android:id="@+id/btnApply"
+            android:layout_width="110dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="@dimen/dimen_20dp"
+            android:background="@drawable/button_outline_dark"
+            android:text="Apply"
+            android:visibility="visible"
+            android:textColor="@color/colorPrimary" />
+
+
+    </LinearLayout>-->
+
+
+

@@ -113,10 +113,11 @@ public class FragmentSAEmployee extends Fragment {
                                 employeeSAForm.setEmpEmail(jsonObjectEmp.getString("Emp_Email"));
                                 employeeSAForm.setEmpAddress(jsonObjectEmp.getString("Emp_Address"));
                                 employeeSAForm.setUserName(jsonObjectEmp.getString("User_Name"));
-                                employeeSAForm.setHotelName(jsonObjectEmp.getString("Hotel_Name"));
+                                employeeSAForm.setHotelId(jsonObjectEmp.getInt("Hotel_Id"));
                                 employeeSAForm.setRole(jsonObjectEmp.getString("Role"));
                                 employeeSAForm.setEmpMob(jsonObjectEmp.getString("Emp_Mob"));
                                 employeeSAForm.setEmpAdharId(jsonObjectEmp.getString("Emp_Adhar_Id"));
+                                employeeSAForm.setHotelName(hotelObject.getString("Hotel_Name"));
 
                                 employeeSAForm.setActiveStatus(jsonObjectEmp.getInt("Active_Status"));
                                 employeeSAForm.setRole_Id(jsonObjectEmp.getInt("Role_Id"));
@@ -126,7 +127,7 @@ public class FragmentSAEmployee extends Fragment {
                             employeeSAHotelFormArrayList.add(employeeSAHotelForm);
 
                         }
-                        getAdapter(arrayListEmployee);
+                        getAdapter(employeeSAHotelFormArrayList);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -141,11 +142,11 @@ public class FragmentSAEmployee extends Fragment {
         };
     }
 
-    private void getAdapter(ArrayList<EmployeeSAForm> arrayListEmployee) {
+    private void getAdapter(ArrayList<EmployeeSAHotelForm> arrayListEmployee) {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(linearLayoutManager);
-        rvsaEmployeeDetails = new RVSAEmployeeDetails(getActivity(), employeeSAHotelFormArrayList);
+        rvsaEmployeeDetails = new RVSAEmployeeDetails(getActivity(), arrayListEmployee);
         recyclerView.setAdapter(rvsaEmployeeDetails);
 
     }

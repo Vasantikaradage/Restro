@@ -92,6 +92,23 @@ public  class FragmentToppings extends Fragment {
         HashMap<String, String> name_info = sessionmanager.getHotelDetails();
         hotelId = Integer.parseInt(name_info.get(HOTEL_ID));
 
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                sessionmanager.setTabposition(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
        /* initRetrofitCallBackForToppings();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, getActivity());
@@ -320,8 +337,15 @@ public  class FragmentToppings extends Fragment {
         toppingsViewPagerAdapter = new ToppingsViewPagerAdapter(getActivity().getSupportFragmentManager(), mFragmentTitleList, addParentCategoryinfos);
         toppingsViewPagerAdapter.notifyDataSetChanged();
         viewPager.setAdapter(toppingsViewPagerAdapter);
+        viewPager.setCurrentItem(sessionmanager.getTabposition());
+
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        sessionmanager.setTabposition(0);
+    }
 
     private void init() {
         tabLayout = (TabLayout) getActivity().findViewById(R.id.tablayout1);

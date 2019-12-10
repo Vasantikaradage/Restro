@@ -506,15 +506,17 @@ public class ActivityAdminDrawer extends AppCompatActivity
                     btnEdit.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            initRetrofitCallBack();
-                            ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
-                            mRetrofitService = new RetrofitService(mResultCallBack, ActivityAdminDrawer.this);
+                            if(isValid()) {
+                                initRetrofitCallBack();
+                                ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
+                                mRetrofitService = new RetrofitService(mResultCallBack, ActivityAdminDrawer.this);
 
-                            mRetrofitService.retrofitData(EDIT_WATER_BOTTLE, service.editWaterBottle(waterBottleId,
-                                    etWaterBottleName.getText().toString(),
-                                    Integer.parseInt(editTextPrice.getText().toString()),
-                                    Integer.parseInt(hotelId)
-                            ));
+                                mRetrofitService.retrofitData(EDIT_WATER_BOTTLE, service.editWaterBottle(waterBottleId,
+                                        etWaterBottleName.getText().toString(),
+                                        Integer.parseInt(editTextPrice.getText().toString()),
+                                        Integer.parseInt(hotelId)
+                                ));
+                            }
 
                         }
                     });
@@ -548,16 +550,19 @@ public class ActivityAdminDrawer extends AppCompatActivity
             btnSave.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    initRetrofitCallBack();
-                    ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
-                    mRetrofitService = new RetrofitService(mResultCallBack, ActivityAdminDrawer.this);
-                    mRetrofitService.retrofitData(SAVE_WATER_BOTTLE, service.AddWaterBottle(
-                            etWaterBottleName.getText().toString(),
-                            Integer.parseInt(editTextPrice.getText().toString()),
-                            Integer.parseInt(hotelId)
-                    ));
+                    if (isValid()) {
+                        initRetrofitCallBack();
+                        ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
+                        mRetrofitService = new RetrofitService(mResultCallBack, ActivityAdminDrawer.this);
+                        mRetrofitService.retrofitData(SAVE_WATER_BOTTLE, service.AddWaterBottle(
+                                etWaterBottleName.getText().toString(),
+                                Integer.parseInt(editTextPrice.getText().toString()),
+                                Integer.parseInt(hotelId)
+                        ));
 
+                    }
                 }
+
             });
         }
 
@@ -667,4 +672,21 @@ public class ActivityAdminDrawer extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-}
+
+
+    private boolean isValid() {
+        if (etWaterBottleName.getText().toString().equalsIgnoreCase("")) {
+            Toast.makeText(ActivityAdminDrawer.this, "Please enter water bottle name..", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (editTextPrice.getText().toString().equalsIgnoreCase("")) {
+            Toast.makeText(ActivityAdminDrawer.this, "Please enter water bottle price", Toast.LENGTH_SHORT).show();
+            return false;
+        } /*else if (branchInfo == 0) {
+            Toast.makeText(ActivityNewAddEmployee.this, "Please Select Branch", Toast.LENGTH_SHORT).show();
+            return false;
+        }*/
+
+
+        return true;
+    }
+    }

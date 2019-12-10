@@ -382,6 +382,7 @@
 
 
                     <LinearLayout
+                        android:id="@+id/llDesignation"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
@@ -391,7 +392,7 @@
                             android:id="@+id/sp_designation"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:autofillHints="Hotel Name"
+                            android:autofillHints="Designation"
                             android:textColor="@color/colorAccent"
                             android:textSize="@dimen/font_large" />
 
@@ -399,6 +400,7 @@
                     </LinearLayout>
 
                     <View
+                        android:id="@+id/view_line"
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
                         android:background="@color/colorDarkGray">

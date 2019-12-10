@@ -28,7 +28,7 @@ public class ActivityRushHours  extends AppCompatActivity {
         btnAddOffer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent rushHoursIntent=new Intent(ActivityRushHours.this,ActivityAddRushHours.class);
+                Intent rushHoursIntent=new Intent(ActivityRushHours.this, ActivityDisplayRushHours.class);
                 startActivity(rushHoursIntent);
 
             }

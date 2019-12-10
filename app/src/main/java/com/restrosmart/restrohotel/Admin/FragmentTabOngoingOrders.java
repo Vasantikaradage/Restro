@@ -62,7 +62,7 @@ public class FragmentTabOngoingOrders extends Fragment {
             String qty="Qty - "+"2";
 
             OrderModel orderModel =new OrderModel();
-            orderModel.setCust_mob_no("9845246171");
+            orderModel.setCustMob("9845246171");
             orderModel.setOrder_id("2");
             orderModel.setMenu_name("Dosa");
             orderModel.setMenu_qty(qty);
@@ -86,11 +86,11 @@ public class FragmentTabOngoingOrders extends Fragment {
 
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        recyclerView.setHasFixedSize(true);
+       /* recyclerView.setHasFixedSize(true);
         recyclerView.getLayoutManager().setMeasurementCacheEnabled(false);
-        AdapterNewOrder adapterNewOrder = new AdapterNewOrder(getActivity(), arraylistOrderAccepted);
+        AdapterNewOrder adapterNewOrder = new AdapterNewOrder(getActivity(), arraylistOrderAccepted,);
         recyclerView.setAdapter(adapterNewOrder);
-
+*/
        /* if(userType.equals("Admin")) {
             Adapter_Ongoing_Order adapterNewOrder = new Adapter_Ongoing_Order(getActivity(), arrayList);
             recyclerView.setAdapter(adapterNewOrder);

@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.restrosmart.restrohotel.Admin.FragmentTabParentCategory;
 import com.restrosmart.restrohotel.Admin.FragmentTabParentCategoryOffer;
+import com.restrosmart.restrohotel.Captain.Models.UserCategory;
 import com.restrosmart.restrohotel.Model.AddParentCategoryinfoModel;
 import com.restrosmart.restrohotel.Model.ParentCategoryForm;
 
@@ -18,7 +19,6 @@ public class CategoryViewPagerAdapterOffer extends FragmentPagerAdapter {
     Context context;
     private ArrayList<ParentCategoryForm> mFragmentTitleList = new ArrayList<>();
     private List<AddParentCategoryinfoModel> mAddParentCategoryinfoModels;
-
 
     public CategoryViewPagerAdapterOffer(FragmentManager supportFragmentManager, ArrayList<ParentCategoryForm> mFragmentTitleList, List<AddParentCategoryinfoModel> addParentCategoryinfoModels) {
         super(supportFragmentManager);
@@ -33,7 +33,6 @@ public class CategoryViewPagerAdapterOffer extends FragmentPagerAdapter {
         return FragmentTabParentCategoryOffer.newInstance(addParentCategoryinfoModel.getCategoryForms(),position);
 
     }
-
     @Override
     public int getCount() {
         return mFragmentTitleList == null ? 0 : mFragmentTitleList.size();

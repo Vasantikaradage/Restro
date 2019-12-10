@@ -55,6 +55,8 @@ public class ActivityViewHotelDetails extends AppCompatActivity {
         init();
         setUpToolBar();
 
+
+
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             skLoading.setVisibility(View.GONE);

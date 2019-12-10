@@ -24,6 +24,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,9 +39,12 @@ import com.restrosmart.restrohotel.Model.RoleForm;
 import com.restrosmart.restrohotel.R;
 import com.restrosmart.restrohotel.RetrofitClientInstance;
 import com.restrosmart.restrohotel.RetrofitService;
+import com.restrosmart.restrohotel.SuperAdmin.Models.EmployeeSAForm;
+import com.restrosmart.restrohotel.SuperAdmin.Models.HotelForm;
 import com.restrosmart.restrohotel.Utils.FilePath;
 import com.restrosmart.restrohotel.Utils.ImageFilePath;
 import com.restrosmart.restrohotel.Utils.Sessionmanager;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -62,18 +66,21 @@ import retrofit2.Response;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static com.restrosmart.restrohotel.ConstantVariables.ADD_NEW_EMPLOYEE;
-import static com.restrosmart.restrohotel.ConstantVariables.BRANCH_INFO;
+import static com.restrosmart.restrohotel.ConstantVariables.ADMIN_EMP_EDIT;
 import static com.restrosmart.restrohotel.ConstantVariables.EMP_EDIT_DETAILS;
+import static com.restrosmart.restrohotel.ConstantVariables.GET_SA_ALL_HOTEL;
 import static com.restrosmart.restrohotel.ConstantVariables.PICK_GALLERY_IMAGE;
 import static com.restrosmart.restrohotel.ConstantVariables.REQUEST_PERMISSION;
+import static com.restrosmart.restrohotel.Utils.Sessionmanager.EMP_ID;
 
 
 public class ActivityAddAdmin  extends AppCompatActivity {
 
     private EditText etvName, etMob, etEmail, etUsername, etAdhar, etPass, etConPass, etAddress;
+    private  TextView tvEmpRole;
 
     private CircleImageView imageView;
-    private Spinner spDesignation, spBranch;
+    private Spinner spHotel;
     private String password;
     private Button btnSave, btnUpdate;
     private FrameLayout select_image;
@@ -89,12 +96,18 @@ public class ActivityAddAdmin  extends AppCompatActivity {
     ArrayList<RoleForm> arrayListRole;
     private int desginagtionSelId, branchSelId, position;
     private TextInputLayout txPass, txConPass;
-    private LinearLayout llPassword, llConPassword, llBranch;
+    private LinearLayout llPassword, llConPassword, llHotel;
     private FrameLayout flImage;
     private String selectedFilePath, extension, selectedData, selectedImage,subString;
     private File selectedFile;
     private Bitmap bitmapImage;
     private String imageOldName;
+    private EmployeeSAForm employeeSAForm;
+
+    private LinearLayout llDesignation;
+    private  View viewline;
+    private  HashMap<String, String> superAdminInfo;
+    private  ArrayList<HotelForm> hotelFormArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +115,8 @@ public class ActivityAddAdmin  extends AppCompatActivity {
         setContentView(R.layout.activity_add_new_employee);
 
         init();
+        llDesignation.setVisibility(View.GONE);
+        viewline.setVisibility(View.GONE);
         // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Toolbar mTopToolbar = (Toolbar) findViewById(R.id.toolbar);
         TextView toolBarTitle = (TextView) mTopToolbar.findViewById(R.id.tx_title);
@@ -114,9 +129,119 @@ public class ActivityAddAdmin  extends AppCompatActivity {
 
 
         Sessionmanager sharedPreferanceManage = new Sessionmanager(ActivityAddAdmin.this);
-        HashMap<String, String> name_info = sharedPreferanceManage.getHotelDetails();
-        // adminId = Integer.parseInt(name_info.get(ROLE_ID));
-        // hotelId = Integer.parseInt(name_info.get(HOTEL_ID));
+        superAdminInfo = sharedPreferanceManage.getSuperAdminDetails();
+
+        getHotelDetails();
+
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+
+            getHotelDetails();
+            employeeSAForm = bundle.getParcelable("Emp_detail");
+
+         //  llHotel.setVisibility(View.GONE);
+           llConPassword.setVisibility(View.GONE);
+           llPassword.setVisibility(View.GONE);
+
+            btnSave.setVisibility(View.GONE);
+            btnUpdate.setVisibility(View.VISIBLE);
+
+
+          //  if (emp_id == employeeSAForm.getEmpId()) {
+                toolBarTitle.setText("Edit Employee");
+                emp_id=employeeSAForm.getEmpId();
+                etvName.setText(employeeSAForm.getEmpName());
+                etUsername.setText(employeeSAForm.getUserName());
+                etAddress.setText(employeeSAForm.getEmpAddress());
+                etAdhar.setText(employeeSAForm.getEmpAdharId());
+                etEmail.setText(employeeSAForm.getEmpEmail());
+                etMob.setText(employeeSAForm.getEmpMob());
+                etPass.setText(employeeSAForm.getPassword());
+                etConPass.setText(employeeSAForm.getPassword());
+
+                desginagtionSelId = employeeSAForm.getRole_Id();
+            //    branchSelId = employeeDetails.get(i).getBranch_Id();
+                password = employeeSAForm.getPassword();
+                hotelId=employeeSAForm.getHotelId();
+                imageOldName = employeeSAForm.getEmpName();
+
+                //branchInfo = employeeDetails.get(i).getBranch_Id();
+                Picasso.with(ActivityAddAdmin.this)
+                        .load(imageOldName)
+                        .resize(500, 500)
+                        .into(imageView);
+
+
+               // retrofitArrayDesignationCall();
+                btnUpdate.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String image = imageOldName.substring(imageOldName.lastIndexOf("/") + 1);
+                        if ((selectedData==null)) {
+                            if (image.equals("def_user.png")) {
+                                selectedImage = "";
+                                extension = "";
+                                image="";
+
+                            } else {
+                                selectedImage = "";
+                                extension= "";
+                            }
+                            Picasso.with(ActivityAddAdmin.this)
+                                    .load(imageOldName)
+                                    .resize(500, 500)
+                                    .into(imageView);
+
+                        } else {
+                            selectedImage = selectedData;
+                        }
+
+                        if (isValidEmpUpdate()) {
+
+                            String name = etvName.getText().toString();
+                            String mob = etMob.getText().toString();
+                            String username = etUsername.getText().toString();
+                            String address = etAddress.getText().toString();
+                            String email = etEmail.getText().toString();
+                            String adhar=etAdhar.getText().toString();
+
+
+                            initRetrofitCallback();
+                            ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
+                            mRetrofitService = new RetrofitService(mResultCallBack, ActivityAddAdmin.this);
+                            mRetrofitService.retrofitData(ADMIN_EMP_EDIT, (service.
+                                    adminEditEmployeeDetail(emp_id,
+                                            name,
+                                            selectedImage,
+                                            image,
+                                            extension,
+                                            mob,
+                                            email,
+                                            address,
+                                            username,
+                                            adhar,
+                                            1,
+                                            hotelId)));
+                           // showProgrssDailog();
+                        }
+                    }
+                });
+           // }
+
+
+        }
+        else
+        {
+           // llHotel.setVisibility(View.VISIBLE);
+            llConPassword.setVisibility(View.VISIBLE);
+            llPassword.setVisibility(View.VISIBLE);
+
+            btnSave.setVisibility(View.VISIBLE);
+            btnUpdate.setVisibility(View.GONE);
+
+        }
+
+
 
 
         flImage.setOnClickListener(new View.OnClickListener() {
@@ -156,11 +281,11 @@ public class ActivityAddAdmin  extends AppCompatActivity {
                     signup.put("Emp_Adhar_Id", etAdhar.getText().toString().trim());
                     signup.put("Password", etPass.getText().toString().trim());
                     signup.put("Con_Pass", etConPass.getText().toString().trim());
-                    signup.put("Role_Id", String.valueOf(roleId));
+                    signup.put("Role_Id", "1");
                     signup.put("Active_Status", "1");
                     signup.put("Hotel_Id", String.valueOf(hotelId));
                     signup.put("Emp_Address", etAddress.getText().toString().trim());
-                    signup.put("Admin_Id", String.valueOf(adminId));
+                    signup.put("Admin_Id",(superAdminInfo.get(EMP_ID)));
 
                     initRetrofitCallback();
                     ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
@@ -170,6 +295,49 @@ public class ActivityAddAdmin  extends AppCompatActivity {
             }
         });
 
+    }
+
+    private boolean isValidEmpUpdate() {
+        String emailPattern = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+        if (etvName.getText().toString().equalsIgnoreCase("")) {
+            Toast.makeText(ActivityAddAdmin.this, "Please enter Full Name..", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (etUsername.getText().toString().equalsIgnoreCase("")) {
+            Toast.makeText(ActivityAddAdmin.this, "Please enter User Name..", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (etMob.getText().toString().equalsIgnoreCase("")) {
+            Toast.makeText(ActivityAddAdmin.this, "Please enter Mobile No..", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (etMob.getText().toString().length() < 10) {
+            Toast.makeText(this, "Please enter valid mobile no", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (etEmail.getText().toString().equalsIgnoreCase("")) {
+            Toast.makeText(ActivityAddAdmin.this, "Please enter Email Id..", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (!etEmail.getText().toString().matches(emailPattern)) {
+            Toast.makeText(this, "Please enter valid email id", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        else if (etAdhar.getText().toString().equalsIgnoreCase("")) {
+            Toast.makeText(ActivityAddAdmin.this, "Please enter adhar no", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (etAdhar.getText().toString().length() < 12) {
+            Toast.makeText(this, "Please enter valid adhar no", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (etAddress.getText().toString().equalsIgnoreCase("")) {
+            Toast.makeText(ActivityAddAdmin.this, "Please enter Address..", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return  true;
+    }
+
+    private void getHotelDetails() {
+        initRetrofitCallback();
+        ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
+        mRetrofitService = new RetrofitService(mResultCallBack,ActivityAddAdmin.this);
+        mRetrofitService.retrofitData(GET_SA_ALL_HOTEL, (service.getSAHotelDetails(Integer.parseInt(superAdminInfo.get(EMP_ID)))));
     }
 
     private boolean isValid() {
@@ -213,10 +381,7 @@ public class ActivityAddAdmin  extends AppCompatActivity {
         } else if (!(etPass.getText().toString()).equals(etConPass.getText().toString())) {
             Toast.makeText(ActivityAddAdmin.this, "Password Does not match..", Toast.LENGTH_SHORT).show();
             return false;
-        } else if (roleId == 0) {
-            Toast.makeText(ActivityAddAdmin.this, "Please Select Designation", Toast.LENGTH_SHORT).show();
-            return false;
-        } /*else if (branchInfo == 0) {
+        }  /*else if (branchInfo == 0) {
             Toast.makeText(ActivityNewAddEmployee.this, "Please Select Branch", Toast.LENGTH_SHORT).show();
             return false;
         }*/
@@ -253,23 +418,28 @@ public class ActivityAddAdmin  extends AppCompatActivity {
         btnSave = (Button) findViewById(R.id.btn_save);
         btnUpdate = findViewById(R.id.btn_update);
 
-        spDesignation = (Spinner) findViewById(R.id.sp_designation);
-        spBranch = (Spinner) findViewById(R.id.sp_branch);
+        tvEmpRole=findViewById(R.id.tv_emp_role);
+        spHotel = (Spinner) findViewById(R.id.sp_branch);
 
         select_image = (FrameLayout) findViewById(R.id.iv_select_image);
         llPassword = findViewById(R.id.llPassword);
         llConPassword = findViewById(R.id.llConPass);
-        llBranch = findViewById(R.id.llBranch);
+        llHotel = findViewById(R.id.llHotel);
+        llDesignation=findViewById(R.id.llDesignation);
+        viewline=findViewById(R.id.view_line);
+        hotelFormArrayList=new ArrayList<>();
     }
 
     private void initRetrofitCallback() {
         mResultCallBack = new IResult() {
             @Override
             public void notifySuccess(int requestId, Response<JsonObject> response) {
+                JsonObject resp = response.body();
+                String valueInfo = resp.toString();
+
                 switch (requestId) {
                     case ADD_NEW_EMPLOYEE:
-                        JsonObject resp = response.body();
-                        String valueInfo = resp.toString();
+
                         try {
                             JSONObject jsonObject = new JSONObject(valueInfo);
                             int status = jsonObject.getInt("status");
@@ -285,84 +455,69 @@ public class ActivityAddAdmin  extends AppCompatActivity {
 
                         break;
 
-               /*     case BRANCH_INFO:
-                        JsonObject object = response.body();
-                        String value = object.toString();
+                    case GET_SA_ALL_HOTEL:
                         try {
-                            JSONObject object1 = new JSONObject(value);
-                            int status = object1.getInt("status");
 
-                            arrayListBranch.clear();
+                            JSONObject object = new JSONObject(valueInfo);
+                            int status = object.getInt("status");
                             if (status == 1) {
-                                JSONArray jsonArray = object1.getJSONArray("Hotel_Branch");
-                                BranchForm branchForm = new BranchForm();
-                                branchForm.setBranchId(0);
-                                branchForm.setBranchName("Select Branch");
-                                arrayListBranch.add(branchForm);
+                                hotelFormArrayList.clear();
+                                HotelForm hotelForm1 = new HotelForm();
+                                hotelForm1.setHotelId(0);
+                                hotelForm1.setHotelName("Select Hotel");
+                                hotelFormArrayList.add(hotelForm1);
+                                JSONArray jsonArray = object.getJSONArray("Hotellist");
                                 for (int i = 0; i < jsonArray.length(); i++) {
-                                    JSONObject object2 = jsonArray.getJSONObject(i);
-                                    BranchForm branchForm1 = new BranchForm();
-
-                                    branchForm1.setBranchId(object2.getInt("Branch_Id"));
-                                    branchForm1.setBranchName(object2.getString("Branch_Name"));
-                                    arrayListBranch.add(branchForm1);
+                                    JSONObject hotelObject = jsonArray.getJSONObject(i);
+                                    HotelForm hotelForm = new HotelForm();
+                                    hotelForm.setHotelId(hotelObject.getInt("Hotel_Id"));
+                                    hotelForm.setHotelName(hotelObject.getString("Hotel_Name"));
+                                    hotelFormArrayList.add(hotelForm);
                                 }
 
-                                ArrayAdapter<BranchForm> stringArrayAdapter = new ArrayAdapter<BranchForm>(ActivityNewAddEmployee.this, android.R.layout.simple_list_item_1, arrayListBranch);
-                                stringArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                                spBranch.setAdapter(stringArrayAdapter);
-                                getSelectedBranch(arrayListBranch);
-                                spBranch.setSelection(0);
+                                getSelectedHotel(hotelFormArrayList);
+                                spHotel.setSelection(0);
 
-                                if (branchSelId != 0) {
-                                    for (position = 0; position < arrayListBranch.size(); position++)
-                                        if (arrayListBranch.get(position).getBranchId() == branchSelId) {
+                                if (hotelId != 0) {
+                                    for (position = 0; position < hotelFormArrayList.size(); position++)
+                                        if (hotelFormArrayList.get(position).getHotelId()== hotelId) {
                                             break;
                                         }
-                                    spBranch.setSelection(position);
+                                    spHotel.setSelection(position);
                                 }
                             }
+                            else
+                            {
+
+                            }
+
+                            ArrayAdapter<HotelForm> stringArrayAdapter = new ArrayAdapter<HotelForm>(ActivityAddAdmin.this, android.R.layout.simple_spinner_item, hotelFormArrayList);
+                            stringArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            spHotel.setAdapter(stringArrayAdapter);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+
                         break;
 
-                    case EMP_EDIT_DETAILS:
+
+                    case ADMIN_EMP_EDIT:
                         JsonObject object1 = response.body();
                         String objectInfo = object1.toString();
                         try {
                             JSONObject jsonObject = new JSONObject(objectInfo);
                             int status = jsonObject.getInt("status");
                             if (status == 1) {
-                                Toast.makeText(ActivityNewAddEmployee.this, "Updated Successfully", Toast.LENGTH_LONG).show();
+                                Toast.makeText(ActivityAddAdmin.this, jsonObject.getString("message"), Toast.LENGTH_LONG).show();
                                 finish();
 
                             } else {
-                                Toast.makeText(ActivityNewAddEmployee.this, "Try Again..", Toast.LENGTH_LONG).show();
+                                Toast.makeText(ActivityAddAdmin.this, jsonObject.getString("message"), Toast.LENGTH_LONG).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                         break;
-                }
-
-            }
-
-            private void getSelectedBranch(final ArrayList<BranchForm> arrayListBranch) {
-
-                spBranch.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                        String branchName = spBranch.getSelectedItem().toString();
-                        branchInfo = (arrayListBranch.get(i).getBranchId());
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> adapterView) {
-                        Toast.makeText(getApplicationContext(), "Please selct the role..", Toast.LENGTH_SHORT).show();
-                    }
-                });*/
-                    // }
                 }
             }
 
@@ -373,6 +528,20 @@ public class ActivityAddAdmin  extends AppCompatActivity {
                     }
                 } ;
             }
+
+    private void getSelectedHotel(final ArrayList<HotelForm> hotelFormArrayList1) {
+        spHotel.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                hotelId=hotelFormArrayList1.get(position).getHotelId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

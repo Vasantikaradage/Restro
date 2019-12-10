@@ -104,6 +104,20 @@ public class ConstantVariables {
     public  static  final  int ALLOCATED_TABLE_DEATILS=903;
     public  static  final  int EMPLOYEE_STATUS=904;
     public  static  final  int ADMIN_EMP_EDIT=905;
+    public  static  final  int ADD_PROMOCODE=906;
+    public  static  final  int DELETE_PROMOCODE=907;
+    public  static  final  int EDIT_PROMOCODE=908;
+
+
+    public  static  final  int ADD_RUSHHOURS=909;
+    public  static  final  int DELETE_RUSHHOURS=910;
+    public  static  final  int EDIT_RUSHHOURS=911;
+
+    public  static  final  int ADD_SCRATCHCARD=912;
+    public  static  final  int DELETE_SCRATCHCARD=913;
+    public  static  final  int EDIT_SCRATCHCARD=914;
+
+
 
 
     /*Captain*/
@@ -125,6 +139,8 @@ public class ConstantVariables {
     public  static  final  int GET_UNBOOKED_TABLE=813;
     public  static  final  int REGISTER_CUSTOMER=814;
     public  static  final  int CAP_DELETE_ORDER=815;
+
+    public  static  final  int PARENT_CATEGORY_WITH_SUBMENU=816;
 
 
 
@@ -151,6 +167,7 @@ public class ConstantVariables {
     public  static  final  int IMAGE4=1013;
     public  static  final  int IMAGE5=1014;
     public  static  final  int IMAGE6=1015;
+    public   static  final  int GET_SA_PROFILE=1016;
 
 
 

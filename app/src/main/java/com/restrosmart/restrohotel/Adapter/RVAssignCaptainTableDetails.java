@@ -33,11 +33,10 @@ public class RVAssignCaptainTableDetails extends RecyclerView.Adapter<RVAssignCa
 
     @Override
     public void onBindViewHolder(@NonNull RVAssignCaptainTableDetails.MyHolder myHolder, int i) {
-        String id = String.valueOf(tableFormIdArrayList.get(i).getTableId());
+        String id = String.valueOf(tableFormIdArrayList.get(i).getTableNo());
        myHolder.textView.setText(id);
 
-
-            myHolder.imageView.setBackgroundResource(R.drawable.ic_table_green);
+       myHolder.imageView.setBackgroundResource(R.drawable.ic_table_green);
 
        /*else
         {

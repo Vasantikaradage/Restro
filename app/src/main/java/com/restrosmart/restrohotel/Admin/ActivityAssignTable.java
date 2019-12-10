@@ -110,12 +110,15 @@ public class ActivityAssignTable extends AppCompatActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String tableList = getTableList();
-                retrofitCallBack();
-                ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
-                mRetrofitService = new RetrofitService(mResultCallBack, ActivityAssignTable.this);
-                mRetrofitService.retrofitData(ALLOCATE_TABLE_CAPTAIN, (service.allocateTable(tableList, employeeId, areaId, hotelId
-                )));
+
+                if(isValid()) {
+                    String tableList = getTableList();
+                    retrofitCallBack();
+                    ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
+                    mRetrofitService = new RetrofitService(mResultCallBack, ActivityAssignTable.this);
+                    mRetrofitService.retrofitData(ALLOCATE_TABLE_CAPTAIN, (service.allocateTable(tableList, employeeId, areaId, hotelId
+                    )));
+                }
             }
         });
 
@@ -129,6 +132,19 @@ public class ActivityAssignTable extends AppCompatActivity {
 
         //getTableList();
 
+    }
+
+    private boolean isValid() {
+        if (employeeId == 0) {
+            Toast.makeText(ActivityAssignTable.this, "Please Select Employee..", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (areaId == 0) {
+            Toast.makeText(ActivityAssignTable.this, "Please Select Area..", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+
+        return true;
     }
 
     private void setUpToolBar() {
@@ -217,6 +233,7 @@ public class ActivityAssignTable extends AppCompatActivity {
                                             TableFormId tableFormId = new TableFormId();
                                             tableFormId.setTableId(jsonObject2.getInt("Table_Id"));
                                             tableFormId.setTableStatus(jsonObject2.getInt("Table_Status"));
+                                            tableFormId.setTableNo(jsonObject2.getInt("Table_No"));
                                             tableFormId.setSelected(false);
                                             arrayListtTableId.add(tableFormId);
                                         }
@@ -330,6 +347,7 @@ public class ActivityAssignTable extends AppCompatActivity {
             try {
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("Table_Id", selectedTableArrayList.get(i).getTableId());
+                jsonObject.put("Table_No",selectedTableArrayList.get(i).getTableNo());
                 //jsonObject.put("Topping_Name", arrayListToppings.get(i).getStudentName());
                 //    Toast.makeText(this, "id" + selectedTableArrayList.get(i).getTableId(), Toast.LENGTH_LONG).show();
                 jsonArray.put(jsonObject);

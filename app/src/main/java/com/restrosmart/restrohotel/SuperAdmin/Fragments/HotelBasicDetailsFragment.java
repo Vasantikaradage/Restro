@@ -172,8 +172,9 @@ public class HotelBasicDetailsFragment extends Fragment {
 
                     // Commit the Fragment replace action.
                     fragmentTransaction.commit();
-                    skLoading.setVisibility(View.GONE);
+
                 }
+                skLoading.setVisibility(View.GONE);
             }
         });
         return view;
@@ -220,13 +221,13 @@ public class HotelBasicDetailsFragment extends Fragment {
         } else if (etvHotelMob.getText().toString().length() < 10) {
             Toast.makeText(getActivity(), "Please enter valid mobile no", Toast.LENGTH_SHORT).show();
             return false;
-        } else if (etvHotelPhone.getText().toString().equalsIgnoreCase("")) {
+        } /*else if (etvHotelPhone.getText().toString().equalsIgnoreCase("")) {
             Toast.makeText(getActivity(), "Please enter phone No..", Toast.LENGTH_SHORT).show();
             return false;
         } else if (etvHotelPhone.getText().toString().length() < 12) {
             Toast.makeText(getActivity(), "Please enter valid phone no", Toast.LENGTH_SHORT).show();
             return false;
-        } else if (etvHotelEmail.getText().toString().equalsIgnoreCase("")) {
+        }*/ else if (etvHotelEmail.getText().toString().equalsIgnoreCase("")) {
             Toast.makeText(getActivity(), "Please enter Email Id..", Toast.LENGTH_SHORT).show();
             return false;
         } else if (!etvHotelEmail.getText().toString().matches(emailPattern)) {

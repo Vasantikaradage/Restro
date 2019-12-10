@@ -140,6 +140,7 @@ public class FragmentAssignDetails extends Fragment {
                                         JSONObject jsonObject2 = array.getJSONObject(in);
                                         TableFormId tableFormId = new TableFormId();
                                         tableFormId.setTableId(jsonObject2.getInt("Table_Id"));
+                                        tableFormId.setTableNo(jsonObject2.getInt("Table_No"));
                                       //  tableFormId.setTableStatus(jsonObject2.getInt("Table_Status"));
                                         arrayListtTableId.add(tableFormId);
                                     }

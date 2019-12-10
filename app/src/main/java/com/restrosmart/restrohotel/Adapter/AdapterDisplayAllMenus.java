@@ -378,7 +378,7 @@ public class AdapterDisplayAllMenus extends RecyclerView.Adapter<AdapterDisplayA
         TextView mMenuName, mMenuDisp, mMenuTeste, mMenuOption,mMenuPrice,mMenustatus;
         private ImageView image;
         private ImageView img_spicy;
-        private RelativeLayout llMenu;
+        private LinearLayout llMenu;
 
         public MyHolder(View itemView) {
             super(itemView);

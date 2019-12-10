@@ -4,6 +4,8 @@ import com.google.gson.JsonObject;
 import com.restrosmart.restrohotel.Model.RoleForm;
 
 
+import org.json.JSONObject;
+
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +20,9 @@ import retrofit2.http.POST;
  */
 
 public interface ApiService {
-    String BASE_URL = "http://192.168.1.213:8080/NewRestroSmart/";
+
+    //  String BASE_URL = "https://restrosmart.000webhostapp.com/Restro_Smart/";
+    String BASE_URL = "http://192.168.1.217:8080/NewRestroSmart/";
 
     /*parent category display*/
     @POST("Category.php?category=cate_disp")
@@ -196,6 +200,12 @@ public interface ApiService {
     @POST("Admin_Category.php?category=allmenu")
     @FormUrlEncoded
     Call<JsonObject> GetAllCategory(@Field("Hotel_Id") int Hotel_Id);
+
+    /*category display*/
+
+    @POST("https://api.myjson.com/bins/1fw6qo")
+    Call<JsonObject> GetAllCategorywithMenu();
+
 
     //Toppings
     // Toppings display
@@ -389,7 +399,7 @@ public interface ApiService {
                                 @Field("Non_Ac_Rate") String Non_Ac_Rate,
                                 @Field("Hotel_Id") int Hotel_Id,
                                 @Field("Pc_Id") int pcId,
-                                @Field("topparraylist") String toppingList);
+                                @Field("topparray") String toppingList);
 
     /*edit menu*/
     @POST("Admin_Menu.php?menu=menu_edit")
@@ -498,6 +508,105 @@ public interface ApiService {
     @POST("Admin_Dashboard.php?admin_dash=Active_Table")
     @FormUrlEncoded
     Call<JsonObject> activeTable(@Field("Hotel_Id") int hotel_id);
+
+
+    /*Add promoCode*/
+    @POST("Admin_Dashboard.php?admin_dash=Active_Table")
+    @FormUrlEncoded
+    Call<JsonObject> addPromoCode(@Field("Hotel_Id") String hotel_id,
+                                  @Field("Hotel_Id") String hotel_id1,
+                                  @Field("Hotel_Id") String hotel_id2,
+                                  @Field("Hotel_Id") String hotel_id4,
+                                  @Field("Hotel_Id") String hotel_id5);
+
+    /*edit promoCode*/
+    @POST("Admin_Dashboard.php?admin_dash=Active_Table")
+    @FormUrlEncoded
+    Call<JsonObject> editPromoCode(@Field("Hotel_Id") String hotel_id6,
+                                   @Field("Hotel_Id") String hotel_id,
+                                   @Field("Hotel_Id") String hotel_id1,
+                                   @Field("Hotel_Id") String hotel_id2,
+                                   @Field("Hotel_Id") String hotel_id4,
+                                   @Field("Hotel_Id") String hotel_id5);
+
+    /*delete promoCode*/
+    @POST("Admin_Dashboard.php?admin_dash=Active_Table")
+    @FormUrlEncoded
+    Call<JsonObject> deletePromoCode(@Field("Hotel_Id") String hotel_id,
+                                     @Field("Hotel_Id") String hotel_id1);
+
+
+    /*Add rushHours*/
+    @POST("Admin_Dashboard.php?admin_dash=Active_Table")
+    @FormUrlEncoded
+    Call<JsonObject> addRushHours(@Field("Hotel_Id") String hotel_id,
+                                  @Field("Hotel_Id") String hotel_id1,
+                                  @Field("Hotel_Id") String hotel_id2,
+                                  @Field("Hotel_Id") String hotel_id4);
+
+    /*edit rush hours*/
+    @POST("Admin_Dashboard.php?admin_dash=Active_Table")
+    @FormUrlEncoded
+    Call<JsonObject> editRushHours(@Field("Hotel_Id") String hotel_id6,
+                                   @Field("Hotel_Id") String hotel_id1,
+                                   @Field("Hotel_Id") String hotel_id2,
+                                   @Field("Hotel_Id") String hotel_id4,
+                                   @Field("Hotel_Id") String hotel_id5);
+
+    /*delete rush hours*/
+    @POST("Admin_Dashboard.php?admin_dash=Active_Table")
+    @FormUrlEncoded
+    Call<JsonObject> deleteRushHours(@Field("Hotel_Id") String hotel_id,
+                                     @Field("Hotel_Id") String hotel_id1);
+
+
+
+    /*Add Scratchcard*/
+    @POST("Admin_Dashboard.php?admin_dash=Active_Table")
+    @FormUrlEncoded
+    Call<JsonObject> addScratchcard(@Field("Hotel_Id") String hotel_id2,
+                                  @Field("Hotel_Id") String hotel_id4,
+                                  @Field("Hotel_Id") String hotel_id5);
+
+    /*edit Scratchcard*/
+    @POST("Admin_Dashboard.php?admin_dash=Active_Table")
+    @FormUrlEncoded
+    Call<JsonObject> editScratchcard(@Field("Hotel_Id") String hotel_id6,
+                                   @Field("Hotel_Id") String hotel_id2,
+                                   @Field("Hotel_Id") String hotel_id4,
+                                   @Field("Hotel_Id") String hotel_id5);
+
+    /*Add promoCode*/
+    @POST("Admin_Dashboard.php?admin_dash=Active_Table")
+    @FormUrlEncoded
+    Call<JsonObject> deleteScratchcard(@Field("Hotel_Id") String hotel_id,
+                                     @Field("Hotel_Id") String hotel_id1);
+
+
+
+
+
+
+
+
+
+
+    /*get parent Category*/
+    @POST("user/get_menu.php")
+    @FormUrlEncoded
+    Call<JsonObject> getCategory(@Field("Hotel_Id") int Hotel_Id,
+                                 @Field("u_key") String u_key);
+/*
+
+    */
+/*get sub menu amd category *//*
+
+    @POST("user/get_menulist.php")
+    @FormUrlEncoded
+    Call<JsonObject> getSubCategoryMenu(@Field("Hotel_Id") int Hotel_Id,
+                                        @Field("Pc_Id") int Pc_Id,
+                                        @Field("u_key") String u_key);
+*/
 
 
     /*CAPTAIN START*/
@@ -711,12 +820,12 @@ public interface ApiService {
     /*Fetching state dfetails*/
     @POST("SA_Hotel_Reg.php?sahotel=state")
     @FormUrlEncoded
-    Call<JsonObject> getState(@Field("Country_Id")int countryId);
+    Call<JsonObject> getState(@Field("Country_Id") int countryId);
 
     /*Fetching city dfetails*/
     @POST("SA_Hotel_Reg.php?sahotel=city")
     @FormUrlEncoded
-    Call<JsonObject> getCity(@Field("State_Id")int stateId);
+    Call<JsonObject> getCity(@Field("State_Id") int stateId);
 
     /*Fetching cuisine dfetails*/
     @POST("SA_Hotel_Reg.php?sahotel=cuisine")
@@ -729,7 +838,7 @@ public interface ApiService {
     /*Fetching hotel basic registration dfetails*/
     @POST("SA_Hotel_Reg.php?sahotel=hotel_reg")
     @FormUrlEncoded
-    Call<JsonObject> hotelRegistration(@Field("Hotel_Name")String hotelName,
+    Call<JsonObject> hotelRegistration(@Field("Hotel_Name") String hotelName,
                                        @Field("Hotel_Mob") String mob,
                                        @Field("Hotel_Phone") String phone,
                                        @Field("Hotel_Email") String email,
@@ -746,29 +855,29 @@ public interface ApiService {
                                        @Field("tagsarray") String tagsArray,
 
                                        @Field("Hotel_Gstinno") String gstn,
-                                       @Field("Hotel_CGST")String cgst,
+                                       @Field("Hotel_CGST") String cgst,
                                        @Field("Hotel_SGST") String sgst);
 
     /*Fetching image details*/
     @POST("SA_Hotel_Reg.php?sahotel=hotel_img")
     @FormUrlEncoded
-    Call<JsonObject> saveHotelImage(@Field("Hotel_Id")int hotelId,
+    Call<JsonObject> saveHotelImage(@Field("Hotel_Id") int hotelId,
                                     @Field("Hotel_Img") String imageBitmap,
-                                    @Field("Img_Ext") String extension );
-
-
-
-
+                                    @Field("Img_Ext") String extension);
 
 
     //   /*feathing hotel Other details */
     @POST("SA_Hotel_Reg.php?sahotel=hotel_Other_detail")
     @FormUrlEncoded
-    Call<JsonObject>otherHotelDetails(@Field("Hotel_Type_Id") int hotel_type_id,
-                                      @Field("Hotel_Table_Count") String hotel_table_count,
-                                      @Field("Hotel_Id") int hotelId,
-                                      @Field("cusisinearray") String cuisineArray,
-                                      @Field("tagsarray") String tagsArray);
+    Call<JsonObject> otherHotelDetails(@Field("Hotel_Type_Id") int hotel_type_id,
+                                       @Field("Hotel_Table_Count") String hotel_table_count,
+                                       @Field("Hotel_Id") int hotelId,
+                                       @Field("cusisinearray") String cuisineArray,
+                                       @Field("tagsarray") String tagsArray);
 
+    ///*feathching sa profile*/
+    @POST("SA_Emp.php?saemp=SA_Disp")
+    @FormUrlEncoded
+    Call<JsonObject> getSuperAdminProfile(@Field("SA_Id") int saId);
 }
 

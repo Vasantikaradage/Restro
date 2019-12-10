@@ -1,5 +1,6 @@
 package com.restrosmart.restrohotel.SuperAdmin.Activities;
 
+import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -24,7 +25,12 @@ import com.restrosmart.restrohotel.SuperAdmin.Fragments.FragmentSAReports;
 import com.restrosmart.restrohotel.SuperAdmin.Fragments.FragmentSASettings;
 import com.restrosmart.restrohotel.Utils.Sessionmanager;
 
+import java.util.HashMap;
+
 import de.hdodenhof.circleimageview.CircleImageView;
+
+import static com.restrosmart.restrohotel.Utils.Sessionmanager.EMP_NAME;
+import static com.restrosmart.restrohotel.Utils.Sessionmanager.ROLE_ID;
 
 public class ActivitySADashBoradDrawer extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private Toolbar toolbar;
@@ -40,6 +46,8 @@ public class ActivitySADashBoradDrawer extends AppCompatActivity implements Navi
     Fragment fragment = null;
     private String title = "";
     private Sessionmanager sessionmanager;
+  //  private HashMap<String,String> superAdminInfo;
+    Intent intent;
 
 
 
@@ -58,6 +66,9 @@ public class ActivitySADashBoradDrawer extends AppCompatActivity implements Navi
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+        HashMap<String,String> superAdminInfo =sessionmanager.getSuperAdminDetails();
+        String string=superAdminInfo.get(EMP_NAME);
+
         navigationView = (NavigationView) findViewById(R.id.nav_sa_view);
        View  hView = navigationView.getHeaderView(0);
         linearLayoutHeader = (LinearLayout) hView.findViewById(R.id.linear_layout);
@@ -66,11 +77,32 @@ public class ActivitySADashBoradDrawer extends AppCompatActivity implements Navi
         tvEmail = (TextView) hView.findViewById(R.id.tx_email);
 
 
+        name.setText(string);
+
+
         navigationView.setNavigationItemSelectedListener(ActivitySADashBoradDrawer.this);
 
         onNavigationItemSelected(navigationView.getMenu().getItem(0));
         navigationView.setCheckedItem(R.id.screen_order_area);
         navigationView.getMenu().performIdentifierAction(R.id.screen_area, 0);
+
+
+
+        intent=getIntent();
+        tvEmail.setText(intent.getStringExtra("email"));
+
+        linearLayoutHeader.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intentProfile = new Intent(ActivitySADashBoradDrawer.this, ActivitySAProfile.class);
+               // intentProfile.putExtra("empId", Integer.parseInt(empId));
+                startActivity(intentProfile);
+            }
+        });
+
+
+
+
 
 
     }

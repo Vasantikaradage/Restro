@@ -96,9 +96,16 @@ public class FragmentMenuItems extends Fragment {
         setRetainInstance(true);
         View view = inflater.inflate(R.layout.fragment_tab_menu, null);
 
+
+
         return view;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        sessionmanager.setTabposition(0);
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -109,11 +116,30 @@ public class FragmentMenuItems extends Fragment {
         HashMap<String, String> name_info = sessionmanager.getHotelDetails();
         hotelId = Integer.parseInt(name_info.get(HOTEL_ID));
 
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                sessionmanager.setTabposition(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
 
         initRetrofitCallBackForCategory();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, getActivity());
         mRetrofitService.retrofitData(PARENT_CATEGORY_WITH_SUB, (service.GetAllCategory(hotelId)));
+
+
        // showProgressDialog();
 
 
@@ -200,6 +226,7 @@ public class FragmentMenuItems extends Fragment {
             }
         });
     }
+
 
     private void alert() {
         Toast.makeText(getActivity(),"Please enter the category name",Toast.LENGTH_LONG).show();
@@ -375,8 +402,10 @@ public class FragmentMenuItems extends Fragment {
         });
 
         categoryViewPagerAdapter = new CategoryViewPagerAdapter(getActivity().getSupportFragmentManager(), mFragmentTitleList, addParentCategoryinfoModels);
+
         categoryViewPagerAdapter.notifyDataSetChanged();
         viewPager.setAdapter(categoryViewPagerAdapter);
+        viewPager.setCurrentItem(sessionmanager.getTabposition());
 
     }
 }

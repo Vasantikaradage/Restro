@@ -5,19 +5,13 @@ import android.os.Parcelable;
 
 public class EmployeeSAForm implements Parcelable {
 
-    private  String empName,empImg,empEmail,empMob,empAddress,userName,hotelName,Password,empAdharId,Role,Hotel_Name;
+    private  String empName,empImg,empEmail,empMob,empAddress,userName,hotelName,Password,empAdharId,Role;
     private  int empId,Role_Id,activeStatus,hotelId;
 
     public EmployeeSAForm() {
     }
 
-    public String getHotel_Name() {
-        return Hotel_Name;
-    }
 
-    public void setHotel_Name(String hotel_Name) {
-        Hotel_Name = hotel_Name;
-    }
 
     public int getHotelId() {
         return hotelId;

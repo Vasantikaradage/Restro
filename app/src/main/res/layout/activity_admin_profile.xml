@@ -483,7 +483,7 @@
                         android:src="@drawable/ic_cancel_background_primary"
                         android:visibility="gone" />
 
-                    <RelativeLayout
+                <!--    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
@@ -496,7 +496,7 @@
                             android:layout_marginEnd="10dp"
                             android:background="@color/white"
                             android:src="@drawable/ic_action_editbtn" />
-                    </RelativeLayout>
+                    </RelativeLayout>-->
                 </LinearLayout>
             </LinearLayout>
 
@@ -758,47 +758,6 @@
                     android:textColor="@color/colorPrimary"
                     android:textStyle="bold" />
 
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="30dp"
-                    android:layout_weight="0.5"
-                    android:orientation="horizontal">
-
-                    <ImageButton
-                        android:id="@+id/btn_update_branch_account"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_gravity="end"
-                        android:background="@color/white"
-                        android:src="@drawable/ic_correct_signal"
-                        android:visibility="gone" />
-
-                    <ImageButton
-                        android:id="@+id/btn_cancel_branch_account"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_gravity="end"
-
-                        android:background="@color/white"
-                        android:src="@drawable/ic_cancel_background_primary"
-                        android:visibility="gone" />
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <ImageButton
-                            android:id="@+id/btn_edit_branch_account"
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_alignParentEnd="true"
-                            android:layout_gravity="end"
-                            android:layout_marginEnd="10dp"
-                            android:background="@color/white"
-                            android:src="@drawable/ic_action_editbtn" />
-                    </RelativeLayout>
-                </LinearLayout>
             </LinearLayout>
 
 

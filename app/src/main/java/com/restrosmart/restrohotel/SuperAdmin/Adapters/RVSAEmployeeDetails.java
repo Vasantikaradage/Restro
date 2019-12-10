@@ -5,11 +5,15 @@ import android.content.Intent;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -44,10 +48,18 @@ public class RVSAEmployeeDetails extends RecyclerView.Adapter<RVSAEmployeeDetail
     private RetrofitService mRetrofitService;
     private String status_value;
 
+    private ArrayList<Integer> counter = new ArrayList<Integer>();
+
+
 
     public RVSAEmployeeDetails(FragmentActivity activity, ArrayList<EmployeeSAHotelForm> arrayListEmployee) {
         this.context = activity;
         this.arrayListSAEmployees = arrayListEmployee;
+
+
+        for (int i = 0; i < arrayListSAEmployees.size(); i++) {
+            counter.add(0);
+        }
     }
 
     @NonNull
@@ -61,6 +73,16 @@ public class RVSAEmployeeDetails extends RecyclerView.Adapter<RVSAEmployeeDetail
     @Override
     public void onBindViewHolder(@NonNull final RVSAEmployeeDetails.MyHolder myHolder, final int position) {
         myHolder.mHotelName.setText(arrayListSAEmployees.get(position).getHotelName());
+
+        ArrayList<EmployeeSAForm> EmployeeSaArrayList = arrayListSAEmployees.get(position).getEmployeeSAHotelForms();
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
+        EmployeeSADetailRVAdapter employeeSADetailRVAdapter = new EmployeeSADetailRVAdapter(context, EmployeeSaArrayList);
+        myHolder.rvEmplyoeeDetails.setHasFixedSize(true);
+        myHolder.rvEmplyoeeDetails.setNestedScrollingEnabled(false);
+        myHolder.rvEmplyoeeDetails.setLayoutManager(linearLayoutManager);
+        myHolder.rvEmplyoeeDetails.setItemAnimator(new DefaultItemAnimator());
+        myHolder.rvEmplyoeeDetails.setAdapter(employeeSADetailRVAdapter);
       //  myHolder.mDesignation.setText(arrayListSAEmployees.get(position).getRole());
         //status1 = (arrayListSAEmployees.get(position).getActiveStatus());
 
@@ -139,10 +161,30 @@ public class RVSAEmployeeDetails extends RecyclerView.Adapter<RVSAEmployeeDetail
         private TextView mDesignation;
         private RelativeLayout relativeLayout;
         private Switch status;
+        private ImageView ivArrow;
+        private  RecyclerView rvEmplyoeeDetails;
 
         public MyHolder(@NonNull View itemView) {
             super(itemView);
             mHotelName=itemView.findViewById(R.id.tv_hotel_name);
+            ivArrow=itemView.findViewById(R.id.ivArrow);
+            rvEmplyoeeDetails=itemView.findViewById(R.id.rv_emp_details);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    if (counter.get(getAdapterPosition()) % 2 == 0) {
+                        rvEmplyoeeDetails.setVisibility(View.VISIBLE);
+                        ivArrow.setImageDrawable(context.getDrawable(R.drawable.ic_up_arrow_16dp));
+                    } else {
+                        rvEmplyoeeDetails.setVisibility(View.GONE);
+                        ivArrow.setImageDrawable(context.getDrawable(R.drawable.ic_down_arrow_16dp));
+                    }
+
+                    counter.set(getAdapterPosition(), counter.get(getAdapterPosition()) + 1);
+                }
+            });
 
         /*    circleImageView = (CircleImageView) itemView.findViewById(R.id.civ_emp_profile);
             mDesignation = (TextView) itemView.findViewById(R.id.tv_emp_designation);

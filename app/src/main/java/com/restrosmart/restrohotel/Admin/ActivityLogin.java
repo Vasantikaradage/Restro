@@ -152,8 +152,11 @@ public class ActivityLogin extends AppCompatActivity {
                             startActivity(intent);
                             Toast.makeText(ActivityLogin.this, "Login Successfully", Toast.LENGTH_SHORT).show();
                         } else {
+
+                            String email=jsonObject2.getString("Emp_Email");
                             sessionmanager.saveSuperAdminDetails(empId, empName, roleId);
                             Intent intent = new Intent(ActivityLogin.this, ActivitySADashBoradDrawer.class);
+                            intent.putExtra("email",email);
                             startActivity(intent);
                             Toast.makeText(ActivityLogin.this, "Login Successfully", Toast.LENGTH_SHORT).show();
                         }

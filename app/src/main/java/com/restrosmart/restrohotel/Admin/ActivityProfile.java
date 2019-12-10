@@ -87,9 +87,7 @@ public class ActivityProfile extends AppCompatActivity {
     private IResult mResultCallBack;
     private int roleId;
     private String Password;
-    private ImageButton btneEditEmp, btnUpdateEmp, btnCancelEmp,
-            btnEditBranch, btnUpdateBranch, btnCancelBranch,
-            btnEditBranchAccount, btnUpdateBranchAccount, btnCancelBranchAccount;
+    private ImageButton btneEditEmp, btnUpdateEmp, btnCancelEmp;
     private int mTblNo, employeeId;
     private String mGstnNo, empOldImage;
     private CircleImageView mPhoto;
@@ -214,7 +212,7 @@ public class ActivityProfile extends AppCompatActivity {
         });
 
 
-        btnEditBranch.setOnClickListener(new View.OnClickListener() {
+        /*btnEditBranch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 tvBranchName.setVisibility(View.GONE);
@@ -360,7 +358,7 @@ public class ActivityProfile extends AppCompatActivity {
                 });
 
             }
-        });
+        });*/
 
 
     }
@@ -667,8 +665,7 @@ public class ActivityProfile extends AppCompatActivity {
     }
 
     private void refreshEditedBranchDetails() {
-        btnCancelBranchAccount.setVisibility(View.GONE);
-        btnUpdateBranchAccount.setVisibility(View.GONE);
+
 
         tvGSTNNo.setVisibility(View.VISIBLE);
         tvNoOfTables.setVisibility(View.VISIBLE);
@@ -681,15 +678,15 @@ public class ActivityProfile extends AppCompatActivity {
         tvBranchPhone.setVisibility(View.VISIBLE);
         tvBranchEmail.setVisibility(View.VISIBLE);
         tvBranchAddress.setVisibility(View.VISIBLE);
-        btnEditBranch.setVisibility(View.VISIBLE);
+       // btnEditBranch.setVisibility(View.VISIBLE);
 
         tvBranchStartTime.setTextColor(Color.parseColor("#7A1B5C"));
         tvBranchEndTime.setTextColor(Color.parseColor("#7A1B5C"));
 
         etvGSTNNo.setVisibility(View.GONE);
         etvNoOfTables.setVisibility(View.GONE);
-        btnUpdateBranch.setVisibility(View.GONE);
-        btnCancelBranch.setVisibility(View.GONE);
+      //  btnUpdateBranch.setVisibility(View.GONE);
+      //  btnCancelBranch.setVisibility(View.GONE);
         etvBranchName.setVisibility(View.GONE);
         etvBranchMob.setVisibility(View.GONE);
         etvBranchphone.setVisibility(View.GONE);
@@ -818,28 +815,17 @@ public class ActivityProfile extends AppCompatActivity {
         etvBranchAddress = findViewById(R.id.etv_branch_address);
         etvBranchMob = findViewById(R.id.etv_branch_mobno);
         etvBranchphone = findViewById(R.id.etv_branch_phone);
-
         tvGSTNNo = findViewById(R.id.tv_gstn_no);
         tvNoOfTables = findViewById(R.id.tv_no_of_tables);
         tvBranchStartTime = findViewById(R.id.tv_branch_start_time);
         tvBranchEndTime = findViewById(R.id.tv_branch_end_time);
-
         etvGSTNNo = findViewById(R.id.etv_gstn_no);
         etvNoOfTables = findViewById(R.id.etv_no_of_tables);
-
         btneEditEmp = findViewById(R.id.btn_edit_emp);
-        btnEditBranch = findViewById(R.id.btn_edit_branch);
-        btnUpdateBranch = findViewById(R.id.btn_update_branch);
-        btnCancelBranch = findViewById(R.id.btn_cancel_branch);
-        btnEditBranchAccount = findViewById(R.id.btn_edit_branch_account);
-
         btnUpdateEmp = findViewById(R.id.btn_update_emp);
         btnCancelEmp = findViewById(R.id.btn_cancel_emp);
 
-        btnUpdateBranchAccount = findViewById(R.id.btn_update_branch_account);
-        btnCancelBranchAccount = findViewById(R.id.btn_cancel_branch_account);
         mPhoto = findViewById(R.id.img_user_photo);
-
         frameLayoutCamera = findViewById(R.id.iv_select_image);
         updatePhoto = findViewById(R.id.btn_update_photo);
 

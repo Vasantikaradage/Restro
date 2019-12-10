@@ -6,37 +6,19 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
-import com.google.gson.JsonObject;
-import com.restrosmart.restrohotel.Adapter.DailyOffersAdapter;
-import com.restrosmart.restrohotel.Interfaces.ApiService;
-import com.restrosmart.restrohotel.Interfaces.DeleteResult;
 import com.restrosmart.restrohotel.Interfaces.IResult;
 import com.restrosmart.restrohotel.Model.OfferForm;
 import com.restrosmart.restrohotel.R;
-import com.restrosmart.restrohotel.RetrofitClientInstance;
 import com.restrosmart.restrohotel.RetrofitService;
 import com.restrosmart.restrohotel.Utils.Sessionmanager;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.HashMap;
-
-import retrofit2.Response;
-
-import static com.restrosmart.restrohotel.ConstantVariables.OFFER_TITLE;
-import static com.restrosmart.restrohotel.Utils.Sessionmanager.BRANCH_ID;
-import static com.restrosmart.restrohotel.Utils.Sessionmanager.HOTEL_ID;
 
 public class FragmentDailyOffers extends Fragment {
     ArrayList<OfferForm> arrayListOfferTitle = new ArrayList<OfferForm>();
@@ -79,7 +61,7 @@ public class FragmentDailyOffers extends Fragment {
         rlPromoCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intentPromoCode=new Intent(getActivity(), ActivityAddPromocode.class);
+                Intent intentPromoCode=new Intent(getActivity(), ActivityDisplayPromocode.class);
                 startActivity(intentPromoCode);
 
             }
@@ -88,7 +70,7 @@ public class FragmentDailyOffers extends Fragment {
         rlScratchCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intentScratchCard= new Intent(getActivity(),ActivityAddScratchCard.class);
+                Intent intentScratchCard= new Intent(getActivity(), ActivityDisplayScratchCard.class);
                 startActivity(intentScratchCard);
 
             }
@@ -98,7 +80,7 @@ public class FragmentDailyOffers extends Fragment {
             @Override
             public void onClick(View view) {
 
-                Intent intentRushHours=new Intent(getActivity(), ActivityAddRushHours.class);
+                Intent intentRushHours=new Intent(getActivity(), ActivityDisplayRushHours.class);
                 startActivity(intentRushHours);
             }
         });

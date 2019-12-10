@@ -29,7 +29,7 @@ public class ActivityPromoCode  extends AppCompatActivity {
         addOffer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent promocodeIntent=new Intent(ActivityPromoCode.this,ActivityAddPromocode.class);
+                Intent promocodeIntent=new Intent(ActivityPromoCode.this, ActivityDisplayPromocode.class);
                 startActivity(promocodeIntent);
 
             }

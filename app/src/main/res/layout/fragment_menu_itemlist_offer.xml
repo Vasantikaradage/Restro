@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="10dp">
-    <TextView
-        android:id="@+id/tv_menu_name"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/checkbox"
-        android:text="menu"
-        android:gravity="center_vertical"
-        android:textSize="16sp"/>
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
 
     <CheckBox
         android:id="@+id/checkbox"
@@ -20,4 +18,49 @@
         android:src="@drawable/ic_down_arrow"
         android:layout_alignParentStart="true"/>
 
-</RelativeLayout>
+    <TextView
+        android:id="@+id/tv_menu_name"
+        android:layout_width="0dp"
+        android:layout_weight="0.5"
+        android:layout_height="wrap_content"
+        android:text="NA"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:textSize="16sp"/>
+
+
+    <TextView
+        android:id="@+id/tv_menu_price"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="NA"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:textSize="16sp"/>
+
+    <EditText
+        android:id="@+id/et_offer_price"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:hint="Offer Price"
+        android:layout_gravity="center"
+        android:padding="5dp"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:background="@drawable/edt_bg_offer"
+        android:inputType="textMultiLine"
+        android:textSize="16sp"/>
+
+    </LinearLayout>
+
+  <!--  <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_topping"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+    </android.support.v7.widget.RecyclerView>-->
+
+</LinearLayout>

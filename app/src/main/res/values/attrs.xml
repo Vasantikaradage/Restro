@@ -29,4 +29,9 @@
         <attr name="firstMonday" format="boolean"/>
     </declare-styleable>
 
+    <declare-styleable name="CustomOfferView">
+        <attr name="offerBackgroundColor" format="color"/>
+    </declare-styleable>
+
+
 </resources>

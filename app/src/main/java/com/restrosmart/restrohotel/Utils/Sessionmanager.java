@@ -108,7 +108,7 @@ public class Sessionmanager {
         editor.commit();
     }
 
-    //save Login info
+   /* //save Login info
     public void createSession(UserForm user) {
 
         // Gson gson = new Gson();
@@ -126,7 +126,7 @@ public class Sessionmanager {
         editor.putString(EMP_NAME, String.valueOf(user.getEmp_Name()));
         editor.putBoolean(ISLOGIN, true);
         editor.commit();
-    }
+    }*/
 
     public void CheckLogin() {
 
@@ -193,7 +193,7 @@ public class Sessionmanager {
         return pref.getBoolean(ISLOGIN, false);
     }
 
-    public HashMap getLoginInfo() {
+   /* public HashMap getLoginInfo() {
         // Gson gson = new Gson();
         //String user = gson.toJson(user1);
         //  pref.getString("user", String.valueOf(user1));
@@ -214,7 +214,7 @@ public class Sessionmanager {
 
         return stringMap;
     }
-
+*/
     //save position info
     public int setTabposition(int position) {
         editor.putInt(TAB_POSITION, position);
@@ -272,7 +272,7 @@ public class Sessionmanager {
 
     public HashMap getSuperAdminDetails() {
         HashMap<String, String> stringMap = new HashMap<String, String>();
-        stringMap.put("empName", pref.getString(HOTEL_NAME, null));
+        stringMap.put("emp_name", pref.getString(EMP_NAME, null));
         stringMap.put("roleId", pref.getString(ROLE_ID, null));
         stringMap.put("empId", pref.getString(EMP_ID, null));
         return stringMap;

@@ -252,6 +252,8 @@ public class FragmentTableDetails extends Fragment {
                                             TableFormId tableFormId = new TableFormId();
                                             tableFormId.setTableId(jsonObject2.getInt("Table_Id"));
                                             tableFormId.setTableStatus(jsonObject2.getInt("Table_Status"));
+                                           tableFormId.setTableNo(jsonObject2.getInt("Table_No"));
+
                                             arrayListtTableId.add(tableFormId);
                                         }
                                     }

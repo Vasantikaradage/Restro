@@ -1,17 +1,49 @@
 package com.restrosmart.restrohotel.Model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 
 /**
  * Created by SHREE on 29/10/2018.
  */
 
-public class MenuDisplayForm {
+public class MenuDisplayForm implements Parcelable {
 
     private String Menu_Name,Menu_Descrip,Menu_Image_Name;
 
     private  int Menu_Id,Category_Id,Menu_Test,Non_Ac_Rate,Hotel_Id,Branch_Id,status;
     private ArrayList<ToppingsForm> arrayListtoppings;
+
+    public MenuDisplayForm() {
+    }
+
+    protected MenuDisplayForm(Parcel in) {
+        Menu_Name = in.readString();
+        Menu_Descrip = in.readString();
+        Menu_Image_Name = in.readString();
+        Menu_Id = in.readInt();
+        Category_Id = in.readInt();
+        Menu_Test = in.readInt();
+        Non_Ac_Rate = in.readInt();
+        Hotel_Id = in.readInt();
+        Branch_Id = in.readInt();
+        status = in.readInt();
+        arrayListtoppings = in.createTypedArrayList(ToppingsForm.CREATOR);
+    }
+
+    public static final Creator<MenuDisplayForm> CREATOR = new Creator<MenuDisplayForm>() {
+        @Override
+        public MenuDisplayForm createFromParcel(Parcel in) {
+            return new MenuDisplayForm(in);
+        }
+
+        @Override
+        public MenuDisplayForm[] newArray(int size) {
+            return new MenuDisplayForm[size];
+        }
+    };
 
     public ArrayList<ToppingsForm> getArrayListtoppings() {
         return arrayListtoppings;
@@ -104,5 +136,25 @@ public class MenuDisplayForm {
     @Override
     public String toString() {
         return Menu_Name;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(Menu_Name);
+        dest.writeString(Menu_Descrip);
+        dest.writeString(Menu_Image_Name);
+        dest.writeInt(Menu_Id);
+        dest.writeInt(Category_Id);
+        dest.writeInt(Menu_Test);
+        dest.writeInt(Non_Ac_Rate);
+        dest.writeInt(Hotel_Id);
+        dest.writeInt(Branch_Id);
+        dest.writeInt(status);
+        dest.writeTypedList(arrayListtoppings);
     }
 }

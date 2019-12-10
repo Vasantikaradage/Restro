@@ -6,6 +6,16 @@ import android.os.Parcelable;
 public class TableFormId  implements Parcelable {
     private  int tableId;
     private  int tableStatus;
+    private  int tableNo;
+
+    public int getTableNo() {
+        return tableNo;
+    }
+
+    public void setTableNo(int tableNo) {
+        this.tableNo = tableNo;
+    }
+
     private boolean isSelected = false;
 
     public boolean isSelected() {
@@ -38,12 +48,14 @@ public class TableFormId  implements Parcelable {
     protected TableFormId(Parcel in) {
         tableId = in.readInt();
         tableStatus = in.readInt();
+        tableNo=in.readInt();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(tableId);
         dest.writeInt(tableStatus);
+        dest.writeInt(tableNo);
     }
 
     @Override

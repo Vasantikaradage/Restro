@@ -4,151 +4,195 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:orientation="vertical"
         android:padding="10dp">
 
-        <android.support.design.widget.TextInputLayout
+
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:layout_weight="1">
+            android:drawableLeft="@drawable/ic_hotel"
+            android:drawablePadding="5dp"
+            android:padding="5dp"
+            android:text="Basic Details"
+            android:textColor="@color/colorPrimary" />
 
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/edt_hotel_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Hotel Name"
-                android:maxLines="1"
-                android:textSize="16sp" />
-        </android.support.design.widget.TextInputLayout>
-
-
-        <android.support.design.widget.TextInputLayout
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
+            app:cardUseCompatPadding="true">
 
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/edt_email"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
 
-                android:hint="Hotel Email"
-                android:inputType="textEmailAddress"
-                android:maxLines="1"
-                android:textSize="16sp" />
-        </android.support.design.widget.TextInputLayout>
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1">
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/edt_hotel_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Name"
+                        android:maxLines="1"
+                        android:paddingStart="10dp"
+                        android:textSize="16sp" />
+                </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/edt_hotel_mob"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:digits="0123456789"
-                android:hint="Hotel Mobile"
-                android:inputType="number"
-                android:maxLength="10"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:textSize="16sp" />
-        </android.support.design.widget.TextInputLayout>
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp">
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/edt_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Email"
+                        android:inputType="textEmailAddress"
+                        android:maxLines="1"
+                        android:paddingStart="10dp"
+                        android:textSize="16sp" />
+                </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/edt_hotel_phone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:digits="0123456789"
-                android:hint="Hotel Phone"
-                android:inputType="number"
-                android:maxLength="12"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:textSize="16sp" />
-        </android.support.design.widget.TextInputLayout>
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp">
 
-        <android.support.design.widget.TextInputLayout
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/edt_hotel_mob"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:digits="0123456789"
+                        android:hint="Mobile"
+                        android:inputType="number"
+                        android:maxLength="10"
+                        android:maxLines="1"
+                        android:paddingStart="10dp"
+                        android:singleLine="true"
+                        android:textSize="16sp" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/edt_hotel_phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:digits="0123456789"
+                        android:hint="Phone"
+                        android:inputType="number"
+                        android:maxLength="12"
+                        android:maxLines="1"
+                        android:paddingStart="10dp"
+                        android:singleLine="true"
+                        android:textSize="16sp" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/edt_hotel_area"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Area"
+                        android:maxLines="1"
+                        android:paddingStart="10dp"
+                        android:textSize="16sp" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/edt_hotel_address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Address"
+                        android:inputType="textPostalAddress"
+                        android:maxLines="1"
+                        android:paddingStart="10dp"
+                        android:textSize="16sp" />
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:layout_weight="1">
+            android:drawableLeft="@drawable/ic_placeholder"
+            android:drawablePadding="5dp"
+            android:padding="5dp"
+            android:text="Loaction Details"
+            android:textColor="@color/colorPrimary" />
 
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/edt_hotel_area"
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:cardUseCompatPadding="true">
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Area"
-                android:maxLines="1"
-                android:textSize="16sp" />
-        </android.support.design.widget.TextInputLayout>
+                android:orientation="vertical"
+                android:padding="10dp">
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/edt_hotel_address"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-                android:hint="Hotel Address"
-                android:inputType="textPostalAddress"
-                android:maxLines="1"
-                android:textSize="16sp" />
-        </android.support.design.widget.TextInputLayout>
+                <Spinner
+                    android:id="@+id/sp_country"
+                    style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="20dp"
+                    >
+                </Spinner>
 
 
-        <com.toptoche.searchablespinnerlibrary.SearchableSpinner
-            android:id="@+id/sp_country"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            app:hintText="Select Country">
-
-        </com.toptoche.searchablespinnerlibrary.SearchableSpinner>
-
-        <com.toptoche.searchablespinnerlibrary.SearchableSpinner
-            android:id="@+id/sp_state"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            app:hintText="Select State">
-
-        </com.toptoche.searchablespinnerlibrary.SearchableSpinner>
-
-        <com.toptoche.searchablespinnerlibrary.SearchableSpinner
-            android:id="@+id/sp_city"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            app:hintText="Select City">
-
-        </com.toptoche.searchablespinnerlibrary.SearchableSpinner>
+                <Spinner
+                    android:id="@+id/sp_state"
+                    style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="20dp"
+                    >
+                </Spinner>
 
 
-        <!--<com.toptoche.searchablespinnerlibrary.SearchableSpinner-->
-        <!--android:id="@+id/sp_hotel_type"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginTop="10dp"-->
-        <!--app:hintText="Hotel Type">-->
-
-        <!--</com.toptoche.searchablespinnerlibrary.SearchableSpinner>-->
-
+                <Spinner
+                    android:id="@+id/sp_city"
+                    style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="20dp"
+                  >
+                </Spinner>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
 
         <Button
             android:id="@+id/btn_basic_hotel_details"
@@ -160,5 +204,23 @@
             android:text="Next"
             android:textColor="@android:color/white"
             android:textSize="16sp" />
+
+
+
+
+
     </LinearLayout>
+
+
+        <com.github.ybq.android.spinkit.SpinKitView
+            android:id="@+id/skLoading"
+            style="@style/SpinKitView.Large.FadingCircle"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            app:SpinKit_Color="@color/colorPrimary" />
+
+    </FrameLayout>
+
+
 </android.support.v4.widget.NestedScrollView>
