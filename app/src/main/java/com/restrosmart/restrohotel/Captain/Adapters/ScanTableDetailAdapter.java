@@ -93,8 +93,11 @@ public class ScanTableDetailAdapter extends RecyclerView.Adapter<ScanTableDetail
                     android.R.string.yes,
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
+                            ScanTableModel scanTableModel = arrayList.get(getAdapterPosition());
+
                             Intent intent = new Intent("com.restrohotel.captain.accept.decline.table");
-                            intent.putExtra("tableId", arrayList.get(getAdapterPosition()).getTableId());
+                            intent.putExtra("tableId", scanTableModel.getTableId());
+                            intent.putExtra("tableNo", scanTableModel.getTableNo());
                             intent.putExtra("areaId", mAreaId);
                             intent.putExtra("progressMsg", progressMsg);
                             intent.putExtra("tableConfStatus", tableConfStatus);

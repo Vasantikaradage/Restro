@@ -47,5 +47,13 @@
             android:layout_height="50dp"
             android:layout_gravity="center"
             app:SpinKit_Color="@color/colorPrimary" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fabAddMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/fab_margin"
+            android:src="@drawable/ic_add_white" />
     </FrameLayout>
 </LinearLayout>

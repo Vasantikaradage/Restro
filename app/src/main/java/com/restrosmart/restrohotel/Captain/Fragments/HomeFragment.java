@@ -96,11 +96,12 @@ public class HomeFragment extends Fragment {
             if (bundle != null) {
                 int mAreaId = bundle.getInt("areaId");
                 int mTableId = bundle.getInt("tableId");
+                int mTableNo = bundle.getInt("tableNo");
                 int mTableConfStatus = bundle.getInt("tableConfStatus");
                 String mProgressMsg = bundle.getString("progressMsg");
 
                 showProgressDialog(mProgressMsg);
-                tableConfStatus(mAreaId, mTableId, mTableConfStatus);
+                tableConfStatus(mAreaId, mTableId, mTableNo, mTableConfStatus);
             }
         }
     };
@@ -111,11 +112,11 @@ public class HomeFragment extends Fragment {
         progressDialog.show();
     }
 
-    private void tableConfStatus(int areaId, int tableId, int tableConfStatus) {
+    private void tableConfStatus(int areaId, int tableId, int tableNo, int tableConfStatus) {
         initRetrofitCallBack();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, getContext());
-        mRetrofitService.retrofitData(TABLE_CONF_STATUS, (service.scanConfirmTable(Integer.parseInt(hotelDetails.get(HOTEL_ID)), tableId, areaId, Integer.parseInt(capDetails.get(EMP_ID)), tableConfStatus)));
+        mRetrofitService.retrofitData(TABLE_CONF_STATUS, (service.scanConfirmTable(Integer.parseInt(hotelDetails.get(HOTEL_ID)), tableId, tableNo, areaId, Integer.parseInt(capDetails.get(EMP_ID)), tableConfStatus)));
     }
 
     private void getScanTable() {
@@ -154,6 +155,7 @@ public class HomeFragment extends Fragment {
 
                                         ScanTableModel scanTableModel = new ScanTableModel();
                                         scanTableModel.setTableId(jsonObject3.getInt("Table_Id"));
+                                        scanTableModel.setTableNo(jsonObject3.getInt("Table_No"));
                                         scanTableModel.setCustName(jsonObject3.getString("Cust_Name"));
                                         scanTableModel.setCustMob(jsonObject3.getString("Cust_Mob"));
 
@@ -195,7 +197,6 @@ public class HomeFragment extends Fragment {
                         break;
 
                     case TABLE_CONF_STATUS:
-
                         try {
                             JSONObject object = new JSONObject(mParentSubcategory);
                             int status = object.getInt("status");

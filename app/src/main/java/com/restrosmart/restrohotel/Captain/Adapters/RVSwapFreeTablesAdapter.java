@@ -33,33 +33,43 @@ import com.restrosmart.restrohotel.Interfaces.IResult;
 import com.restrosmart.restrohotel.R;
 import com.restrosmart.restrohotel.RetrofitClientInstance;
 import com.restrosmart.restrohotel.RetrofitService;
+import com.restrosmart.restrohotel.Utils.Sessionmanager;
 
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import retrofit2.Response;
 
 import static com.restrosmart.restrohotel.ConstantVariables.GET_BOOKED_TABLE;
 import static com.restrosmart.restrohotel.ConstantVariables.SWAP_TABLE;
+import static com.restrosmart.restrohotel.Utils.Sessionmanager.HOTEL_ID;
 
 public class RVSwapFreeTablesAdapter extends RecyclerView.Adapter<RVSwapFreeTablesAdapter.ItemViewHolder> {
 
     private Context mContext;
     private ArrayList<TableSwapModel> arrayList;
-    private int mOldTableId;
+    private int mOldTableId, mOldTableNo;
     private String mCustId;
     private Dialog swapDialog;
     private ProgressDialog progressDialog;
 
     private RetrofitService mRetrofitService;
     private IResult mResultCallBack;
+    private Sessionmanager mSessionmanager;
+    private int hotelId;
 
-    RVSwapFreeTablesAdapter(Context context, ArrayList<TableSwapModel> tableSwapModelArrayList, int tableId, String custId) {
+    RVSwapFreeTablesAdapter(Context context, ArrayList<TableSwapModel> tableSwapModelArrayList, int tableId, int tableNo, String custId) {
         this.mContext = context;
         this.arrayList = tableSwapModelArrayList;
         this.mOldTableId = tableId;
+        this.mOldTableNo = tableNo;
         this.mCustId = custId;
+        mSessionmanager = new Sessionmanager(context);
+
+        HashMap<String, String> hotelDetails = mSessionmanager.getHotelDetails();
+        hotelId = Integer.parseInt(hotelDetails.get(HOTEL_ID));
     }
 
     @NonNull
@@ -71,7 +81,7 @@ public class RVSwapFreeTablesAdapter extends RecyclerView.Adapter<RVSwapFreeTabl
 
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int i) {
-        holder.tvTableNo.setText(String.valueOf(arrayList.get(i).getTableId()));
+        holder.tvTableNo.setText(String.valueOf(arrayList.get(i).getTableNo()));
         holder.ivTable.setImageResource(R.drawable.ic_table_gray);
     }
 
@@ -115,8 +125,8 @@ public class RVSwapFreeTablesAdapter extends RecyclerView.Adapter<RVSwapFreeTabl
                     Button btnCancel = swapDialog.findViewById(R.id.btnCancel);
                     Button btnSwap = swapDialog.findViewById(R.id.btnSwap);
 
-                    tvOldTable.setText(String.valueOf(mOldTableId));
-                    tvNewTable.setText(String.valueOf(arrayList.get(getAdapterPosition()).getTableId()));
+                    tvOldTable.setText(String.valueOf(mOldTableNo));
+                    tvNewTable.setText(String.valueOf(arrayList.get(getAdapterPosition()).getTableNo()));
 
                     btnCancel.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -150,7 +160,7 @@ public class RVSwapFreeTablesAdapter extends RecyclerView.Adapter<RVSwapFreeTabl
         initRetrofitCallBack();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, mContext);
-        mRetrofitService.retrofitData(SWAP_TABLE, (service.swapTable(1, mOldTableId, mNewTableId, mCustId)));
+        mRetrofitService.retrofitData(SWAP_TABLE, (service.swapTable(hotelId, mOldTableId, mNewTableId, mCustId)));
     }
 
     private void initRetrofitCallBack() {

@@ -15,6 +15,8 @@ import android.widget.Toast;
 import com.github.ybq.android.spinkit.SpinKitView;
 import com.google.gson.JsonObject;
 import com.restrosmart.restrohotel.Captain.Adapters.CapViewPagerAdapter;
+import com.restrosmart.restrohotel.Captain.Fragments.FragmentParcelOrders;
+import com.restrosmart.restrohotel.Captain.Fragments.FragmentTableOrders;
 import com.restrosmart.restrohotel.Captain.Models.AllOrderModel;
 import com.restrosmart.restrohotel.Captain.Models.CapMenuModel;
 import com.restrosmart.restrohotel.Captain.Models.CapOrderModel;
@@ -85,13 +87,36 @@ public class ActivityCapOrders extends AppCompatActivity {
 
         hotelDetails = mSessionmanager.getHotelDetails();
         hotelId = Integer.parseInt(hotelDetails.get(HOTEL_ID));
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                mSessionmanager.setTabposition(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        getOrderData();
         getMenuCategories();
+        getOrderData();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mSessionmanager.setTabposition(0);
     }
 
     @Override
@@ -101,10 +126,6 @@ public class ActivityCapOrders extends AppCompatActivity {
     }
 
     private void getOrderData() {
-        /*llTabPager.setVisibility(View.VISIBLE);
-        skLoading.setVisibility(View.GONE);
-        setViewPagerAdapter();*/
-
         initRetrofitCallback();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, this);
@@ -146,6 +167,8 @@ public class ActivityCapOrders extends AppCompatActivity {
                                         allOrderModel.setCustId(jsonObjectTakeAway.getString("CustId"));
                                         allOrderModel.setCustName(jsonObjectTakeAway.getString("CustName"));
                                         allOrderModel.setCustMob(jsonObjectTakeAway.getString("CustMob"));
+                                        allOrderModel.setTableId(jsonObjectTakeAway.getInt("TableId"));
+                                        allOrderModel.setTableNo(jsonObjectTakeAway.getInt("TableNo"));
 
                                         arrayListParcelOrder = new ArrayList<>();
                                         JSONArray jsonArrayODetails = jsonObjectTakeAway.getJSONArray("allorders");
@@ -155,6 +178,8 @@ public class ActivityCapOrders extends AppCompatActivity {
                                             CapOrderModel capOrderModel = new CapOrderModel();
                                             capOrderModel.setOrderId(jsonObjectOders.getInt("Order_Id"));
                                             capOrderModel.setOrderDate(jsonObjectOders.getString("Order_Date"));
+                                            capOrderModel.setOrderStatus(jsonObjectOders.getString("Order_Status_Name"));
+                                            capOrderModel.setSubTotal(Float.parseFloat(df2.format(Float.parseFloat(jsonObjectOders.getString("subtotal")))));
 
                                             arrayListParcelMenu = new ArrayList<>();
                                             JSONArray jsonArrayMenu = jsonObjectOders.getJSONArray("order");
@@ -206,7 +231,8 @@ public class ActivityCapOrders extends AppCompatActivity {
                                         allOrderModel.setCustId(jsonObjectTakeAway.getString("CustId"));
                                         allOrderModel.setCustName(jsonObjectTakeAway.getString("CustName"));
                                         allOrderModel.setCustMob(jsonObjectTakeAway.getString("CustMob"));
-                                        allOrderModel.setTableNo(jsonObjectTakeAway.getInt("TableId"));
+                                        allOrderModel.setTableId(jsonObjectTakeAway.getInt("TableId"));
+                                        allOrderModel.setTableNo(jsonObjectTakeAway.getInt("TableNo"));
 
                                         arrayListTableOrder = new ArrayList<>();
                                         JSONArray jsonArrayODetails = jsonObjectTakeAway.getJSONArray("allorders");
@@ -216,6 +242,8 @@ public class ActivityCapOrders extends AppCompatActivity {
                                             CapOrderModel capOrderModel = new CapOrderModel();
                                             capOrderModel.setOrderId(jsonObjectOders.getInt("Order_Id"));
                                             capOrderModel.setOrderDate(jsonObjectOders.getString("Order_Date"));
+                                            capOrderModel.setOrderStatus(jsonObjectOders.getString("Order_Status_Name"));
+                                            capOrderModel.setSubTotal(Float.parseFloat(df2.format(Float.parseFloat(jsonObjectOders.getString("subtotal")))));
 
                                             arrayListTableMenu = new ArrayList<>();
                                             JSONArray jsonArrayMenu = jsonObjectOders.getJSONArray("order");
@@ -255,10 +283,10 @@ public class ActivityCapOrders extends AppCompatActivity {
                                     }
                                 }
 
-                                llTabPager.setVisibility(View.VISIBLE);
+                                //llTabPager.setVisibility(View.VISIBLE);
                             } else {
                                 Toast.makeText(ActivityCapOrders.this, msg, Toast.LENGTH_SHORT).show();
-                                llTabPager.setVisibility(View.GONE);
+                                //llTabPager.setVisibility(View.GONE);
                             }
 
                             skLoading.setVisibility(View.GONE);
@@ -307,28 +335,13 @@ public class ActivityCapOrders extends AppCompatActivity {
     private void setViewPagerAdapter() {
         tabLayout.removeAllTabs();
 
-        tabLayout.addTab(tabLayout.newTab().setText("Parcel Orders"));
-        tabLayout.addTab(tabLayout.newTab().setText("Table Orders"));
+        capViewPagerAdapter = new CapViewPagerAdapter(getSupportFragmentManager(), arrayListParcelAllOrder, arrayListTableAllOrder, arrayListUserCategory);
+        capViewPagerAdapter.addFragment(new FragmentParcelOrders(), "Parcel Orders");
+        capViewPagerAdapter.addFragment(new FragmentTableOrders(), "Table Orders");
 
-        capViewPagerAdapter = new CapViewPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount(), arrayListParcelAllOrder, arrayListTableAllOrder, arrayListUserCategory);
         viewPager.setAdapter(capViewPagerAdapter);
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
+        tabLayout.setupWithViewPager(viewPager);
+        viewPager.setCurrentItem(mSessionmanager.getTabposition());
     }
 
     private void setupToolbar() {

@@ -8,16 +8,17 @@ import java.util.ArrayList;
 public class AllOrderModel implements Parcelable {
 
     private String CustId, CustName, CustMob;
-    private int tableNo;
+    private int tableId, tableNo;
     private ArrayList<CapOrderModel> capOrderModelArrayList;
 
     public AllOrderModel() {
     }
 
-    protected AllOrderModel(Parcel in) {
+    private AllOrderModel(Parcel in) {
         CustId = in.readString();
         CustName = in.readString();
         CustMob = in.readString();
+        tableId = in.readInt();
         tableNo = in.readInt();
         capOrderModelArrayList = in.createTypedArrayList(CapOrderModel.CREATOR);
     }
@@ -58,6 +59,14 @@ public class AllOrderModel implements Parcelable {
         CustMob = custMob;
     }
 
+    public int getTableId() {
+        return tableId;
+    }
+
+    public void setTableId(int tableId) {
+        this.tableId = tableId;
+    }
+
     public int getTableNo() {
         return tableNo;
     }
@@ -84,6 +93,7 @@ public class AllOrderModel implements Parcelable {
         dest.writeString(CustId);
         dest.writeString(CustName);
         dest.writeString(CustMob);
+        dest.writeInt(tableId);
         dest.writeInt(tableNo);
         dest.writeTypedList(capOrderModelArrayList);
     }

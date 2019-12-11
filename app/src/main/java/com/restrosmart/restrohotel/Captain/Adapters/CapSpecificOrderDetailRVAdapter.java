@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.restrosmart.restrohotel.Captain.Models.CapMenuModel;
-import com.restrosmart.restrohotel.Captain.Models.OrderStatusOrders;
 import com.restrosmart.restrohotel.R;
 
 import java.util.ArrayList;

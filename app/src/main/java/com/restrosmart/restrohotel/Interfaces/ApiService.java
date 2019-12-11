@@ -20,8 +20,6 @@ import retrofit2.http.POST;
  */
 
 public interface ApiService {
-
-    //  String BASE_URL = "https://restrosmart.000webhostapp.com/Restro_Smart/";
     String BASE_URL = "http://192.168.1.217:8080/NewRestroSmart/";
 
     /*parent category display*/
@@ -103,7 +101,7 @@ public interface ApiService {
     //@POST("Employee_Signup.php?Empcall=login")
     @POST("Employee_Signup.php?Empcall=login")
     @FormUrlEncoded
-    Call<JsonObject> getLogin(@Field("User_Name") String Hotel_Mob,
+    Call<JsonObject> getLogin(@Field("User_Name") String Username,
                               @Field("Password") String Password);
 
     //forget password
@@ -621,6 +619,7 @@ public interface ApiService {
     @FormUrlEncoded
     Call<JsonObject> scanConfirmTable(@Field("Hotel_Id") int hotel_id,
                                       @Field("Table_Id") int Table_Id,
+                                      @Field("Table_No") int Table_No,
                                       @Field("Area_Id") int Area_Id,
                                       @Field("Emp_Id") int Emp_Id,
                                       @Field("Table_conf_Status") int Table_conf_Status);
@@ -653,7 +652,7 @@ public interface ApiService {
                                     @Field("u_key") String u_key);
 
     /*get parcel/take away Orders*/
-    @POST("Captain_Table.php?captables=table_orders")
+    @POST("Captain_Order.php?caporders=table_orders")
     @FormUrlEncoded
     Call<JsonObject> getHaveParcelOrders(@Field("Hotel_Id") int hotel_id);
 
@@ -662,7 +661,17 @@ public interface ApiService {
     @FormUrlEncoded
     Call<JsonObject> capDeleteOrder(@Field("Hotel_Id") int hotel_id,
                                     @Field("Table_Id") int table_id,
+                                    @Field(" Order_Id") int order_id,
                                     @Field("Cust_Id") String cust_id);
+
+    /*complete Order*/
+    @POST("user/user_order_complete.php")
+    @FormUrlEncoded
+    Call<JsonObject> capCompleteOrder(@Field("Hotel_Id") int hotel_id,
+                                      @Field("Table_Id") int table_id,
+                                      @Field("Cust_Id") String cust_id,
+                                      @Field("oredridlist") String oredridlist,
+                                      @Field("u_key") String u_key);
 
     /*get free tables*/
     @POST("Captain.php?captain=Cap_Table")
@@ -675,6 +684,7 @@ public interface ApiService {
     @FormUrlEncoded
     Call<JsonObject> registerCustomer(@Field("Hotel_Id") int hotel_id,
                                       @Field("Table_Id") int table_id,
+                                      @Field("Table_No") int table_no,
                                       @Field("Ccust_Name") String cust_name,
                                       @Field("Ccust_Mob") String cust_mob);
 
@@ -706,6 +716,7 @@ public interface ApiService {
     @FormUrlEncoded
     Call<JsonObject> addToCart(@Field("Order_Id") int Order_Id,
                                @Field("Table_Id") int Table_Id,
+                               @Field("Table_No") int Table_No,
                                @Field("Cust_Id") String Cust_Id,
                                @Field("Hotel_Id") int Hotel_Id,
                                @Field("Menu_Id") String Menu_Id,
@@ -755,6 +766,7 @@ public interface ApiService {
     @FormUrlEncoded
     Call<JsonObject> placeOrder(@Field("Hotel_Id") int Hotel_Id,
                                 @Field("Table_Id") int Table_Id,
+                                @Field("Table_No") int mTableNo,
                                 @Field("Cust_Id") String Cust_Id,
                                 @Field("Order_Id") int Order_Id,
                                 @Field("Order_Msg") String Order_Msg,

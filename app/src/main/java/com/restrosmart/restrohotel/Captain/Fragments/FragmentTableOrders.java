@@ -69,7 +69,7 @@ public class FragmentTableOrders extends Fragment implements View.OnClickListene
 
     private AlertDialog alertDialog;
     private EditText edtName, edtMobileNo;
-    private int selectedTable = 0;
+    private int selectedTableId = 0, selectedTableNo;
 
     private IResult mResultCallBack;
     private RetrofitService mRetrofitService;
@@ -96,7 +96,7 @@ public class FragmentTableOrders extends Fragment implements View.OnClickListene
         userCategoryArrayList = getArguments().getParcelableArrayList("arrayListUserCategory");
 
         if (orderModelArrayList != null && orderModelArrayList.size() > 0) {
-            RVTableOrderAdapter rvTableOrderAdapter = new RVTableOrderAdapter(getContext(), hotelId, orderModelArrayList, new CapOrderDeleteListener() {
+            RVTableOrderAdapter rvTableOrderAdapter = new RVTableOrderAdapter(getContext(), hotelId, orderModelArrayList, userCategoryArrayList, new CapOrderDeleteListener() {
                 @Override
                 public void deleteOrder(int arraylistSize) {
                     if (arraylistSize > 0) {
@@ -121,6 +121,18 @@ public class FragmentTableOrders extends Fragment implements View.OnClickListene
             llNoData.setVisibility(View.VISIBLE);
         }
 
+        rvTableOrders.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy > 0 && fabAddMenu.getVisibility() == View.VISIBLE) {
+                    fabAddMenu.hide();
+                } else if (dy < 0 && fabAddMenu.getVisibility() != View.VISIBLE) {
+                    fabAddMenu.show();
+                }
+            }
+        });
+
         fabAddMenu.setOnClickListener(this);
 
         return view;
@@ -129,7 +141,6 @@ public class FragmentTableOrders extends Fragment implements View.OnClickListene
     @Override
     public void onResume() {
         super.onResume();
-
         getFreeTable();
     }
 
@@ -182,7 +193,9 @@ public class FragmentTableOrders extends Fragment implements View.OnClickListene
             spnTableNo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    selectedTable = Integer.parseInt(parent.getItemAtPosition(position).toString());
+                    FreeTables freeTables = freeTablesArrayList.get(position);
+                    selectedTableId = freeTables.getTableId();
+                    selectedTableNo = Integer.parseInt(parent.getSelectedItem().toString());
                 }
 
                 @Override
@@ -195,7 +208,7 @@ public class FragmentTableOrders extends Fragment implements View.OnClickListene
                 @Override
                 public void onClick(View view) {
                     if (isValid()) {
-                        showProgrssDailog();
+                        showProgressDailog();
                         registerCustomer();
                     }
                 }
@@ -212,11 +225,10 @@ public class FragmentTableOrders extends Fragment implements View.OnClickListene
 
     private void registerCustomer() {
         initRetrofitCallback();
-
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, getContext());
-        mRetrofitService.retrofitData(REGISTER_CUSTOMER, (service.registerCustomer(hotelId, selectedTable, edtName.getText().toString(),
-                edtMobileNo.getText().toString())));
+        mRetrofitService.retrofitData(REGISTER_CUSTOMER, (service.registerCustomer(hotelId, selectedTableId, selectedTableNo,
+                edtName.getText().toString(), edtMobileNo.getText().toString())));
     }
 
     private void getFreeTable() {
@@ -238,14 +250,14 @@ public class FragmentTableOrders extends Fragment implements View.OnClickListene
         } else if (!edtMobileNo.getText().toString().matches(mobilePattern)) {
             Toast.makeText(getContext(), "Please enter valid mobile no", Toast.LENGTH_SHORT).show();
             return false;
-        } else if (selectedTable == 0) {
+        } else if (selectedTableId == 0) {
             Toast.makeText(getContext(), "No tables available", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
     }
 
-    private void showProgrssDailog() {
+    private void showProgressDailog() {
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.setCancelable(false);
@@ -279,14 +291,15 @@ public class FragmentTableOrders extends Fragment implements View.OnClickListene
                                 String id = jsonObject1.getString("Cap_Cust_Id");
                                 String name = jsonObject1.getString("Ccust_Name");
                                 String mob = jsonObject1.getString("Ccust_Mob");
-                                int tableNo = jsonObject1.getInt("Ctable_Id");
+                                int tableId = jsonObject1.getInt("Ctable_Id");
+                                int tableNo = jsonObject1.getInt("Table_No");
 
                                 //Todo remove below code
                                 mSessionmanager.deleteCustDetails();
                                 mSessionmanager.resetCartCount();
                                 mSessionmanager.deleteOrderID();
 
-                                mSessionmanager.saveCustDetails(id, name, mob, tableNo);
+                                mSessionmanager.saveCustDetails(id, name, mob, tableId, tableNo);
 
                                 Intent intent = new Intent(getContext(), ActivityHotelMenu.class);
                                 intent.putExtra("categoryPos", 0);
@@ -320,7 +333,8 @@ public class FragmentTableOrders extends Fragment implements View.OnClickListene
 
                                         FreeTables freeTables = new FreeTables();
 
-                                        freeTables.setTableNo(jsonObject2.getInt("Table_Id"));
+                                        freeTables.setTableId(jsonObject2.getInt("Table_Id"));
+                                        freeTables.setTableNo(jsonObject2.getInt("Table_No"));
                                         freeTablesArrayList.add(freeTables);
                                     }
                                 }

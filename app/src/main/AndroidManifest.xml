@@ -165,6 +165,7 @@
         <activity android:name=".Captain.Activities.ActivityTableOrders" />
         <activity android:name=".Captain.Activities.ActivityCaptainDash" />
         <activity android:name=".Captain.Activities.ActivityCapOrders" />
+        <activity android:name=".Captain.Activities.ActivityCapSpecificOrders" />
 
 
         <activity android:name=".SuperAdmin.Activities.ActivityViewHotelDetails"/>

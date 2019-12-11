@@ -15,7 +15,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -52,8 +51,8 @@ import static com.restrosmart.restrohotel.ConstantVariables.UNIQUE_KEY;
 import static com.restrosmart.restrohotel.ConstantVariables.WATER_ADD_TO_CART;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.CUST_ID;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.HOTEL_ID;
+import static com.restrosmart.restrohotel.Utils.Sessionmanager.TABLE_ID;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.TABLE_NO;
-import static com.restrosmart.restrohotel.Utils.Sessionmanager.USER_ID;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.WATER_BOTTLE_ID;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.WATER_BOTTLE_IMAGE;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.WATER_BOTTLE_NAME;
@@ -215,6 +214,7 @@ public class ActivityCartBill extends AppCompatActivity implements View.OnClickL
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, this);
         mRetrofitService.retrofitData(PLACE_ORDER, (service.placeOrder(Integer.parseInt(hotelDetails.get(HOTEL_ID)),
+                Integer.parseInt(userDetails.get(TABLE_ID)),
                 Integer.parseInt(userDetails.get(TABLE_NO)),
                 userDetails.get(CUST_ID),
                 mSessionmanager.getOrderID(),
@@ -230,7 +230,7 @@ public class ActivityCartBill extends AppCompatActivity implements View.OnClickL
         mRetrofitService.retrofitData(GET_CART_MENU, (service.getCartDisplay(Integer.parseInt(hotelDetails.get(HOTEL_ID)),
                 mSessionmanager.getOrderID(),
                 userDetails.get(CUST_ID),
-                Integer.parseInt(userDetails.get(TABLE_NO)),
+                Integer.parseInt(userDetails.get(TABLE_ID)),
                 UNIQUE_KEY)));
     }
 
@@ -239,13 +239,14 @@ public class ActivityCartBill extends AppCompatActivity implements View.OnClickL
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, this);
         mRetrofitService.retrofitData(WATER_ADD_TO_CART, (service.addToCart(mSessionmanager.getOrderID(),
+                Integer.parseInt(userDetails.get(TABLE_ID)),
                 Integer.parseInt(userDetails.get(TABLE_NO)),
                 userDetails.get(CUST_ID),
                 Integer.parseInt(hotelDetails.get(HOTEL_ID)),
                 waterBottleId,
                 waterBottleName,
                 waterBottlePrice, 1,
-                "", 0, "", "", "", 0, 0, 1, 0, UNIQUE_KEY)));
+                "", 0, "", "", "", 0, 0, 1, 7, UNIQUE_KEY)));
     }
 
     private void initRetrofitCallback() {

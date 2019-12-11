@@ -62,7 +62,7 @@ public class RVSwapBookedTablesAdapter extends RecyclerView.Adapter<RVSwapBooked
 
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int i) {
-        holder.tvTableNo.setText(String.valueOf(arrayList.get(i).getTableId()));
+        holder.tvTableNo.setText(String.valueOf(arrayList.get(i).getTableNo()));
     }
 
     @Override
@@ -105,8 +105,10 @@ public class RVSwapBookedTablesAdapter extends RecyclerView.Adapter<RVSwapBooked
 
                     RecyclerView rvFreeTables = view.findViewById(R.id.rvFreeTables);
 
+                    TableSwapModel tableSwapModel = arrayList.get(getAdapterPosition());
+
                     RVSwapFreeAreaAdapter rvSwapFreeAreaAdapter = new RVSwapFreeAreaAdapter(mContext, mFreeAreaSwapArrayList,
-                            arrayList.get(getAdapterPosition()).getTableId(), arrayList.get(getAdapterPosition()).getCustId());
+                            tableSwapModel.getTableId(), tableSwapModel.getTableNo(), tableSwapModel.getCustId());
                     rvFreeTables.setHasFixedSize(true);
                     rvFreeTables.setNestedScrollingEnabled(false);
                     rvFreeTables.setLayoutManager(new GridLayoutManager(mContext, 1));

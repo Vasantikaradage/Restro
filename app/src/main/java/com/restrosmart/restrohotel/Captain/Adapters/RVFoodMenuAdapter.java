@@ -45,6 +45,7 @@ import static com.restrosmart.restrohotel.ConstantVariables.UNIQUE_KEY;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.BRANCH_ID;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.CUST_ID;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.HOTEL_ID;
+import static com.restrosmart.restrohotel.Utils.Sessionmanager.TABLE_ID;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.TABLE_NO;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.USER_ID;
 
@@ -241,6 +242,7 @@ public class RVFoodMenuAdapter extends RecyclerView.Adapter<RVFoodMenuAdapter.It
             ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
             mRetrofitService = new RetrofitService(mResultCallBack, mContext);
             mRetrofitService.retrofitData(FOOD_ADD_TO_CART, (service.addToCart(mSessionmanager.getOrderID(),
+                    Integer.parseInt(userDetails.get(TABLE_ID)),
                     Integer.parseInt(userDetails.get(TABLE_NO)),
                     userDetails.get(CUST_ID),
                     Integer.parseInt(hotelDetails.get(HOTEL_ID)),
@@ -249,7 +251,7 @@ public class RVFoodMenuAdapter extends RecyclerView.Adapter<RVFoodMenuAdapter.It
                     String.valueOf(arrayList.get(getAdapterPosition()).getMenuPrice()),
                     Integer.parseInt(tvMenuQty.getText().toString()),
                     "", 0, "", "",
-                    toppingsList, 0, 0, 1, 0, UNIQUE_KEY)));
+                    toppingsList, 0, 0, 1, 7, UNIQUE_KEY)));
         }
 
         private void initRetrofitCallback() {

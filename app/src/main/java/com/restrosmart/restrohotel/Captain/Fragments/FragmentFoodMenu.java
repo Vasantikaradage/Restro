@@ -55,6 +55,7 @@ import static com.restrosmart.restrohotel.ConstantVariables.WATER_BOTTLE_DETAIL;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.BRANCH_ID;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.CUST_ID;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.HOTEL_ID;
+import static com.restrosmart.restrohotel.Utils.Sessionmanager.TABLE_ID;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.TABLE_NO;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.USER_ID;
 
@@ -101,8 +102,8 @@ public class FragmentFoodMenu extends Fragment {
         hotelDetails = mSessionmanager.getHotelDetails();
 
         loadingDialog.showLoadingDialog();
-        getCategoryMenus();
         getWaterBottleDetail();
+        getCategoryMenus();
 
         fabWaterBottle.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,6 +134,7 @@ public class FragmentFoodMenu extends Fragment {
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, getContext());
         mRetrofitService.retrofitData(WATER_ADD_TO_CART, (service.addToCart(mSessionmanager.getOrderID(),
+                Integer.parseInt(userDetails.get(TABLE_ID)),
                 Integer.parseInt(userDetails.get(TABLE_NO)),
                 userDetails.get(CUST_ID),
                 Integer.parseInt(hotelDetails.get(HOTEL_ID)),
@@ -140,7 +142,7 @@ public class FragmentFoodMenu extends Fragment {
                 waterBottleName,
                 String.valueOf(waterBottlePrice),
                 Integer.parseInt(tvWBottleQty.getText().toString()),
-                "", 0, "", "", "", 0, 0, 1, 0, UNIQUE_KEY)));
+                "", 0, "", "", "", 0, 0, 1, 7, UNIQUE_KEY)));
     }
 
     private void initRetrofitCallback() {
@@ -292,7 +294,6 @@ public class FragmentFoodMenu extends Fragment {
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-
                         break;
                 }
 
@@ -349,9 +350,7 @@ public class FragmentFoodMenu extends Fragment {
         btnAddWBottle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                progressDialog = new ProgressDialog(getContext());
-                progressDialog.setMessage("Adding to cart...");
-                progressDialog.show();
+                showLoadingDialog();
                 WaterAddToCart();
             }
         });
@@ -378,6 +377,12 @@ public class FragmentFoodMenu extends Fragment {
 
         ((View) view1.getParent()).setBackgroundColor(getResources().getColor(android.R.color.transparent));
         bottomSheetDialog.show();
+    }
+
+    private void showLoadingDialog() {
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setMessage("Adding to cart...");
+        progressDialog.show();
     }
 
     private void revealShow(BottomSheetDialog dialogView, boolean b, final Dialog dialog) {

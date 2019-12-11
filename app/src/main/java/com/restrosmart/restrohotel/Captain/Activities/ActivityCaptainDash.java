@@ -31,9 +31,6 @@ public class ActivityCaptainDash extends AppCompatActivity {
     }
 
     private void loadFragment(int fragmentId) {
-
-        //getSupportFragmentManager().beginTransaction().add(R.id.flContainer,new HomeFragment()).commit();
-
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction ft = fragmentManager.beginTransaction();
 
@@ -111,8 +108,6 @@ public class ActivityCaptainDash extends AppCompatActivity {
     private void setupToolbar() {
         mToolbar.setTitle("Home");
         setSupportActionBar(mToolbar);
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        //getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
     }
 
     private void init() {

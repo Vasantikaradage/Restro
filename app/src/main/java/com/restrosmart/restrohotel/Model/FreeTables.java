@@ -4,13 +4,21 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class FreeTables implements Parcelable {
-    private int tableNo;
+    private int tableId, tableNo;
 
     public FreeTables() {
     }
 
-    protected FreeTables(Parcel in) {
-        tableNo = in.readInt();
+    private FreeTables(Parcel in) {
+        tableId = in.readInt();
+    }
+
+    public int getTableId() {
+        return tableId;
+    }
+
+    public void setTableId(int tableId) {
+        this.tableId = tableId;
     }
 
     public int getTableNo() {
@@ -45,6 +53,6 @@ public class FreeTables implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(tableNo);
+        dest.writeInt(tableId);
     }
 }

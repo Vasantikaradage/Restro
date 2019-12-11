@@ -8,7 +8,8 @@ import java.util.ArrayList;
 public class CapOrderModel implements Parcelable {
 
     private int orderId;
-    private String orderDate;
+    private String orderDate, orderStatus;
+    private float subTotal;
     private ArrayList<CapMenuModel> capMenuModelArrayList;
 
     public CapOrderModel() {
@@ -17,6 +18,8 @@ public class CapOrderModel implements Parcelable {
     protected CapOrderModel(Parcel in) {
         orderId = in.readInt();
         orderDate = in.readString();
+        orderStatus = in.readString();
+        subTotal = in.readFloat();
         capMenuModelArrayList = in.createTypedArrayList(CapMenuModel.CREATOR);
     }
 
@@ -48,6 +51,22 @@ public class CapOrderModel implements Parcelable {
         this.orderDate = orderDate;
     }
 
+    public String getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(String orderStatus) {
+        this.orderStatus = orderStatus;
+    }
+
+    public float getSubTotal() {
+        return subTotal;
+    }
+
+    public void setSubTotal(float subTotal) {
+        this.subTotal = subTotal;
+    }
+
     public ArrayList<CapMenuModel> getCapMenuModelArrayList() {
         return capMenuModelArrayList;
     }
@@ -65,6 +84,8 @@ public class CapOrderModel implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(orderId);
         dest.writeString(orderDate);
+        dest.writeString(orderStatus);
+        dest.writeFloat(subTotal);
         dest.writeTypedList(capMenuModelArrayList);
     }
 }

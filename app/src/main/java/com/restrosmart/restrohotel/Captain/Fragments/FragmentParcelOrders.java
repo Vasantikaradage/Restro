@@ -15,13 +15,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
@@ -29,7 +25,6 @@ import com.restrosmart.restrohotel.Captain.Activities.ActivityHotelMenu;
 import com.restrosmart.restrohotel.Captain.Adapters.RVParcelOrderAdapter;
 import com.restrosmart.restrohotel.Captain.Interfaces.CapOrderDeleteListener;
 import com.restrosmart.restrohotel.Captain.Models.AllOrderModel;
-import com.restrosmart.restrohotel.Captain.Models.OrderModel;
 import com.restrosmart.restrohotel.Captain.Models.UserCategory;
 import com.restrosmart.restrohotel.Interfaces.ApiService;
 import com.restrosmart.restrohotel.Interfaces.IResult;
@@ -85,7 +80,7 @@ public class FragmentParcelOrders extends Fragment implements View.OnClickListen
         userCategoryArrayList = getArguments().getParcelableArrayList("arrayListUserCategory");
 
         if (orderModelArrayList != null && orderModelArrayList.size() > 0) {
-            RVParcelOrderAdapter rvParcelOrderAdapter = new RVParcelOrderAdapter(getContext(), Integer.parseInt(hotelDetails.get(HOTEL_ID)), orderModelArrayList, new CapOrderDeleteListener() {
+            RVParcelOrderAdapter rvParcelOrderAdapter = new RVParcelOrderAdapter(getContext(), Integer.parseInt(hotelDetails.get(HOTEL_ID)), orderModelArrayList, userCategoryArrayList, new CapOrderDeleteListener() {
                 @Override
                 public void deleteOrder(int arraylistSize) {
                     if (arraylistSize > 0) {
@@ -109,6 +104,18 @@ public class FragmentParcelOrders extends Fragment implements View.OnClickListen
             rvParcelOrders.setVisibility(View.GONE);
             llNoData.setVisibility(View.VISIBLE);
         }
+
+        rvParcelOrders.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy > 0 && fabAddMenu.getVisibility() == View.VISIBLE) {
+                    fabAddMenu.hide();
+                } else if (dy < 0 && fabAddMenu.getVisibility() != View.VISIBLE) {
+                    fabAddMenu.show();
+                }
+            }
+        });
 
         fabAddMenu.setOnClickListener(this);
         return view;
@@ -159,7 +166,7 @@ public class FragmentParcelOrders extends Fragment implements View.OnClickListen
 
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, getContext());
-        mRetrofitService.retrofitData(REGISTER_CUSTOMER, (service.registerCustomer(Integer.parseInt(hotelDetails.get(HOTEL_ID)), 0, edtName.getText().toString(),
+        mRetrofitService.retrofitData(REGISTER_CUSTOMER, (service.registerCustomer(Integer.parseInt(hotelDetails.get(HOTEL_ID)), 0, 0, edtName.getText().toString(),
                 edtMobileNo.getText().toString())));
     }
 
@@ -212,14 +219,15 @@ public class FragmentParcelOrders extends Fragment implements View.OnClickListen
                             String id = jsonObject1.getString("Cap_Cust_Id");
                             String name = jsonObject1.getString("Ccust_Name");
                             String mob = jsonObject1.getString("Ccust_Mob");
-                            int tableNo = jsonObject1.getInt("Ctable_Id");
+                            int tableId = jsonObject1.getInt("Ctable_Id");
+                            int tableNo = jsonObject1.getInt("Table_No");
 
                             //Todo remove below code
                             mSessionmanager.deleteCustDetails();
                             mSessionmanager.resetCartCount();
                             mSessionmanager.deleteOrderID();
 
-                            mSessionmanager.saveCustDetails(id, name, mob, tableNo);
+                            mSessionmanager.saveCustDetails(id, name, mob, tableId, tableNo);
 
                             Intent intent = new Intent(getContext(), ActivityHotelMenu.class);
                             intent.putExtra("categoryPos", 0);

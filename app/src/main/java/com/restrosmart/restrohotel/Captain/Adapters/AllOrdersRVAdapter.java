@@ -46,6 +46,9 @@ public class AllOrdersRVAdapter extends RecyclerView.Adapter<AllOrdersRVAdapter.
 
         OrderStatusOrderList orderStatusOrderList = mArrayList.get(position);
 
+        if (orderStatusOrderList.getOrderStatus() != null && !orderStatusOrderList.getOrderStatus().equalsIgnoreCase("null"))
+            holder.tvOrderStatus.setText("(" + orderStatusOrderList.getOrderStatus() + ")");
+
         OrderDetailRVAdapter orderDetailRVAdapter = new OrderDetailRVAdapter(mContext, orderStatusOrderList.getOrderStatusOrders());
         holder.rvSpecificOrder.setHasFixedSize(true);
         holder.rvSpecificOrder.setNestedScrollingEnabled(false);
@@ -66,7 +69,7 @@ public class AllOrdersRVAdapter extends RecyclerView.Adapter<AllOrdersRVAdapter.
 
     class ItemViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView tvOrderName;
+        private TextView tvOrderName, tvOrderStatus;
         private ImageView ivArrow;
         private RecyclerView rvSpecificOrder;
 
@@ -74,6 +77,7 @@ public class AllOrdersRVAdapter extends RecyclerView.Adapter<AllOrdersRVAdapter.
             super(itemView);
 
             tvOrderName = itemView.findViewById(R.id.tvOrderName);
+            tvOrderStatus = itemView.findViewById(R.id.tvOrderStatus);
             ivArrow = itemView.findViewById(R.id.ivArrow);
             rvSpecificOrder = itemView.findViewById(R.id.rvSpecificOrder);
 

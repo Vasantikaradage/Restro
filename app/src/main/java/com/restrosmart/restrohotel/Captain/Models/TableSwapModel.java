@@ -3,7 +3,7 @@ package com.restrosmart.restrohotel.Captain.Models;
 public class TableSwapModel {
 
     private String custId;
-    private int tableId, orderId;
+    private int tableId, tableNo, orderId;
 
     public String getCustId() {
         return custId;
@@ -19,6 +19,14 @@ public class TableSwapModel {
 
     public void setTableId(int tableId) {
         this.tableId = tableId;
+    }
+
+    public int getTableNo() {
+        return tableNo;
+    }
+
+    public void setTableNo(int tableNo) {
+        this.tableNo = tableNo;
     }
 
     public int getOrderId() {

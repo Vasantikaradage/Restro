@@ -63,6 +63,7 @@ public class Sessionmanager {
     public static final String REMEMBER_PASSWORD = "remember_password";
     public static final String REMEMBER_ME = "remember_me";
 
+    public static final String TABLE_ID = "TableId";
     public static final String TABLE_NO = "TableNo";
     public static final String USER_ID = "UserId";
     private static final String CART_COUNT = "CartCount";
@@ -216,16 +217,13 @@ public class Sessionmanager {
     }
 */
     //save position info
-    public int setTabposition(int position) {
+    public void setTabposition(int position) {
         editor.putInt(TAB_POSITION, position);
         editor.commit();
-        return position;
-
     }
 
     public int getTabposition() {
         return pref.getInt(TAB_POSITION, 0);
-
     }
 
     public void setWaterBottleDetail(String waterBottleId, String waterBottleName, String waterBottleImage, float waterBottlePrice) {
@@ -293,10 +291,11 @@ public class Sessionmanager {
         return stringMap;
     }
 
-    public void saveCustDetails(String custId, String custName, String custMob, int tableNo) {
+    public void saveCustDetails(String custId, String custName, String custMob, int tableId, int tableNo) {
         editor.putString(CUST_ID, custId);
         editor.putString(CUST_NAME, custName);
         editor.putString(CUST_MOB, custMob);
+        editor.putInt(TABLE_ID, tableId);
         editor.putInt(TABLE_NO, tableNo);
         editor.commit();
     }
@@ -306,6 +305,7 @@ public class Sessionmanager {
         hashMap.put(CUST_ID, pref.getString(CUST_ID, null));
         hashMap.put(CUST_NAME, pref.getString(CUST_NAME, null));
         hashMap.put(CUST_MOB, pref.getString(CUST_MOB, null));
+        hashMap.put(TABLE_ID, String.valueOf(pref.getInt(TABLE_ID, 0)));
         hashMap.put(TABLE_NO, String.valueOf(pref.getInt(TABLE_NO, 0)));
         return hashMap;
     }
@@ -314,6 +314,7 @@ public class Sessionmanager {
         editor.remove(CUST_ID);
         editor.remove(CUST_NAME);
         editor.remove(CUST_MOB);
+        editor.remove(TABLE_ID);
         editor.remove(TABLE_NO);
         editor.commit();
     }

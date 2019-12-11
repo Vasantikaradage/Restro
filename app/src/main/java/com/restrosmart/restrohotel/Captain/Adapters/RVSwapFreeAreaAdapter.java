@@ -19,13 +19,14 @@ public class RVSwapFreeAreaAdapter extends RecyclerView.Adapter<RVSwapFreeAreaAd
 
     private Context mContext;
     private ArrayList<AreaSwapModel> arrayList;
-    private int mOldTableId;
+    private int mOldTableId, mOldTableNo;
     private String mCustId;
 
-    public RVSwapFreeAreaAdapter(Context context, ArrayList<AreaSwapModel> areaSwapModelArrayList, int tableId, String custId) {
+    public RVSwapFreeAreaAdapter(Context context, ArrayList<AreaSwapModel> areaSwapModelArrayList, int tableId, int tableNo, String custId) {
         this.mContext = context;
         this.arrayList = areaSwapModelArrayList;
         this.mOldTableId = tableId;
+        this.mOldTableNo = tableNo;
         this.mCustId = custId;
     }
 
@@ -40,7 +41,7 @@ public class RVSwapFreeAreaAdapter extends RecyclerView.Adapter<RVSwapFreeAreaAd
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
         holder.tvAreaName.setText(arrayList.get(position).getAreaName());
 
-        RVSwapFreeTablesAdapter rvSwapFreeTablesAdapter = new RVSwapFreeTablesAdapter(mContext, arrayList.get(position).getTableSwapModelArrayList(), mOldTableId, mCustId);
+        RVSwapFreeTablesAdapter rvSwapFreeTablesAdapter = new RVSwapFreeTablesAdapter(mContext, arrayList.get(position).getTableSwapModelArrayList(), mOldTableId, mOldTableNo, mCustId);
         holder.rvBookedTable.setHasFixedSize(true);
         holder.rvBookedTable.setNestedScrollingEnabled(false);
         holder.rvBookedTable.setLayoutManager(new GridLayoutManager(mContext, 4));

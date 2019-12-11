@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetDialog;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -43,11 +42,10 @@ import retrofit2.Response;
 
 import static com.restrosmart.restrohotel.ConstantVariables.LIQOUR_ADD_TO_CART;
 import static com.restrosmart.restrohotel.ConstantVariables.UNIQUE_KEY;
-import static com.restrosmart.restrohotel.Utils.Sessionmanager.BRANCH_ID;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.CUST_ID;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.HOTEL_ID;
+import static com.restrosmart.restrohotel.Utils.Sessionmanager.TABLE_ID;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.TABLE_NO;
-import static com.restrosmart.restrohotel.Utils.Sessionmanager.USER_ID;
 
 public class RVLiquorsAdapter extends RecyclerView.Adapter<RVLiquorsAdapter.ItemViewHolder> {
 
@@ -70,7 +68,7 @@ public class RVLiquorsAdapter extends RecyclerView.Adapter<RVLiquorsAdapter.Item
 
     private HashMap<String, String> hotelDetails, userDetails;
 
-    public RVLiquorsAdapter(Context context, ArrayList<SpecificLiqourBrandModel> arraylist) {
+    RVLiquorsAdapter(Context context, ArrayList<SpecificLiqourBrandModel> arraylist) {
         this.arraylist = arraylist;
         this.mContext = context;
         this.mSessionmanager = new Sessionmanager(mContext);
@@ -259,6 +257,7 @@ public class RVLiquorsAdapter extends RecyclerView.Adapter<RVLiquorsAdapter.Item
             ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
             mRetrofitService = new RetrofitService(mResultCallBack, mContext);
             mRetrofitService.retrofitData(LIQOUR_ADD_TO_CART, (service.addToCart(mSessionmanager.getOrderID(),
+                    Integer.parseInt(userDetails.get(TABLE_ID)),
                     Integer.parseInt(userDetails.get(TABLE_NO)),
                     userDetails.get(CUST_ID),
                     Integer.parseInt(hotelDetails.get(HOTEL_ID)),
@@ -267,7 +266,7 @@ public class RVLiquorsAdapter extends RecyclerView.Adapter<RVLiquorsAdapter.Item
                     Integer.parseInt(tvLiqourQty.getText().toString()),
                     selectedUnitName,
                     selectedUnitPrice,
-                    toppingsList, 0, 0, 2, 0, UNIQUE_KEY)));
+                    toppingsList, 0, 0, 2, 7, UNIQUE_KEY)));
         }
 
         private void initRetrofitCallback() {
@@ -293,6 +292,8 @@ public class RVLiquorsAdapter extends RecyclerView.Adapter<RVLiquorsAdapter.Item
                             Intent intent = new Intent("com.restrosmart.restro.addmenu");
                             //intent.putExtra("menuname", arraylist.get(getAdapterPosition()).getMenuName());
                             mContext.sendBroadcast(intent);
+
+                            dialogView.dismiss();
                         } else {
                             Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
                         }

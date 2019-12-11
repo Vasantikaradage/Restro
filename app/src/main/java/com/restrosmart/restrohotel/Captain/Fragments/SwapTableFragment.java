@@ -131,6 +131,7 @@ public class SwapTableFragment extends Fragment {
 
                                     TableSwapModel tableSwapModel = new TableSwapModel();
                                     tableSwapModel.setTableId(jsonObject3.getInt("Table_Id"));
+                                    tableSwapModel.setTableNo(jsonObject3.getInt("Table_No"));
                                     tableSwapModel.setCustId(jsonObject3.getString("Cust_Id"));
 
                                     if (jsonObject3.has("Order_Id") && !jsonObject3.isNull("Order_Id")) {
@@ -161,6 +162,7 @@ public class SwapTableFragment extends Fragment {
 
                                     TableSwapModel tableSwapModel = new TableSwapModel();
                                     tableSwapModel.setTableId(jsonObject3.getInt("Table_Id"));
+                                    tableSwapModel.setTableNo(jsonObject3.getInt("Table_No"));
 
                                     freeTableSwapArrayList.add(tableSwapModel);
                                 }

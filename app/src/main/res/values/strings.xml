@@ -151,6 +151,7 @@
     <string name="btn_add">add</string>
     <string name="cancel_dialog_content">Are you want to cancel the order or place order later?</string>
     <string name="later">Later</string>
+    <string name="not_accepted">(Not Accepted)</string>
 
     <string-array name="tables_array">
         <item>1</item>

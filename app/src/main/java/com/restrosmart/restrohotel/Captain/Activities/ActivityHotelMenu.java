@@ -60,7 +60,7 @@ public class ActivityHotelMenu extends AppCompatActivity {
         handler = new Handler() {
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
-                switch(msg.what) {
+                switch (msg.what) {
                     case 0:
                         finish();
                         break;
@@ -253,9 +253,11 @@ public class ActivityHotelMenu extends AppCompatActivity {
             return true;
         } else if (item.getItemId() == arrayList.get(item.getItemId() - 1).getCategoryId()) {
             setMenuFragment(arrayList.get(item.getItemId() - 1).getCategoryId());
+            categoryPos = arrayList.get(item.getItemId() - 1).getCategoryId() - 1;
             return true;
         } else {
             setMenuFragment(arrayList.get(item.getItemId() - 1).getCategoryId());
+            categoryPos = arrayList.get(item.getItemId() - 1).getCategoryId() - 1;
             return true;
         }
     }

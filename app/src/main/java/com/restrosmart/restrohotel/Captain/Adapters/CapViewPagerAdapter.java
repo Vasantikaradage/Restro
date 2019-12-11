@@ -16,14 +16,15 @@ import java.util.ArrayList;
 
 public class CapViewPagerAdapter extends FragmentStatePagerAdapter {
 
-    private int tabCount;
     private ArrayList<AllOrderModel> parcelArrayList;
     private ArrayList<AllOrderModel> tableArrayList;
     private ArrayList<UserCategory> userCategoryArrayList;
 
-    public CapViewPagerAdapter(FragmentManager fm, int tabCount, ArrayList<AllOrderModel> parcelAllOrderModelArrayList, ArrayList<AllOrderModel> TableAllOrderModelArrayList, ArrayList<UserCategory> arrayListUserCategory) {
+    private final ArrayList<Fragment> mFragmentList = new ArrayList<>();
+    private final ArrayList<String> mFragmentTitleList = new ArrayList<>();
+
+    public CapViewPagerAdapter(FragmentManager fm, ArrayList<AllOrderModel> parcelAllOrderModelArrayList, ArrayList<AllOrderModel> TableAllOrderModelArrayList, ArrayList<UserCategory> arrayListUserCategory) {
         super(fm);
-        this.tabCount = tabCount;
         this.parcelArrayList = parcelAllOrderModelArrayList;
         this.tableArrayList = TableAllOrderModelArrayList;
         this.userCategoryArrayList = arrayListUserCategory;
@@ -33,26 +34,36 @@ public class CapViewPagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                FragmentParcelOrders fragmentParcelOrders = new FragmentParcelOrders();
+                Fragment fragment = mFragmentList.get(position);
                 Bundle bundle = new Bundle();
                 bundle.putParcelableArrayList("arrayListParcelOrder", parcelArrayList);
                 bundle.putParcelableArrayList("arrayListUserCategory", userCategoryArrayList);
-                fragmentParcelOrders.setArguments(bundle);
-                return fragmentParcelOrders;
+                fragment.setArguments(bundle);
+                return fragment;
             case 1:
-                FragmentTableOrders fragmentTableOrders = new FragmentTableOrders();
+                Fragment fragment1 = mFragmentList.get(position);
                 Bundle bundle2 = new Bundle();
                 bundle2.putParcelableArrayList("arrayListTableOrder", tableArrayList);
                 bundle2.putParcelableArrayList("arrayListUserCategory", userCategoryArrayList);
-                fragmentTableOrders.setArguments(bundle2);
-                return fragmentTableOrders;
+                fragment1.setArguments(bundle2);
+                return fragment1;
             default:
                 return null;
         }
     }
 
+    public void addFragment(Fragment fragment, String title) {
+        mFragmentList.add(fragment);
+        mFragmentTitleList.add(title);
+    }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return mFragmentTitleList.get(position);
+    }
+
     @Override
     public int getCount() {
-        return tabCount;
+        return mFragmentList.size();
     }
 }

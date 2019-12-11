@@ -20,6 +20,7 @@ import com.restrosmart.restrohotel.Captain.Activities.ActivityCapSpecificOrders;
 import com.restrosmart.restrohotel.Captain.Interfaces.CapOrderDeleteListener;
 import com.restrosmart.restrohotel.Captain.Models.AllOrderModel;
 import com.restrosmart.restrohotel.Captain.Models.OrderModel;
+import com.restrosmart.restrohotel.Captain.Models.UserCategory;
 import com.restrosmart.restrohotel.Interfaces.ApiService;
 import com.restrosmart.restrohotel.Interfaces.IResult;
 import com.restrosmart.restrohotel.R;
@@ -39,15 +40,17 @@ public class RVParcelOrderAdapter extends RecyclerView.Adapter<RVParcelOrderAdap
     private Context mContext;
     private int mHotelId;
     private ArrayList<AllOrderModel> arrayList;
+    private ArrayList<UserCategory> mUserCategoryArrayList;
     private CapOrderDeleteListener mCapOrderDeleteListener;
 
     private IResult mResultCallBack;
     private RetrofitService mRetrofitService;
 
-    public RVParcelOrderAdapter(Context context, int hotelId, ArrayList<AllOrderModel> allOrderModelArrayList, CapOrderDeleteListener capOrderDeleteListener) {
+    public RVParcelOrderAdapter(Context context, int hotelId, ArrayList<AllOrderModel> allOrderModelArrayList, ArrayList<UserCategory> userCategoryArrayList, CapOrderDeleteListener capOrderDeleteListener) {
         this.mContext = context;
         this.mHotelId = hotelId;
         this.arrayList = allOrderModelArrayList;
+        this.mUserCategoryArrayList = userCategoryArrayList;
         this.mCapOrderDeleteListener = capOrderDeleteListener;
     }
 
@@ -59,9 +62,11 @@ public class RVParcelOrderAdapter extends RecyclerView.Adapter<RVParcelOrderAdap
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RVParcelOrderAdapter.ViewHolder viewHolder, int i) {
-        viewHolder.tvCustName.setText(arrayList.get(i).getCustName());
-        viewHolder.tvCustMobNo.setText(arrayList.get(i).getCustMob());
+    public void onBindViewHolder(@NonNull RVParcelOrderAdapter.ViewHolder viewHolder, int position) {
+        AllOrderModel allOrderModel = arrayList.get(position);
+
+        viewHolder.tvCustName.setText(allOrderModel.getCustName());
+        viewHolder.tvCustMobNo.setText(allOrderModel.getCustMob());
         //viewHolder.tvTableId.setText(String.valueOf(arrayList.get(i).getTableId()));
         //viewHolder.tvDateTime.setText(arrayList.get(i).getTime());
     }
@@ -89,8 +94,18 @@ public class RVParcelOrderAdapter extends RecyclerView.Adapter<RVParcelOrderAdap
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    AllOrderModel allOrderModel = arrayList.get(getAdapterPosition());
+
                     Intent intent = new Intent(mContext, ActivityCapSpecificOrders.class);
-                    intent.putExtra("arraylist", arrayList.get(getAdapterPosition()).getCapOrderModelArrayList());
+                    intent.putExtra("title", "Parcel Order");
+                    intent.putExtra("hotelId", mHotelId);
+                    intent.putExtra("custId", allOrderModel.getCustId());
+                    intent.putExtra("custName", allOrderModel.getCustName());
+                    intent.putExtra("custMob", allOrderModel.getCustMob());
+                    intent.putExtra("tableId", allOrderModel.getTableId());
+                    intent.putExtra("tableNo", allOrderModel.getTableNo());
+                    intent.putExtra("arraylist", allOrderModel.getCapOrderModelArrayList());
+                    intent.putExtra("categoryArraylist", mUserCategoryArrayList);
                     mContext.startActivity(intent);
                 }
             });
@@ -107,7 +122,7 @@ public class RVParcelOrderAdapter extends RecyclerView.Adapter<RVParcelOrderAdap
                             android.R.string.yes,
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
-                                    deleteOrder(arrayList.get(getAdapterPosition()).getCustId(), arrayList.get(getAdapterPosition()).getTableNo());
+                                    deleteOrder(arrayList.get(getAdapterPosition()).getCustId(), arrayList.get(getAdapterPosition()).getTableId());
                                     dialog.dismiss();
                                 }
                             });
@@ -131,7 +146,7 @@ public class RVParcelOrderAdapter extends RecyclerView.Adapter<RVParcelOrderAdap
             initRetrofitCallback();
             ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
             mRetrofitService = new RetrofitService(mResultCallBack, mContext);
-            mRetrofitService.retrofitData(CAP_DELETE_ORDER, (service.capDeleteOrder(mHotelId, tableNo, custId)));
+            mRetrofitService.retrofitData(CAP_DELETE_ORDER, (service.capDeleteOrder(mHotelId, tableNo, 0, custId)));
         }
 
         private void initRetrofitCallback() {
