@@ -17,10 +17,12 @@ import java.util.ArrayList;
 public class RVLiquorBrandsAdapter extends RecyclerView.Adapter<RVLiquorBrandsAdapter.ItemViewHolder> {
 
     private Context mContext;
+    private int mCategoryId;
     private ArrayList<LiquorBrandsModel> arrayList;
 
-    public RVLiquorBrandsAdapter(Context context, ArrayList<LiquorBrandsModel> arrayList) {
+    public RVLiquorBrandsAdapter(Context context, int categoryId, ArrayList<LiquorBrandsModel> arrayList) {
         this.mContext = context;
+        this.mCategoryId = categoryId;
         this.arrayList = arrayList;
     }
 
@@ -40,7 +42,7 @@ public class RVLiquorBrandsAdapter extends RecyclerView.Adapter<RVLiquorBrandsAd
 
         holder.rvLiquors.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
         //rvLiquors.setLayoutManager(new GridLayoutManager(getContext(), 1, LinearLayoutManager.HORIZONTAL, false));
-        RVLiquorsAdapter rvLiquorsAdapter = new RVLiquorsAdapter(mContext, liquorBrandsModel.getArrayList());
+        RVLiquorsAdapter rvLiquorsAdapter = new RVLiquorsAdapter(mContext, mCategoryId, liquorBrandsModel.getArrayList());
         holder.rvLiquors.setAdapter(rvLiquorsAdapter);
     }
 

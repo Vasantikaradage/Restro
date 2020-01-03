@@ -63,13 +63,14 @@ public class RVFoodMenuAdapter extends RecyclerView.Adapter<RVFoodMenuAdapter.It
     private Sessionmanager mSessionmanager;
 
     private HashMap<String, String> hotelDetails, userDetails;
-    private int selectedPos;
+    private int mCategoryId;
     private int mExpandedPosition = -1, previousExpandedPosition;
 
     private Animation slideUp, slideDown, leftToRight, rightToLeft;
 
-    public RVFoodMenuAdapter(Context context, ArrayList<FoodMenuModel> arrayList) {
+    public RVFoodMenuAdapter(Context context, int categoryId, ArrayList<FoodMenuModel> arrayList) {
         this.mContext = context;
+        this.mCategoryId = categoryId;
         this.arrayList = arrayList;
         mSessionmanager = new Sessionmanager(mContext);
 
@@ -251,7 +252,7 @@ public class RVFoodMenuAdapter extends RecyclerView.Adapter<RVFoodMenuAdapter.It
                     String.valueOf(arrayList.get(getAdapterPosition()).getMenuPrice()),
                     Integer.parseInt(tvMenuQty.getText().toString()),
                     "", 0, "", "",
-                    toppingsList, 0, 0, 1, 7, UNIQUE_KEY)));
+                    toppingsList, 0, 0, 1, 7, 0, mCategoryId, UNIQUE_KEY)));
         }
 
         private void initRetrofitCallback() {

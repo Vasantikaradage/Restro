@@ -246,7 +246,7 @@ public class ActivityCartBill extends AppCompatActivity implements View.OnClickL
                 waterBottleId,
                 waterBottleName,
                 waterBottlePrice, 1,
-                "", 0, "", "", "", 0, 0, 1, 7, UNIQUE_KEY)));
+                "", 0, "", "", "", 0, 0, 1, 7, 0, 0, UNIQUE_KEY)));
     }
 
     private void initRetrofitCallback() {

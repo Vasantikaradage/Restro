@@ -193,7 +193,7 @@ public class FragmentLiquorsMenu extends Fragment {
 
                                 rvLiquorBrands.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
                                 //rvLiquorBrands.setLayoutManager(new GridLayoutManager(getContext(), 4, LinearLayoutManager.VERTICAL, false));
-                                rvLiquorBrandsAdapter = new RVLiquorBrandsAdapter(getContext(), liquorBrandsModelArrayList);
+                                rvLiquorBrandsAdapter = new RVLiquorBrandsAdapter(getContext(), categoryId, liquorBrandsModelArrayList);
                                 rvLiquorBrands.setAdapter(rvLiquorBrandsAdapter);
                             } else {
                                 Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();

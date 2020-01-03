@@ -732,6 +732,8 @@ public interface ApiService {
                                @Field("Conf_Status") int Conf_Status,
                                @Field("FL_Status") int FL_Status,
                                @Field("Order_Status") int Order_Status,
+                               @Field("Offer_Type_Id") int Offer_Type_Id,
+                               @Field("Pc_Id") int Pc_Id,
                                @Field("u_key") String u_key);
 
 

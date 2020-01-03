@@ -142,7 +142,7 @@ public class FragmentFoodMenu extends Fragment {
                 waterBottleName,
                 String.valueOf(waterBottlePrice),
                 Integer.parseInt(tvWBottleQty.getText().toString()),
-                "", 0, "", "", "", 0, 0, 1, 7, UNIQUE_KEY)));
+                "", 0, "", "", "", 0, 0, 1, 7, 0, 0, UNIQUE_KEY)));
     }
 
     private void initRetrofitCallback() {
@@ -269,7 +269,7 @@ public class FragmentFoodMenu extends Fragment {
                                 }
 
                                 rvVegMenu.setLayoutManager(new LinearLayoutManager(getContext()));
-                                rvFoodMenuAdapter = new RVFoodMenuAdapter(getContext(), foodSubMenuModelArrayList.get(0).getArrayList());
+                                rvFoodMenuAdapter = new RVFoodMenuAdapter(getContext(), categoryId, foodSubMenuModelArrayList.get(0).getArrayList());
                                 rvVegMenu.setAdapter(rvFoodMenuAdapter);
 
                                 rvVegCategory.setLayoutManager(new LinearLayoutManager(getContext()));

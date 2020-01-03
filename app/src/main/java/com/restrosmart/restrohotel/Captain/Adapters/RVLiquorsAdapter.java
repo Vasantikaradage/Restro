@@ -55,6 +55,7 @@ public class RVLiquorsAdapter extends RecyclerView.Adapter<RVLiquorsAdapter.Item
     private RVFlavourUnitsAdapter rvFlavourUnitsAdapter;
     private String toppingsList;
     private int flavourId;
+    private int mCategoryId;
     private String flavourName;
     private TextView tvLiqourQty;
     private String selectedUnitName, selectedUnitPrice;
@@ -68,9 +69,10 @@ public class RVLiquorsAdapter extends RecyclerView.Adapter<RVLiquorsAdapter.Item
 
     private HashMap<String, String> hotelDetails, userDetails;
 
-    RVLiquorsAdapter(Context context, ArrayList<SpecificLiqourBrandModel> arraylist) {
+    RVLiquorsAdapter(Context context, int categoryId, ArrayList<SpecificLiqourBrandModel> arraylist) {
         this.arraylist = arraylist;
         this.mContext = context;
+        this.mCategoryId = categoryId;
         this.mSessionmanager = new Sessionmanager(mContext);
 
         userDetails = mSessionmanager.getCustDetails();
@@ -266,7 +268,7 @@ public class RVLiquorsAdapter extends RecyclerView.Adapter<RVLiquorsAdapter.Item
                     Integer.parseInt(tvLiqourQty.getText().toString()),
                     selectedUnitName,
                     selectedUnitPrice,
-                    toppingsList, 0, 0, 2, 7, UNIQUE_KEY)));
+                    toppingsList, 0, 0, 2, 7, 0, mCategoryId, UNIQUE_KEY)));
         }
 
         private void initRetrofitCallback() {
