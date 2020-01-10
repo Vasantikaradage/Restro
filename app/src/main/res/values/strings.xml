@@ -166,6 +166,22 @@
 
     <string name="permission_granted">Permission Granted</string>
     <string name="permission_denied">Permission Denied</string>
+    <string name="offer_price">Offer Price</string>
+    <string name="edit_rush_hour">Edit Rush Hours</string>
+    <string name="add_rush_hours">Add Rush Hours</string>
+    <string name="add_scratch_card">Add Scratch Card</string>
+    <string name="edit_scratch_card">Edit Scratch Card</string>
+    <string name="add_promo_code">Add Promo Code</string>
+    <string name="edit_promo_code">Edit Promo Code</string>
+    <string name="add_daily_offer">Add Daily Offer</string>
+    <string name="buy_food_count">Buy food count</string>
+    <string name="get_food_count">Get food count</string>
+    <string name="select_end_greater_start_date">Select end date greater than start date</string>
+    <string name="select_first_start_date" >Select first start date</string>
+    <string name="daily_offer_details">Daily Offer Details</string>
+    <string name="rush_hour_details">Rush Hour Details</string>
+    <string name="scratch_card_details">Scratch Card Details</string>
+    <string name="edit_daily_offer">Edit Daily Offer</string>
 
 
 </resources>

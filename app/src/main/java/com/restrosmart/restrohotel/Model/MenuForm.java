@@ -6,21 +6,24 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 
 public  class MenuForm  implements Parcelable {
-    private String menuName,menuDisp,liqMLQty, menuOrderMsg;
-    private  int menuPrice,menuQty;
+    private String menuName,menuDisp,liqMLQty, menuOrderMsg,menuId;
+    private  int menuPrice,menuQty,orderDetailId;
 
     private ArrayList<ToppingsForm> arrayListToppings;
 
     public MenuForm() {
     }
 
+
     protected MenuForm(Parcel in) {
         menuName = in.readString();
         menuDisp = in.readString();
         liqMLQty = in.readString();
+        menuOrderMsg = in.readString();
+        menuId = in.readString();
         menuPrice = in.readInt();
         menuQty = in.readInt();
-        menuOrderMsg =in.readString();
+        orderDetailId = in.readInt();
         arrayListToppings = in.createTypedArrayList(ToppingsForm.CREATOR);
     }
 
@@ -35,6 +38,16 @@ public  class MenuForm  implements Parcelable {
             return new MenuForm[size];
         }
     };
+
+    public String getMenuId() {
+        return menuId;
+    }
+
+    public void setMenuId(String menuId) {
+        this.menuId = menuId;
+    }
+
+
 
     public String getMenuOrderMsg() {
         return menuOrderMsg;
@@ -84,6 +97,17 @@ public  class MenuForm  implements Parcelable {
         this.menuQty = menuQty;
     }
 
+
+
+
+    public int getOrderDetailId() {
+        return orderDetailId;
+    }
+
+    public void setOrderDetailId(int orderDetailId) {
+        this.orderDetailId = orderDetailId;
+    }
+
     public ArrayList<ToppingsForm> getArrayListToppings() {
         return arrayListToppings;
     }
@@ -91,6 +115,7 @@ public  class MenuForm  implements Parcelable {
     public void setArrayListToppings(ArrayList<ToppingsForm> arrayListToppings) {
         this.arrayListToppings = arrayListToppings;
     }
+
 
     @Override
     public int describeContents() {
@@ -102,9 +127,11 @@ public  class MenuForm  implements Parcelable {
         dest.writeString(menuName);
         dest.writeString(menuDisp);
         dest.writeString(liqMLQty);
+        dest.writeString(menuOrderMsg);
+        dest.writeString(menuId);
         dest.writeInt(menuPrice);
         dest.writeInt(menuQty);
+        dest.writeInt(orderDetailId);
         dest.writeTypedList(arrayListToppings);
-        dest.writeString(menuOrderMsg);
     }
 }

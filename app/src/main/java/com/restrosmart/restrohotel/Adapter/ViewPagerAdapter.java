@@ -28,7 +28,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
 
 
-    public ViewPagerAdapter(FragmentManager fm, int tabCount, String user_type, ArrayList<OrderModel> arrayListOrderTakeAway, ArrayList<OrderModel> arrayListNewOder, ArrayList<OrderModel> arrayListOderAccepetd, ArrayList<String> arrayListIdNew, ArrayList<String> arrayListIdParcel, ArrayList<String> arrayListIdAccept) {
+    public ViewPagerAdapter(FragmentManager fm, int tabCount, String user_type, ArrayList<OrderModel> arrayListOrderTakeAway, ArrayList<OrderModel> arrayListNewOder, ArrayList<OrderModel> arrayListOderAccepetd) {
         super(fm);
         this.tabCount = tabCount;
         this.userType = user_type;
@@ -38,9 +38,9 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
 
 
-        this.arrayListIdNew=arrayListIdNew;
+       /* this.arrayListIdNew=arrayListIdNew;
         this.arrayListIdParcel=arrayListIdParcel;
-        this.arrayListIdAccept=arrayListIdAccept;
+        this.arrayListIdAccept=arrayListIdAccept;*/
     }
 
     @Override
@@ -49,30 +49,30 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
            case 0:
                 FragmentTabTakeAwayOrders fragmentTabTakeAwayOrders = new FragmentTabTakeAwayOrders();
-                Bundle bundle3 = new Bundle();
-                bundle3.putString("userType", userType);
-                bundle3.putParcelableArrayList("OrderArrayListTakeAway", orderModelArrayListTakeAway);
-                bundle3.putStringArrayList("arrayListId",arrayListIdParcel);
-                fragmentTabTakeAwayOrders.setArguments(bundle3);
+                Bundle bundle = new Bundle();
+                bundle.putString("userType", userType);
+                bundle.putParcelableArrayList("OrderArrayListTakeAway", orderModelArrayListTakeAway);
+              //  bundle3.putStringArrayList("arrayListId",arrayListIdParcel);
+                fragmentTabTakeAwayOrders.setArguments(bundle);
                 return fragmentTabTakeAwayOrders;
 
             case 1:
                 FragmentTabNewOrders tabNewOrders = new FragmentTabNewOrders();
-                Bundle bundle = new Bundle();
-                bundle.putString("userType", userType);
-                bundle.putParcelableArrayList("orderArrayList", orderModelArrayListNew);
-                bundle.putStringArrayList("arrayListId",arrayListIdNew);
-                tabNewOrders.setArguments(bundle);
+                Bundle bundleNew = new Bundle();
+                bundleNew.putString("userType", userType);
+                bundleNew.putParcelableArrayList("orderArrayList", orderModelArrayListNew);
+             //   bundle.putStringArrayList("arrayListId",arrayListIdNew);
+                tabNewOrders.setArguments(bundleNew);
                 return tabNewOrders;
 
 
             case 2:
                 FragmentTabPastOrders tabPastOrders = new FragmentTabPastOrders();
-                Bundle bundle2 = new Bundle();
-                bundle2.putString("userType", userType);
-                bundle2.putParcelableArrayList("OrderArrayListCompleted", orderModelArrayListAccepted);
-                bundle2.putStringArrayList("arrayListId",arrayListIdAccept);
-                tabPastOrders.setArguments(bundle2);
+                Bundle bundlePast = new Bundle();
+                bundlePast.putString("userType", userType);
+                bundlePast.putParcelableArrayList("OrderArrayListCompleted", orderModelArrayListAccepted);
+              //  bundle2.putStringArrayList("arrayListId",arrayListIdAccept);
+                tabPastOrders.setArguments(bundlePast);
                 return tabPastOrders;
 
             default:

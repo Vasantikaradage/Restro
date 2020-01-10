@@ -120,7 +120,7 @@ public class ActivityAddAdmin  extends AppCompatActivity {
         // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Toolbar mTopToolbar = (Toolbar) findViewById(R.id.toolbar);
         TextView toolBarTitle = (TextView) mTopToolbar.findViewById(R.id.tx_title);
-        toolBarTitle.setText("Add New Employee");
+        toolBarTitle.setText("Add New Admin");
 
         setSupportActionBar(mTopToolbar);
 
@@ -158,6 +158,7 @@ public class ActivityAddAdmin  extends AppCompatActivity {
                 etMob.setText(employeeSAForm.getEmpMob());
                 etPass.setText(employeeSAForm.getPassword());
                 etConPass.setText(employeeSAForm.getPassword());
+                etUsername.setFocusable(false);
 
                 desginagtionSelId = employeeSAForm.getRole_Id();
             //    branchSelId = employeeDetails.get(i).getBranch_Id();
@@ -419,7 +420,7 @@ public class ActivityAddAdmin  extends AppCompatActivity {
         btnUpdate = findViewById(R.id.btn_update);
 
         tvEmpRole=findViewById(R.id.tv_emp_role);
-        spHotel = (Spinner) findViewById(R.id.sp_branch);
+        //spHotel = (Spinner) findViewById(R.id.sp_branch);
 
         select_image = (FrameLayout) findViewById(R.id.iv_select_image);
         llPassword = findViewById(R.id.llPassword);

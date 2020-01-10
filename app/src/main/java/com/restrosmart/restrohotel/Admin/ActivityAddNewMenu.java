@@ -182,7 +182,7 @@ public class ActivityAddNewMenu extends AppCompatActivity {
                             mFinalImageName,
                             menuTeste,
                             price,
-                            intent.getIntExtra("MenuId", 0),
+                            intent.getStringExtra("MenuId"),
                             hotelId,
                             intent.getIntExtra("categoryId", 0),
                             intent.getIntExtra("pc_Id", 0),

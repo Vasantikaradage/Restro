@@ -46,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_gravity="center"
-                android:gravity="center"
+
                 android:textColor="@color/colorPrimary"
                 android:text="Menu Name"/>
 
@@ -59,14 +59,14 @@
                 android:textColor="@color/colorPrimary"
                 android:text="Original Price"/>
 
-            <TextView
+           <!-- <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:textColor="@color/colorPrimary"
-                android:text="Offer Price"/>
+                android:text="Offer Price"/>-->
 
 
 

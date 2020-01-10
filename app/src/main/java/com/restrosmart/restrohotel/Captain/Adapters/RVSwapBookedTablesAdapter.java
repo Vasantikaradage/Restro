@@ -110,7 +110,7 @@ public class RVSwapBookedTablesAdapter extends RecyclerView.Adapter<RVSwapBooked
                     RVSwapFreeAreaAdapter rvSwapFreeAreaAdapter = new RVSwapFreeAreaAdapter(mContext, mFreeAreaSwapArrayList,
                             tableSwapModel.getTableId(), tableSwapModel.getTableNo(), tableSwapModel.getCustId());
                     rvFreeTables.setHasFixedSize(true);
-                    rvFreeTables.setNestedScrollingEnabled(false);
+                    rvFreeTables.setNestedScrollingEnabled(true);
                     rvFreeTables.setLayoutManager(new GridLayoutManager(mContext, 1));
                     rvFreeTables.setItemAnimator(new DefaultItemAnimator());
                     rvFreeTables.setAdapter(rvSwapFreeAreaAdapter);

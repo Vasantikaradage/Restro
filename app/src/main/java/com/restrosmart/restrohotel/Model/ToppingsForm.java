@@ -12,13 +12,14 @@ public class ToppingsForm implements Parcelable {
     private  int topQty;
     public boolean selected=false;
 
+
     protected ToppingsForm(Parcel in) {
         toppingsName = in.readString();
         toppingsPrice = in.readInt();
         pcId = in.readInt();
         toppingId = in.readInt();
         image = in.readString();
-        topQty=in.readInt();
+        topQty = in.readInt();
         selected = in.readByte() != 0;
     }
 
@@ -93,22 +94,20 @@ public class ToppingsForm implements Parcelable {
         this.toppingId = toppingId;
     }
 
+
     @Override
     public int describeContents() {
         return 0;
     }
 
     @Override
-    public void writeToParcel(Parcel parcel, int i) {
-
-        parcel.writeString(toppingsName);
-        parcel.writeInt(toppingsPrice);
-        parcel.writeInt(pcId);
-        parcel.writeInt(toppingId);
-        parcel.writeString(image);
-        parcel.writeInt(topQty);
-        parcel.writeByte((byte) (selected ? 1 : 0));
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(toppingsName);
+        dest.writeInt(toppingsPrice);
+        dest.writeInt(pcId);
+        dest.writeInt(toppingId);
+        dest.writeString(image);
+        dest.writeInt(topQty);
+        dest.writeByte((byte) (selected ? 1 : 0));
     }
-
-
 }

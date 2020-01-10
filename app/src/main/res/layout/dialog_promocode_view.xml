@@ -1,172 +1,180 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:gravity="center">
 
 
-   <RelativeLayout
-        android:id="@+id/relative"
+   <LinearLayout
+       android:id="@id/linear"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:background="@color/colorPrimary"
+       android:orientation="horizontal"
+       android:weightSum="2">
+
+      <TextView
+          android:layout_width="0dp"
+          android:layout_height="60dp"
+          android:layout_gravity="center"
+          android:layout_marginStart="40dp"
+          android:layout_weight="1.9"
+          android:gravity="center"
+          android:text="PromoCode"
+          android:textColor="@color/white"
+          android:textSize="18dp" />
+
+      <ImageButton
+          android:id="@+id/btn_cancel"
+          android:layout_width="30dp"
+          android:layout_height="30dp"
+          android:layout_gravity="center"
+          android:background="@drawable/ic_cancel" />
+
+   </LinearLayout>
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:orientation="vertical"
+       android:padding="20dp"
+       android:layout_below="@+id/linear">
+
+
+   <TextView
+       android:id="@+id/tv_promocode"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:gravity="center"
+       android:textSize="18sp"
+       android:padding="20dp"
+       android:textColor="@color/colorPrimary"
+       android:text=""/>
+
+
+   <TextView
+       android:id="@+id/tv_description"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:textColor="@color/darkgray"/>
+
+      <RelativeLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content">
+
+      <TextView
+          android:id="@+id/tv_date"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="Date :"/>
+
+      <TextView
+          android:id="@+id/tv_Promodate"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_toEndOf="@+id/tv_date"
+          android:text="NA"
+          />
+      </RelativeLayout>
+
+   </LinearLayout>
+
+
+
+
+
+
+   <!-- <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <TextView
+        <com.restrosmart.restrohotel.Utils.OfferView
+            android:id="@+id/offer_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            android:padding="@dimen/dimen_20dp"
-            android:text="PromoCode Details"
-            android:textColor="@android:color/white"
-            android:textSize="16sp" />
-
-        <!--<ImageView
-            android:id="@+id/ivEditDialog"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/ivCloseDialog"
-            android:paddingTop="20dp"
-            android:paddingBottom="20dp"
-            android:src="@drawable/ic_close_white" />-->
-
-        <ImageView
-            android:id="@+id/ivCloseDialog"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:padding="@dimen/dimen_20dp"
-            android:src="@drawable/ic_close_white" />
-    </RelativeLayout>
-  <!--  <android.support.v7.widget.CardView
-        android:id="@+id/cardview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="5dp"
-        android:layout_below="@+id/relative"
-        app:cardCornerRadius="5dp"
-        app:cardUseCompatPadding="true">-->
+            android:layout_height="150dp"
+            app:dividerPadding="0dp"
+            app:dividerType="dash"
+            app:orientation="vertical"
+            app:scallopPositionPercent="48"
+            app:scallopRadius="20dp"
+            app:showBorder="false"
+            app:showDivider="false"
+            app:ticketElevation="0dp">
+        </com.restrosmart.restrohotel.Utils.OfferView>
 
 
-    <LinearLayout
-        android:id="@+id/linear"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/relative"
-        android:orientation="vertical"
-
-        android:visibility="visible">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:padding="15dp">
-
-        <TextView
-            android:id="@+id/tv_price"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center"
-            android:layout_weight="0.5"
-            android:background="@drawable/offer_add_bg"
-            android:gravity="center"
-            android:padding="5dp"
-            android:textSize="14sp" />
-
-
-        <TextView
-            android:id="@+id/tv_date"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center"
-            android:layout_marginStart="100dp"
-            android:layout_weight="0.5"
-            android:background="@drawable/offer_add_bg"
-            android:gravity="center"
-            android:text="Select Date"
-            android:textColor="@color/gray"
-            android:textSize="14sp" />
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/tv_promocode_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="30dp"
-        android:fontFamily="sans-serif-light"
-        android:gravity="center"
-        android:padding="10dp"
-        android:text="Promo code Name"
-        android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/tv_promo_description"
+        <LinearLayout
+            android:id="@+id/linear"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="30dp"
-            android:fontFamily="sans-serif-light"
-            android:gravity="center"
-            android:padding="10dp"
-            android:layout_marginBottom="10dp"
-            android:text="Promo code Description"
-            android:textSize="16sp" />
+            android:layout_height="150dp"
+            android:layout_below="@+id/relative"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <LinearLayout
+                android:id="@+id/linear_layout"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"
+                android:gravity="center"
+                android:padding="15dp">
+
+                <TextView
+                    android:id="@+id/tv_fromdate"
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="0.5"
+                    android:background="@drawable/offer_add_bg"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:textSize="14sp" />
 
 
-
-        <!--   <EditText
-               android:id="@+id/etv_offer"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:layout_gravity="center"
-               android:layout_marginStart="35dp"
-               android:layout_marginEnd="35dp"
-               android:layout_marginBottom="10dp"
-               android:background="@drawable/offer_name_bg"
-               android:fontFamily="sans-serif-light"
-               android:gravity="center"
-               android:hint="Enter Promo Code"
-
-               android:maxLength="7"
-               android:padding="10dp"
-               android:textSize="20sp" />-->
-
-
-
+                <TextView
+                    android:id="@+id/tv_todate"
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="100dp"
+                    android:layout_weight="0.5"
+                    android:background="@drawable/offer_add_bg"
+                    android:gravity="center"
+                    android:text="Select Date"
+                    android:textColor="@color/gray"
+                    android:textSize="14sp" />
+            </LinearLayout>
         </LinearLayout>
-    </RelativeLayout>
 
-   <!-- <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/cardview"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="@dimen/dimen_20dp"
-        android:gravity="center">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_below="@+id/linear"
+            android:layout_margin="7dp"
+            android:background="#fff"
+            android:gravity="center"
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/btnDelete"
-            android:layout_width="110dp"
-            android:layout_height="40dp"
-            android:background="@drawable/button_outline_dark"
-            android:text="Delete"
-            android:textColor="@color/colorPrimary" />
+            <TextView
+                android:id="@+id/tv_promocode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="NA"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/btnApply"
-            android:layout_width="110dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="@dimen/dimen_20dp"
-            android:background="@drawable/button_outline_dark"
-            android:text="Apply"
-            android:visibility="visible"
-            android:textColor="@color/colorPrimary" />
-
-
-    </LinearLayout>-->
-
-
-
+            <TextView
+                android:id="@+id/tv_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="Na" />
+        </LinearLayout>
+    </RelativeLayout>-->
+</RelativeLayout>

@@ -93,10 +93,6 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait" />
         <activity android:name=".Admin.ActivityImageTopping" />
-        <activity android:name=".Admin.ActivityDailyOffer" />
-        <activity android:name=".Admin.ActivityScratchCard" />
-        <activity android:name=".Admin.ActivityRushHours" />
-        <activity android:name=".Admin.ActivityPromoCode" />
         <activity android:name=".SuperAdmin.Activities.ActivitySADashBoradDrawer" />
         <!--
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -149,10 +145,9 @@
             android:name=".Admin.ActivityDisplayScratchCard"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".Admin.ActivityDailyOfferAdd"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="portrait" />
+
+
+        <activity android:name=".Admin.ActivityDisplayDailyOffer"/>
        <activity android:name=".Admin.ActivitySelectMenu" />
         <activity android:name=".Admin.ActivityAssignTable" />
         <activity android:name=".Admin.ActivityMenuOrderDidplay" />
@@ -173,6 +168,10 @@
         <activity android:name=".SuperAdmin.Activities.ActivitySaAdminProfile"/>
 
         <activity android:name=".SuperAdmin.Activities.ActivitySAProfile"/>
+
+        <activity android:name=".Admin.ActivityMenuCart"/>
+
+        <activity android:name=".Admin.ActivityBannerImage"/>
         
     </application>
 

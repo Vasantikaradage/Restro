@@ -34,11 +34,11 @@ public class AdapterPastOrder  extends RecyclerView.Adapter<AdapterPastOrder.Vie
     private  ArrayList<String> arrayListIds;
 
 
-    public AdapterPastOrder(Context context, ArrayList<OrderModel> arrayList, ArrayList<String> list) {
+    public AdapterPastOrder(Context context, ArrayList<OrderModel> arrayList) {
 
         this.context=context;
         this.arrayList=arrayList;
-        arrayListIds=list;
+      //  arrayListIds=list;
     }
 
     @NonNull
@@ -153,8 +153,8 @@ public class AdapterPastOrder  extends RecyclerView.Adapter<AdapterPastOrder.Vie
                 @Override
                 public void onClick(View view) {
                     Intent intent=new Intent(context, ActivityMenuOrderDidplay.class);
-                    intent.putExtra("orderArray", arrayList);
-                    intent.putExtra("arrayListIds",arrayListIds);
+                    intent.putExtra("orderArray", arrayList.get(getAdapterPosition()).getArrayList());
+                   // intent.putExtra("arrayListIds",arrayListIds);
                     context.startActivity(intent);
 
                 }

@@ -64,4 +64,9 @@ public class UserCategory implements Parcelable {
         parcel.writeString(categoryImage);
         parcel.writeString(categoryName);
     }
+
+    @Override
+    public String toString() {
+        return categoryName;
+    }
 }

@@ -8,29 +8,21 @@ import java.util.ArrayList;
 public class OrderModel  implements Parcelable {
 
     private int order_id,tableId;
-    private  String time, OrderStatusName,custName, custMob,tableNo, orderMsg,orderTitle;
+    private  String time, OrderStatusName,custName, custMob,tableNo, orderMsg,orderTitle,custId;
     private ArrayList<AdminOrderModel> arrayList;
 
-    public String getOrderStatusName() {
-        return OrderStatusName;
-    }
-
-    public void setOrderStatusName(String orderStatusName) {
-        OrderStatusName = orderStatusName;
-    }
-
-
-
     protected OrderModel(Parcel in) {
-        custMob = in.readString();
         order_id = in.readInt();
         tableId = in.readInt();
-        OrderStatusName = in.readString();
         time = in.readString();
-        custName=in.readString();
+        OrderStatusName = in.readString();
+        custName = in.readString();
+        custMob = in.readString();
         tableNo = in.readString();
-        orderMsg =in.readString();
-        orderTitle=in.readString();
+        orderMsg = in.readString();
+        orderTitle = in.readString();
+        custId = in.readString();
+        arrayList = in.createTypedArrayList(AdminOrderModel.CREATOR);
     }
 
     public static final Creator<OrderModel> CREATOR = new Creator<OrderModel>() {
@@ -44,6 +36,19 @@ public class OrderModel  implements Parcelable {
             return new OrderModel[size];
         }
     };
+
+    public String getOrderStatusName() {
+        return OrderStatusName;
+    }
+
+    public void setOrderStatusName(String orderStatusName) {
+        OrderStatusName = orderStatusName;
+    }
+
+
+
+
+
 
 
     public String getOrderTitle() {
@@ -119,6 +124,14 @@ public class OrderModel  implements Parcelable {
         this.orderMsg = orderMsg;
     }
 
+    public String getCustId() {
+        return custId;
+    }
+
+    public void setCustId(String custId) {
+        this.custId = custId;
+    }
+
     public OrderModel() {
     }
 
@@ -129,16 +142,17 @@ public class OrderModel  implements Parcelable {
     }
 
     @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(custMob);
-        parcel.writeInt(order_id);
-        parcel.writeInt(tableId);
-        parcel.writeString(OrderStatusName);
-        parcel.writeString(time);
-        parcel.writeString(custName);
-        parcel.writeString(tableNo);
-        parcel.writeString(orderMsg);
-        parcel.writeString(orderTitle);
-
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(order_id);
+        dest.writeInt(tableId);
+        dest.writeString(time);
+        dest.writeString(OrderStatusName);
+        dest.writeString(custName);
+        dest.writeString(custMob);
+        dest.writeString(tableNo);
+        dest.writeString(orderMsg);
+        dest.writeString(orderTitle);
+        dest.writeString(custId);
+        dest.writeTypedList(arrayList);
     }
 }

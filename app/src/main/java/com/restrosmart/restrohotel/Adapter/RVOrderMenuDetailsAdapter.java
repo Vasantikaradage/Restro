@@ -2,6 +2,8 @@ package com.restrosmart.restrohotel.Adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,12 +35,22 @@ public class RVOrderMenuDetailsAdapter  extends RecyclerView.Adapter<RVOrderMenu
     @Override
     public void onBindViewHolder(@NonNull RVOrderMenuDetailsAdapter.ItemViewHolder itemViewHolder, int i) {
         itemViewHolder.tvMenuName.setText(menuFormArrayList.get(i).getMenuName());
-        String qty= String.valueOf(menuFormArrayList.get(i).getMenuQty());
-        String price= String.valueOf(menuFormArrayList.get(i).getMenuPrice());
 
-        itemViewHolder.tvMenuPrice.setText(price);
-        itemViewHolder.tvMenuQty.setText(qty);
+        itemViewHolder.tvMenuPrice.setText("(" + mContext.getResources().getString(R.string.currency) + String.valueOf(menuFormArrayList.get(i).getMenuPrice()) + ")");
+        itemViewHolder.tvMenuQty.setText("x " + String.valueOf(menuFormArrayList.get(i).getMenuQty()));
 
+
+
+        itemViewHolder.tvQtyTotalPrice.setText(mContext.getResources().getString(R.string.currency) + String.valueOf(menuFormArrayList.get(i).getMenuPrice()));
+
+        if (menuFormArrayList.get(i).getArrayListToppings() != null && menuFormArrayList.get(i).getArrayListToppings().size() > 0) {
+           OrderToppingAdapter oredrToppingAdapter = new OrderToppingAdapter(mContext, menuFormArrayList.get(i).getArrayListToppings());
+            itemViewHolder.rvToppings.setHasFixedSize(true);
+            itemViewHolder.rvToppings.setNestedScrollingEnabled(false);
+            itemViewHolder.rvToppings.setLayoutManager(new GridLayoutManager(mContext, 1));
+            itemViewHolder.rvToppings.setItemAnimator(new DefaultItemAnimator());
+            itemViewHolder.rvToppings.setAdapter(oredrToppingAdapter);
+        }
 
 
     }
@@ -49,7 +61,7 @@ public class RVOrderMenuDetailsAdapter  extends RecyclerView.Adapter<RVOrderMenu
     }
 
     public class ItemViewHolder extends RecyclerView.ViewHolder {
-        private TextView tvMenuName,tvMenuQty,tvMenuPrice;
+        private TextView tvMenuName,tvMenuQty,tvMenuPrice,tvQtyTotalPrice;
         private  RecyclerView rvToppings;
 
         public ItemViewHolder(@NonNull View itemView) {
@@ -57,6 +69,8 @@ public class RVOrderMenuDetailsAdapter  extends RecyclerView.Adapter<RVOrderMenu
             tvMenuName=itemView.findViewById(R.id.tvOrderMenuName);
             tvMenuPrice=itemView.findViewById(R.id.tvOrderMenuPrice);
             tvMenuQty=itemView.findViewById(R.id.tvOrderMenuQty);
+            rvToppings=itemView.findViewById(R.id.rvMenuToppings);
+            tvQtyTotalPrice=itemView.findViewById(R.id.tvQtyAmount);
         }
     }
 }

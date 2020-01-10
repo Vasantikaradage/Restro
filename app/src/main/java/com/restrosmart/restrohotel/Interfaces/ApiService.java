@@ -20,7 +20,7 @@ import retrofit2.http.POST;
  */
 
 public interface ApiService {
-    String BASE_URL = "http://192.168.1.217:8080/NewRestroSmart/";
+    String BASE_URL = "http://192.168.2.220:8080/NewRestroSmart/";
 
     /*parent category display*/
     @POST("Category.php?category=cate_disp")
@@ -71,7 +71,6 @@ public interface ApiService {
                                              @Field("Emp_Img") String image,
                                              @Field("Img_Old_Name") String oldImageName,
                                              @Field("Img_Type") String imageType,
-
                                              @Field("Emp_Mob") String mobile,
                                              @Field("Emp_Email") String empMobile,
                                              @Field("Emp_Address") String empAddress,
@@ -201,8 +200,9 @@ public interface ApiService {
 
     /*category display*/
 
-    @POST("https://api.myjson.com/bins/1fw6qo")
-    Call<JsonObject> GetAllCategorywithMenu();
+    @POST("Offer_Promo.php?offerpromo=offer_menu")
+    @FormUrlEncoded
+    Call<JsonObject> GetAllCategorywithMenu(@Field("Hotel_Id") int Hotel_Id);
 
 
     //Toppings
@@ -309,7 +309,7 @@ public interface ApiService {
     /*delete menu*/
     @POST("Admin_Menu.php?menu=menu_delete")
     @FormUrlEncoded
-    Call<JsonObject> getMenuDelete(@Field("Menu_Id") int Menu_Id,
+    Call<JsonObject> getMenuDelete(@Field("Menu_Id") String Menu_Id,
                                    @Field("Hotel_Id") int Hotel_Id,
                                    @Field("Category_Id") int categoryId,
                                    @Field("Pc_Id") int pcId);
@@ -317,7 +317,7 @@ public interface ApiService {
     /*menu status*/
     @POST("Admin_Menu.php?menu=Menu_Status")
     @FormUrlEncoded
-    Call<JsonObject> getMenuStatus(@Field("Menu_Id") int Menu_Id,
+    Call<JsonObject> getMenuStatus(@Field("Menu_Id") String Menu_Id,
                                    @Field("Hotel_Id") int Hotel_Id,
                                    @Field("Menu_Status") int status);
 
@@ -407,17 +407,15 @@ public interface ApiService {
                               @Field("Menu_Image_Name") String menuImageName,
                               @Field("Menu_Test") int menu_test,
                               @Field("Non_Ac_Rate") int nonAcRate,
-                              @Field("Menu_Id") int menuId,
+                              @Field("Menu_Id") String menuId,
                               @Field("Hotel_Id") int Hotel_Id,
                               @Field("Category_Id") int categoryId,
                               @Field("Pc_Id") int pcId,
                               @Field("topparray") String toppingList);
 
     /*offer display*/
-    @POST("Offer.php?offer=offer_disp")
-    @FormUrlEncoded
-    Call<JsonObject> GetOffer(@Field("Hotel_Id") int Hotel_Id,
-                              @Field("Branch_Id") int branchId);
+    @POST("Offer.php?offdetail=Offerdetail_disp")
+    Call<JsonObject> GetOffer();
 
     /*offer delete*/
     @POST("Offer.php?offer=offer_delete")
@@ -442,7 +440,7 @@ public interface ApiService {
                                  @Field("Offer_From") String offer_form,
                                  @Field("Offer_To") String offer_to,
                                  @Field("Offer_Value") String offer_value,
-                                 @Field("Menu_Id") int menu_id,
+                                 @Field("Menu_Id") String menu_id,
                                  @Field("Coupon_Code") String coupon_code,
                                  @Field("Hotel_Id") int hotel_id,
                                  @Field("Branch_Id") int branch_id,
@@ -507,85 +505,167 @@ public interface ApiService {
     @FormUrlEncoded
     Call<JsonObject> activeTable(@Field("Hotel_Id") int hotel_id);
 
+    /*disaplay promoCode*/
+    @POST("Offer_Promo.php?offerpromo=offerpromo_disp")
+    @FormUrlEncoded
+    Call<JsonObject> displayPromoCode(@Field("Offer_Type_Id") int offerId,
+                                      @Field("Hotel_Id") int hotelId);
+
 
     /*Add promoCode*/
-    @POST("Admin_Dashboard.php?admin_dash=Active_Table")
+    @POST("Offer_Promo.php?offerpromo=offerpromo_add")
     @FormUrlEncoded
-    Call<JsonObject> addPromoCode(@Field("Hotel_Id") String hotel_id,
-                                  @Field("Hotel_Id") String hotel_id1,
-                                  @Field("Hotel_Id") String hotel_id2,
-                                  @Field("Hotel_Id") String hotel_id4,
-                                  @Field("Hotel_Id") String hotel_id5);
+    Call<JsonObject> addPromoCode(@Field("Offer_Type_Id") int offerId,
+                                  @Field("Offer_Price") String offerPrice,
+                                  @Field("Coupon_Code") String promoCode,
+                                  @Field("Offer_Desp") String offerDesp,
+                                  @Field("Offer_From") String offerFrom,
+                                  @Field("Offer_To") String offerTo,
+                                  @Field("Hotel_Id") int hotelId,
+                                  @Field("Status") int status);
 
     /*edit promoCode*/
-    @POST("Admin_Dashboard.php?admin_dash=Active_Table")
+    @POST("Offer_Promo.php?offerpromo=offerpromo_edit")
     @FormUrlEncoded
-    Call<JsonObject> editPromoCode(@Field("Hotel_Id") String hotel_id6,
-                                   @Field("Hotel_Id") String hotel_id,
-                                   @Field("Hotel_Id") String hotel_id1,
-                                   @Field("Hotel_Id") String hotel_id2,
-                                   @Field("Hotel_Id") String hotel_id4,
-                                   @Field("Hotel_Id") String hotel_id5);
+    Call<JsonObject> editPromoCode(@Field("Offer_Id") int offerId,
+                                   @Field("Offer_From") String offerFrom,
+                                   @Field("Offer_To") String offerTo,
+                                   @Field("Offer_Price") String offerPrice,
+                                   @Field("Hotel_Id") int hotelId);
 
     /*delete promoCode*/
-    @POST("Admin_Dashboard.php?admin_dash=Active_Table")
+    @POST("Offer_Promo.php?offerpromo=offer_delete")
     @FormUrlEncoded
-    Call<JsonObject> deletePromoCode(@Field("Hotel_Id") String hotel_id,
-                                     @Field("Hotel_Id") String hotel_id1);
+    Call<JsonObject> deleteOffer(@Field("Hotel_Id") int hotel_id,
+                                 @Field("Offer_Id") int offerId);
 
 
     /*Add rushHours*/
-    @POST("Admin_Dashboard.php?admin_dash=Active_Table")
+    @POST("Offer_Rush.php?offerrush=offerrush_add")
     @FormUrlEncoded
-    Call<JsonObject> addRushHours(@Field("Hotel_Id") String hotel_id,
-                                  @Field("Hotel_Id") String hotel_id1,
-                                  @Field("Hotel_Id") String hotel_id2,
-                                  @Field("Hotel_Id") String hotel_id4);
+    Call<JsonObject> addRushHours(@Field("Offer_From") String offerFrom,
+                                  @Field("Offer_To") String offerTo,
+                                  @Field("Hotel_Id") int hotel_id,
+                                  @Field("Offer_Desp") String offer_disp,
+                                  @Field("Status") int status,
+                                  @Field("Offer_Name") String offer_name,
+                                  @Field("Offer_Type_Id") int offerTypeId);
+
+    /*display rushHours*/
+    @POST("Offer_Rush.php?offerrush=offerrush_disp")
+    @FormUrlEncoded
+    Call<JsonObject> displayRushHours(@Field("Hotel_Id") int hotel_id,
+                                      @Field("Offer_Type_Id") int offerTypeId);
+
 
     /*edit rush hours*/
-    @POST("Admin_Dashboard.php?admin_dash=Active_Table")
+    @POST("Offer_Rush.php?offerrush=offerrush_edit")
     @FormUrlEncoded
-    Call<JsonObject> editRushHours(@Field("Hotel_Id") String hotel_id6,
-                                   @Field("Hotel_Id") String hotel_id1,
-                                   @Field("Hotel_Id") String hotel_id2,
-                                   @Field("Hotel_Id") String hotel_id4,
-                                   @Field("Hotel_Id") String hotel_id5);
+    Call<JsonObject> editRushHours(@Field("Offer_Id") int offerId,
+                                   @Field("Hotel_Id") String hotel_id,
+                                   @Field("Offer_From") String offerFrom,
+                                   @Field("Offer_To") String offerTo,
+                                   @Field("Offer_Desp") String offerDescription,
+                                   @Field("Offer_Name") String offerName);
 
     /*delete rush hours*/
-    @POST("Admin_Dashboard.php?admin_dash=Active_Table")
+    @POST("Offer_Promo.php?offerpromo=offerpromo_delete")
     @FormUrlEncoded
-    Call<JsonObject> deleteRushHours(@Field("Hotel_Id") String hotel_id,
-                                     @Field("Hotel_Id") String hotel_id1);
+    Call<JsonObject> deleteRushHours(@Field("Hotel_Id") int hotel_id,
+                                     @Field("Offer_Id") int offerId);
 
+    /*apply offer rush hours*/
+    @POST("Offer_Rush.php?offerrush=offerrush_apply")
+    @FormUrlEncoded
+    Call<JsonObject> applyRushHours(@Field("Hotel_Id") int hotel_id,
+                                    @Field("Offer_Id") int offerTypeId,
+                                    @Field("MenuOfferArray") String menuOffer);
+
+
+    /*
+/*display Scratchcard*/
+    @POST("Offer_Scratch.php?offerscratch=offerscratch_disp")
+    @FormUrlEncoded
+    Call<JsonObject> displayScratchcard(@Field("Offer_Type_Id") int offerTypeId,
+                                        @Field("Hotel_Id") int hotelId);
 
 
     /*Add Scratchcard*/
-    @POST("Admin_Dashboard.php?admin_dash=Active_Table")
+    @POST("Offer_Scratch.php?offerscratch=offerscratch_add")
     @FormUrlEncoded
-    Call<JsonObject> addScratchcard(@Field("Hotel_Id") String hotel_id2,
-                                  @Field("Hotel_Id") String hotel_id4,
-                                  @Field("Hotel_Id") String hotel_id5);
+    Call<JsonObject> addScratchcard(@Field("Offer_Type_Id") int offerTypeId,
+                                    @Field("Offer_Name") String offerName,
+                                    @Field("Offer_Desp") String offerDiscription,
+                                    @Field("Offer_From") String offerFrom,
+                                    @Field("Offer_To") String offerTo,
+                                    @Field("Ppl_Total_Count") String pplTotalCount,
+                                    @Field("Ppl_Winner_Count") String pplWinnerCount,
+                                    @Field("Hotel_Id") int hotelId);
+
+    /*apply offer rush hours*/
+    @POST("Offer_Scratch.php?offerscratch=offerscratch_apply")
+    @FormUrlEncoded
+    Call<JsonObject> applyScratchcard(@Field("Hotel_Id") int hotel_id,
+                                      @Field("Offer_Id") int offerId,
+                                      @Field("MenuOfferArray") String menuOffer);
+
 
     /*edit Scratchcard*/
-    @POST("Admin_Dashboard.php?admin_dash=Active_Table")
+    @POST("Offer_Scratch.php?offerscratch=offerscratch_edit")
     @FormUrlEncoded
-    Call<JsonObject> editScratchcard(@Field("Hotel_Id") String hotel_id6,
-                                   @Field("Hotel_Id") String hotel_id2,
-                                   @Field("Hotel_Id") String hotel_id4,
-                                   @Field("Hotel_Id") String hotel_id5);
+    Call<JsonObject> editScratchcard(@Field("Offer_Id") int offerId,
+                                     @Field("Offer_Desp") String offerDisc,
+                                     @Field("Offer_Name") String offerName,
+                                     @Field("Offer_From") String offerFrom,
+                                     @Field("Offer_To") String offerTo,
+                                     @Field("Ppl_Total_Count") String pplTotalCount,
+                                     @Field("Ppl_Winner_Count") String pplWinnerCount,
+                                     @Field("Hotel_Id") int hotelId);
 
     /*Add promoCode*/
     @POST("Admin_Dashboard.php?admin_dash=Active_Table")
     @FormUrlEncoded
     Call<JsonObject> deleteScratchcard(@Field("Hotel_Id") String hotel_id,
-                                     @Field("Hotel_Id") String hotel_id1);
+                                       @Field("Hotel_Id") String hotel_id1);
 
 
+    /*Add DailyOffer*/
+    @POST("Offer_Daily.php?daily=offerdaily_add")
+    @FormUrlEncoded
+    Call<JsonObject> addDailyOffer(@Field("Offer_Type_Id") int offerId,
+                                   @Field("Offer_Price") String offerPrice,
+                                   @Field("Offer_Name") String offerName,
+                                   @Field("Offer_Img") String offerImage,
+                                   @Field("Offer_Desp") String offerDesp,
+                                   @Field("Offer_From") String offerFrom,
+                                   @Field("Offer_To") String offerTo,
+                                   @Field("Hotel_Id") int hotelId,
+                                   @Field("Offer_Price_Status") int status,
+                                   @Field("Buy_Count") String buyCnt,
+                                   @Field("Get_Count") String getCnt);
 
 
+    /*apply offer Daily offer*/
+    @POST("Offer_Daily.php?daily=offerdaily_apply")
+    @FormUrlEncoded
+    Call<JsonObject> applyDailyOffer(@Field("Hotel_Id") int hotel_id,
+                                    @Field("Offer_Id") int offerTypeId,
+                                    @Field("MenuOfferArray") String menuOffer);
 
-
-
+    /*edit DailyOffer*/
+    @POST("Offer_Daily.php?daily=offerdaily_edit")
+    @FormUrlEncoded
+    Call<JsonObject> editDailyOffer(@Field("Offer_Id") int offerId,
+                                   @Field("Offer_Price") String offerPrice,
+                                   @Field("Offer_Name") String offerName,
+                                   @Field("Offer_Img") String offerImage,
+                                   @Field("Offer_Desp") String offerDesp,
+                                   @Field("Offer_From") String offerFrom,
+                                   @Field("Offer_To") String offerTo,
+                                   @Field("Hotel_Id") int hotelId,
+                                   @Field("Offer_Price_Status") int status,
+                                   @Field("Buy_Count") String buyCnt,
+                                   @Field("Get_Count") String getCnt);
 
 
 
@@ -594,10 +674,21 @@ public interface ApiService {
     @FormUrlEncoded
     Call<JsonObject> getCategory(@Field("Hotel_Id") int Hotel_Id,
                                  @Field("u_key") String u_key);
-/*
 
-    */
-/*get sub menu amd category *//*
+    /*Get Banner Image*/
+    @POST("Offer_Daily.php?daily=dailyimg_disp")
+    @FormUrlEncoded
+    Call<JsonObject> getBannerImage(@Field("Hotel_Id") int Hotel_Id);
+
+    /*display dailyoffer*/
+    @POST("Offer_Daily.php?daily=offerdaily_disp")
+    @FormUrlEncoded
+    Call<JsonObject> displayDailyOffer(@Field("Offer_Type_Id") int offerTypeId,
+                                       @Field("Hotel_Id") int Hotel_Id);
+    /*
+
+     */
+    /*get sub menu amd category *//*
 
     @POST("user/get_menulist.php")
     @FormUrlEncoded

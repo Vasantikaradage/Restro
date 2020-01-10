@@ -5,5 +5,5 @@ package com.restrosmart.restrohotel.Interfaces;
  */
 
 public interface EditListener {
-    public void getEditListenerPosition(int position);
+     void getEditListenerPosition(int position);
 }

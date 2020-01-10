@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.restrosmart.restrohotel.Interfaces.ApiService;
 import com.restrosmart.restrohotel.Interfaces.IResult;
@@ -76,13 +77,20 @@ public class RVSAEmployeeDetails extends RecyclerView.Adapter<RVSAEmployeeDetail
 
         ArrayList<EmployeeSAForm> EmployeeSaArrayList = arrayListSAEmployees.get(position).getEmployeeSAHotelForms();
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
-        EmployeeSADetailRVAdapter employeeSADetailRVAdapter = new EmployeeSADetailRVAdapter(context, EmployeeSaArrayList);
-        myHolder.rvEmplyoeeDetails.setHasFixedSize(true);
-        myHolder.rvEmplyoeeDetails.setNestedScrollingEnabled(false);
-        myHolder.rvEmplyoeeDetails.setLayoutManager(linearLayoutManager);
-        myHolder.rvEmplyoeeDetails.setItemAnimator(new DefaultItemAnimator());
-        myHolder.rvEmplyoeeDetails.setAdapter(employeeSADetailRVAdapter);
+        if(EmployeeSaArrayList != null && EmployeeSaArrayList.size() > 0) {
+
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
+            EmployeeSADetailRVAdapter employeeSADetailRVAdapter = new EmployeeSADetailRVAdapter(context, EmployeeSaArrayList);
+            myHolder.rvEmplyoeeDetails.setHasFixedSize(true);
+            myHolder.rvEmplyoeeDetails.setNestedScrollingEnabled(false);
+            myHolder.rvEmplyoeeDetails.setLayoutManager(linearLayoutManager);
+            myHolder.rvEmplyoeeDetails.setItemAnimator(new DefaultItemAnimator());
+            myHolder.rvEmplyoeeDetails.setAdapter(employeeSADetailRVAdapter);
+        }
+        else
+        {
+            Toast.makeText(context, "Record not found", Toast.LENGTH_SHORT).show();
+        }
       //  myHolder.mDesignation.setText(arrayListSAEmployees.get(position).getRole());
         //status1 = (arrayListSAEmployees.get(position).getActiveStatus());
 

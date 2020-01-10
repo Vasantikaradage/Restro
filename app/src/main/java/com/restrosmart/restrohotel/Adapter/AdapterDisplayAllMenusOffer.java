@@ -2,29 +2,40 @@ package com.restrosmart.restrohotel.Adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.restrosmart.restrohotel.Model.MenuDisplayForm;
-import com.restrosmart.restrohotel.Model.ToppingsForm;
 import com.restrosmart.restrohotel.R;
+import com.restrosmart.restrohotel.Utils.Sessionmanager;
 
 import java.util.ArrayList;
 
-public class AdapterDisplayAllMenusOffer  extends RecyclerView.Adapter<AdapterDisplayAllMenusOffer.MyHolder> {
-    private  Context mContext;
-    private  ArrayList<MenuDisplayForm> menuDisplayFormArrayList;
+public class AdapterDisplayAllMenusOffer extends RecyclerView.Adapter<AdapterDisplayAllMenusOffer.MyHolder> {
+    private Context mContext;
+    private ArrayList<MenuDisplayForm> menuDisplayFormArrayList;
+    ArrayList<MenuDisplayForm> menuDisplayFormsarray = new ArrayList<>();
+    private Sessionmanager sessionmanager;
+    private int winnerQty, buyQty, offerTypeId;
+    private int count = 0;
+    private  String flvName;
 
 
-    public AdapterDisplayAllMenusOffer(Context context, ArrayList<MenuDisplayForm> arrayListMenu) {
-        this.mContext=context;
-        this.menuDisplayFormArrayList=arrayListMenu;
+    public AdapterDisplayAllMenusOffer(Context context, ArrayList<MenuDisplayForm> arrayListMenu, int winnerQty, int buyQty, int offerTypeId, String category_name) {
+        this.mContext = context;
+        this.menuDisplayFormArrayList = arrayListMenu;
+        this.winnerQty = winnerQty;
+        this.buyQty = buyQty;
+        this.offerTypeId = offerTypeId;
+        sessionmanager = new Sessionmanager(mContext);
+        this.flvName=category_name;
     }
 
     @NonNull
@@ -38,18 +49,8 @@ public class AdapterDisplayAllMenusOffer  extends RecyclerView.Adapter<AdapterDi
     @Override
     public void onBindViewHolder(@NonNull AdapterDisplayAllMenusOffer.MyHolder myHolder, int i) {
         myHolder.tvMenu.setText(menuDisplayFormArrayList.get(i).getMenu_Name());
-        String price= String.valueOf(menuDisplayFormArrayList.get(i).getNon_Ac_Rate());
+        String price = String.valueOf(menuDisplayFormArrayList.get(i).getNon_Ac_Rate());
         myHolder.tvPrice.setText("\u20B9 " + price);
-
-       /* ArrayList<ToppingsForm> arrayListtoppings=menuDisplayFormArrayList.get(i).getArrayListtoppings();
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
-        myHolder.rvTopping.setHasFixedSize(true);
-        myHolder.rvTopping.setLayoutManager(linearLayoutManager);
-
-        AdapterDisplayAllToppingOffer adapterDisplayAllToppingOffer = new AdapterDisplayAllToppingOffer(mContext, arrayListtoppings);
-        myHolder. rvTopping.setAdapter(adapterDisplayAllToppingOffer);*/
-
     }
 
     @Override
@@ -60,18 +61,90 @@ public class AdapterDisplayAllMenusOffer  extends RecyclerView.Adapter<AdapterDi
     public class MyHolder extends RecyclerView.ViewHolder {
         private TextView tvMenu;
         private CheckBox checkBox;
-        private  TextView tvPrice;
-        private EditText tvOfferPrice;
-       // private  RecyclerView rvTopping;
+        private TextView tvPrice;
+
 
         public MyHolder(@NonNull View itemView) {
             super(itemView);
-            tvMenu=itemView.findViewById(R.id.tv_menu_name);
-            checkBox=itemView.findViewById(R.id.checkbox);
-            tvPrice=itemView.findViewById(R.id.tv_menu_price);
-           // rvTopping=itemView.findViewById(R.id.rv_topping);
-            tvOfferPrice=itemView.findViewById(R.id.et_offer_price);
+            tvMenu = itemView.findViewById(R.id.tv_menu_name);
+            checkBox = itemView.findViewById(R.id.checkbox);
+            tvPrice = itemView.findViewById(R.id.tv_menu_price);
 
+
+            if (offerTypeId == 2) {
+
+                if (count <= winnerQty) {
+
+                    checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            // MenuDisplayForm menuDisplayForm = new MenuDisplayForm();
+
+
+                            if (isChecked) {
+                                sessionmanager.addToMenuCart(mContext, menuDisplayFormArrayList.get(getAdapterPosition()));
+                                count++;
+
+                            } else {
+                                sessionmanager.removeMenuCart(mContext, Integer.parseInt(menuDisplayFormArrayList.get(getAdapterPosition()).getMenu_Id()));
+                                count--;
+                            }
+                        }
+
+
+                    });
+                } else
+                    Toast.makeText(mContext, "your winner count is less that selected menu", Toast.LENGTH_SHORT).show();
+            } else if (offerTypeId ==1) {
+                String buy= String.valueOf(buyQty);
+
+                if ((count<= buyQty) ){
+                    checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            // MenuDisplayForm menuDisplayForm = new MenuDisplayForm();
+                            if (isChecked) {
+                                sessionmanager.addToMenuCart(mContext, menuDisplayFormArrayList.get(getAdapterPosition()));
+                                count++;
+
+                            } else {
+                                sessionmanager.removeMenuCart(mContext, Integer.parseInt(menuDisplayFormArrayList.get(getAdapterPosition()).getMenu_Id()));
+                                count--;
+                            }
+                        }
+
+
+                    });
+                } else if (count > buyQty) {
+                    Toast.makeText(mContext, "you want to select only " + buy + "menu", Toast.LENGTH_SHORT).show();
+
+                } else
+                {
+
+                }
+
+            } else  if(offerTypeId ==4){
+                checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked) {
+                            sessionmanager.addToMenuCart(mContext, menuDisplayFormArrayList.get(getAdapterPosition()));
+                        } else {
+                            sessionmanager.removeMenuCart(mContext, Integer.parseInt(menuDisplayFormArrayList.get(getAdapterPosition()).getMenu_Id()));
+                        }
+                    }
+
+
+                });
+
+        }
         }
     }
 }
+

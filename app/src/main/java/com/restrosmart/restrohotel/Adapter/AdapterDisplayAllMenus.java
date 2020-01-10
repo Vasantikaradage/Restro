@@ -137,17 +137,18 @@ public class AdapterDisplayAllMenus extends RecyclerView.Adapter<AdapterDisplayA
                 holder.llMenu.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (arrayListMenu.get(position).getStatus() == 0) {
+                       // if (arrayListMenu.get(position).getStatus() != 0) {
                         Intent intent = new Intent(context, ActivityFlavour.class);
                         intent.putExtra("menuName", arrayListMenu.get(position).getMenu_Name());
-                        intent.putExtra("menuId", arrayListMenu.get(position).getMenu_Id());
+                        int menuId= Integer.parseInt(arrayListMenu.get(position).getMenu_Id());
+                        intent.putExtra("menuId", menuId);
                         intent.putExtra("pcId", pcId);
                         intent.putExtra("categoryId", arrayListMenu.get(position).getCategory_Id());
                         context.startActivity(intent);
-                        }else
+                       /* }else
                         {
                             Toast.makeText(context, "First you want change the menu status... then get the Flavour information", Toast.LENGTH_SHORT).show();
-                        }
+                        }*/
                     }
                 });
 

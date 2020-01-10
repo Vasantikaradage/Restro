@@ -125,7 +125,7 @@ public class ActivitySADashBoradDrawer extends AppCompatActivity implements Navi
             //   itemShow.setVisible(false);
             fragment = new FragmentSAEmployee();
             fragment.setArguments(args);
-            title = "Our Employees";
+            title = "Our Admin";
         }
         else if (id == R.id.nav_hotel_sa_details) {
             //  itemShow.setVisible(false);

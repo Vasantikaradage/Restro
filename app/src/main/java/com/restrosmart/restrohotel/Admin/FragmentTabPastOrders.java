@@ -23,7 +23,7 @@ public class FragmentTabPastOrders extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         arraylistOrderCompleted  = getArguments().getParcelableArrayList("OrderArrayListCompleted");
-        arrayList=getArguments().getStringArrayList("arrayListId");
+     //   arrayList=getArguments().getStringArrayList("arrayListId");
         View view = inflater.inflate(R.layout.tab_past_orders,container,false);
         return view;
     }
@@ -33,12 +33,24 @@ public class FragmentTabPastOrders extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         RecyclerView recyclerView = (RecyclerView)getActivity().findViewById(R.id.recycler_past_order);
+        arrayList=new ArrayList<>();
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL,false);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.getLayoutManager().setMeasurementCacheEnabled(false);
-        AdapterPastOrder  adapterPastOrder = new AdapterPastOrder(getActivity(), arraylistOrderCompleted,arrayList);
-        recyclerView.setAdapter(adapterPastOrder);
+        if (arraylistOrderCompleted != null && arraylistOrderCompleted.size() > 0) {
+
+            for (int i = 0; i < arraylistOrderCompleted.size(); i++) {
+                arrayList.add("Order " + (i + 1));
+            }
+
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+            recyclerView.setLayoutManager(linearLayoutManager);
+            recyclerView.setHasFixedSize(true);
+            recyclerView.getLayoutManager().setMeasurementCacheEnabled(false);
+            AdapterPastOrder adapterPastOrder = new AdapterPastOrder(getActivity(), arraylistOrderCompleted);
+            recyclerView.setAdapter(adapterPastOrder);
+        }
+        else
+        {
+            //no data
+        }
     }
 }

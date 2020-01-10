@@ -11,15 +11,18 @@ import java.util.ArrayList;
 
 public class AdminOrderModel implements Parcelable {
     private int orderId;
-    private String orderDate;
+    private String orderDate,orderStatus,subTotal;
     private ArrayList<MenuForm> adminMenuModelArrayList;
 
     public AdminOrderModel() {
     }
 
+
     protected AdminOrderModel(Parcel in) {
         orderId = in.readInt();
         orderDate = in.readString();
+        orderStatus = in.readString();
+        subTotal = in.readString();
         adminMenuModelArrayList = in.createTypedArrayList(MenuForm.CREATOR);
     }
 
@@ -34,6 +37,22 @@ public class AdminOrderModel implements Parcelable {
             return new AdminOrderModel[size];
         }
     };
+
+    public String getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(String orderStatus) {
+        this.orderStatus = orderStatus;
+    }
+
+    public String getSubTotal() {
+        return subTotal;
+    }
+
+    public void setSubTotal(String subTotal) {
+        this.subTotal = subTotal;
+    }
 
     public int getOrderId() {
         return orderId;
@@ -59,6 +78,7 @@ public class AdminOrderModel implements Parcelable {
         this.adminMenuModelArrayList = adminMenuModelArrayList;
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -68,6 +88,8 @@ public class AdminOrderModel implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(orderId);
         dest.writeString(orderDate);
+        dest.writeString(orderStatus);
+        dest.writeString(subTotal);
         dest.writeTypedList(adminMenuModelArrayList);
     }
 }

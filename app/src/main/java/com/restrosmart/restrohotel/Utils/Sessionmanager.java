@@ -3,12 +3,17 @@ package com.restrosmart.restrohotel.Utils;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.restrosmart.restrohotel.Admin.ActivityAdminDrawer;
 import com.restrosmart.restrohotel.Admin.ActivityLogin;
-import com.restrosmart.restrohotel.Model.UserForm;
+import com.restrosmart.restrohotel.Model.MenuDisplayForm;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by SHREE on 24/10/2018.
@@ -71,6 +76,9 @@ public class Sessionmanager {
     public static final String CUST_ID = "CustID";
     public static final String CUST_NAME = "CustName";
     public static final String CUST_MOB = "CustMob";
+    public static final String MENU_INFO = "menuInfo";
+    //Add to cart
+    private static final String ADD_TO_MENU_CART = "AddToMenuCart";
 
 
     public Sessionmanager(Context mcontext) {
@@ -194,28 +202,28 @@ public class Sessionmanager {
         return pref.getBoolean(ISLOGIN, false);
     }
 
-   /* public HashMap getLoginInfo() {
-        // Gson gson = new Gson();
-        //String user = gson.toJson(user1);
-        //  pref.getString("user", String.valueOf(user1));
+    /* public HashMap getLoginInfo() {
+         // Gson gson = new Gson();
+         //String user = gson.toJson(user1);
+         //  pref.getString("user", String.valueOf(user1));
 
-        HashMap<String, String> stringMap = new HashMap<String, String>();
+         HashMap<String, String> stringMap = new HashMap<String, String>();
 
-        stringMap.put("emp_name", pref.getString(EMP_NAME, null));
-        stringMap.put("emp_email", pref.getString(EMP_EMAIL, null));
-        stringMap.put("emp_mob", pref.getString(EMP_MOB, null));
-        stringMap.put("emp_pass", pref.getString(EMP_PASS, null));
-        stringMap.put("emp_uname", pref.getString(EMP_UNAME, null));
-        stringMap.put("emp_status", pref.getString(EMP_ACT_STATUS, null));
-        stringMap.put("emp_add", pref.getString(EMP_ADD, null));
-        stringMap.put("emp_id", pref.getString(EMP_ID, null));
-        stringMap.put("emp_role", pref.getString(ROLE_ID, null));
-        stringMap.put("emp_adhar", pref.getString(EMP_ADHAR, null));
-        stringMap.put("emp_img", pref.getString(EMP_IMG, null));
+         stringMap.put("emp_name", pref.getString(EMP_NAME, null));
+         stringMap.put("emp_email", pref.getString(EMP_EMAIL, null));
+         stringMap.put("emp_mob", pref.getString(EMP_MOB, null));
+         stringMap.put("emp_pass", pref.getString(EMP_PASS, null));
+         stringMap.put("emp_uname", pref.getString(EMP_UNAME, null));
+         stringMap.put("emp_status", pref.getString(EMP_ACT_STATUS, null));
+         stringMap.put("emp_add", pref.getString(EMP_ADD, null));
+         stringMap.put("emp_id", pref.getString(EMP_ID, null));
+         stringMap.put("emp_role", pref.getString(ROLE_ID, null));
+         stringMap.put("emp_adhar", pref.getString(EMP_ADHAR, null));
+         stringMap.put("emp_img", pref.getString(EMP_IMG, null));
 
-        return stringMap;
-    }
-*/
+         return stringMap;
+     }
+ */
     //save position info
     public void setTabposition(int position) {
         editor.putInt(TAB_POSITION, position);
@@ -395,4 +403,140 @@ public class Sessionmanager {
         editor.commit();
     }
 
+    public void saveMenuinfo(String menuInfo) {
+        editor.putString(MENU_INFO, menuInfo);
+        editor.commit();
+
+    }
+
+    //add to food cart
+    public void addToMenuCart(Context context, MenuDisplayForm menuDisplayForm) {
+
+        boolean isValid = false;
+        ArrayList<MenuDisplayForm> menuRVModelArrayList = getAddToMenuCartList(context);
+        if (menuRVModelArrayList == null)
+            menuRVModelArrayList = new ArrayList<MenuDisplayForm>();
+
+        for (int i = 0; i < menuRVModelArrayList.size(); i++) {
+
+            MenuDisplayForm displayForm = menuRVModelArrayList.get(i);
+
+            if (!displayForm.getMenu_Id().equalsIgnoreCase("") && displayForm.getMenu_Id().equalsIgnoreCase(menuDisplayForm.getMenu_Id())) {
+                Toast.makeText(context, "Already added in menu", Toast.LENGTH_SHORT).show();
+                isValid = true;
+            }
+        }
+
+        if (!isValid) {
+            menuRVModelArrayList.add(menuDisplayForm);
+            saveFoodCart(context, menuRVModelArrayList);
+        } else {
+            for (int i = 0; i < menuRVModelArrayList.size(); i++) {
+                MenuDisplayForm menuDisplayForm1 = menuRVModelArrayList.get(i);
+                if (!menuDisplayForm1.getMenu_Id().equalsIgnoreCase("") && menuDisplayForm1.getMenu_Id().equalsIgnoreCase(menuDisplayForm1.getMenu_Id())) {
+                    //  int val = rvModel.getMenuQty();
+                    //  rvModel.setMenuQty(val + 1);
+                    //rvModel.setMenuQtyPrice((val + 1) * menuDisplayForm.getNon_Ac_Rate());
+                }
+            }
+            saveFoodCart(context, menuRVModelArrayList);
+        }
+
+        /*for(CartModel rvModel : cartRVModelArrayList){
+            if(rvModel.getProductID() != null && rvModel.getProductID().equals(cartRVModel.getProductID())){
+
+                String produtQty = Integer.parseInt(cartRVModel.getProductQty()) + "1";
+
+                Log.v("productid", cartRVModel.getProductID());
+                Log.v("rvproductid", cartRVModel.getProductID());
+                Log.v("rvproductqty", cartRVModel.getProductQty());
+                Log.v("cartproductid", cartRVModel.getProductID());
+                Log.v("cartproductqty", cartRVModel.getProductQty());
+
+                cartRVModel.setProductQty(produtQty);
+            }else {
+                cartRVModelArrayList.add(cartRVModel);
+            }
+        }*/
+    }
+
+    //get cart food list
+    public ArrayList<MenuDisplayForm> getAddToMenuCartList(Context context) {
+        List<MenuDisplayForm> menuDisplayModelList;
+
+        if (pref.contains(ADD_TO_MENU_CART)) {
+            String jsonAddToCart = pref.getString(ADD_TO_MENU_CART, null);
+            Gson gson = new Gson();
+            MenuDisplayForm[] cartRVModels = gson.fromJson(jsonAddToCart, MenuDisplayForm[].class);
+
+            menuDisplayModelList = Arrays.asList(cartRVModels);
+            menuDisplayModelList = new ArrayList<MenuDisplayForm>(menuDisplayModelList);
+        } else
+            return null;
+
+        return (ArrayList<MenuDisplayForm>) menuDisplayModelList;
+    }
+
+    //remove food item from cart
+    public void removeMenuCart(Context context, int menuId) {
+        ArrayList<MenuDisplayForm> menuCartModelArrayList = getAddToMenuCartList(context);
+
+        if (menuCartModelArrayList != null) {
+
+         /*  if (menuCartModelArrayList.contains(position)) {
+               menuCartModelArrayList.remove(position);
+            }*/
+
+            for (int i = 0; i < menuCartModelArrayList.size(); i++) {
+                if (menuCartModelArrayList.contains(i)) {
+                    menuCartModelArrayList.remove(i);
+                }
+                MenuDisplayForm menuDisplayForm = menuCartModelArrayList.get(i);
+                if (!menuDisplayForm.getMenu_Id().equalsIgnoreCase("") && menuDisplayForm.getMenu_Id().equalsIgnoreCase(String.valueOf(menuId))) {
+
+                        menuCartModelArrayList.remove(i);
+                    }
+                }
+            }
+
+            saveFoodCart(context, menuCartModelArrayList);
+
+            /*Iterator<FoodCartModel> modelIterator = foodCartModelArrayList.iterator();
+
+            while (modelIterator.hasNext()) {
+                int id = modelIterator.next().getMenuId();
+                if (id == menuId) {
+                    int qty = modelIterator.next().getMenuQty();
+
+                    if (qty == 1) {
+                        modelIterator.remove();
+                        saveFoodCart(context, foodCartModelArrayList);
+                    } else {
+                        for (int i = 0; i < foodCartModelArrayList.size(); i++) {
+                            FoodCartModel rvModel = foodCartModelArrayList.get(i);
+                            if (rvModel.getMenuId() != 0 && rvModel.getMenuId() == menuId) {
+                                int val = rvModel.getMenuQty();
+                                rvModel.setMenuQty(val - 1);
+                            }
+                        }
+                        saveFoodCart(context, foodCartModelArrayList);
+                    }
+                }
+            }*/
+        }
+
+    //delete cart list after giving order
+    public void deleteMenuCartList() {
+        pref.edit().remove(ADD_TO_MENU_CART).commit();
+    }
+
+
+    private void saveFoodCart(Context context, List<MenuDisplayForm> menuDisplayForms) {
+
+        Gson gson = new Gson();
+        String jsonCart = gson.toJson(menuDisplayForms);
+
+        editor.putString(ADD_TO_MENU_CART, jsonCart);
+        editor.commit();
+    }
 }

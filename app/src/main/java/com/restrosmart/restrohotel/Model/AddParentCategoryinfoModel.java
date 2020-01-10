@@ -12,6 +12,7 @@ public class AddParentCategoryinfoModel {
 
     private Fragment fragment;
     private ArrayList<CategoryForm> categoryForms;
+    private  int winnerQty;
 
     public Fragment getFragment() {
         return fragment;
@@ -27,5 +28,13 @@ public class AddParentCategoryinfoModel {
 
     public void setCategoryForms(ArrayList<CategoryForm> categoryForms) {
         this.categoryForms = categoryForms;
+    }
+
+    public int getWinnerQty() {
+        return winnerQty;
+    }
+
+    public void setWinnerQty(int winnerQty) {
+        this.winnerQty = winnerQty;
     }
 }

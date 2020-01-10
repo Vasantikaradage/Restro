@@ -68,10 +68,11 @@ public class ActivityFlavourGallery extends AppCompatActivity {
         initRetrofitCallBack();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, ActivityFlavourGallery.this);
-        mRetrofitService.retrofitData(IMAGE_MENU_LIST, service.getFlavourImage(intent.getIntExtra("menuId", 0),
-                intent.getIntExtra("categoryId", 0),
-                Integer.parseInt(mHotelId),
-                intent.getIntExtra("pcId", 0)));
+
+        int menuId=intent.getIntExtra("menuId", 0);
+        int categoryId=   intent.getIntExtra("categoryId", 0);
+        int pcId= intent.getIntExtra("pcId", 0);
+        mRetrofitService.retrofitData(IMAGE_MENU_LIST, service.getFlavourImage(menuId,categoryId, Integer.parseInt(mHotelId),pcId));
     }
 
     private void setUpToolBar() {

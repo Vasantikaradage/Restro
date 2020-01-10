@@ -3,10 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     android:padding="5dp">
 
-    <LinearLayout
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_offer_type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+    </android.support.v7.widget.RecyclerView>
+
+    <!--<LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -58,7 +65,7 @@
                 android:textSize="12sp" />
 
 
-            <!-- <view
+            &lt;!&ndash; <view
                      android:id="@+id/view"
                      android:layout_width="1dp"
                      android:layout_height="match_parent"
@@ -66,9 +73,9 @@
                      android:layout_marginEnd="10dp"
                      android:layout_toEndOf="@id/tv_emp_mobno"
                      android:layout_below="@id/tv_emp_name" />
-     -->
+     &ndash;&gt;
 
-            <!--<com.shree.restrosmart.customfonts.TextView_Helvetica_Neue_bold
+            &lt;!&ndash;<com.shree.restrosmart.customfonts.TextView_Helvetica_Neue_bold
                 android:id="@+id/tv_emp_designation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -77,9 +84,9 @@
               android:layout_alignParentEnd="true"
                 android:padding="10dp"
                 android:layout_margin="5dp"
-                android:text="Admin" />-->
+                android:text="Admin" />&ndash;&gt;
 
-            <!--  <ImageButton
+            &lt;!&ndash;  <ImageButton
                   android:id="@+id/btn_edit"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
@@ -87,9 +94,9 @@
                   android:background="@color/white"
                   android:layout_below="@id/tv_emp_name"
                   android:src="@drawable/ic_action_btn_edit"
-                  android:layout_margin="5dp"/>-->
+                  android:layout_margin="5dp"/>&ndash;&gt;
 
-            <!--</LinearLayout>-->
+            &lt;!&ndash;</LinearLayout>&ndash;&gt;
 
             <View
                 android:id="@+id/view"
@@ -272,7 +279,7 @@
                 android:textSize="12sp" />
 
 
-            <!-- <View
+            &lt;!&ndash; <View
                  android:id="@+id/view2"
                  android:layout_width="match_parent"
                  android:layout_height="1dp"
@@ -284,13 +291,13 @@
                  android:layout_marginEnd="10dp"
                  android:background="@color/gray_btn_bg_color"
 
-                 />-->
+                 />&ndash;&gt;
 
         </RelativeLayout>
 
 
     </LinearLayout>
-
+-->
 
     <!--<android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_daily_offer"

@@ -145,6 +145,7 @@ public class ActivityCapOrders extends AppCompatActivity {
             public void notifySuccess(int requestId, Response<JsonObject> response) {
                 JsonObject object = response.body();
                 String responseString = object.toString();
+             //   String responseString="";
 
                 switch (requestId) {
                     case ORDER_DETAILS:
@@ -156,8 +157,8 @@ public class ActivityCapOrders extends AppCompatActivity {
                             if (status == 1) {
 
                                 // Parcel Orders
-                                if (jsonObjectOrder.has("takeaway")) {
-                                    JSONArray jsonArrayOrder = jsonObjectOrder.getJSONArray("takeaway");
+                              /*  if (jsonObjectOrder.has("Parcelorder")) {
+                                    JSONArray jsonArrayOrder = jsonObjectOrder.getJSONArray("Parcelorder");
                                     arrayListParcelAllOrder.clear();
 
                                     for (int i = 0; i < jsonArrayOrder.length(); i++) {
@@ -217,7 +218,7 @@ public class ActivityCapOrders extends AppCompatActivity {
                                         allOrderModel.setCapOrderModelArrayList(arrayListParcelOrder);
                                         arrayListParcelAllOrder.add(allOrderModel);
                                     }
-                                }
+                                }*/
 
                                 // Table order
                                 if (jsonObjectOrder.has("Havinghere")) {

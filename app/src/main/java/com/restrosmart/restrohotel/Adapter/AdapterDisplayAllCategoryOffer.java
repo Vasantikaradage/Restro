@@ -12,6 +12,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 import com.restrosmart.restrohotel.Interfaces.ApiService;
@@ -55,11 +56,18 @@ public class AdapterDisplayAllCategoryOffer extends RecyclerView.Adapter<Adapter
     private int mExpandedPosition = -1, previousExpandedPosition;
 
     private ArrayList<Integer> counter = new ArrayList<Integer>();
+    ArrayList<MenuDisplayForm>  arrayListMenu;
+    private  int winnerQty,buyQty,offerTypeId;
 
 
-    public AdapterDisplayAllCategoryOffer(Context activity, ArrayList<CategoryForm> arrayList) {
+
+    public AdapterDisplayAllCategoryOffer(Context activity, ArrayList<CategoryForm> arrayList, int winnerQty, int buyQty, int offerTypeId) {
         this.context = activity;
         this.arrayList = arrayList;
+        this.winnerQty=winnerQty;
+        this.buyQty=buyQty;
+        this.offerTypeId=offerTypeId;
+
         for (int i = 0; i < arrayList.size(); i++) {
             counter.add(0);
         }
@@ -76,149 +84,24 @@ public class AdapterDisplayAllCategoryOffer extends RecyclerView.Adapter<Adapter
     @Override
     public void onBindViewHolder(@NonNull final MyHolder holder, int position) {
         holder.tx_name.setText(arrayList.get(position).getCategory_Name());
-
-         ArrayList<MenuDisplayForm> arrayListMenu=arrayList.get(position).getMenuDisplayFormArrayList();
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
-        holder.rvMenu.setHasFixedSize(true);
-        holder.rvMenu.setLayoutManager(linearLayoutManager);
-
-        AdapterDisplayAllMenusOffer displayAllMenus = new AdapterDisplayAllMenusOffer(context, arrayListMenu);
-        holder. rvMenu.setAdapter(displayAllMenus);
-
-       /* pos=position;
-        myHolder=holder;
-
-        final boolean isExpanded = position==mExpandedPosition;
-        holder.rvMenu.setVisibility(isExpanded?View.VISIBLE:View.GONE);
-        holder.itemView.setActivated(isExpanded);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mExpandedPosition = isExpanded ? -1:pos;
-                TransitionManager.beginDelayedTransition(holder.rvMenu);
-                notifyDataSetChanged();
-            }
-        });*/
-
-
-        /*final boolean isExpanded = position == mExpandedPosition;
-        holder.rvMenu.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
-        holder.itemView.setActivated(isExpanded);
+        arrayListMenu =arrayList.get(position).getMenuDisplayFormArrayList();
+       /* ArrayList<MenuDisplayForm>  arrayListMenu=new ArrayList<MenuDisplayForm>();
+        arrayListMenu =arrayList.get(position).getMenuDisplayFormArrayList();
 */
-      /*  sessionmanager = new Sessionmanager(context);
-        HashMap<String, String> name_info = sessionmanager.getHotelDetails();
-        hotelId = Integer.parseInt(name_info.get(HOTEL_ID));
+         if(arrayListMenu.size()>0 && arrayListMenu!=null) {
 
-   //     initRetrofitCallBack();
-        ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
-        mRetrofitService = new RetrofitService(mResultCallBack,context);
-        mRetrofitService.retrofitData(PARENT_CATEGORY_WITH_SUB, (service.getMenus(arrayList.get(position).getCategory_id(),arrayList.get(position).getPc_Id(),hotelId )));
+             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
+             holder.rvMenu.setHasFixedSize(true);
+             holder.rvMenu.setLayoutManager(linearLayoutManager);
 
-        mResultCallBack=new IResult() {
-            @Override
-            public void notifySuccess(int requestId, Response<JsonObject> response) {
-                JsonObject jsonObject = response.body();
-                String mRespnse = jsonObject.toString();
-                try {
-                    JSONObject jsonObject1 = new JSONObject(mRespnse);
+             AdapterDisplayAllMenusOffer displayAllMenus = new AdapterDisplayAllMenusOffer(context, arrayListMenu,winnerQty,buyQty,offerTypeId,arrayList.get(position).getCategory_Name());
+             holder.rvMenu.setAdapter(displayAllMenus);
+         }
+         else
+         {
+             holder.linearLayout.setVisibility(View.GONE);
 
-                    int status = jsonObject1.getInt("status");
-                    if (status == 1) {
-                        // llNoMenuData.setVisibility(View.GONE);
-
-                        JSONArray jsonArray = jsonObject1.getJSONArray("submenu");
-
-                        arrayListMenu.clear();
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            JSONObject jsonObject2 = jsonArray.getJSONObject(i);
-
-                            MenuDisplayForm menuForm = new MenuDisplayForm();
-                            menuForm.setMenu_Id(jsonObject2.getInt("Menu_Id"));
-                            menuForm.setCategory_Id(jsonObject2.getInt("Category_Id"));
-                            menuForm.setMenu_Name(jsonObject2.getString("Menu_Name"));
-                            menuForm.setMenu_Image_Name(jsonObject2.getString("Menu_Image_Name"));
-                            menuForm.setNon_Ac_Rate(jsonObject2.getInt("Non_Ac_Rate"));
-                            menuForm.setMenu_Test(jsonObject2.getInt("Menu_Test"));
-                            menuForm.setMenu_Descrip(jsonObject2.getString("Menu_Descrip"));
-                            menuForm.setHotel_Id(jsonObject2.getInt("Hotel_Id"));
-                            //menuForm.setArrayListtoppings(jsonObject2.getJSONArray("Topping"));
-
-
-                            JSONArray toppingArray=jsonObject2.getJSONArray("Topping");
-
-                           *//* arrayListToppings=new ArrayList<>();
-                            for(int in=0; in<toppingArray.length(); in++)
-                            {
-
-                                JSONObject toppingsObject=toppingArray.getJSONObject(in);
-                                ToppingsForm toppingsForm=new ToppingsForm();
-                                toppingsForm.setToppingId(toppingsObject.getInt("Topping_Id"));
-                                toppingsForm.setToppingsName(toppingsObject.getString("Topping_Name"));
-                                toppingsForm.setToppingsPrice(toppingsObject.getInt("Topping_Price"));
-                                arrayListToppings.add(toppingsForm);
-                            }
-
-                            menuForm.setArrayListtoppings(arrayListToppings);*//*
-                            arrayListMenu.add(menuForm);
-                        }
-                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
-                        holder.rvMenu.setHasFixedSize(true);
-                        holder.rvMenu.setLayoutManager(linearLayoutManager);
-
-                        AdapterDisplayAllMenusOffer displayAllMenus = new AdapterDisplayAllMenusOffer(context, arrayListMenu);
-                        holder. rvMenu.setAdapter(displayAllMenus);
-
-                    } else {
-                        // llNoMenuData.setVisibility(View.VISIBLE);
-                        // progressBar.setVisibility(View.GONE);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-
-            @Override
-            public void notifyError(int requestId, Throwable error) {
-
-            }
-        };
-        */
-        /*  holder.tvReschedule.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
-        holder.viewLine.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
-        holder.viewLine1.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
-        holder.itemView.setActivated(isExpanded);
-
-        holder.tvReschedule.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                positionListerner.positionListern(i);
-
-            }
-        });
-*/
-
-
-
-       /* if (isExpanded)
-            previousExpandedPosition = position;
-
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mExpandedPosition = isExpanded ? -1 : pos;
-                notifyItemChanged(previousExpandedPosition);
-                notifyItemChanged(pos);
-
-                // holder.btnAdd.setAnimation(rightToLeft);
-                //  holder.cvQty.setAnimation(leftToRight);
-
-                *//*selectedPos = position;
-                notifyDataSetChanged();*//*
-            }
-        });*/
+         }
 
     }
 
@@ -235,7 +118,6 @@ public class AdapterDisplayAllCategoryOffer extends RecyclerView.Adapter<Adapter
         private  RecyclerView rvMenu;
         private LinearLayout linearLayout;
 
-
         public MyHolder(final View itemView) {
             super(itemView);
 
@@ -250,8 +132,15 @@ public class AdapterDisplayAllCategoryOffer extends RecyclerView.Adapter<Adapter
                 public void onClick(View view) {
 
                     if (counter.get(getAdapterPosition()) % 2 == 0) {
-                        rvMenu.setVisibility(View.VISIBLE);
-                        linearLayout.setVisibility(View.VISIBLE);
+                        if(arrayList.get(getAdapterPosition()).getMenuDisplayFormArrayList().size()>0 && arrayList.get(getAdapterPosition()).getMenuDisplayFormArrayList()!=null) {
+                            rvMenu.setVisibility(View.VISIBLE);
+                            linearLayout.setVisibility(View.VISIBLE);
+
+                        }else
+                        {
+                            linearLayout.setVisibility(View.GONE);
+                            Toast.makeText(context,"No Record Found",Toast.LENGTH_SHORT).show();
+                        }
                         ivArrow.setImageDrawable(context.getDrawable(R.drawable.ic_up_arrow_16dp));
                     } else {
                         rvMenu.setVisibility(View.GONE);
@@ -262,8 +151,6 @@ public class AdapterDisplayAllCategoryOffer extends RecyclerView.Adapter<Adapter
                     counter.set(getAdapterPosition(), counter.get(getAdapterPosition()) + 1);
                 }
             });
-
-
         }
     }
 }

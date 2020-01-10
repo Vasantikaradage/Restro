@@ -79,7 +79,7 @@ public class ActivityNewAddEmployee extends AppCompatActivity {
     private EditText etvName, etMob, etEmail, etUsername, etAdhar, etPass, etConPass, etAddress;
 
     private CircleImageView imageView;
-    private Spinner spDesignation, spBranch;
+    private Spinner spDesignation;
     private String password;
     private Button btnSave, btnUpdate;
     private FrameLayout select_image;
@@ -95,7 +95,7 @@ public class ActivityNewAddEmployee extends AppCompatActivity {
     ArrayList<RoleForm> arrayListRole;
     private int desginagtionSelId, branchSelId, position;
     private TextInputLayout txPass, txConPass;
-    private LinearLayout llPassword, llConPassword, llBranch;
+    private LinearLayout llPassword, llConPassword;
     private FrameLayout flImage;
     private String selectedFilePath, extension, selectedData, selectedImage,subString;
     private File selectedFile;
@@ -148,7 +148,7 @@ public class ActivityNewAddEmployee extends AppCompatActivity {
 
         if (emp_id != 0) {
             for (int i = 0; i < employeeDetails.size(); i++) {
-                llBranch.setVisibility(View.GONE);
+               // llBranch.setVisibility(View.GONE);
                 llConPassword.setVisibility(View.GONE);
                 llPassword.setVisibility(View.GONE);
 
@@ -235,7 +235,7 @@ public class ActivityNewAddEmployee extends AppCompatActivity {
                 }
             }
         } else {
-            llBranch.setVisibility(View.VISIBLE);
+            //llBranch.setVisibility(View.VISIBLE);
             llConPassword.setVisibility(View.VISIBLE);
             llPassword.setVisibility(View.VISIBLE);
 
@@ -417,12 +417,12 @@ public class ActivityNewAddEmployee extends AppCompatActivity {
         btnUpdate = findViewById(R.id.btn_update);
 
         spDesignation = (Spinner) findViewById(R.id.sp_designation);
-        spBranch = (Spinner) findViewById(R.id.sp_branch);
+        //spBranch = (Spinner) findViewById(R.id.sp_branch);
 
         select_image = (FrameLayout) findViewById(R.id.iv_select_image);
         llPassword = findViewById(R.id.llPassword);
         llConPassword = findViewById(R.id.llConPass);
-        llBranch = findViewById(R.id.llBranch);
+       // llBranch = findViewById(R.id.llBranch);
     }
 
     private void initRetrofitCallback() {
@@ -449,7 +449,7 @@ public class ActivityNewAddEmployee extends AppCompatActivity {
 
                         break;
 
-                    case BRANCH_INFO:
+                  /*  case BRANCH_INFO:
                         JsonObject object = response.body();
                         String value = object.toString();
                         try {
@@ -489,7 +489,7 @@ public class ActivityNewAddEmployee extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        break;
+                        break;*/
 
                     case ADMIN_EMP_EDIT:
                         JsonObject object1 = response.body();
@@ -513,7 +513,7 @@ public class ActivityNewAddEmployee extends AppCompatActivity {
 
             }
 
-            private void getSelectedBranch(final ArrayList<BranchForm> arrayListBranch) {
+         /*   private void getSelectedBranch(final ArrayList<BranchForm> arrayListBranch) {
 
                 spBranch.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
@@ -528,7 +528,7 @@ public class ActivityNewAddEmployee extends AppCompatActivity {
                     }
                 });
             }
-
+*/
             @Override
             public void notifyError(int requestId, Throwable error) {
                 Log.d("", "VolleyError" + error);

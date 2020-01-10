@@ -8,6 +8,8 @@ public class OfferNameForm {
 
     private  int offerId;
     private  String offerName;
+    private  String offerDescription,offerImage;
+
 
     public int getOfferId() {
         return offerId;
@@ -23,5 +25,21 @@ public class OfferNameForm {
 
     public void setOfferName(String offerName) {
         this.offerName = offerName;
+    }
+
+    public String getOfferDescription() {
+        return offerDescription;
+    }
+
+    public void setOfferDescription(String offerDescription) {
+        this.offerDescription = offerDescription;
+    }
+
+    public String getOfferImage() {
+        return offerImage;
+    }
+
+    public void setOfferImage(String offerImage) {
+        this.offerImage = offerImage;
     }
 }

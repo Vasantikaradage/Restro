@@ -4,10 +4,7 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-
-import com.restrosmart.restrohotel.Admin.FragmentTabParentCategory;
 import com.restrosmart.restrohotel.Admin.FragmentTabParentCategoryOffer;
-import com.restrosmart.restrohotel.Captain.Models.UserCategory;
 import com.restrosmart.restrohotel.Model.AddParentCategoryinfoModel;
 import com.restrosmart.restrohotel.Model.ParentCategoryForm;
 
@@ -19,20 +16,24 @@ public class CategoryViewPagerAdapterOffer extends FragmentPagerAdapter {
     Context context;
     private ArrayList<ParentCategoryForm> mFragmentTitleList = new ArrayList<>();
     private List<AddParentCategoryinfoModel> mAddParentCategoryinfoModels;
+    private  int pcId,winnerQty,butQty,offerTypeId;
 
-    public CategoryViewPagerAdapterOffer(FragmentManager supportFragmentManager, ArrayList<ParentCategoryForm> mFragmentTitleList, List<AddParentCategoryinfoModel> addParentCategoryinfoModels) {
+    public CategoryViewPagerAdapterOffer(FragmentManager supportFragmentManager, ArrayList<ParentCategoryForm> mFragmentTitleList, List<AddParentCategoryinfoModel> addParentCategoryinfoModels, int winnerQty, int qty, int offerTypeId) {
         super(supportFragmentManager);
         this.mFragmentTitleList = mFragmentTitleList;
         this.mAddParentCategoryinfoModels = addParentCategoryinfoModels;
-
+        this.winnerQty=winnerQty;
+        this.butQty=qty;
+        this.offerTypeId=offerTypeId;
     }
 
     @Override
     public Fragment getItem(int position) {
         AddParentCategoryinfoModel addParentCategoryinfoModel = mAddParentCategoryinfoModels.get(position);
-        return FragmentTabParentCategoryOffer.newInstance(addParentCategoryinfoModel.getCategoryForms(),position);
-
+        return FragmentTabParentCategoryOffer.newInstance(addParentCategoryinfoModel.getCategoryForms(), winnerQty,butQty,position,offerTypeId);
     }
+
+
     @Override
     public int getCount() {
         return mFragmentTitleList == null ? 0 : mFragmentTitleList.size();
@@ -41,7 +42,5 @@ public class CategoryViewPagerAdapterOffer extends FragmentPagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         return  mFragmentTitleList.get(position).getName();
-
     }
-
 }

@@ -21,10 +21,11 @@ public class AdapterParcelOrder  extends RecyclerView.Adapter<AdapterParcelOrder
     private  Context mContext;
     private  ArrayList<OrderModel> orderParcelModelArrayList;
     private  ArrayList<String> arrayListIds=new ArrayList<>();
-    public AdapterParcelOrder(Context context, ArrayList<OrderModel> arraylistParcelOrder, ArrayList<String> arrayList) {
+
+    public AdapterParcelOrder(Context context, ArrayList<OrderModel> arraylistParcelOrder) {
         this.mContext=context;
         this.orderParcelModelArrayList=arraylistParcelOrder;
-        arrayListIds=arrayList;
+      //  arrayListIds=arrayList;
     }
 
     @NonNull
@@ -99,9 +100,8 @@ public class AdapterParcelOrder  extends RecyclerView.Adapter<AdapterParcelOrder
                 public void onClick(View view) {
                     Intent intent=new Intent(mContext, ActivityMenuOrderDidplay.class);
 
-                    intent.putExtra("orderArray", orderParcelModelArrayList);
-                    intent.putExtra("arrayListIds",arrayListIds);
-                   // intent.putParcelableArrayListExtra("menuArray", orderParcelModelArrayList.get(getAdapterPosition()).getArrayList());
+                    intent.putExtra("orderArray", orderParcelModelArrayList.get(getAdapterPosition()).getArrayList());
+                   // intent.putExtra("arrayListIds",arrayListIds);
                     mContext.startActivity(intent);
 
                 }

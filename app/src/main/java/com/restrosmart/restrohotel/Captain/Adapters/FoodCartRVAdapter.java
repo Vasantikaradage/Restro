@@ -149,7 +149,7 @@ public class FoodCartRVAdapter extends RecyclerView.Adapter<FoodCartRVAdapter.It
                         btnRemoveYes.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                sessionmanager.removeMenuFoodCart(mContext, arrayList.get(getAdapterPosition()).getMenuId());
+                                sessionmanager.removeMenuCart(mContext, arrayList.get(getAdapterPosition()).getMenuId());
                                 qtyRefreshList();
                                 mAddRemoveItemCartListener.addRemovedItem();
                                 alertDialog.dismiss();
@@ -187,7 +187,7 @@ public class FoodCartRVAdapter extends RecyclerView.Adapter<FoodCartRVAdapter.It
         }*/
 
     /*public void qtyRefreshList() {
-        this.arrayList = sessionmanager.getAddToFoodCartList(mContext);
+        this.arrayList = sessionmanager.getAddToMenuCartList(mContext);
         notifyDataSetChanged();
     }*/
 }

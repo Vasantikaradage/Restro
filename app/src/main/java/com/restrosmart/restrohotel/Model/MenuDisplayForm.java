@@ -11,25 +11,72 @@ import java.util.ArrayList;
 
 public class MenuDisplayForm implements Parcelable {
 
-    private String Menu_Name,Menu_Descrip,Menu_Image_Name;
+    private String Menu_Name,Menu_Descrip,Menu_Image_Name,Menu_Id,offeerPrice,error,categoryName;
 
-    private  int Menu_Id,Category_Id,Menu_Test,Non_Ac_Rate,Hotel_Id,Branch_Id,status;
+    private  int Category_Id,Menu_Test,Non_Ac_Rate,Hotel_Id,Branch_Id,status,pcId;
     private ArrayList<ToppingsForm> arrayListtoppings;
 
+    private boolean selected;
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
     public MenuDisplayForm() {
+    }
+
+    public int getPcId() {
+        return pcId;
+    }
+
+    public void setPcId(int pcId) {
+        this.pcId = pcId;
+    }
+
+    public String getOffeerPrice() {
+        return offeerPrice;
+    }
+
+    public void setOffeerPrice(String offeerPrice) {
+        this.offeerPrice = offeerPrice;
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
+    }
+
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
     protected MenuDisplayForm(Parcel in) {
         Menu_Name = in.readString();
         Menu_Descrip = in.readString();
         Menu_Image_Name = in.readString();
-        Menu_Id = in.readInt();
+        Menu_Id = in.readString();
         Category_Id = in.readInt();
         Menu_Test = in.readInt();
         Non_Ac_Rate = in.readInt();
         Hotel_Id = in.readInt();
         Branch_Id = in.readInt();
         status = in.readInt();
+        pcId=in.readInt();
+        offeerPrice=in.readString();
+        error=in.readString();
+        categoryName=in.readString();
         arrayListtoppings = in.createTypedArrayList(ToppingsForm.CREATOR);
     }
 
@@ -85,11 +132,11 @@ public class MenuDisplayForm implements Parcelable {
         Menu_Image_Name = menu_Image_Name;
     }
 
-    public int getMenu_Id() {
+    public String getMenu_Id() {
         return Menu_Id;
     }
 
-    public void setMenu_Id(int menu_Id) {
+    public void setMenu_Id(String menu_Id) {
         Menu_Id = menu_Id;
     }
 
@@ -148,13 +195,17 @@ public class MenuDisplayForm implements Parcelable {
         dest.writeString(Menu_Name);
         dest.writeString(Menu_Descrip);
         dest.writeString(Menu_Image_Name);
-        dest.writeInt(Menu_Id);
+        dest.writeString(Menu_Id);
         dest.writeInt(Category_Id);
         dest.writeInt(Menu_Test);
         dest.writeInt(Non_Ac_Rate);
         dest.writeInt(Hotel_Id);
         dest.writeInt(Branch_Id);
         dest.writeInt(status);
+        dest.writeInt(pcId);
         dest.writeTypedList(arrayListtoppings);
+        dest.writeString(offeerPrice);
+        dest.writeString(error);
+        dest.writeString(categoryName);
     }
 }

@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:gravity="center_horizontal|center"
-            android:text="Add RushHours"
+            android:text="@string/add_rush_hours"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -120,12 +120,32 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
-                android:text="Select Date"
+                android:text="Offer Name"
                 android:textColor="@color/colorPrimary"
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/et_select_date"
+                android:id="@+id/et_offer_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/texview_outline_black"
+                android:hint="Enter Offer Name"
+                android:padding="10dp"
+                android:singleLine="true" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="From Date"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/et_from_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -137,6 +157,29 @@
                 android:hint="Enter From Date"
                 android:padding="10dp"
                 android:singleLine="true" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="To Date"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/et_to_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/texview_outline_black"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:hint="Enter To Date"
+                android:padding="10dp"
+                android:singleLine="true" />
+
 
             <TextView
                 android:layout_width="match_parent"

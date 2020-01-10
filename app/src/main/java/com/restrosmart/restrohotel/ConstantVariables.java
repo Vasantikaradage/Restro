@@ -90,8 +90,15 @@ public class ConstantVariables {
     public  static  final  int DELETE_RUSHHOURS=910;
     public  static  final  int EDIT_RUSHHOURS=911;
     public  static  final  int ADD_SCRATCHCARD=912;
+
     public  static  final  int DELETE_SCRATCHCARD=913;
     public  static  final  int EDIT_SCRATCHCARD=914;
+    public  static  final  int DISPLAY_PROMOCODE=915;
+    public  static  final  int DISPLAY_RUSHHOURS=916;
+    public  static  final  int DISPLAY_SCRATCHCARD=917;
+    public  static  final  int ADD_DAILY_OFFER=918;
+    public  static  final  int  DISPLAY_DAILY_OFFER=919;
+    public  static  final  int EDIT_DAILY_OFFER=920;
 
     /*Captain*/
     public static final String UNIQUE_KEY = "!#3%75^@123";
@@ -114,7 +121,10 @@ public class ConstantVariables {
     public static final int CAP_DELETE_ORDER = 815;
     public static final int CAP_COMPLETE_ORDER = 816;
 
-    public  static  final  int PARENT_CATEGORY_WITH_SUBMENU=816;
+    public  static  final  int PARENT_CATEGORY_WITH_SUBMENU=817;
+    public  static  final  int APPLY_RUSH_HOUR=818;
+    public  static  final  int APPLY_SCRATCHCARD=819;
+    public  static  final  int APPLY_DAILYOFFER=820;
 
 
     /*Super Admin*/

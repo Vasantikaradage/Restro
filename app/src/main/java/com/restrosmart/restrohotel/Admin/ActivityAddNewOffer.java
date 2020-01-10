@@ -77,10 +77,10 @@ public class ActivityAddNewOffer extends AppCompatActivity {
     private Sessionmanager sessionmanager;
     private String mOfferPrice, hotelId, branchId, mFromTime, mToTime, mFromDate, mToDate, mOffername, mOfferFromDate, mOfferToDate, mOfferValue, mOfferBy;
     private Spinner spParentCategory, spSubCategory, spMenu;
-    private int mOfferStatus, mOfferId, parentCategorySelectedId, subCategorySelectedId, menuSelectedId, mSwitchSatus;
+    private int mOfferStatus, mOfferId, parentCategorySelectedId, subCategorySelectedId, mSwitchSatus;
     private Switch swStatus;
     private Button btnOfferSave, btnOfferUpdate;
-    private String timeSet = "";
+    private String timeSet = "",menuSelectedId;
     private Toolbar mTopToolbar;
     private TextView txTitle;
 
@@ -489,7 +489,7 @@ public class ActivityAddNewOffer extends AppCompatActivity {
                                     JSONObject object1 = jsonArray.getJSONObject(i);
 
                                     MenuDisplayForm menuDisplayForm = new MenuDisplayForm();
-                                    menuDisplayForm.setMenu_Id(object1.getInt("Menu_Id"));
+                                    menuDisplayForm.setMenu_Id(object1.getString("Menu_Id"));
                                     menuDisplayForm.setMenu_Name(object1.getString("Menu_Name"));
                                     mMenuArraylist.add(menuDisplayForm);
                                 }

@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -73,6 +74,7 @@ public class FragmentTabParentCategory extends Fragment {
     private SpinKitView skLoading;
 
     private ApiService apiService;
+    private LinearLayout  llNodata;
 
     @Nullable
     @Override
@@ -90,139 +92,146 @@ public class FragmentTabParentCategory extends Fragment {
         mHotelId = Integer.parseInt(name_info.get(HOTEL_ID));
 
 
-        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, VERTICAL);
-        recyclerView.setLayoutManager(staggeredGridLayoutManager);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.getLayoutManager().setMeasurementCacheEnabled(false);
+        if (categoryForms.size() > 0 && categoryForms != null) {
+            llNodata.setVisibility(View.GONE);
+            StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, VERTICAL);
+            recyclerView.setLayoutManager(staggeredGridLayoutManager);
+            recyclerView.setHasFixedSize(true);
+            recyclerView.getLayoutManager().setMeasurementCacheEnabled(false);
 
-        adapterDisplayAllMenu = new AdapterDisplayAllCategory(getActivity(), categoryForms, new DeleteListener() {
-            @Override
-            public void getDeleteListenerPosition(int position) {
-                skLoading.setVisibility(View.VISIBLE);
-                initRetrofitCallback();
-                ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
-                mRetrofitService = new RetrofitService(mResultCallBack, getActivity());
-                mRetrofitService.retrofitData(DELETE_CATEGORY, service.deleteCategory(categoryForms.get(position).getCategory_id(),
-                        mHotelId,
-                        categoryForms.get(position).getPc_Id()));
+            adapterDisplayAllMenu = new AdapterDisplayAllCategory(getActivity(), categoryForms, new DeleteListener() {
+                @Override
+                public void getDeleteListenerPosition(int position) {
+                    skLoading.setVisibility(View.VISIBLE);
+                    initRetrofitCallback();
+                    ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
+                    mRetrofitService = new RetrofitService(mResultCallBack, getActivity());
+                    mRetrofitService.retrofitData(DELETE_CATEGORY, service.deleteCategory(categoryForms.get(position).getCategory_id(),
+                            mHotelId,
+                            categoryForms.get(position).getPc_Id()));
 
-            }
-        }, new EditListener() {
-            @Override
-            public void getEditListenerPosition(final int position) {
+                }
+            }, new EditListener() {
+                @Override
+                public void getEditListenerPosition(final int position) {
 
-                LayoutInflater li = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    LayoutInflater li = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-                dialoglayout = li.inflate(R.layout.activity_add_category, null);
-                // final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                dialog = new BottomSheetDialog(getActivity());
-                dialog.setContentView(dialoglayout);
-                final FrameLayout btnCamara = (FrameLayout) dialoglayout.findViewById(R.id.iv_select_image);
+                    dialoglayout = li.inflate(R.layout.activity_add_category, null);
+                    // final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    dialog = new BottomSheetDialog(getActivity());
+                    dialog.setContentView(dialoglayout);
+                    final FrameLayout btnCamara = (FrameLayout) dialoglayout.findViewById(R.id.iv_select_image);
 
-                etxCategoryNme = dialoglayout.findViewById(R.id.etx_category_name);
-                final Button btnCancel = dialoglayout.findViewById(R.id.btnCancel);
-                Button btnSave = dialoglayout.findViewById(R.id.btnSave);
-                Button btnUpdate = dialoglayout.findViewById(R.id.btnUpdate);
+                    etxCategoryNme = dialoglayout.findViewById(R.id.etx_category_name);
+                    final Button btnCancel = dialoglayout.findViewById(R.id.btnCancel);
+                    Button btnSave = dialoglayout.findViewById(R.id.btnSave);
+                    Button btnUpdate = dialoglayout.findViewById(R.id.btnUpdate);
 
-                btnSave.setVisibility(View.GONE);
-                btnUpdate.setVisibility(View.VISIBLE);
+                    btnSave.setVisibility(View.GONE);
+                    btnUpdate.setVisibility(View.VISIBLE);
 
-                TextView txTitle = dialoglayout.findViewById(R.id.tx_edit_cat);
-                txTitle.setVisibility(View.VISIBLE);
-                dialog.show();
-                mImageView = (CircleImageView) dialoglayout.findViewById(R.id.img_category);
-                etxCategoryNme.setText(categoryForms.get(position).getCategory_Name());
+                    TextView txTitle = dialoglayout.findViewById(R.id.tx_edit_cat);
+                    txTitle.setVisibility(View.VISIBLE);
+                    dialog.show();
+                    mImageView = (CircleImageView) dialoglayout.findViewById(R.id.img_category);
+                    etxCategoryNme.setText(categoryForms.get(position).getCategory_Name());
 
-                Picasso.with(dialoglayout.getContext())
-                        .load(categoryForms.get(position).getC_Image_Name())
-                        .resize(500, 500)
-                        .into(mImageView);
+                    Picasso.with(dialoglayout.getContext())
+                            .load(categoryForms.get(position).getC_Image_Name())
+                            .resize(500, 500)
+                            .into(mImageView);
 
-                btnCamara.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(getActivity(), ActivityCategoryGallery.class);
-                        intent.putExtra("Pc_Id", categoryForms.get(position).getPc_Id());
-                        startActivityForResult(intent, IMAGE_RESULT_OK);
-                    }
-                });
+                    btnCamara.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(getActivity(), ActivityCategoryGallery.class);
+                            intent.putExtra("Pc_Id", categoryForms.get(position).getPc_Id());
+                            startActivityForResult(intent, IMAGE_RESULT_OK);
+                        }
+                    });
 
-                btnUpdate.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        image = (categoryForms.get(position).getC_Image_Name()).substring((categoryForms.get(position).getC_Image_Name()).lastIndexOf("/") + 1);
+                    btnUpdate.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            image = (categoryForms.get(position).getC_Image_Name()).substring((categoryForms.get(position).getC_Image_Name()).lastIndexOf("/") + 1);
 
-                        Picasso.with(dialoglayout.getContext())
-                                .load(categoryForms.get(position).getC_Image_Name())
-                                .resize(500, 500)
-                                .into(mImageView);
-
-                        btnCamara.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent intent = new Intent(getActivity(), ActivityCategoryGallery.class);
-                                intent.putExtra("Pc_Id", categoryForms.get(position).getPc_Id());
-                                startActivityForResult(intent, IMAGE_RESULT_OK);
-                            }
-                        });
-
-
-                        if (imageName == null) {
-                            mFinalImageName = "null";
-                            Picasso.with(getActivity())
+                            Picasso.with(dialoglayout.getContext())
                                     .load(categoryForms.get(position).getC_Image_Name())
                                     .resize(500, 500)
                                     .into(mImageView);
 
-                            if((image.equals("def_veg.png")) || (image.equals("def_non_veg.png")) || (image .equals("def_liq.png")) || (image.equals("def_dessert.png)"))){
-                                mFinalImageName = "null";}
-                            else
-                            {
-                                mFinalImageName = image.substring(image.lastIndexOf("/") + 1);
+                            btnCamara.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent intent = new Intent(getActivity(), ActivityCategoryGallery.class);
+                                    intent.putExtra("Pc_Id", categoryForms.get(position).getPc_Id());
+                                    startActivityForResult(intent, IMAGE_RESULT_OK);
+                                }
+                            });
+
+
+                            if (imageName == null) {
+                                mFinalImageName = "null";
+                                Picasso.with(getActivity())
+                                        .load(categoryForms.get(position).getC_Image_Name())
+                                        .resize(500, 500)
+                                        .into(mImageView);
+
+                                if ((image.equals("def_veg.png")) || (image.equals("def_non_veg.png")) || (image.equals("def_liq.png")) || (image.equals("def_dessert.png)"))) {
+                                    mFinalImageName = "null";
+                                } else {
+                                    mFinalImageName = image.substring(image.lastIndexOf("/") + 1);
+                                }
+                            } else {
+                                mFinalImageName = imageName.substring(imageName.lastIndexOf("/") + 1);
+                                Picasso.with(getActivity())
+                                        .load(imageName)
+                                        .resize(500, 500)
+                                        .into(mImageView);
+
                             }
-                        } else {
-                            mFinalImageName = imageName.substring(imageName.lastIndexOf("/") + 1);
-                            Picasso.with(getActivity())
-                                    .load( imageName)
-                                    .resize(500, 500)
-                                    .into(mImageView);
+                            getRetrofitDataUpdate();
+                            skLoading.setVisibility(View.VISIBLE);
+                        }
+
+                        //category edit web service call
+                        private void getRetrofitDataUpdate() {
+                            initRetrofitCallback();
+                            ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
+                            mRetrofitService = new RetrofitService(mResultCallBack, getActivity());
+                            mRetrofitService.retrofitData(EDIT_CATEGORY, service.editCategory(
+                                    categoryForms.get(position).getCategory_Name(),
+                                    etxCategoryNme.getText().toString(),
+                                    mFinalImageName,
+                                    categoryForms.get(position).getCategory_id(),
+                                    mHotelId,
+                                    categoryForms.get(position).getPc_Id()));
+                        }
+                    });
+
+                    btnCancel.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            dialog.dismiss();
 
                         }
-                        getRetrofitDataUpdate();
-                        skLoading.setVisibility(View.VISIBLE);
-                    }
-
-                    //category edit web service call
-                    private void getRetrofitDataUpdate() {
-                        initRetrofitCallback();
-                        ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
-                        mRetrofitService = new RetrofitService(mResultCallBack, getActivity());
-                        mRetrofitService.retrofitData(EDIT_CATEGORY, service.editCategory(
-                                categoryForms.get(position).getCategory_Name(),
-                                etxCategoryNme.getText().toString(),
-                                mFinalImageName,
-                                categoryForms.get(position).getCategory_id(),
-                                mHotelId,
-                                categoryForms.get(position).getPc_Id()));
-                    }
-                });
-
-                btnCancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialog.dismiss();
-
-                    }
 
 
-                });
-                dialog.show();
+                    });
+                    dialog.show();
 
-            }
-        });
-        recyclerView.setLayoutManager(staggeredGridLayoutManager);
-        recyclerView.setAdapter(adapterDisplayAllMenu);
-        adapterDisplayAllMenu.notifyDataSetChanged();
+                }
+            });
+            recyclerView.setLayoutManager(staggeredGridLayoutManager);
+            recyclerView.setAdapter(adapterDisplayAllMenu);
+            adapterDisplayAllMenu.notifyDataSetChanged();
+
+        }
+        else
+        {
+            llNodata.setVisibility(View.VISIBLE);
+        }
         return view;
     }
 
@@ -293,6 +302,7 @@ public class FragmentTabParentCategory extends Fragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_menu_item);
         mSessionmanager = new Sessionmanager(getActivity());
         skLoading=view.findViewById(R.id.skLoading);
+        llNodata=view.findViewById(R.id.llNoCategoryData);
     }
 
     public static Fragment newInstance(ArrayList<CategoryForm> menu, int position) {

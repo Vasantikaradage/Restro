@@ -21,11 +21,11 @@
     <TextView
         android:id="@+id/tv_menu_name"
         android:layout_width="0dp"
-        android:layout_weight="0.5"
+        android:layout_weight="1"
         android:layout_height="wrap_content"
         android:text="NA"
         android:fontFamily="sans-serif-light"
-        android:gravity="center"
+
         android:textSize="16sp"/>
 
 
@@ -39,7 +39,7 @@
         android:layout_gravity="center"
         android:textSize="16sp"/>
 
-    <EditText
+   <!-- <EditText
         android:id="@+id/et_offer_price"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -52,7 +52,7 @@
         android:background="@drawable/edt_bg_offer"
         android:inputType="textMultiLine"
         android:textSize="16sp"/>
-
+-->
     </LinearLayout>
 
   <!--  <android.support.v7.widget.RecyclerView

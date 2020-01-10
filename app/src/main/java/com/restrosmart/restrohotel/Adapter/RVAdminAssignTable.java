@@ -36,7 +36,7 @@ public class RVAdminAssignTable extends RecyclerView.Adapter<RVAdminAssignTable.
 
     @Override
     public void onBindViewHolder(@NonNull final MyHolder myHolder, final int i) {
-        String id = String.valueOf(tableFormIdArrayList.get(i).getTableId());
+        String id = String.valueOf(tableFormIdArrayList.get(i).getTableNo());
         myHolder.tvTableNo.setText(id);
 
         myHolder.imageView.setOnClickListener(new View.OnClickListener() {

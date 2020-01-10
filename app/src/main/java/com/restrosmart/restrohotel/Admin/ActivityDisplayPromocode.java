@@ -1,30 +1,35 @@
 package com.restrosmart.restrohotel.Admin;
 
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
+
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
+
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.github.ybq.android.spinkit.SpinKitView;
 import com.google.gson.JsonObject;
 import com.restrosmart.restrohotel.Adapter.AdapterRVPromocode;
 
@@ -37,49 +42,59 @@ import com.restrosmart.restrohotel.Model.PromoCodeForm;
 import com.restrosmart.restrohotel.R;
 import com.restrosmart.restrohotel.RetrofitClientInstance;
 import com.restrosmart.restrohotel.RetrofitService;
+import com.restrosmart.restrohotel.Utils.Sessionmanager;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
-import java.util.TimeZone;
 
 import retrofit2.Response;
 
-import static android.support.v7.widget.StaggeredGridLayoutManager.VERTICAL;
 import static com.restrosmart.restrohotel.ConstantVariables.ADD_PROMOCODE;
 import static com.restrosmart.restrohotel.ConstantVariables.DELETE_PROMOCODE;
+import static com.restrosmart.restrohotel.ConstantVariables.DISPLAY_PROMOCODE;
 import static com.restrosmart.restrohotel.ConstantVariables.EDIT_PROMOCODE;
-import static com.restrosmart.restrohotel.ConstantVariables.SAVE_CATEGORY;
+import static com.restrosmart.restrohotel.Utils.Sessionmanager.HOTEL_ID;
 
 public class ActivityDisplayPromocode extends AppCompatActivity {
 
     private RecyclerView rvPromocode;
-    private TextView tvToolBarTitle, tvDetails;
+    private TextView tvToolBarTitle;
     private Toolbar mToolbar;
     private ArrayList<PromoCodeForm> arrayListPromoCode;
-    private EditText etAmount, etOffer;
-    private TextView tvDate;
+
+
     private Button btnSave, btnUpdate, btnCancel;
-    private ImageView ivBtnEdit, ivBtnancel;
-    private String date[] = {"17-19 Jun", "18-25 Jun", "19-21 Jun", "20-28 Jun"};
-    private String offer[] = {"FLAT", "FLAT", "FLAT", "FLAT"};
-    private String offerValue[] = {"10", "20", "30", "40"};
-    private int itemPosition, editedItemPosition;
+    private int editedItemPosition = 0, offerId = 0;
     private FrameLayout flAddPromoCode;
 
     private View dialoglayout;
     private BottomSheetDialog dialog;
     private EditText etPrice, etDescription, etPromoCode, etFromDate, etToDate;
-    private TextView tvTitleAdd, tvTitleUpdate;
-    final Calendar myCalendar = Calendar.getInstance();
+    private TextView tvTitleAdd;
+
     private RetrofitService mRetrofitService;
     private IResult mResultCallBack;
     private AlertDialog alertDialog;
+    private Sessionmanager mSessionManager;
+    private int hotelId, hour, min, sec;
+    private Calendar mcurrentDate;
+    //private String fromDate, toDate, amOrpm;
+    private int offerTypeId;
+    String fromDateOut, toDateOut;
+    private SpinKitView spinKitView;
+    private LinearLayout llNodata;
+    private String seletedStartDate, seletedEndDate, getStartDate;
 
 
     @Override
@@ -90,191 +105,142 @@ public class ActivityDisplayPromocode extends AppCompatActivity {
         init();
         setUpToolbar();
 
+        Intent intent = getIntent();
+        offerTypeId = (intent.getIntExtra("offerTypeId", 0));
+
+
+        HashMap<String, String> stringHashMap = mSessionManager.getHotelDetails();
+        hotelId = Integer.parseInt(stringHashMap.get(HOTEL_ID));
+
+        getPromoCodeInfo();
         flAddPromoCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                offerId = 0;
                 AddEditOffer();
-
             }
         });
-      /*  tvDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-                new SlyCalendarDialog()
-                        .setSingle(false)
-                        .setFirstMonday(false)
-                        .setCallback(ActivityDisplayPromocode.this)
-                        .show(getSupportFragmentManager(), "TAG_SLYCALENDAR");
-                Calendar startSelectionDate = Calendar.getInstance();
-                startSelectionDate.add(Calendar.MONTH, -1);
-                Calendar endSelectionDate = (Calendar) startSelectionDate.clone();
-                endSelectionDate.add(Calendar.DATE, 40);
-            }
-        });*/
-
-
-        for (int i = 0; i < date.length; i++) {
-            PromoCodeForm promoCodeForm = new PromoCodeForm();
-            promoCodeForm.setDate(date[i]);
-            promoCodeForm.setOffer(offer[i]);
-            promoCodeForm.setOfferValue(offerValue[i]);
-            arrayListPromoCode.add(promoCodeForm);
-        }
-
-        // LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(3, VERTICAL);
-        rvPromocode.setHasFixedSize(true);
-        rvPromocode.setLayoutManager(staggeredGridLayoutManager);
-        AdapterRVPromocode adapterRVPromocode = new AdapterRVPromocode(this, arrayListPromoCode, new EditListener() {
-            @Override
-            public void getEditListenerPosition(int position) {
-                editedItemPosition = position;
-                AddEditOffer();
-
-            }
-        }, new DeleteListener() {
-            @Override
-            public void getDeleteListenerPosition(int position) {
-                initRetrofitCall();
-                ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
-                mRetrofitService = new RetrofitService(mResultCallBack, dialoglayout.getContext());
-                mRetrofitService.retrofitData(DELETE_PROMOCODE, service.deletePromoCode(etPrice.getText().toString(),
-                        etPromoCode.getText().toString()));
-
-            }
-        }, new PositionListener() {
-            @Override
-            public void positionListern(int position) {
-                LayoutInflater li = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                View dialoglayout = li.inflate(R.layout.dialog_promocode_view, null);
-                final AlertDialog.Builder builder = new AlertDialog.Builder(ActivityDisplayPromocode.this);
-                builder.setView(dialoglayout);
-                alertDialog = builder.create();
-
-                TextView price = dialoglayout.findViewById(R.id.tv_price);
-
-                TextView date = dialoglayout.findViewById(R.id.tv_date);
-                TextView promoCodeName = dialoglayout.findViewById(R.id.tv_promocode_name);
-                TextView promoCodeDesription = dialoglayout.findViewById(R.id.tv_promo_description);
-                //  ImageView btnClose=dialoglayout.findViewById(R.id.ivCloseDialog);
-
-
-                String strPrice = arrayListPromoCode.get(position).getOfferValue();
-
-                price.setText(strPrice);
-                date.setText(arrayListPromoCode.get(position).getDate());
-                promoCodeName.setText(arrayListPromoCode.get(position).getOffer());
-                promoCodeDesription.setText("Customer need to apply FLAT  code to avail 30% off. offer is valid till JUN 15 2019");
-
-
-                alertDialog.show();
-
-
-            }
-        }); /*new PositionListener() {
-            @Override
-            public void positionListern(int position) {
-               *//* itemPosition = position;
-                etAmount.setFocusable(false);
-                etOffer.setFocusable(false);
-                etAmount.setText(arrayListPromoCode.get(position).getOfferValue());
-                etOffer.setText(arrayListPromoCode.get(position).getOffer());
-                tvDate.setText(arrayListPromoCode.get(position).getDate());
-
-                ivBtnEdit.setVisibility(View.VISIBLE);
-                tvDetails.setVisibility(View.VISIBLE);
-
-                btnUpdate.setVisibility(View.GONE);
-                ivBtnancel.setVisibility(View.GONE);
-                btnSave.setVisibility(View.GONE);
-*//*
-            }
-        }, new ButtonListerner() {
-            @Override
-            public void getEditListenerPosition(int position) {
-              *//*  etAmount.setText("");
-                etAmount.setFocusableInTouchMode(true);
-                etAmount.setFocusable(true);
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.showSoftInput(etAmount, InputMethodManager.SHOW_IMPLICIT);
-
-                etOffer.setText("");
-                etOffer.setFocusableInTouchMode(true);
-                etOffer.setFocusable(true);
-                InputMethodManager imm1 = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm1.showSoftInput(etOffer, InputMethodManager.SHOW_IMPLICIT);
-                tvDate.setText("select Date");
-                btnSave.setVisibility(View.VISIBLE);
-                btnUpdate.setVisibility(View.GONE);
-
-                ivBtnancel.setVisibility(View.VISIBLE);
-                ivBtnEdit.setVisibility(View.GONE);
-                tvDetails.setVisibility(View.GONE);*//*
-         */
-        //}
-        // });
-        rvPromocode.setAdapter(adapterRVPromocode);
-
-       /* rvPromocode.scrollToPosition(arrayListPromoCode.size() - 1);
-        rvPromocode.setAdapter(adapterRVPromocode);
-        for (int i = 0; i < arrayListPromoCode.size(); i++) {
-          //  etAmount.setFocusable(false);
-           // etOffer.setFocusable(false);
-
-            etAmount.setText(arrayListPromoCode.get(i).getOfferValue());
-            etOffer.setText(arrayListPromoCode.get(i).getOffer());
-            tvDate.setText(arrayListPromoCode.get(i).getDate());
-            btnSave.setVisibility(View.GONE);
-            tvDetails.setVisibility(View.VISIBLE);
-
-        }*/
-
-      /*  ivBtnEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                for (int i = 0; i < arrayListPromoCode.size(); i++) {
-
-                    etAmount.setFocusableInTouchMode(true);
-                    etAmount.setFocusable(true);
-
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.showSoftInput(etAmount, InputMethodManager.SHOW_IMPLICIT);
-
-                    etAmount.setText(arrayListPromoCode.get(i).getOfferValue());
-                    etOffer.setText(arrayListPromoCode.get(i).getOffer());
-                    tvDate.setText(arrayListPromoCode.get(i).getDate());
-                    btnSave.setVisibility(View.GONE);
-                    ivBtnEdit.setVisibility(View.GONE);
-                    tvDetails.setVisibility(View.GONE);
-
-                    btnUpdate.setVisibility(View.VISIBLE);
-                    ivBtnancel.setVisibility(View.VISIBLE);
-
-                    ivBtnancel.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            etAmount.setFocusable(false);
-                            etOffer.setFocusable(false);
-                            etAmount.setText(arrayListPromoCode.get(itemPosition).getOfferValue());
-                            etOffer.setText(arrayListPromoCode.get(itemPosition).getOffer());
-                            tvDate.setText(arrayListPromoCode.get(itemPosition).getDate());
-
-
-                            btnUpdate.setVisibility(View.GONE);
-                            ivBtnancel.setVisibility(View.GONE);
-
-                            ivBtnEdit.setVisibility(View.VISIBLE);
-                            tvDetails.setVisibility(View.VISIBLE);
-
-                        }
-                    });
-                }
-            }
-        });
-*/
     }
 
+    private void getPromoCodeInfo() {
+        initRetrofitCallback();
+        ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
+        mRetrofitService = new RetrofitService(mResultCallBack, getBaseContext());
+        mRetrofitService.retrofitData(DISPLAY_PROMOCODE, (service.displayPromoCode(offerTypeId, hotelId)));
+
+    }
+
+    private void initRetrofitCallback() {
+        mResultCallBack = new IResult() {
+            @Override
+            public void notifySuccess(int requestId, Response<JsonObject> response) {
+                JsonObject jsonObject = response.body();
+                String objectInfo = jsonObject.toString();
+
+                switch (requestId) {
+                    case DISPLAY_PROMOCODE:
+                        try {
+                            JSONObject object = new JSONObject(objectInfo);
+                            int status = object.getInt("status");
+                            if (status == 1) {
+                                llNodata.setVisibility(View.GONE);
+                                spinKitView.setVisibility(View.GONE);
+                                JSONArray jsonArray = object.getJSONArray("promodata");
+                                arrayListPromoCode.clear();
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject promoCodeObject = jsonArray.getJSONObject(i);
+                                    PromoCodeForm promoCodeForm = new PromoCodeForm();
+                                    promoCodeForm.setOfferId(promoCodeObject.getInt("Offer_Id"));
+                                    promoCodeForm.setOfferValue(promoCodeObject.getString("Coupon_Code"));
+                                    promoCodeForm.setFromDate(promoCodeObject.getString("FromDate"));
+                                    promoCodeForm.setToDate(promoCodeObject.getString("ToDate"));
+                                    promoCodeForm.setOfferDescription(promoCodeObject.getString("Offer_Desp"));
+                                    promoCodeForm.setOfferPrice(promoCodeObject.getString("Offer_Price"));
+                                    promoCodeForm.setOfferFromTime(promoCodeObject.getString("FromTime"));
+                                    promoCodeForm.setOfferToTime(promoCodeObject.getString("ToTime"));
+                                    promoCodeForm.setOfferStatus(promoCodeObject.getInt("Status"));
+                                    arrayListPromoCode.add(promoCodeForm);
+                                }
+
+                                if (arrayListPromoCode != null && arrayListPromoCode.size() > 0) {
+                                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ActivityDisplayPromocode.this, LinearLayoutManager.VERTICAL, false);
+                                    //StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(VERTICAL);
+                                    rvPromocode.setHasFixedSize(true);
+                                    rvPromocode.setLayoutManager(linearLayoutManager);
+                                    AdapterRVPromocode adapterRVPromocode = new AdapterRVPromocode(ActivityDisplayPromocode.this, arrayListPromoCode, new EditListener() {
+                                        @Override
+                                        public void getEditListenerPosition(int position) {
+                                            editedItemPosition = position;
+                                            offerId = arrayListPromoCode.get(position).getOfferId();
+                                            AddEditOffer();
+                                        }
+                                    }, new DeleteListener() {
+                                        @Override
+                                        public void getDeleteListenerPosition(int position) {
+                                            initRetrofitCall();
+                                            ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
+                                            mRetrofitService = new RetrofitService(mResultCallBack, ActivityDisplayPromocode.this);
+                                            mRetrofitService.retrofitData(DELETE_PROMOCODE, service.deleteOffer(hotelId, arrayListPromoCode.get(position).getOfferId()));
+                                        }
+                                    }, new PositionListener() {
+                                        @Override
+                                        public void positionListern(int position) {
+                                            LayoutInflater li = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                                            View dialoglayout = li.inflate(R.layout.dialog_promocode_view, null);
+                                            final AlertDialog.Builder builder = new AlertDialog.Builder(ActivityDisplayPromocode.this);
+                                            builder.setView(dialoglayout);
+                                            alertDialog = builder.create();
+
+                                            TextView promoCode = dialoglayout.findViewById(R.id.tv_promocode);
+                                            TextView date = dialoglayout.findViewById(R.id.tv_Promodate);
+                                            ImageButton btnCancel = dialoglayout.findViewById(R.id.btn_cancel);
+
+                                            TextView promoCodeDesription = dialoglayout.findViewById(R.id.tv_description);
+                                            String strPrice = arrayListPromoCode.get(position).getOfferPrice();
+                                            promoCode.setText(arrayListPromoCode.get(position).getOfferValue() + " " + strPrice);
+                                            date.setText(arrayListPromoCode.get(position).getFromDate() + " - " + arrayListPromoCode.get(position).getToDate());
+
+                                            promoCodeDesription.setText(arrayListPromoCode.get(position).getOfferDescription());
+
+                                            btnCancel.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+                                                    alertDialog.dismiss();
+                                                }
+                                            });
+                                            alertDialog.show();
+
+
+                                        }
+                                    });
+                                    rvPromocode.setAdapter(adapterRVPromocode);
+
+                                }
+                            } else {
+                                llNodata.setVisibility(View.VISIBLE);
+                                spinKitView.setVisibility(View.GONE);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                }
+
+            }
+
+            @Override
+            public void notifyError(int requestId, Throwable error) {
+                Log.d("", "requestId" + requestId);
+                Log.d("", "RetrofitError" + error);
+                spinKitView.setVisibility(View.GONE);
+
+
+            }
+        };
+    }
+
+    @SuppressLint("SetTextI18n")
     private void AddEditOffer() {
 
         LayoutInflater li = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -291,28 +257,46 @@ public class ActivityDisplayPromocode extends AppCompatActivity {
         etFromDate = dialoglayout.findViewById(R.id.et_from_date);
         etToDate = dialoglayout.findViewById(R.id.et_to_date);
 
-
         btnSave = dialoglayout.findViewById(R.id.btnSave);
         btnCancel = dialoglayout.findViewById(R.id.btnCancel);
         btnUpdate = dialoglayout.findViewById(R.id.btnUpdate);
 
+        tvTitleAdd.setText(R.string.add_promo_code);
+
+
         etFromDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Calendar mcurrentDate = Calendar.getInstance();
+                mcurrentDate = Calendar.getInstance();
                 int mYear = mcurrentDate.get(Calendar.YEAR);
                 int mMonth = mcurrentDate.get(Calendar.MONTH);
                 int mDay = mcurrentDate.get(Calendar.DAY_OF_MONTH);
 
                 DatePickerDialog mDatePicker = new DatePickerDialog(dialoglayout.getContext(), new DatePickerDialog.OnDateSetListener() {
                     public void onDateSet(DatePicker datepicker, int selectedyear, int selectedmonth, int selectedday) {
-                        String year = String.valueOf(selectedyear);
-                        String mon = String.valueOf(selectedmonth);
-                        String day = String.valueOf(selectedday);
-                        etFromDate.setText(day + "/" + mon + "/" + year);
+                        Calendar myCalendar = Calendar.getInstance();
+                        myCalendar.set(Calendar.YEAR, selectedyear);
+                        myCalendar.set(Calendar.MONTH, selectedmonth);
+                        myCalendar.set(Calendar.DAY_OF_MONTH, selectedday);
+                        String myFormat = "yyyy-MM-dd hh:mm:ss a";
+
+                        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.ENGLISH);
+                        getStartDate = sdf.format(myCalendar.getTime());
+                        etFromDate.setText(getStartDate);
                     }
                 }, mYear, mMonth, mDay);
                 mDatePicker.setTitle("Select date");
+
+                Date c = Calendar.getInstance().getTime();
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+                String formattedDate = df.format(c);
+                try {
+                    Date d = df.parse(formattedDate);
+                    mDatePicker.getDatePicker().setMinDate(d.getTime());
+
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 mDatePicker.show();
             }
         });
@@ -321,85 +305,181 @@ public class ActivityDisplayPromocode extends AppCompatActivity {
         etToDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Calendar mcurrentDate = Calendar.getInstance();
+                mcurrentDate = Calendar.getInstance();
                 int mYear = mcurrentDate.get(Calendar.YEAR);
                 int mMonth = mcurrentDate.get(Calendar.MONTH);
                 int mDay = mcurrentDate.get(Calendar.DAY_OF_MONTH);
+                seletedStartDate = getStartDate;
 
-                DatePickerDialog mDatePicker = new DatePickerDialog(dialoglayout.getContext(), new DatePickerDialog.OnDateSetListener() {
-                    public void onDateSet(DatePicker datepicker, int selectedyear, int selectedmonth, int selectedday) {
-                        String year = String.valueOf(selectedyear);
-                        String mon = String.valueOf(selectedmonth);
-                        String day = String.valueOf(selectedday);
-                        etToDate.setText(day + "/" + mon + "/" + year);
+
+                if (seletedStartDate != null) {
+                    DatePickerDialog mDatePicker1 = new DatePickerDialog(ActivityDisplayPromocode.this, new DatePickerDialog.OnDateSetListener() {
+                        public void onDateSet(DatePicker datepicker, int selectedyear, int selectedmonth, int selectedday) {
+                            Calendar myCalendar = Calendar.getInstance();
+                            myCalendar.set(Calendar.YEAR, selectedyear);
+                            myCalendar.set(Calendar.MONTH, selectedmonth);
+                            myCalendar.set(Calendar.DAY_OF_MONTH, selectedday);
+                            String myFormat = "yyyy-MM-dd hh:mm:ss a"; //Change as you need
+                            SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.ENGLISH);
+
+                            Date startDate = null, endDate = null;
+                            try {
+                                String getEndDate = sdf.format(myCalendar.getTime());
+                                endDate = sdf.parse(getEndDate);
+                                startDate = sdf.parse(seletedStartDate);
+                                if (startDate.after(endDate)) {
+                                    Toast.makeText(ActivityDisplayPromocode.this, R.string.select_end_greater_start_date, Toast.LENGTH_SHORT).show();
+                                } else {
+                                    etToDate.setText(sdf.format(myCalendar.getTime()));
+                                    seletedEndDate = sdf.format(myCalendar.getTime());
+                                }
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }, mYear, mMonth, mDay);
+
+                    Date date = Calendar.getInstance().getTime();
+                    SimpleDateFormat sdformat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+                    String formattedDate1 = sdformat.format(date);
+                    try {
+                        Date d = sdformat.parse(formattedDate1);
+                        mDatePicker1.getDatePicker().setMinDate(d.getTime());
+
+                    } catch (ParseException e) {
+                        e.printStackTrace();
                     }
-                }, mYear, mMonth, mDay);
-                mDatePicker.setTitle("Select date");
-                mDatePicker.show();
 
+                    mDatePicker1.show();
+                } else {
+                    Toast.makeText(ActivityDisplayPromocode.this, R.string.select_first_start_date, Toast.LENGTH_SHORT).show();
+                }
+                // mDatePicker.show();
             }
         });
 
 
-        if (editedItemPosition != 0) {
-            tvTitleAdd.setText("Edit Promocode");
+        if (offerId != 0) {
+            tvTitleAdd.setText((R.string.edit_promo_code));
             btnSave.setVisibility(View.GONE);
             btnUpdate.setVisibility(View.VISIBLE);
-            etPrice.setText(arrayListPromoCode.get(editedItemPosition).getOffer());
+            etPrice.setText(arrayListPromoCode.get(editedItemPosition).getOfferPrice());
             etPromoCode.setText(arrayListPromoCode.get(editedItemPosition).getOfferValue());
-            etFromDate.setText("");
-            etToDate.setText("");
+            etDescription.setText(arrayListPromoCode.get(editedItemPosition).getOfferDescription());
+            etPromoCode.setFocusable(false);
+
+
+            DateFormat inputFormat = new SimpleDateFormat("dd-MM-yyyy");
+            DateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String mFromDate = arrayListPromoCode.get(editedItemPosition).getFromDate();
+            String mToDate = arrayListPromoCode.get(editedItemPosition).getToDate();
+            Date dateFrom = null;
+            Date dateTo = null;
+            try {
+                dateFrom = inputFormat.parse(mFromDate);
+                dateTo = inputFormat.parse(mToDate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            fromDateOut = outputFormat.format(dateFrom) + " " + arrayListPromoCode.get(editedItemPosition).getOfferFromTime();
+            toDateOut = outputFormat.format(dateTo) + " " + arrayListPromoCode.get(editedItemPosition).getOfferToTime();
+
+            etFromDate.setText(fromDateOut);
+            etToDate.setText(toDateOut);
+
 
             btnUpdate.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    initRetrofitCall();
-                    ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
-                    mRetrofitService = new RetrofitService(mResultCallBack, dialoglayout.getContext());
-                    mRetrofitService.retrofitData(EDIT_PROMOCODE, service.editPromoCode("", etPrice.getText().toString(),
-                            etPromoCode.getText().toString(),
-                            etDescription.getText().toString(),
-                            etFromDate.getText().toString(),
-                            etToDate.getText().toString()));
+
+                    if (validData()) {
+                        spinKitView.setVisibility(View.VISIBLE);
+                        initRetrofitCall();
+                        ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
+                        mRetrofitService = new RetrofitService(mResultCallBack, dialoglayout.getContext());
+                        mRetrofitService.retrofitData(EDIT_PROMOCODE, service.editPromoCode(offerId,
+                                etFromDate.getText().toString(),
+                                etToDate.getText().toString(),
+                                etPrice.getText().toString(),
+                                hotelId));
+                        editedItemPosition = 0;
+                        offerId = 0;
+                    }
 
 
                 }
             });
-
+            dialog.dismiss();
+            //offerId=0;
 
         } else {
+            offerId = 0;
+            editedItemPosition = 0;
             btnSave.setVisibility(View.VISIBLE);
             btnUpdate.setVisibility(View.GONE);
             tvTitleAdd.setText("Add Promocode");
 
+            etPrice.setText("");
+            etDescription.setText("");
+            etPromoCode.setText("");
+            etFromDate.setText("");
+            etToDate.setText("");
+
             btnSave.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    initRetrofitCall();
-                    ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
-                    mRetrofitService = new RetrofitService(mResultCallBack, dialoglayout.getContext());
-                    mRetrofitService.retrofitData(ADD_PROMOCODE, service.addPromoCode(etPrice.getText().toString(),
-                            etPromoCode.getText().toString(),
-                            etDescription.getText().toString(),
-                            etFromDate.getText().toString(),
-                            etToDate.getText().toString()));
 
+                    if (validData()) {
 
+                        spinKitView.setVisibility(View.VISIBLE);
+                        initRetrofitCall();
+                        ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
+                        mRetrofitService = new RetrofitService(mResultCallBack, dialoglayout.getContext());
+                        mRetrofitService.retrofitData(ADD_PROMOCODE, service.addPromoCode(offerTypeId, etPrice.getText().toString(),
+                                etPromoCode.getText().toString(),
+                                etDescription.getText().toString(),
+                                etFromDate.getText().toString(),
+                                etToDate.getText().toString(),
+                                hotelId, 1));
+                    }
                 }
             });
+            dialog.dismiss();
+            //  offerId=0;
+
+
         }
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+                editedItemPosition = 0;
             }
         });
-
-
         dialog.show();
-//                Intent intent=new Intent(ActivityDisplayPromocode.this,ActivityAddPromoCode.class);
-//                startActivity(intent);
-//
+
+    }
+
+    private boolean validData() {
+
+        if (etPrice.getText().toString().equalsIgnoreCase("")) {
+            Toast.makeText(ActivityDisplayPromocode.this, "Please enter amount", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (etPromoCode.getText().toString().equalsIgnoreCase("")) {
+            Toast.makeText(this, "Please enter Promo Code", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (etDescription.getText().toString().equalsIgnoreCase("")) {
+            Toast.makeText(ActivityDisplayPromocode.this, "Please enter Description..", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (etFromDate.getText().toString().equalsIgnoreCase("")) {
+            Toast.makeText(ActivityDisplayPromocode.this, "Please select from date", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (etToDate.getText().toString().equalsIgnoreCase("")) {
+            Toast.makeText(ActivityDisplayPromocode.this, "Please select to date", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
     }
 
     private void initRetrofitCall() {
@@ -420,6 +500,9 @@ public class ActivityDisplayPromocode extends AppCompatActivity {
                                 Toast.makeText(ActivityDisplayPromocode.this, object.getString("message"), Toast.LENGTH_SHORT).show();
 
                             }
+                            spinKitView.setVisibility(View.GONE);
+                            dialog.dismiss();
+                            getPromoCodeInfo();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -434,8 +517,9 @@ public class ActivityDisplayPromocode extends AppCompatActivity {
                                 Toast.makeText(ActivityDisplayPromocode.this, object.getString("message"), Toast.LENGTH_SHORT).show();
                             } else {
                                 Toast.makeText(ActivityDisplayPromocode.this, object.getString("message"), Toast.LENGTH_SHORT).show();
-
                             }
+                            spinKitView.setVisibility(View.GONE);
+                            getPromoCodeInfo();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -452,6 +536,11 @@ public class ActivityDisplayPromocode extends AppCompatActivity {
                                 Toast.makeText(ActivityDisplayPromocode.this, object.getString("message"), Toast.LENGTH_SHORT).show();
 
                             }
+                            spinKitView.setVisibility(View.GONE);
+                            editedItemPosition = 0;
+                            offerId = 0;
+                            dialog.dismiss();
+                            getPromoCodeInfo();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -464,13 +553,16 @@ public class ActivityDisplayPromocode extends AppCompatActivity {
             public void notifyError(int requestId, Throwable error) {
                 Log.d("", "requestId" + requestId);
                 Log.d("", "RetrofitError" + error);
-
+                spinKitView.setVisibility(View.GONE);
             }
         };
     }
 
-    private void showDatePicker() {
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        offerId = 0;
+        editedItemPosition = 0;
     }
 
     private void setUpToolbar() {
@@ -487,52 +579,18 @@ public class ActivityDisplayPromocode extends AppCompatActivity {
         return true;
     }
 
-    /* @Override
-     public void onCancelled() {
 
-     }
-
-     @Override
-     public void onDataSelected(Calendar firstDate, Calendar secondDate, int hours, int minutes) {
-         if (firstDate != null) {
-             if (secondDate == null) {
-                 firstDate.set(Calendar.HOUR_OF_DAY, hours);
-                 firstDate.set(Calendar.MINUTE, minutes);
-                 Toast.makeText(
-                         this,
-                         new SimpleDateFormat(getString(R.string.timeFormat), Locale.getDefault()).format(firstDate.getTime()),
-                         Toast.LENGTH_LONG
-
-                 ).show();
-             } else {
-                 Toast.makeText(
-                         this,
-                         getString(
-                                 R.string.period,
-                                 new SimpleDateFormat(getString(R.string.dateFormat), Locale.getDefault()).format(firstDate.getTime()),
-                                 new SimpleDateFormat(getString(R.string.timeFormat), Locale.getDefault()).format(secondDate.getTime())
-                         ),
-                         Toast.LENGTH_LONG
-
-                 ).show();
-             }
-         }
-     }
- */
     private void init() {
         rvPromocode = findViewById(R.id.rv_promocode);
         mToolbar = findViewById(R.id.toolbar);
         tvToolBarTitle = findViewById(R.id.tx_title);
         arrayListPromoCode = new ArrayList<>();
-        // etAmount = findViewById(R.id.et_amount);
-        tvDate = findViewById(R.id.tv_date);
-        //  etOffer = findViewById(R.id.etv_offer);
         btnSave = findViewById(R.id.btn_save);
-        // ivBtnEdit = findViewById(R.id.iv_btn_edit);
         btnUpdate = findViewById(R.id.btn_update);
-        // tvDetails = findViewById(R.id.tv_details);
-        // ivBtnancel = findViewById(R.id.iv_btn_cancel);
         flAddPromoCode = findViewById(R.id.ivAddPromoCode);
+        mSessionManager = new Sessionmanager(this);
+        spinKitView = findViewById(R.id.skLoading);
+        llNodata = findViewById(R.id.llNoPromoData);
 
     }
 

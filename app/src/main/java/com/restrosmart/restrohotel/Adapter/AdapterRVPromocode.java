@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -20,7 +21,11 @@ import com.restrosmart.restrohotel.Interfaces.PositionListener;
 import com.restrosmart.restrohotel.Model.PromoCodeForm;
 import com.restrosmart.restrohotel.R;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class AdapterRVPromocode extends RecyclerView.Adapter<AdapterRVPromocode.ItemViewHolder> {
     private Context mContext;
@@ -56,23 +61,99 @@ public class AdapterRVPromocode extends RecyclerView.Adapter<AdapterRVPromocode.
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ItemViewHolder itemViewHolder, int i) {
+    public void onBindViewHolder(@NonNull final ItemViewHolder itemViewHolder, final int i) {
 
-        /*if(i == promoCodeFormArrayList.size()) {
-            itemViewHolder.imgBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    buttonListerner.getEditListenerPosition(1);
-                    //itemViewHolder.linearLayout.setVisibility(View.VISIBLE);
-                   // Toast.makeText(mContext, "Button Clicked", Toast.LENGTH_LONG).show();
-                }
-            });
-        }else {*/
-       // itemViewHolder.tvOffer.setText(promoCodeFormArrayList.get(i).getOffer() + " " + promoCodeFormArrayList.get(i).getOfferValue());
-       // itemViewHolder.tvDate.setText(promoCodeFormArrayList.get(i).getDate());
+        if(promoCodeFormArrayList.get(i).getOfferStatus()==1)
+        {
+            itemViewHolder.imageActive.setVisibility(View.VISIBLE);
+            itemViewHolder.imageInActive.setVisibility(View.GONE);
+        }
+        else
+        {
+            itemViewHolder.imageInActive.setVisibility(View.VISIBLE);
+            itemViewHolder.imageActive.setVisibility(View.GONE);
+        }
+        String price=promoCodeFormArrayList.get(i).getOfferPrice();
+
+        DateFormat inputFormat = new SimpleDateFormat("dd-MM-yyyy");
+        DateFormat outputFormat = new SimpleDateFormat("dd MMM");
+        String mFromDate=promoCodeFormArrayList.get(i).getFromDate();
+        String mToDate=promoCodeFormArrayList.get(i).getToDate();
+        Date dateFrom = null;
+        Date dateTo=null;
+        try {
+            dateFrom = inputFormat.parse(mFromDate);
+            dateTo=inputFormat.parse(mToDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        String strFromDate = outputFormat.format(dateFrom);
+        String strToDate = outputFormat.format(dateTo);
+        itemViewHolder.tvDate.setText(strFromDate +" - "+strToDate);
+
+        itemViewHolder.tvOffer.setText(promoCodeFormArrayList.get(i).getOfferValue() + "" + price);
+        itemViewHolder.tvDescription.setText(promoCodeFormArrayList.get(i).getOfferDescription());
+        itemViewHolder.tvTime.setText(promoCodeFormArrayList.get(i).getOfferFromTime()+" "+promoCodeFormArrayList.get(i).getOfferToTime());
+
+        itemViewHolder.textViewOptions.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                //creating a popup menu
+                PopupMenu popup = new PopupMenu(mContext, view);
+                //inflating menu from xml resource
+                popup.inflate(R.menu.menu_offer_items);
+                //adding click listener
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.offer_display:
+                                positionListener.positionListern(i);
+
+                                //handle menu1 click
+                                return true;
+                            case R.id.offer_edit:
+                                editListener.getEditListenerPosition(i);
+                                //handle menu1 click
+                                return true;
+                            case R.id.offer_delete:
+                                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                                builder
+                                        .setTitle("Delete Offer")
+                                        .setMessage("Are you sure you want to delete this Offer ?")
+                                        .setIcon(R.drawable.ic_action_btn_delete)
+                                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                deletePromoCodeListener.getDeleteListenerPosition(i);
+                                            }
+                                        });
+                                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                });
+
+                                AlertDialog alert = builder.create();
+                                alert.show();
+                                return true;
+                            case R.id.offer_apply:
+                                //handle menu3 click
+                                return true;
+                            default:
+                                return false;
+                        }
+                    }
+                });
+                //displaying the popup
+                popup.show();
 
 
-        //   }
+            }
+        });
+
+
+
 
     }
 
@@ -88,73 +169,25 @@ public class AdapterRVPromocode extends RecyclerView.Adapter<AdapterRVPromocode.
 
 
     public class ItemViewHolder extends RecyclerView.ViewHolder {
-        private TextView tvDate, tvOffer;
+        private TextView tvDate, tvOffer,tvTime,textViewOptions,tvDescription;
         private CardView imgBtn;
         private LinearLayout linearLayout;
+        private ImageView imageActive,imageInActive;
 
         public ItemViewHolder(@NonNull final View itemView) {
             super(itemView);
-          //  tvDate = itemView.findViewById(R.id.tv_date);
-           // tvOffer = itemView.findViewById(R.id.tv_offer);
-            imgBtn = itemView.findViewById(R.id.cardview_add);
-            linearLayout = itemView.findViewById(R.id.linear);
+            tvDate = itemView.findViewById(R.id.tv_offer_date);
+           tvOffer = itemView.findViewById(R.id.tv_offer_name);
+           tvTime=itemView.findViewById(R.id.tv_offer_time);
+            imageActive=itemView.findViewById(R.id.img_active);
+            imageInActive=itemView.findViewById(R.id.img_inactive);
+            textViewOptions=itemView.findViewById(R.id.textViewOptions);
+            tvDescription=itemView.findViewById(R.id.tv_offer_desc);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    //creating a popup menu
-                    PopupMenu popup = new PopupMenu(mContext, itemView);
-                    //inflating menu from xml resource
-                    popup.inflate(R.menu.menu_offer_items);
-                    //adding click listener
-                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                        @Override
-                        public boolean onMenuItemClick(MenuItem item) {
-                            switch (item.getItemId()) {
-                                case R.id.offer_display:
-                                    positionListener.positionListern(getAdapterPosition());
-
-                                    //handle menu1 click
-                                    return true;
-                                case R.id.offer_edit:
-                                    editListener.getEditListenerPosition(getAdapterPosition());
-                                    //handle menu1 click
-                                    return true;
-                                case R.id.offer_delete:
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-                                    builder
-                                            .setTitle("Delete Offer")
-                                            .setMessage("Are you sure you want to delete this Offer ?")
-                                            .setIcon(R.drawable.ic_action_btn_delete)
-                                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    deletePromoCodeListener.getDeleteListenerPosition(getAdapterPosition());
-                                                }
-                                            });
-                                    builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            dialog.dismiss();
-                                        }
-                                    });
-
-                                    AlertDialog alert = builder.create();
-                                    alert.show();
-                                    return true;
-                                case R.id.offer_apply:
-                                    //handle menu3 click
-                                    return true;
-                                default:
-                                    return false;
-                            }
-                        }
-                    });
-                    //displaying the popup
-                    popup.show();
+          //  imgBtn = itemView.findViewById(R.id.cardview_add);
+          //  linearLayout = itemView.findViewById(R.id.linear);
 
 
-                }
-            });
 
            /* itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override

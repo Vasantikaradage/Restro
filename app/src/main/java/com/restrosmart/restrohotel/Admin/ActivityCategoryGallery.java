@@ -64,7 +64,6 @@ public class ActivityCategoryGallery extends AppCompatActivity {
 
         HashMap<String, String> name_info = sessionmanager.getHotelDetails();
         hotelId = name_info.get(HOTEL_ID);
-        branchId = name_info.get(BRANCH_ID);
         Intent intent = getIntent();
         mPcId = intent.getIntExtra("Pc_Id", 0);
 

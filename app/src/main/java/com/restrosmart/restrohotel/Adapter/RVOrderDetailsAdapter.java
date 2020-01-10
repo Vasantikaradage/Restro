@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.restrosmart.restrohotel.Model.AdminOrderModel;
 import com.restrosmart.restrohotel.Model.MenuForm;
 import com.restrosmart.restrohotel.Model.OrderModel;
 import com.restrosmart.restrohotel.R;
@@ -21,11 +22,11 @@ public class RVOrderDetailsAdapter extends RecyclerView.Adapter<RVOrderDetailsAd
 
     private Context mContext;
     private ArrayList<String> arrayListIds;
-    private ArrayList<OrderModel> omenuFormArrayList;
+    private ArrayList<AdminOrderModel> omenuFormArrayList;
     private ArrayList<Integer> counter = new ArrayList<Integer>();
 
 
-    public RVOrderDetailsAdapter(Context baseContext, ArrayList<String> arrayList, ArrayList<OrderModel> menuFormArrayList) {
+    public RVOrderDetailsAdapter(Context baseContext, ArrayList<String> arrayList, ArrayList<AdminOrderModel> menuFormArrayList) {
         this.mContext = baseContext;
         this.arrayListIds = arrayList;
         this.omenuFormArrayList=menuFormArrayList;
@@ -46,14 +47,21 @@ public class RVOrderDetailsAdapter extends RecyclerView.Adapter<RVOrderDetailsAd
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
 
        viewHolder.tvOrdertitle.setText(arrayListIds.get(i).toString());
+       viewHolder.tvOrderStatus.setText(" ("+omenuFormArrayList.get(i).getOrderStatus() +")");
+       viewHolder.tvSubTotal.setText(mContext.getResources().getString(R.string.currency) + String.valueOf(omenuFormArrayList.get(i).getSubTotal()));
 
-      // ArrayList<MenuForm> menuFormArrayList=omenuFormArrayList.get(i).getArrayList();
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
-        viewHolder.rvMenuDetails.setHasFixedSize(true);
-        viewHolder.rvMenuDetails.setLayoutManager(linearLayoutManager);
-     //   RVOrderMenuDetailsAdapter rvOrderMenuDetailsAdapter=new RVOrderMenuDetailsAdapter(mContext,omenuFormArrayList.get(i).getArrayList());
-      //  viewHolder.rvMenuDetails.setAdapter(rvOrderMenuDetailsAdapter);
+
+       ArrayList<MenuForm> menuFormArrayList=omenuFormArrayList.get(i).getAdminMenuModelArrayList();
+
+       if(menuFormArrayList != null && menuFormArrayList.size() > 0) {
+
+           LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
+           viewHolder.rvMenuDetails.setHasFixedSize(true);
+           viewHolder.rvMenuDetails.setLayoutManager(linearLayoutManager);
+           RVOrderMenuDetailsAdapter rvOrderMenuDetailsAdapter = new RVOrderMenuDetailsAdapter(mContext, menuFormArrayList);
+           viewHolder.rvMenuDetails.setAdapter(rvOrderMenuDetailsAdapter);
+       }
 
 
 
@@ -65,7 +73,7 @@ public class RVOrderDetailsAdapter extends RecyclerView.Adapter<RVOrderDetailsAd
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView tvOrdertitle,tvOrderStatus;
+        private TextView tvOrdertitle,tvOrderStatus,tvSubTotal;
         private TextView tvMenuName, tvMenuPrice, tvMenuQty;
         private ImageView ivArrow;
         private  RecyclerView rvMenuDetails;
@@ -78,6 +86,7 @@ public class RVOrderDetailsAdapter extends RecyclerView.Adapter<RVOrderDetailsAd
             ivArrow=itemView.findViewById(R.id.ivArrow);
             rvMenuDetails=itemView.findViewById(R.id.rvMenuOrder);
             linearLayout=itemView.findViewById(R.id.llView);
+            tvSubTotal=itemView.findViewById(R.id.tvSubTotal);
            // tvMenuName = itemView.findViewById(R.id.tx_menu_name);
            // tvMenuPrice = itemView.findViewById(R.id.tx_menu_price);
           //  tvMenuQty = itemView.findViewById(R.id.tx_menu_qty);

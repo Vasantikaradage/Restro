@@ -31,7 +31,7 @@ public class FragmentTabTakeAwayOrders  extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        arrayList=getArguments().getStringArrayList("arrayListId");
+        //arrayList=getArguments().getStringArrayList("arrayListId");
         arraylistParcelOrder = getArguments().getParcelableArrayList("OrderArrayListTakeAway");
         View view = inflater.inflate(R.layout.tab_parcel_orders, container, false);
         return view;
@@ -51,20 +51,27 @@ public class FragmentTabTakeAwayOrders  extends Fragment {
     }
 
     private void callViewAdapter() {
-       /* for (int i = 0; i < arraylistParcelOrder.size(); i++) {
-            orderIdsArrayList.add("Order " + (i + 1));
-        }*/
 
+        if (arraylistParcelOrder != null && arraylistParcelOrder.size() > 0) {
 
+            for (int i = 0; i < arraylistParcelOrder.size(); i++) {
+                arrayList.add("Order " + (i + 1));
+            }
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-        rvParcel.setLayoutManager(linearLayoutManager);
-        AdapterParcelOrder adapterParcelOrder = new AdapterParcelOrder(getContext(), arraylistParcelOrder,arrayList);
-        rvParcel.setAdapter(adapterParcelOrder);
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+            rvParcel.setLayoutManager(linearLayoutManager);
+            AdapterParcelOrder adapterParcelOrder = new AdapterParcelOrder(getContext(), arraylistParcelOrder);
+            rvParcel.setAdapter(adapterParcelOrder);
+        }
+        else
+        {
+            //No data
+        }
     }
 
     private void init() {
         rvParcel =getActivity().findViewById(R.id.recycler_parcel_order);
-        orderIdsArrayList=new ArrayList<>();
+
+        arrayList=new ArrayList<>();
     }
 }

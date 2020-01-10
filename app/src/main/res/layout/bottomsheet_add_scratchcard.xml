@@ -1,38 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:id="@+id/linear_layout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:orientation="vertical"
-        android:background="@color/colorPrimary">
+        android:background="@color/colorPrimary"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/tv_add_scratchcard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Add ScratchCard"
-            android:textColor="@color/white"
             android:layout_marginTop="20dp"
             android:gravity="center_horizontal|center"
+            android:text="Add ScratchCard"
+            android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:visibility="gone"/>
+            android:visibility="gone" />
+
         <TextView
             android:id="@+id/tv_edit_scratchcard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center_horizontal"
             android:text="Edit ScratchCard"
             android:textColor="@color/white"
-            android:gravity="center_horizontal"
             android:textSize="18dp"
-            android:layout_marginTop="20dp"
             android:textStyle="bold"
-            android:visibility="gone"/>
+            android:visibility="gone" />
     </LinearLayout>
 
     <ScrollView
@@ -43,9 +44,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
+            android:orientation="vertical"
 
-            android:orientation="vertical">
+            android:padding="10dp">
 
 
             <!--<TextView
@@ -95,7 +96,6 @@
                 android:hint="Enter PromoCode"/>-->
 
 
-
             <!-- <TextView
                  android:layout_width="match_parent"
                  android:layout_height="wrap_content"
@@ -116,74 +116,137 @@
                     android:padding="5dp"
                     android:orientation="vertical">-->
 
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="From Date"
                 android:padding="5dp"
+                android:text="Offer Name"
                 android:textColor="@color/colorPrimary"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/et_offer_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tx_category"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/texview_outline_black"
+                android:hint="Enter Offer Name"
+                android:padding="10dp"
+                android:singleLine="true" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="From Date"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/et_from_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
+                android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/texview_outline_black"
-                android:layout_marginStart="10dp"
-                android:layout_below="@+id/tx_category"
-                android:padding="10dp"
                 android:focusable="false"
+
                 android:focusableInTouchMode="false"
-                android:singleLine="true"
-                android:hint="Enter From Date"/>
+                android:hint="Enter From Date"
+                android:padding="10dp"
+                android:singleLine="true" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="To Date "
                 android:padding="5dp"
+                android:text="To Date "
 
                 android:textColor="@color/colorPrimary"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/et_to_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
+                android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/texview_outline_black"
-                android:layout_marginStart="10dp"
-
-                android:layout_below="@+id/tx_category"
-                android:padding="10dp"
-                android:singleLine="true"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
-                android:hint="Enter To Date"/>
+                android:hint="Enter To Date"
+                android:padding="10dp"
+                android:singleLine="true" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Description"
                 android:padding="5dp"
+                android:text="Total People Count"
                 android:textColor="@color/colorPrimary"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/et_total_people_count"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/texview_outline_black"
+
+                android:hint="Enter Total People Count"
+                android:inputType="number"
+                android:padding="10dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="Winner People Count"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/et_winner_people_count"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/texview_outline_black"
+
+                android:hint="Enter Winner People Count"
+                android:inputType="number"
+                android:padding="10dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="Description"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/et_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
+                android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/texview_outline_black"
-                android:layout_marginStart="10dp"
-                android:layout_below="@+id/tx_category"
-                android:padding="10dp"
+                android:hint="Enter Description"
                 android:inputType="textMultiLine"
-                android:hint="Enter Description"/>
+                android:padding="10dp" />
+
 
             <!--  </LinearLayout>
           </android.support.v7.widget.CardView>-->
@@ -192,8 +255,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/etx_category_name"
-                android:layout_marginBottom="10dp"
                 android:layout_marginTop="@dimen/dimen_20dp"
+                android:layout_marginBottom="10dp"
                 android:gravity="center">
 
                 <Button
@@ -211,8 +274,8 @@
                     android:layout_marginLeft="@dimen/dimen_20dp"
                     android:background="@drawable/button_outline_dark"
                     android:text="Save"
-                    android:visibility="visible"
-                    android:textColor="@color/colorPrimary" />
+                    android:textColor="@color/colorPrimary"
+                    android:visibility="visible" />
 
 
                 <Button
@@ -222,8 +285,8 @@
                     android:layout_marginLeft="@dimen/dimen_20dp"
                     android:background="@drawable/button_outline_dark"
                     android:text="Update"
-                    android:visibility="gone"
-                    android:textColor="@color/colorPrimary"/>
+                    android:textColor="@color/colorPrimary"
+                    android:visibility="gone" />
             </LinearLayout>
 
         </LinearLayout>

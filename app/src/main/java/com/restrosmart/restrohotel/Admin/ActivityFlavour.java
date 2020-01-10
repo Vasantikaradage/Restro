@@ -160,7 +160,9 @@ public class ActivityFlavour extends AppCompatActivity {
                 Intent flavourIntent = new Intent(ActivityFlavour.this, ActivityFlavourGallery.class);
                 flavourIntent.putExtra("categoryId", intent.getIntExtra("categoryId", 0));
                 flavourIntent.putExtra("pcId", intent.getIntExtra("pcId", 0));
-                flavourIntent.putExtra("menuId", intent.getIntExtra("menuId", 0));
+
+                int meniId=intent.getIntExtra("menuId", 0);
+                flavourIntent.putExtra("menuId",meniId );
                 startActivityForResult(flavourIntent, IMAGE_RESULT_OK);
 
             }

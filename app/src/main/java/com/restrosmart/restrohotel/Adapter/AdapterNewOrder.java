@@ -24,10 +24,10 @@ public class AdapterNewOrder extends RecyclerView.Adapter<AdapterNewOrder.ViewHo
     private ArrayList<OrderModel> arrayList;
     private  ArrayList<String> arrayListIds;
 
-    public AdapterNewOrder(Context context, ArrayList<OrderModel> arrayList,ArrayList<String> arrayList1) {
+    public AdapterNewOrder(Context context, ArrayList<OrderModel> arrayList) {
         this.context = context;
         this.arrayList = arrayList;
-        arrayListIds=arrayList1;
+     //   arrayListIds=arrayList1;
     }
 
     @NonNull
@@ -48,7 +48,7 @@ public class AdapterNewOrder extends RecyclerView.Adapter<AdapterNewOrder.ViewHo
 
        // arrayListIds.add("Order " + (i+ 1));
 
-        if(orderStatus.equals("Ready"))
+        /*if(orderStatus.equals("Ready"))
         {
             viewHolder.circle_image.setBackground(context.getResources().getDrawable(R.drawable.bg_img_green));
             viewHolder.cancelStamp.setVisibility(View.GONE);
@@ -60,12 +60,12 @@ public class AdapterNewOrder extends RecyclerView.Adapter<AdapterNewOrder.ViewHo
         {
             viewHolder.circle_image.setBackground(context.getResources().getDrawable(R.drawable.bg_yellow_circle));
             viewHolder.cancelStamp.setVisibility(View.GONE);
-        }
+        }*/
 
         viewHolder.mCustNo.setText(mob);
         viewHolder.custName.setText(arrayList.get(i).getCustName());
       //  viewHolder.mOrderId.setText(orderId);
-        viewHolder.mtableId.setText(tableID);
+        viewHolder.mtableId.setText(arrayList.get(i).getTableNo());
         viewHolder.mDateTime.setText(arrayList.get(i).getTime());
 
 
@@ -119,14 +119,17 @@ public class AdapterNewOrder extends RecyclerView.Adapter<AdapterNewOrder.ViewHo
                 @Override
                 public void onClick(View view) {
                     Intent intent=new Intent(context, ActivityMenuOrderDidplay.class);
-                    intent.putExtra("orderArray", arrayList);
-                    intent.putExtra("arrayListIds",arrayListIds);
+                    intent.putExtra("orderArray", arrayList.get(getAdapterPosition()).getArrayList());
+                   // intent.putExtra("arrayListIds",arrayListIds);
                    context.startActivity(intent);
 
                 }
             });
 
         }
+
+
+
     }
 
    /* @NonNull

@@ -275,7 +275,7 @@ public class ActivityHotelMenu extends AppCompatActivity {
         LayerDrawable icon = (LayerDrawable) menuItemCart.getIcon();
         BadgeCount badgeCount = new BadgeCount();
 
-        //ArrayList<FoodCartModel> cartRVModelArrayList = sessionManager.getAddToFoodCartList(this);
+        //ArrayList<FoodCartModel> cartRVModelArrayList = sessionManager.getAddToMenuCartList(this);
 
         if (sessionManager.getCartCount() != 0) {
             badgeCount.setBadgeCount(this, icon, String.valueOf(sessionManager.getCartCount()));

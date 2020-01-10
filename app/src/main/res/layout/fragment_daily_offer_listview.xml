@@ -7,68 +7,49 @@
     android:layout_height="wrap_content"
     app:cardUseCompatPadding="true">
 
-    <LinearLayout
-        android:id="@+id/linear_category"
+    <RelativeLayout
+        android:id="@+id/relative_scratch_card"
         android:layout_width="match_parent"
+        android:padding="10dp"
         android:layout_height="wrap_content">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/circle_image"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:layout_marginLeft="13.4dp"
-            android:src="@drawable/foodimg2" />
+
+        <ImageView
+            android:id="@+id/iv_offer_image"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/ic_gr_sc_card">
+
+        </ImageView>
 
 
-        <RelativeLayout
-            android:layout_width="0dp"
+        <TextView
+            android:id="@+id/tv_offer_title"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1">
-
-            <TextView
-                android:id="@+id/tx_offer_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="13.4dp"
-                android:text="Category name"
-                android:textColor="#262628"
-                android:textSize="18sp"
-                android:textStyle="bold"  />
-            <TextView
-                android:id="@+id/tx_offer_by"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="13.4dp"
-                android:text="Offer By"
-                android:textColor="#262628"
-                android:layout_below="@+id/tx_offer_name"
-                android:textSize="14sp"
-                 />
-            <TextView
-                android:id="@+id/tx_offer_value"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="13.4dp"
-                android:text="Offer value"
-                android:textColor="#262628"
-                android:layout_below="@+id/tx_offer_by"
-                android:textSize="14sp"
-                 />
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@id/iv_offer_image"
+            android:fontFamily="sans-serif"
+            android:padding="5dp"
+            android:text="Scratch Card"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp" />
 
 
-            <Switch
-                android:id="@+id/swStatus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="7dp" />
+        <TextView
+            android:id="@+id/tv_offer_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_offer_title"
+            android:layout_marginStart="15dp"
+            android:layout_toEndOf="@id/iv_offer_image"
+            android:fontFamily="sans-serif"
+            android:text="Admin jdhskjf xvdfgdfgfdgfgfdggyuufdgdfgdfgdfgdf dfgfdgdfgdfgfdg fgdfgjdhkjsah jkdsad kjadlakdjn dhkasjd adkjasdj kajdakldj"
+            android:textColor="@color/colorDarkGray"
+            android:textSize="12sp" />
 
-        </RelativeLayout>
-
-
-
-    </LinearLayout>
+    </RelativeLayout>
 
 
 

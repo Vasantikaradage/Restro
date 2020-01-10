@@ -30,142 +30,6 @@
                 app:reverseLayout="true">
 
             </android.support.v7.widget.RecyclerView>
-<!--
-
-            <ImageView
-                android:id="@+id/iv_btn_edit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="5dp"
-                android:src="@drawable/ic_action_editbtn" />
-
-            <ImageView
-                android:id="@+id/iv_btn_cancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="5dp"
-                android:visibility="gone"
-                android:src="@drawable/ic_cancel_background_primary" />
--->
-
-
-         <!--   <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                app:cardCornerRadius="5dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                app:cardUseCompatPadding="true">
-
-
-                <LinearLayout
-                    android:id="@+id/linear"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/rv_promocode"
-                    android:orientation="vertical"
-                    android:visibility="visible">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="80dp"
-                        android:background="@drawable/coupon"
-                        android:padding="15dp">
-
-
-                        <TextView
-                            android:id="@+id/tv_date"
-                            android:layout_width="0dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center"
-                            android:layout_weight="0.6"
-                            android:background="@drawable/offer_add_bg"
-                            android:gravity="center"
-                            android:text="Select Date"
-                            android:textColor="@color/gray"
-                            android:textSize="14sp" />
-
-
-                        <TextView
-                            android:id="@+id/tv_time"
-                            android:layout_width="0dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="80dp"
-                            android:layout_weight="0.6"
-                            android:background="@drawable/offer_add_bg"
-                            android:gravity="center"
-                            android:text="Select Time"
-                            android:textColor="@color/gray"
-                            android:textSize="14sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="10dp"
-                        android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="30dp"
-                        android:fontFamily="sans-serif-light"
-                        android:gravity="center"
-                        android:padding="10dp"
-                        android:textSize="20sp"
-                        android:text="Message"
-                        android:textColor="@color/colorPrimary" />
-
-                    <EditText
-                        android:id="@+id/etv_enter_message"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/offer_name_bg"
-                        android:fontFamily="sans-serif-light"
-                        android:gravity="start"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginEnd="20dp"
-                        android:hint="Enter message"
-                        android:maxLines="10"
-                        android:padding="10dp"
-                        android:text="" />
-
-                    </LinearLayout>
-
-
-                    <Button
-                        android:id="@+id/btn_save"
-                        android:layout_width="220dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal|bottom"
-                        android:layout_marginTop="30dp"
-                        android:layout_marginBottom="15dp"
-                        android:background="@drawable/gradient_color"
-                        android:text="Save"
-                        android:textColor="@color/white"
-                        android:visibility="gone" />
-
-                    <Button
-                        android:id="@+id/btn_update"
-                        android:layout_width="220dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal|bottom"
-                        android:layout_marginTop="30dp"
-                        android:layout_marginBottom="15dp"
-                        android:background="@drawable/gradient_color"
-                        android:text="Update"
-                        android:textColor="@color/white"
-                        android:visibility="gone" />
-                </LinearLayout>
-
-            </android.support.v7.widget.CardView>-->
-
         </LinearLayout>
 
 
@@ -193,6 +57,43 @@
             android:src="@drawable/ic_action_add" />
 
     </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <com.github.ybq.android.spinkit.SpinKitView
+            android:id="@+id/skLoading"
+            style="@style/SpinKitView.Large.FadingCircle"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            app:SpinKit_Color="@color/colorPrimary" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llNoRushData"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            app:srcCompat="@drawable/ic_clock" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/no_data_available"
+            android:textColor="@color/darkgray"
+            android:textSize="16sp" />
+    </LinearLayout>
 
 
 </RelativeLayout>

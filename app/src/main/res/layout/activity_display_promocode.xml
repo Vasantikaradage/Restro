@@ -37,146 +37,7 @@
 
 
 
-       <!-- <ImageView
-            android:id="@+id/iv_btn_edit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="5dp"
-            android:src="@drawable/ic_action_editbtn" />
 
-        <ImageView
-            android:id="@+id/iv_btn_cancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="5dp"
-            android:src="@drawable/ic_cancel_background_primary"
-            android:visibility="gone" />
-
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="5dp"
-            app:cardCornerRadius="5dp"
-            app:cardUseCompatPadding="true">
-
-
-            <LinearLayout
-                android:id="@+id/linear"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/rv_promocode"
-                android:orientation="vertical"
-                android:visibility="visible">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/coupon"
-                    android:gravity="center"
-                    android:padding="15dp">
-
-                    <EditText
-                        android:id="@+id/et_amount"
-                        android:layout_width="0dp"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center"
-                        android:layout_weight="0.5"
-                        android:background="@drawable/offer_add_bg"
-                        android:gravity="center"
-                        android:hint="amount (in %)"
-
-                        android:padding="5dp"
-                        android:textSize="14sp" />
-
-
-                    <TextView
-                        android:id="@+id/tv_date"
-                        android:layout_width="0dp"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center"
-                        android:layout_marginStart="100dp"
-                        android:layout_weight="0.5"
-                        android:background="@drawable/offer_add_bg"
-
-                        android:gravity="center"
-                        android:text="Select Date"
-                        android:textColor="@color/gray"
-                        android:textSize="14sp" />
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/offer"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="30dp"
-                    android:fontFamily="sans-serif-light"
-                    android:gravity="center"
-                    android:padding="10dp"
-                    android:text="Promo code Name"
-                    android:textSize="20sp" />
-
-
-                <EditText
-                    android:id="@+id/etv_offer"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="35dp"
-                    android:layout_marginEnd="35dp"
-                    android:layout_marginBottom="10dp"
-                    android:background="@drawable/offer_name_bg"
-                    android:fontFamily="sans-serif-light"
-                    android:gravity="center"
-                    android:hint="Enter Promo Code"
-
-                    android:maxLength="7"
-                    android:padding="10dp"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:id="@+id/tv_details"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="25dp"
-                    android:gravity="center"
-                    android:text="Customer need to apply FLAT  code to avail 30% off. offer is valid till JUN 15 2019 "
-                    android:visibility="gone" />
-
-
-                <Button
-                    android:id="@+id/btn_save"
-                    android:layout_width="220dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal|bottom"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginBottom="15dp"
-                    android:background="@drawable/gradient_color"
-                    android:text="Save"
-                    android:textColor="@color/white"
-                    android:visibility="gone" />
-
-                <Button
-                    android:id="@+id/btn_update"
-                    android:layout_width="220dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal|bottom"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginBottom="15dp"
-                    android:background="@drawable/gradient_color"
-                    android:text="Update"
-                    android:textColor="@color/white"
-                    android:visibility="gone" />
-            </LinearLayout>
-
-        </android.support.v7.widget.CardView>-->
     </LinearLayout>
     <FrameLayout
         android:id="@+id/ivAddPromoCode"
@@ -200,6 +61,43 @@
             android:src="@drawable/ic_action_add" />
 
     </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <com.github.ybq.android.spinkit.SpinKitView
+            android:id="@+id/skLoading"
+            style="@style/SpinKitView.Large.FadingCircle"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            app:SpinKit_Color="@color/colorPrimary" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llNoPromoData"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            app:srcCompat="@drawable/ic_gr_promocode" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/no_data_available"
+            android:textColor="@color/darkgray"
+            android:textSize="16sp" />
+    </LinearLayout>
 
 
 

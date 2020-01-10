@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="5dp"
+    app:cardUseCompatPadding="true"
+    android:elevation="5dp"
+    android:gravity="center">
+
+    <LinearLayout
+        android:id="@+id/linear_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <TextView
+            android:id="@+id/flavour_name"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="40dp"
+            android:layout_weight="1.9"
+            android:gravity="center"
+            android:text="@string/scratch_card_details"
+            android:textColor="@color/white"
+            android:textSize="18dp" />
+
+        <ImageButton
+            android:id="@+id/btn_cancel"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:background="@drawable/ic_cancel" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_below="@+id/linear_layout"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_offer_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:layout_toEndOf="@+id/img_inactive"
+            android:text="NA"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_ppl_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Winner People Count :"
+                android:textSize="14sp"
+                android:fontFamily="sans-serif"
+                android:layout_weight="1"
+                android:textStyle="bold"
+                android:textColor="@color/gray" />
+
+            <TextView
+                android:id="@+id/tv_ppl_winner_cnt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="NA"
+                android:textSize="14sp"
+                android:layout_toEndOf="@+id/tv_ppl_count"
+                android:layout_weight="1"
+                android:layout_marginStart="5dp"
+                android:fontFamily="sans-serif"
+                android:textStyle="bold"
+                android:textColor="@color/gray" />
+
+
+        </RelativeLayout>
+
+
+        <TextView
+            android:id="@+id/tv_offer_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="NA"
+            android:textSize="14sp"
+            android:fontFamily="sans-serif"
+            android:textColor="@color/colorGrey" />
+
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+            <TextView
+                android:id="@+id/tv_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Date :"
+                android:textSize="14sp"
+                android:fontFamily="sans-serif-condensed"
+                android:layout_weight="1"
+                android:textColor="@color/darkgray" />
+
+            <TextView
+                android:id="@+id/tv_offer_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="NA"
+                android:textSize="14sp"
+                android:layout_toEndOf="@+id/tv_date"
+                android:layout_weight="1"
+                android:layout_marginStart="5dp"
+                android:fontFamily="sans-serif-condensed"
+                android:textColor="@color/darkgray" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Time :"
+                android:textSize="14sp"
+                android:fontFamily="sans-serif-condensed"
+                android:layout_weight="1"
+                android:textColor="@color/darkgray" />
+
+            <TextView
+                android:id="@+id/tv_offer_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="NA"
+                android:textSize="14sp"
+                android:layout_toEndOf="@+id/tv_time"
+                android:layout_weight="1"
+                android:layout_marginStart="5dp"
+                android:fontFamily="sans-serif-condensed"
+                android:textColor="@color/darkgray" />
+
+        </RelativeLayout>
+
+
+        <View
+            android:id="@+id/view_line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorGrey"
+            android:layout_marginTop="10dp"
+            />
+
+        <TextView
+            android:id="@+id/tv_menu_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Menu Details"
+            android:textSize="18sp"
+            android:textColor="@color/colorPrimary"
+            android:layout_marginTop="10dp"/>
+
+        <LinearLayout
+            android:id="@+id/linear_layout_menu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/colorPrimary"
+                android:text="Menu"/>
+
+           <!-- <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/colorPrimary"
+                android:text="Price"/>
+-->
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/colorPrimary"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Menu Qty"/>
+
+        </LinearLayout>
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_menu_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </android.support.v7.widget.RecyclerView>
+
+    </LinearLayout>
+
+</RelativeLayout>
+
+
+
+
+

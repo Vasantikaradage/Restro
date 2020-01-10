@@ -62,10 +62,10 @@ public class ActivityMenu extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ArrayList<MenuDisplayForm> arrayListMenu;
     private ArrayList<ToppingsForm> arrayListToppings, arrayListToppingAddMenu;
-    private int Category_Id, pcId, mHotelId, mBranchId, editPosition, editmenuId;
+    private int Category_Id, pcId, mHotelId, mBranchId, editPosition;
     private FrameLayout btnAddMenu;
     private TextView txTitle;
-    private String categoryName, image, imageName, mFinalImageName;
+    private String categoryName, image, imageName, mFinalImageName,editmenuId;
     private BottomSheetDialog bottomSheetDialog;
     private RetrofitService mRetrofitService;
     private IResult mResultCallBack;
@@ -137,7 +137,7 @@ public class ActivityMenu extends AppCompatActivity {
         rvTopping.setVisibility(View.VISIBLE);
 
         etvMenu.setText("");
-        editmenuId = 0;
+        editmenuId = null;
         initRetrofitCallback();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, getBaseContext());
@@ -294,7 +294,7 @@ public class ActivityMenu extends AppCompatActivity {
                                     JSONObject jsonObject2 = jsonArray.getJSONObject(i);
 
                                     MenuDisplayForm menuForm = new MenuDisplayForm();
-                                    menuForm.setMenu_Id(jsonObject2.getInt("Menu_Id"));
+                                    menuForm.setMenu_Id(jsonObject2.getString("Menu_Id"));
 
                                     menuForm.setCategory_Id(jsonObject2.getInt("Category_Id"));
                                     menuForm.setMenu_Name(jsonObject2.getString("Menu_Name"));
@@ -454,7 +454,7 @@ public class ActivityMenu extends AppCompatActivity {
 
             private void callAdapterToppingAdd() {
 
-                if (editmenuId != 0) {
+                if (editmenuId != null) {
                     arrayListToppingsEditinfo = arrayListMenu.get(editPosition).getArrayListtoppings();
                     LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ActivityMenu.this);
                     rvTopping.setHasFixedSize(true);
@@ -538,7 +538,7 @@ public class ActivityMenu extends AppCompatActivity {
             @Override
             public void getEditListenerPosition(int position) {
                 editPosition = position;
-                editmenuId = 0;
+                editmenuId = null;
                 editmenuId = arrayListMenu.get(editPosition).getMenu_Id();
                 bottomSheetDialogMenuEdit();
 
