@@ -252,7 +252,7 @@ public class RVFoodMenuAdapter extends RecyclerView.Adapter<RVFoodMenuAdapter.It
                     String.valueOf(arrayList.get(getAdapterPosition()).getMenuPrice()),
                     Integer.parseInt(tvMenuQty.getText().toString()),
                     "", 0, "", "",
-                    toppingsList, 0, 0, 1, 7, 0, mCategoryId, UNIQUE_KEY)));
+                    toppingsList, 0, 0, 1, 7, 0, mCategoryId, "", UNIQUE_KEY)));
         }
 
         private void initRetrofitCallback() {

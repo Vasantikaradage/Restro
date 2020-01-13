@@ -56,7 +56,7 @@ public class ActivityTableOrders extends AppCompatActivity {
     private ArrayList<ToppingsModel> mToppingsModelArrayList;
     private ArrayList<String> mOrderIdArrayList;
 
-    private int mOrderId, mTableId;
+    private int mOrderId, mTableId, hotelId;
     private String mCustId;
 
     @Override
@@ -68,6 +68,7 @@ public class ActivityTableOrders extends AppCompatActivity {
         setupToolBar();
 
         hotelDetails = mSessionmanager.getHotelDetails();
+        hotelId = Integer.parseInt(hotelDetails.get(HOTEL_ID));
 
         Bundle bundle = getIntent().getExtras();
 
@@ -97,7 +98,7 @@ public class ActivityTableOrders extends AppCompatActivity {
         initRetrofitCallBack();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, this);
-        mRetrofitService.retrofitData(GET_TABLE_ORDERS, (service.getTableOrders(Integer.parseInt(hotelDetails.get(HOTEL_ID)), mCustId, UNIQUE_KEY)));
+        mRetrofitService.retrofitData(GET_TABLE_ORDERS, (service.getTableOrders(hotelId, mCustId, UNIQUE_KEY)));
     }
 
     private void initRetrofitCallBack() {
@@ -126,6 +127,7 @@ public class ActivityTableOrders extends AppCompatActivity {
                             mOrderIdArrayList.add("Order " + (i + 1));
 
                             OrderStatusOrderList orderStatusOrderList = new OrderStatusOrderList();
+                            orderStatusOrderList.setoId(jsonObject1.getInt("Order_Id"));
                             orderStatusOrderList.setOrderId("Order " + jsonObject1.getString("Order_Id"));
                             orderStatusOrderList.setOrderStatus(jsonObject1.getString("Order_Status"));
 
@@ -166,7 +168,7 @@ public class ActivityTableOrders extends AppCompatActivity {
                             mOrderStatusOrderListArrayList.add(orderStatusOrderList);
                         }
 
-                        AllOrdersRVAdapter allOrdersRVAdapter = new AllOrdersRVAdapter(ActivityTableOrders.this, mOrderIdArrayList, mOrderStatusOrderListArrayList);
+                        AllOrdersRVAdapter allOrdersRVAdapter = new AllOrdersRVAdapter(ActivityTableOrders.this, hotelId, mOrderIdArrayList, mOrderStatusOrderListArrayList);
                         rvTableOrders.setHasFixedSize(true);
                         rvTableOrders.setNestedScrollingEnabled(false);
                         rvTableOrders.setLayoutManager(new GridLayoutManager(ActivityTableOrders.this, 1));

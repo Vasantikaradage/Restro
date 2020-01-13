@@ -142,7 +142,7 @@ public class FragmentFoodMenu extends Fragment {
                 waterBottleName,
                 String.valueOf(waterBottlePrice),
                 Integer.parseInt(tvWBottleQty.getText().toString()),
-                "", 0, "", "", "", 0, 0, 1, 7, 0, 0, UNIQUE_KEY)));
+                "", 0, "", "", "", 0, 0, 1, 7, 0, 0, "", UNIQUE_KEY)));
     }
 
     private void initRetrofitCallback() {

@@ -268,7 +268,7 @@ public class RVLiquorsAdapter extends RecyclerView.Adapter<RVLiquorsAdapter.Item
                     Integer.parseInt(tvLiqourQty.getText().toString()),
                     selectedUnitName,
                     selectedUnitPrice,
-                    toppingsList, 0, 0, 2, 7, 0, mCategoryId, UNIQUE_KEY)));
+                    toppingsList, 0, 0, 2, 7, 0, mCategoryId, "", UNIQUE_KEY)));
         }
 
         private void initRetrofitCallback() {

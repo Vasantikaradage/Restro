@@ -4,8 +4,17 @@ import java.util.ArrayList;
 
 public class OrderStatusOrderList {
 
+    private int oId;
     private String orderId, orderStatus;
     private ArrayList<OrderStatusOrders> orderStatusOrders;
+
+    public int getoId() {
+        return oId;
+    }
+
+    public void setoId(int oId) {
+        this.oId = oId;
+    }
 
     public String getOrderId() {
         return orderId;

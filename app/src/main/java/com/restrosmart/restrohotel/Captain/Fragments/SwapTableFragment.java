@@ -90,8 +90,13 @@ public class SwapTableFragment extends Fragment {
     BroadcastReceiver mSwapTableReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Toast.makeText(context, "Tables swapped successfully", Toast.LENGTH_SHORT).show();
-            getBookedTable();
+            
+            if (intent.getExtras() != null) {
+                getBookedTable();
+            } else {
+                Toast.makeText(context, "Tables swapped successfully", Toast.LENGTH_SHORT).show();
+                getBookedTable();
+            }
         }
     };
 

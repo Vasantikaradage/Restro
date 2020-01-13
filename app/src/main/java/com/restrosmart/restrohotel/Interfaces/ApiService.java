@@ -649,24 +649,23 @@ public interface ApiService {
     @POST("Offer_Daily.php?daily=offerdaily_apply")
     @FormUrlEncoded
     Call<JsonObject> applyDailyOffer(@Field("Hotel_Id") int hotel_id,
-                                    @Field("Offer_Id") int offerTypeId,
-                                    @Field("MenuOfferArray") String menuOffer);
+                                     @Field("Offer_Id") int offerTypeId,
+                                     @Field("MenuOfferArray") String menuOffer);
 
     /*edit DailyOffer*/
     @POST("Offer_Daily.php?daily=offerdaily_edit")
     @FormUrlEncoded
     Call<JsonObject> editDailyOffer(@Field("Offer_Id") int offerId,
-                                   @Field("Offer_Price") String offerPrice,
-                                   @Field("Offer_Name") String offerName,
-                                   @Field("Offer_Img") String offerImage,
-                                   @Field("Offer_Desp") String offerDesp,
-                                   @Field("Offer_From") String offerFrom,
-                                   @Field("Offer_To") String offerTo,
-                                   @Field("Hotel_Id") int hotelId,
-                                   @Field("Offer_Price_Status") int status,
-                                   @Field("Buy_Count") String buyCnt,
-                                   @Field("Get_Count") String getCnt);
-
+                                    @Field("Offer_Price") String offerPrice,
+                                    @Field("Offer_Name") String offerName,
+                                    @Field("Offer_Img") String offerImage,
+                                    @Field("Offer_Desp") String offerDesp,
+                                    @Field("Offer_From") String offerFrom,
+                                    @Field("Offer_To") String offerTo,
+                                    @Field("Hotel_Id") int hotelId,
+                                    @Field("Offer_Price_Status") int status,
+                                    @Field("Buy_Count") String buyCnt,
+                                    @Field("Get_Count") String getCnt);
 
 
     /*get parent Category*/
@@ -755,6 +754,12 @@ public interface ApiService {
                                     @Field(" Order_Id") int order_id,
                                     @Field("Cust_Id") String cust_id);
 
+    /*ready Order*/
+    @POST("Captain_Order.php?caporders=order_ready")
+    @FormUrlEncoded
+    Call<JsonObject> capReadyOrder(@Field("Hotel_Id") int hotel_id,
+                                   @Field(" Order_Id") int order_id);
+
     /*complete Order*/
     @POST("user/user_order_complete.php")
     @FormUrlEncoded
@@ -825,6 +830,7 @@ public interface ApiService {
                                @Field("Order_Status") int Order_Status,
                                @Field("Offer_Type_Id") int Offer_Type_Id,
                                @Field("Pc_Id") int Pc_Id,
+                               @Field("Menu_List") String Menu_List,
                                @Field("u_key") String u_key);
 
 

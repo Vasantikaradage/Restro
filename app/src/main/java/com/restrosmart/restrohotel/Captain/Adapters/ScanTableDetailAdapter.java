@@ -38,11 +38,13 @@ public class ScanTableDetailAdapter extends RecyclerView.Adapter<ScanTableDetail
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ItemViewHolder holder, int i) {
+    public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
 
-        holder.tvTableNo.setText("Table No: " + String.valueOf(arrayList.get(i).getTableId()));
-        holder.tvCustName.setText("Customer Name: " + arrayList.get(i).getCustName());
-        holder.tvCustMb.setText("Customer Mob No: " + arrayList.get(i).getCustMob());
+        ScanTableModel scanTableModel = arrayList.get(position);
+
+        holder.tvTableNo.setText("Table No: " + scanTableModel.getTableNo());
+        holder.tvCustName.setText("Customer Name: " + scanTableModel.getCustName());
+        holder.tvCustMb.setText("Customer Mob No: " + scanTableModel.getCustMob());
     }
 
     @Override

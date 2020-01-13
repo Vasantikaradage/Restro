@@ -5,13 +5,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,7 +17,6 @@ import com.google.gson.JsonObject;
 import com.restrosmart.restrohotel.Captain.Activities.ActivityCapSpecificOrders;
 import com.restrosmart.restrohotel.Captain.Interfaces.CapOrderDeleteListener;
 import com.restrosmart.restrohotel.Captain.Models.AllOrderModel;
-import com.restrosmart.restrohotel.Captain.Models.OrderModel;
 import com.restrosmart.restrohotel.Captain.Models.UserCategory;
 import com.restrosmart.restrohotel.Interfaces.ApiService;
 import com.restrosmart.restrohotel.Interfaces.IResult;
@@ -44,7 +41,6 @@ public class RVParcelOrderAdapter extends RecyclerView.Adapter<RVParcelOrderAdap
     private CapOrderDeleteListener mCapOrderDeleteListener;
 
     private IResult mResultCallBack;
-    private RetrofitService mRetrofitService;
 
     public RVParcelOrderAdapter(Context context, int hotelId, ArrayList<AllOrderModel> allOrderModelArrayList, ArrayList<UserCategory> userCategoryArrayList, CapOrderDeleteListener capOrderDeleteListener) {
         this.mContext = context;
@@ -145,7 +141,7 @@ public class RVParcelOrderAdapter extends RecyclerView.Adapter<RVParcelOrderAdap
         private void deleteOrder(String custId, int tableNo) {
             initRetrofitCallback();
             ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
-            mRetrofitService = new RetrofitService(mResultCallBack, mContext);
+            RetrofitService mRetrofitService = new RetrofitService(mResultCallBack, mContext);
             mRetrofitService.retrofitData(CAP_DELETE_ORDER, (service.capDeleteOrder(mHotelId, tableNo, 0, custId)));
         }
 

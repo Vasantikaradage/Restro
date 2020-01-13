@@ -83,22 +83,22 @@ public class ConstantVariables {
     public static final int EMPLOYEE_STATUS = 904;
     public static final int ADMIN_EMP_EDIT = 905;
 
-    public  static  final  int ADD_PROMOCODE=906;
-    public  static  final  int DELETE_PROMOCODE=907;
-    public  static  final  int EDIT_PROMOCODE=908;
-    public  static  final  int ADD_RUSHHOURS=909;
-    public  static  final  int DELETE_RUSHHOURS=910;
-    public  static  final  int EDIT_RUSHHOURS=911;
-    public  static  final  int ADD_SCRATCHCARD=912;
+    public static final int ADD_PROMOCODE = 906;
+    public static final int DELETE_PROMOCODE = 907;
+    public static final int EDIT_PROMOCODE = 908;
+    public static final int ADD_RUSHHOURS = 909;
+    public static final int DELETE_RUSHHOURS = 910;
+    public static final int EDIT_RUSHHOURS = 911;
+    public static final int ADD_SCRATCHCARD = 912;
 
-    public  static  final  int DELETE_SCRATCHCARD=913;
-    public  static  final  int EDIT_SCRATCHCARD=914;
-    public  static  final  int DISPLAY_PROMOCODE=915;
-    public  static  final  int DISPLAY_RUSHHOURS=916;
-    public  static  final  int DISPLAY_SCRATCHCARD=917;
-    public  static  final  int ADD_DAILY_OFFER=918;
-    public  static  final  int  DISPLAY_DAILY_OFFER=919;
-    public  static  final  int EDIT_DAILY_OFFER=920;
+    public static final int DELETE_SCRATCHCARD = 913;
+    public static final int EDIT_SCRATCHCARD = 914;
+    public static final int DISPLAY_PROMOCODE = 915;
+    public static final int DISPLAY_RUSHHOURS = 916;
+    public static final int DISPLAY_SCRATCHCARD = 917;
+    public static final int ADD_DAILY_OFFER = 918;
+    public static final int DISPLAY_DAILY_OFFER = 919;
+    public static final int EDIT_DAILY_OFFER = 920;
 
     /*Captain*/
     public static final String UNIQUE_KEY = "!#3%75^@123";
@@ -120,36 +120,36 @@ public class ConstantVariables {
     public static final int REGISTER_CUSTOMER = 814;
     public static final int CAP_DELETE_ORDER = 815;
     public static final int CAP_COMPLETE_ORDER = 816;
+    public static final int CAP_READY_ORDER = 821;
 
-    public  static  final  int PARENT_CATEGORY_WITH_SUBMENU=817;
-    public  static  final  int APPLY_RUSH_HOUR=818;
-    public  static  final  int APPLY_SCRATCHCARD=819;
-    public  static  final  int APPLY_DAILYOFFER=820;
+    public static final int PARENT_CATEGORY_WITH_SUBMENU = 817;
+    public static final int APPLY_RUSH_HOUR = 818;
+    public static final int APPLY_SCRATCHCARD = 819;
+    public static final int APPLY_DAILYOFFER = 820;
 
 
     /*Super Admin*/
-    public  static  final  int GET_SA_ALL_EMPLOYEE=1000;
-    public  static  final  int GET_SA_ALL_HOTEL=1001;
-    public  static  final  int HOTEL_TYPE=1002;
-    public  static  final  int GET_COUNTRY=1003;
-    public  static  final  int GET_STATE=1004;
-    public  static  final  int GET_CITY=1005;
-    public  static  final  int HOTEL_CUISINE=1006;
+    public static final int GET_SA_ALL_EMPLOYEE = 1000;
+    public static final int GET_SA_ALL_HOTEL = 1001;
+    public static final int HOTEL_TYPE = 1002;
+    public static final int GET_COUNTRY = 1003;
+    public static final int GET_STATE = 1004;
+    public static final int GET_CITY = 1005;
+    public static final int HOTEL_CUISINE = 1006;
 
-    public  static  final  int HOTEL_REGISTRATION=1007;
-    public  static  final  int HOTEL_TAGS=1008;
-    public  static  final  int HOTEL_OTHER_DETAILS=1009;
+    public static final int HOTEL_REGISTRATION = 1007;
+    public static final int HOTEL_TAGS = 1008;
+    public static final int HOTEL_OTHER_DETAILS = 1009;
 
-    public  static  final  int HOTEL_ADD_PHOTO=1016;
+    public static final int HOTEL_ADD_PHOTO = 1016;
 
-    public  static  final  int IMAGE1=1010;
-    public  static  final  int IMAGE2=1011;
-    public  static  final  int IMAGE3=1012;
-    public  static  final  int IMAGE4=1013;
-    public  static  final  int IMAGE5=1014;
-    public  static  final  int IMAGE6=1015;
-    public   static  final  int GET_SA_PROFILE=1016;
-
+    public static final int IMAGE1 = 1010;
+    public static final int IMAGE2 = 1011;
+    public static final int IMAGE3 = 1012;
+    public static final int IMAGE4 = 1013;
+    public static final int IMAGE5 = 1014;
+    public static final int IMAGE6 = 1015;
+    public static final int GET_SA_PROFILE = 1016;
 
 
 }
