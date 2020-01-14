@@ -9,6 +9,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+
+import com.github.ybq.android.spinkit.SpinKitView;
 import com.restrosmart.restrohotel.Adapter.AdapterNewOrder;
 import com.restrosmart.restrohotel.Model.OrderModel;
 import com.restrosmart.restrohotel.R;
@@ -27,6 +30,8 @@ public class FragmentTabNewOrders extends Fragment {
     private RecyclerView recyclerView;
     ArrayList<OrderModel> arraylistOrder;
     private ArrayList<String> arrayList;
+    private LinearLayout llNodata;
+    private SpinKitView skloding;
 
     @Nullable
     @Override
@@ -51,6 +56,13 @@ public class FragmentTabNewOrders extends Fragment {
             arrayList.add("Order " + (i + 1));
         }
         callViewAdapter();
+        /*if (arraylistOrder.size() != 0 && arraylistOrder != null) {
+           /// skloding.setVisibility(View.GONE);
+           // llNodata.setVisibility(View.GONE);
+
+
+        }*/
+
     }
 
 
@@ -72,5 +84,7 @@ public class FragmentTabNewOrders extends Fragment {
     private void init() {
         recyclerView = (RecyclerView) getActivity().findViewById(R.id.recycler_new_order);
         arrayList=new ArrayList<>();
+      //  skloding = getActivity().findViewById(R.id.skLoading);
+      //  llNodata = getActivity().findViewById(R.id.llNoOrderData);
     }
 }

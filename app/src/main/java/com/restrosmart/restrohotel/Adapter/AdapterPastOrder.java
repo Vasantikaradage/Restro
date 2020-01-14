@@ -8,9 +8,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.restrosmart.restrohotel.Admin.ActivityInvoice;
 import com.restrosmart.restrohotel.Admin.ActivityMenuOrderDidplay;
 import com.restrosmart.restrohotel.Model.OrderModel;
 import com.restrosmart.restrohotel.R;
@@ -26,6 +28,7 @@ public class AdapterPastOrder  extends RecyclerView.Adapter<AdapterPastOrder.Vie
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
     private static final int TYPE_FOOTER= 2;
+
     //ArrayList<T_Attendance_Form> formArrayList;
 
     Context context;
@@ -90,6 +93,15 @@ public class AdapterPastOrder  extends RecyclerView.Adapter<AdapterPastOrder.Vie
 
 */
 
+        viewHolder.btnPayBill.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(context, ActivityInvoice.class);
+                context.startActivity(intent);
+
+            }
+        });
+
     }
 
 
@@ -135,6 +147,7 @@ public class AdapterPastOrder  extends RecyclerView.Adapter<AdapterPastOrder.Vie
         private TextView mCustName,mCustNo, mDateTime, mOrderId, mTotal,mtableId,circle_image;
         private RecyclerView rvMenu;
         private ImageView image_cancel_stamp;
+        private Button btnPayBill;
         public ViewHolder(View itemView) {
             super(itemView);
 
@@ -145,6 +158,7 @@ public class AdapterPastOrder  extends RecyclerView.Adapter<AdapterPastOrder.Vie
             mtableId=itemView.findViewById(R.id.circle_image);
             circle_image=itemView.findViewById(R.id.circle_image);
             mCustName=itemView.findViewById(R.id.tv_cust_name);
+            btnPayBill=itemView.findViewById(R.id.btn_pay_bill);
          //   rvMenu=itemView.findViewById(R.id.recycler);
             image_cancel_stamp=itemView.findViewById(R.id.image_stamp);
 

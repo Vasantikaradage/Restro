@@ -9,7 +9,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
+import com.github.ybq.android.spinkit.SpinKitView;
 import com.restrosmart.restrohotel.Adapter.AdapterParcelOrder;
 import com.restrosmart.restrohotel.Model.OrderModel;
 import com.restrosmart.restrohotel.R;
@@ -20,13 +22,15 @@ import java.util.HashMap;
 
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.HOTEL_ID;
 
-public class FragmentTabTakeAwayOrders  extends Fragment {
+public class FragmentTabTakeAwayOrders extends Fragment {
     private ArrayList<OrderModel> arraylistParcelOrder;
-    private  Sessionmanager sessionmanager;
-    private  int hotelId;
+    private Sessionmanager sessionmanager;
+    private int hotelId;
     private RecyclerView rvParcel;
     private ArrayList<String> orderIdsArrayList;
-    private  ArrayList<String> arrayList;
+    private ArrayList<String> arrayList;
+    private LinearLayout llNodata;
+    private SpinKitView skloding;
 
     @Nullable
     @Override
@@ -46,7 +50,15 @@ public class FragmentTabTakeAwayOrders  extends Fragment {
         HashMap<String, String> name_info = sessionmanager.getHotelDetails();
         hotelId = Integer.parseInt(name_info.get(HOTEL_ID));
         callViewAdapter();
+      /*  if (arraylistParcelOrder.size() != 0 && arraylistParcelOrder != null) {
+            skloding.setVisibility(View.GONE);
+            llNodata.setVisibility(View.GONE);
 
+        } else {
+            skloding.setVisibility(View.GONE);
+            llNodata.setVisibility(View.VISIBLE);
+        }
+*/
 
     }
 
@@ -62,16 +74,16 @@ public class FragmentTabTakeAwayOrders  extends Fragment {
             rvParcel.setLayoutManager(linearLayoutManager);
             AdapterParcelOrder adapterParcelOrder = new AdapterParcelOrder(getContext(), arraylistParcelOrder);
             rvParcel.setAdapter(adapterParcelOrder);
-        }
-        else
-        {
+        } else {
             //No data
         }
     }
 
     private void init() {
-        rvParcel =getActivity().findViewById(R.id.recycler_parcel_order);
+        rvParcel = getActivity().findViewById(R.id.recycler_parcel_order);
 
-        arrayList=new ArrayList<>();
+        arrayList = new ArrayList<>();
+      //  skloding = getActivity().findViewById(R.id.skLoading);
+      //  llNodata = getActivity().findViewById(R.id.llNoOrderData);
     }
 }

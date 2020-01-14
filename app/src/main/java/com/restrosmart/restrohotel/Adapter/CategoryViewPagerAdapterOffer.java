@@ -16,21 +16,22 @@ public class CategoryViewPagerAdapterOffer extends FragmentPagerAdapter {
     Context context;
     private ArrayList<ParentCategoryForm> mFragmentTitleList = new ArrayList<>();
     private List<AddParentCategoryinfoModel> mAddParentCategoryinfoModels;
-    private  int pcId,winnerQty,butQty,offerTypeId;
+    private  int pcId,winnerQty,buyQty,getQty,offerTypeId;
 
-    public CategoryViewPagerAdapterOffer(FragmentManager supportFragmentManager, ArrayList<ParentCategoryForm> mFragmentTitleList, List<AddParentCategoryinfoModel> addParentCategoryinfoModels, int winnerQty, int qty, int offerTypeId) {
+    public CategoryViewPagerAdapterOffer(FragmentManager supportFragmentManager, ArrayList<ParentCategoryForm> mFragmentTitleList, List<AddParentCategoryinfoModel> addParentCategoryinfoModels, int winnerQty,int buyQty, int getQty, int offerTypeId) {
         super(supportFragmentManager);
         this.mFragmentTitleList = mFragmentTitleList;
         this.mAddParentCategoryinfoModels = addParentCategoryinfoModels;
         this.winnerQty=winnerQty;
-        this.butQty=qty;
+        this.buyQty=buyQty;
+        this.getQty=getQty;
         this.offerTypeId=offerTypeId;
     }
 
     @Override
     public Fragment getItem(int position) {
         AddParentCategoryinfoModel addParentCategoryinfoModel = mAddParentCategoryinfoModels.get(position);
-        return FragmentTabParentCategoryOffer.newInstance(addParentCategoryinfoModel.getCategoryForms(), winnerQty,butQty,position,offerTypeId);
+        return FragmentTabParentCategoryOffer.newInstance(addParentCategoryinfoModel.getCategoryForms(), winnerQty,buyQty,getQty,position,offerTypeId);
     }
 
 

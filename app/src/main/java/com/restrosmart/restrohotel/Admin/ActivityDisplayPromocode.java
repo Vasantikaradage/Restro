@@ -3,7 +3,10 @@ package com.restrosmart.restrohotel.Admin;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,6 +21,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -34,6 +40,7 @@ import com.google.gson.JsonObject;
 import com.restrosmart.restrohotel.Adapter.AdapterRVPromocode;
 
 import com.restrosmart.restrohotel.Interfaces.ApiService;
+import com.restrosmart.restrohotel.Interfaces.ApplyPromoCode;
 import com.restrosmart.restrohotel.Interfaces.DeleteListener;
 import com.restrosmart.restrohotel.Interfaces.EditListener;
 import com.restrosmart.restrohotel.Interfaces.IResult;
@@ -61,6 +68,8 @@ import java.util.Locale;
 import retrofit2.Response;
 
 import static com.restrosmart.restrohotel.ConstantVariables.ADD_PROMOCODE;
+
+import static com.restrosmart.restrohotel.ConstantVariables.APPLY_PROMOCODE;
 import static com.restrosmart.restrohotel.ConstantVariables.DELETE_PROMOCODE;
 import static com.restrosmart.restrohotel.ConstantVariables.DISPLAY_PROMOCODE;
 import static com.restrosmart.restrohotel.ConstantVariables.EDIT_PROMOCODE;
@@ -94,6 +103,7 @@ public class ActivityDisplayPromocode extends AppCompatActivity {
     String fromDateOut, toDateOut;
     private SpinKitView spinKitView;
     private LinearLayout llNodata;
+    private Date dateFrom, dateTo;
     private String seletedStartDate, seletedEndDate, getStartDate;
 
 
@@ -168,7 +178,12 @@ public class ActivityDisplayPromocode extends AppCompatActivity {
                                     //StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(VERTICAL);
                                     rvPromocode.setHasFixedSize(true);
                                     rvPromocode.setLayoutManager(linearLayoutManager);
-                                    AdapterRVPromocode adapterRVPromocode = new AdapterRVPromocode(ActivityDisplayPromocode.this, arrayListPromoCode, new EditListener() {
+                                    AdapterRVPromocode adapterRVPromocode = new AdapterRVPromocode(ActivityDisplayPromocode.this, arrayListPromoCode, new ApplyPromoCode() {
+                                        @Override
+                                        public void applyPromoCode(int position) {
+                                            alerDailog(position);
+                                        }
+                                    }, new EditListener() {
                                         @Override
                                         public void getEditListenerPosition(int position) {
                                             editedItemPosition = position;
@@ -240,6 +255,31 @@ public class ActivityDisplayPromocode extends AppCompatActivity {
         };
     }
 
+    private void alerDailog(final int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(ActivityDisplayPromocode.this);
+        builder
+                .setTitle("Apply Offer")
+                .setMessage("Are you sure you want to apply this Offer ?")
+                /* .setIcon(R.drawable.ic_gr_promocode)*/
+                .setPositiveButton("Apply", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        initRetrofitCall();
+                        ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
+                        mRetrofitService = new RetrofitService(mResultCallBack, ActivityDisplayPromocode.this);
+                        mRetrofitService.retrofitData(APPLY_PROMOCODE, service.applyPromoCodeOffer(hotelId, arrayListPromoCode.get(position).getOfferId()));
+                    }
+                });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+
     @SuppressLint("SetTextI18n")
     private void AddEditOffer() {
 
@@ -278,7 +318,7 @@ public class ActivityDisplayPromocode extends AppCompatActivity {
                         myCalendar.set(Calendar.YEAR, selectedyear);
                         myCalendar.set(Calendar.MONTH, selectedmonth);
                         myCalendar.set(Calendar.DAY_OF_MONTH, selectedday);
-                        String myFormat = "yyyy-MM-dd hh:mm:ss a";
+                        String myFormat = "yyyy-MM-dd h:mm:ss a";
 
                         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.ENGLISH);
                         getStartDate = sdf.format(myCalendar.getTime());
@@ -319,7 +359,7 @@ public class ActivityDisplayPromocode extends AppCompatActivity {
                             myCalendar.set(Calendar.YEAR, selectedyear);
                             myCalendar.set(Calendar.MONTH, selectedmonth);
                             myCalendar.set(Calendar.DAY_OF_MONTH, selectedday);
-                            String myFormat = "yyyy-MM-dd hh:mm:ss a"; //Change as you need
+                            String myFormat = "yyyy-MM-dd h:mm:ss a"; //Change as you need
                             SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.ENGLISH);
 
                             Date startDate = null, endDate = null;
@@ -366,15 +406,12 @@ public class ActivityDisplayPromocode extends AppCompatActivity {
             etPrice.setText(arrayListPromoCode.get(editedItemPosition).getOfferPrice());
             etPromoCode.setText(arrayListPromoCode.get(editedItemPosition).getOfferValue());
             etDescription.setText(arrayListPromoCode.get(editedItemPosition).getOfferDescription());
-            etPromoCode.setFocusable(false);
-
 
             DateFormat inputFormat = new SimpleDateFormat("dd-MM-yyyy");
             DateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd");
             String mFromDate = arrayListPromoCode.get(editedItemPosition).getFromDate();
             String mToDate = arrayListPromoCode.get(editedItemPosition).getToDate();
-            Date dateFrom = null;
-            Date dateTo = null;
+
             try {
                 dateFrom = inputFormat.parse(mFromDate);
                 dateTo = inputFormat.parse(mToDate);
@@ -398,9 +435,11 @@ public class ActivityDisplayPromocode extends AppCompatActivity {
                         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
                         mRetrofitService = new RetrofitService(mResultCallBack, dialoglayout.getContext());
                         mRetrofitService.retrofitData(EDIT_PROMOCODE, service.editPromoCode(offerId,
+                                etPromoCode.getText().toString(),
                                 etFromDate.getText().toString(),
                                 etToDate.getText().toString(),
                                 etPrice.getText().toString(),
+                                etDescription.getText().toString(),
                                 hotelId));
                         editedItemPosition = 0;
                         offerId = 0;
@@ -440,7 +479,7 @@ public class ActivityDisplayPromocode extends AppCompatActivity {
                                 etDescription.getText().toString(),
                                 etFromDate.getText().toString(),
                                 etToDate.getText().toString(),
-                                hotelId, 1));
+                                hotelId, 0));
                     }
                 }
             });
@@ -462,13 +501,19 @@ public class ActivityDisplayPromocode extends AppCompatActivity {
 
     private boolean validData() {
 
-        if (etPrice.getText().toString().equalsIgnoreCase("")) {
+        if (etPrice.getText().toString().equals("0")) {
+            Toast.makeText(ActivityDisplayPromocode.this, "Please enter amount", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (etPrice.getText().toString().equalsIgnoreCase("")) {
             Toast.makeText(ActivityDisplayPromocode.this, "Please enter amount", Toast.LENGTH_SHORT).show();
             return false;
         } else if (etPromoCode.getText().toString().equalsIgnoreCase("")) {
             Toast.makeText(this, "Please enter Promo Code", Toast.LENGTH_SHORT).show();
             return false;
-        } else if (etDescription.getText().toString().equalsIgnoreCase("")) {
+        } else if (etPromoCode.getText().toString().length()<=4) {
+            Toast.makeText(this, "Please enter Promo Code upto 4 character", Toast.LENGTH_SHORT).show();
+            return false;}
+        else if (etDescription.getText().toString().equalsIgnoreCase("")) {
             Toast.makeText(ActivityDisplayPromocode.this, "Please enter Description..", Toast.LENGTH_SHORT).show();
             return false;
         } else if (etFromDate.getText().toString().equalsIgnoreCase("")) {
@@ -540,6 +585,22 @@ public class ActivityDisplayPromocode extends AppCompatActivity {
                             editedItemPosition = 0;
                             offerId = 0;
                             dialog.dismiss();
+                            getPromoCodeInfo();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        break;
+
+                    case APPLY_PROMOCODE:
+                        try {
+                            JSONObject object = new JSONObject(jsonString);
+                            int status = object.getInt("status");
+                            if (status == 1) {
+                                Toast.makeText(ActivityDisplayPromocode.this, object.getString("message"), Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(ActivityDisplayPromocode.this, object.getString("message"), Toast.LENGTH_SHORT).show();
+
+                            }
                             getPromoCodeInfo();
                         } catch (JSONException e) {
                             e.printStackTrace();

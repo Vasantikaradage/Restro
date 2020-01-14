@@ -172,6 +172,9 @@
         <activity android:name=".Admin.ActivityMenuCart"/>
 
         <activity android:name=".Admin.ActivityBannerImage"/>
+
+        <activity android:name=".Admin.ActivityDaliyBuyGetoffer"/>
+        <activity android:name=".Admin.ActivityInvoice"/>
         
     </application>
 

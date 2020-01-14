@@ -18,66 +18,23 @@ public class MenuDisplayForm implements Parcelable {
 
     private boolean selected;
 
-    public boolean isSelected() {
-        return selected;
-    }
-
-    public void setSelected(boolean selected) {
-        this.selected = selected;
-    }
-
-    public MenuDisplayForm() {
-    }
-
-    public int getPcId() {
-        return pcId;
-    }
-
-    public void setPcId(int pcId) {
-        this.pcId = pcId;
-    }
-
-    public String getOffeerPrice() {
-        return offeerPrice;
-    }
-
-    public void setOffeerPrice(String offeerPrice) {
-        this.offeerPrice = offeerPrice;
-    }
-
-    public String getError() {
-        return error;
-    }
-
-    public void setError(String error) {
-        this.error = error;
-    }
-
-
-    public String getCategoryName() {
-        return categoryName;
-    }
-
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
-    }
-
     protected MenuDisplayForm(Parcel in) {
         Menu_Name = in.readString();
         Menu_Descrip = in.readString();
         Menu_Image_Name = in.readString();
         Menu_Id = in.readString();
+        offeerPrice = in.readString();
+        error = in.readString();
+        categoryName = in.readString();
         Category_Id = in.readInt();
         Menu_Test = in.readInt();
         Non_Ac_Rate = in.readInt();
         Hotel_Id = in.readInt();
         Branch_Id = in.readInt();
         status = in.readInt();
-        pcId=in.readInt();
-        offeerPrice=in.readString();
-        error=in.readString();
-        categoryName=in.readString();
+        pcId = in.readInt();
         arrayListtoppings = in.createTypedArrayList(ToppingsForm.CREATOR);
+        selected = in.readByte() != 0;
     }
 
     public static final Creator<MenuDisplayForm> CREATOR = new Creator<MenuDisplayForm>() {
@@ -92,21 +49,16 @@ public class MenuDisplayForm implements Parcelable {
         }
     };
 
-    public ArrayList<ToppingsForm> getArrayListtoppings() {
-        return arrayListtoppings;
+    public boolean isSelected() {
+        return selected;
     }
 
-    public void setArrayListtoppings(ArrayList<ToppingsForm> arrayListtoppings) {
-        this.arrayListtoppings = arrayListtoppings;
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 
-    public int getStatus() {
-        return status;
-    }
+    public MenuDisplayForm() {}
 
-    public void setStatus(int status) {
-        this.status = status;
-    }
 
     public String getMenu_Name() {
         return Menu_Name;
@@ -140,6 +92,30 @@ public class MenuDisplayForm implements Parcelable {
         Menu_Id = menu_Id;
     }
 
+    public String getOffeerPrice() {
+        return offeerPrice;
+    }
+
+    public void setOffeerPrice(String offeerPrice) {
+        this.offeerPrice = offeerPrice;
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
     public int getCategory_Id() {
         return Category_Id;
     }
@@ -152,8 +128,8 @@ public class MenuDisplayForm implements Parcelable {
         return Menu_Test;
     }
 
-    public void setMenu_Test(int ac_Rate) {
-        Menu_Test = ac_Rate;
+    public void setMenu_Test(int menu_Test) {
+        Menu_Test = menu_Test;
     }
 
     public int getNon_Ac_Rate() {
@@ -180,9 +156,28 @@ public class MenuDisplayForm implements Parcelable {
         Branch_Id = branch_Id;
     }
 
-    @Override
-    public String toString() {
-        return Menu_Name;
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public int getPcId() {
+        return pcId;
+    }
+
+    public void setPcId(int pcId) {
+        this.pcId = pcId;
+    }
+
+    public ArrayList<ToppingsForm> getArrayListtoppings() {
+        return arrayListtoppings;
+    }
+
+    public void setArrayListtoppings(ArrayList<ToppingsForm> arrayListtoppings) {
+        this.arrayListtoppings = arrayListtoppings;
     }
 
     @Override
@@ -196,6 +191,9 @@ public class MenuDisplayForm implements Parcelable {
         dest.writeString(Menu_Descrip);
         dest.writeString(Menu_Image_Name);
         dest.writeString(Menu_Id);
+        dest.writeString(offeerPrice);
+        dest.writeString(error);
+        dest.writeString(categoryName);
         dest.writeInt(Category_Id);
         dest.writeInt(Menu_Test);
         dest.writeInt(Non_Ac_Rate);
@@ -204,8 +202,6 @@ public class MenuDisplayForm implements Parcelable {
         dest.writeInt(status);
         dest.writeInt(pcId);
         dest.writeTypedList(arrayListtoppings);
-        dest.writeString(offeerPrice);
-        dest.writeString(error);
-        dest.writeString(categoryName);
+        dest.writeByte((byte) (selected ? 1 : 0));
     }
 }

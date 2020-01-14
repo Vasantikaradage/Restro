@@ -23,19 +23,20 @@ public class AdapterDisplayAllMenusOffer extends RecyclerView.Adapter<AdapterDis
     private ArrayList<MenuDisplayForm> menuDisplayFormArrayList;
     ArrayList<MenuDisplayForm> menuDisplayFormsarray = new ArrayList<>();
     private Sessionmanager sessionmanager;
-    private int winnerQty, buyQty, offerTypeId;
+    private int winnerQty, buyQty, offerTypeId, getQty;
     private int count = 0;
-    private  String flvName;
+    private String flvName;
 
 
-    public AdapterDisplayAllMenusOffer(Context context, ArrayList<MenuDisplayForm> arrayListMenu, int winnerQty, int buyQty, int offerTypeId, String category_name) {
+    public AdapterDisplayAllMenusOffer(Context context, ArrayList<MenuDisplayForm> arrayListMenu, int winnerQty, int buyQty, int getQty, int offerTypeId, String category_name) {
         this.mContext = context;
         this.menuDisplayFormArrayList = arrayListMenu;
         this.winnerQty = winnerQty;
         this.buyQty = buyQty;
+        this.getQty = getQty;
         this.offerTypeId = offerTypeId;
         sessionmanager = new Sessionmanager(mContext);
-        this.flvName=category_name;
+        this.flvName = category_name;
     }
 
     @NonNull
@@ -72,17 +73,10 @@ public class AdapterDisplayAllMenusOffer extends RecyclerView.Adapter<AdapterDis
 
 
             if (offerTypeId == 2) {
-
-                if (count <= winnerQty) {
-
+                if ((count < winnerQty) || (count == winnerQty)) {
                     checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-
                         @Override
                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                            // MenuDisplayForm menuDisplayForm = new MenuDisplayForm();
-
-
                             if (isChecked) {
                                 sessionmanager.addToMenuCart(mContext, menuDisplayFormArrayList.get(getAdapterPosition()));
                                 count++;
@@ -97,40 +91,23 @@ public class AdapterDisplayAllMenusOffer extends RecyclerView.Adapter<AdapterDis
                     });
                 } else
                     Toast.makeText(mContext, "your winner count is less that selected menu", Toast.LENGTH_SHORT).show();
-            } else if (offerTypeId ==1) {
-                String buy= String.valueOf(buyQty);
+            }  else if ((offerTypeId == 1)) {
 
-                if ((count<= buyQty) ){
-                    checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-
-                        @Override
-                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                            // MenuDisplayForm menuDisplayForm = new MenuDisplayForm();
-                            if (isChecked) {
-                                sessionmanager.addToMenuCart(mContext, menuDisplayFormArrayList.get(getAdapterPosition()));
-                                count++;
-
-                            } else {
-                                sessionmanager.removeMenuCart(mContext, Integer.parseInt(menuDisplayFormArrayList.get(getAdapterPosition()).getMenu_Id()));
-                                count--;
-                            }
-                        }
-
-
-                    });
-                } else if (count > buyQty) {
-                    Toast.makeText(mContext, "you want to select only " + buy + "menu", Toast.LENGTH_SHORT).show();
-
-                } else
-                {
-
-                }
-
-            } else  if(offerTypeId ==4){
                 checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked) {
 
-
+                            sessionmanager.addToMenuCart(mContext, menuDisplayFormArrayList.get(getAdapterPosition()));
+                            count++;
+                        } else {
+                            sessionmanager.removeMenuCart(mContext, Integer.parseInt(menuDisplayFormArrayList.get(getAdapterPosition()).getMenu_Id()));
+                            count--;
+                        }
+                    }
+                });
+            } else if (offerTypeId == 4) {
+                checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                         if (isChecked) {
@@ -139,11 +116,8 @@ public class AdapterDisplayAllMenusOffer extends RecyclerView.Adapter<AdapterDis
                             sessionmanager.removeMenuCart(mContext, Integer.parseInt(menuDisplayFormArrayList.get(getAdapterPosition()).getMenu_Id()));
                         }
                     }
-
-
                 });
-
-        }
+            }
         }
     }
 }

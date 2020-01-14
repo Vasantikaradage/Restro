@@ -175,9 +175,6 @@ public class AdapterMenuCartDetails  extends RecyclerView.Adapter<AdapterMenuCar
                 }
             });
 
-
-
-
         }
     }
 }

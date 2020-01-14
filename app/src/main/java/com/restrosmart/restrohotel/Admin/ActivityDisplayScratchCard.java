@@ -163,7 +163,7 @@ public class ActivityDisplayScratchCard extends AppCompatActivity {
                         myCalendar.set(Calendar.YEAR, selectedyear);
                         myCalendar.set(Calendar.MONTH, selectedmonth);
                         myCalendar.set(Calendar.DAY_OF_MONTH, selectedday);
-                        String myFormat = "yyyy-MM-dd hh:mm:ss a";
+                        String myFormat = "yyyy-MM-dd h:mm:ss a";
 
                         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.ENGLISH);
                         getStartDate = sdf.format(myCalendar.getTime());
@@ -204,7 +204,7 @@ public class ActivityDisplayScratchCard extends AppCompatActivity {
                             myCalendar.set(Calendar.YEAR, selectedyear);
                             myCalendar.set(Calendar.MONTH, selectedmonth);
                             myCalendar.set(Calendar.DAY_OF_MONTH, selectedday);
-                            String myFormat = "yyyy-MM-dd hh:mm:ss a"; //Change as you need
+                            String myFormat = "yyyy-MM-dd h:mm:ss a"; //Change as you need
                             SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.ENGLISH);
 
                             Date startDate = null, endDate = null;
@@ -290,7 +290,7 @@ public class ActivityDisplayScratchCard extends AppCompatActivity {
                     }
                     offerId = 0;
                     editedItemPosition = 0;
-                    spinKitView.setVisibility(View.VISIBLE);
+
                 }
             });
         } else {
@@ -340,6 +340,8 @@ public class ActivityDisplayScratchCard extends AppCompatActivity {
     }
 
     private boolean isValidData() {
+
+
         if (etOfferName.getText().toString().equalsIgnoreCase("")) {
             Toast.makeText(ActivityDisplayScratchCard.this, "Please enter  offer name", Toast.LENGTH_SHORT).show();
             return false;
@@ -358,6 +360,14 @@ public class ActivityDisplayScratchCard extends AppCompatActivity {
             return false;
         } else if (etTotWinnerCnt.getText().toString().equalsIgnoreCase("")) {
             Toast.makeText(ActivityDisplayScratchCard.this, "Please enter winner count", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        else if ((etTotWinnerCnt.getText().toString()).equals("0")) {
+            Toast.makeText(ActivityDisplayScratchCard.this, "Please enter winner count", Toast.LENGTH_SHORT).show();
+            return false;
+
+        }else if (Integer.parseInt(etTotWinnerCnt.getText().toString())>=Integer.parseInt(etTotPplCount.getText().toString())) {
+            Toast.makeText(ActivityDisplayScratchCard.this, "winner people count should be  less than total people count", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
@@ -454,17 +464,20 @@ public class ActivityDisplayScratchCard extends AppCompatActivity {
                                     scratchCardForm.setWinnerPplCnt(ScratchObject.getInt("PplWinnerCount"));
                                     scratchCardForm.setTotalPplCnt(ScratchObject.getInt("PplTotalCount"));
 
-                                    JSONArray array = ScratchObject.getJSONArray("offermenu");
-                                    offerMenuFormArrayList = new ArrayList<>();
-                                    for (int j = 0; j < array.length(); j++) {
-                                        JSONObject scratchCardMenu = array.getJSONObject(j);
-                                        OfferMenuForm offerMenuForm = new OfferMenuForm();
-                                        offerMenuForm.setOffer_maintain_Id(scratchCardMenu.getInt("Offer_maintain_Id"));
-                                        offerMenuForm.setMenu_Name(scratchCardMenu.getString("Menu_Name"));
-                                        offerMenuForm.setMenu_Offer_Price(scratchCardMenu.getString("Offer_Qty_Count"));
-                                        offerMenuForm.setMenuId(scratchCardMenu.getString("Menu_Id"));
-                                        offerMenuForm.setMenu_Image_Name(scratchCardMenu.getString("Menu_Img"));
-                                        offerMenuFormArrayList.add(offerMenuForm);
+
+                                    if (ScratchObject.has("offermenu")) {
+                                        JSONArray array = ScratchObject.getJSONArray("offermenu");
+                                        offerMenuFormArrayList = new ArrayList<>();
+                                        for (int j = 0; j < array.length(); j++) {
+                                            JSONObject scratchCardMenu = array.getJSONObject(j);
+                                            OfferMenuForm offerMenuForm = new OfferMenuForm();
+                                            offerMenuForm.setOffer_maintain_Id(scratchCardMenu.getInt("Offer_maintain_Id"));
+                                            offerMenuForm.setMenu_Name(scratchCardMenu.getString("Menu_Name"));
+                                            offerMenuForm.setMenu_Offer_Price(scratchCardMenu.getString("Offer_Qty_Count"));
+                                            offerMenuForm.setMenuId(scratchCardMenu.getString("Menu_Id"));
+                                            offerMenuForm.setMenu_Image_Name(scratchCardMenu.getString("Menu_Img"));
+                                            offerMenuFormArrayList.add(offerMenuForm);
+                                        }
                                     }
 
                                     scratchCardForm.setOfferMenuFormArrayList(offerMenuFormArrayList);
@@ -503,6 +516,7 @@ public class ActivityDisplayScratchCard extends AppCompatActivity {
                                             RecyclerView rvMenuItem = dialoglayout.findViewById(R.id.rv_menu_item);
                                             TextView tvTitle = dialoglayout.findViewById(R.id.tv_menu_title);
                                             TextView tvWinnerPplCnt = dialoglayout.findViewById(R.id.tv_ppl_winner_cnt);
+                                            TextView tvTotalPeopleCnt=dialoglayout.findViewById(R.id.tv_ppl_total_cnt);
                                             LinearLayout linearLayout = dialoglayout.findViewById(R.id.linear_layout_menu);
                                             ImageView btnCancel = dialoglayout.findViewById(R.id.btn_cancel);
                                             View viewline = dialoglayout.findViewById(R.id.view_line);
@@ -511,6 +525,7 @@ public class ActivityDisplayScratchCard extends AppCompatActivity {
                                             tvDate.setText(scratchCardFormArrayList.get(pos).getFromDate() + " - " + scratchCardFormArrayList.get(pos).getToDate());
                                             tvTime.setText(scratchCardFormArrayList.get(pos).getFromTime() + " - " + scratchCardFormArrayList.get(pos).getToTime());
                                             tvDesc.setText(scratchCardFormArrayList.get(pos).getDiscription());
+                                            tvTotalPeopleCnt.setText(String.valueOf(scratchCardFormArrayList.get(pos).getTotalPplCnt()));
                                             //String cnt= String.valueOf(scratchCardFormArrayList.get(pos).getWinnerPplCnt());
                                             tvWinnerPplCnt.setText(String.valueOf(scratchCardFormArrayList.get(pos).getWinnerPplCnt()));
 
@@ -557,6 +572,11 @@ public class ActivityDisplayScratchCard extends AppCompatActivity {
                                     llNodata.setVisibility(View.VISIBLE);
                                     spinKitView.setVisibility(View.GONE);
                                 }
+                            }
+                            else
+                            {
+                                llNodata.setVisibility(View.VISIBLE);
+                                spinKitView.setVisibility(View.GONE);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

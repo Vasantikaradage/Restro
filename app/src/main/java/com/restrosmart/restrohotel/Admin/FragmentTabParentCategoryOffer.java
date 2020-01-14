@@ -33,7 +33,7 @@ public class FragmentTabParentCategoryOffer extends Fragment {
     private  int mHotelId;
     private String  imageName;
     private SpinKitView spinKitView;
-    private  int winnerQty,buyQty,offerTypeId;
+    private  int winnerQty,buyQty,getQty,offerTypeId;
 
     @Nullable
     @Override
@@ -45,6 +45,7 @@ public class FragmentTabParentCategoryOffer extends Fragment {
         final ArrayList<CategoryForm> categoryForms = bundle.getParcelableArrayList("menuobj");
         winnerQty=bundle.getInt("winnerQty",0);
         buyQty=bundle.getInt("buyQty",0);
+        getQty=bundle.getInt("getQty",0);
         offerTypeId=bundle.getInt("offerTypeId",0);
 
 
@@ -59,7 +60,7 @@ public class FragmentTabParentCategoryOffer extends Fragment {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.getLayoutManager().setMeasurementCacheEnabled(false);
-        adapterDisplayAllMenuOffer = new AdapterDisplayAllCategoryOffer(getActivity(), categoryForms,winnerQty,buyQty,offerTypeId);
+        adapterDisplayAllMenuOffer = new AdapterDisplayAllCategoryOffer(getActivity(), categoryForms,winnerQty,buyQty,getQty,offerTypeId);
         recyclerView.setAdapter(adapterDisplayAllMenuOffer);
         adapterDisplayAllMenuOffer.notifyDataSetChanged();
         return view;
@@ -75,13 +76,14 @@ public class FragmentTabParentCategoryOffer extends Fragment {
         //arrayListMenu=new ArrayList<>();
     }
 
-    public static Fragment newInstance(ArrayList<CategoryForm> menu, int qty, int winnerQty, int position, int offerTypeId) {
+    public static Fragment newInstance(ArrayList<CategoryForm> menu, int winnerQty, int buyQty,int getQty, int position, int offerTypeId) {
         FragmentTabParentCategoryOffer fragment = new FragmentTabParentCategoryOffer();
         Bundle args = new Bundle();
         args.putParcelableArrayList("menuobj", menu);
-        args.putInt("buyQty",qty);
+        args.putInt("buyQty",buyQty);
         args.putInt("position", position);
         args.putInt("winnerQty",winnerQty);
+        args.putInt("getQty",getQty);
         args.putInt("offerTypeId",offerTypeId);
         fragment.setArguments(args);
         return fragment;

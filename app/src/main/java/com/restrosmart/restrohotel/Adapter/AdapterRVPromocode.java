@@ -8,6 +8,7 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.restrosmart.restrohotel.Interfaces.ApplyPromoCode;
 import com.restrosmart.restrohotel.Interfaces.DeleteListener;
 import com.restrosmart.restrohotel.Interfaces.EditListener;
 import com.restrosmart.restrohotel.Interfaces.PositionListener;
@@ -33,13 +35,15 @@ public class AdapterRVPromocode extends RecyclerView.Adapter<AdapterRVPromocode.
     private DeleteListener deletePromoCodeListener;
     private PositionListener positionListener;
     private  EditListener editListener;
+    private  ApplyPromoCode applyPromoCode;
 
-    public AdapterRVPromocode(Context context, ArrayList<PromoCodeForm> arrayListPromoCode, EditListener editListener, DeleteListener deleteListener, PositionListener positionListener) {
+    public AdapterRVPromocode(Context context, ArrayList<PromoCodeForm> arrayListPromoCode, ApplyPromoCode applyPromoCode, EditListener editListener, DeleteListener deleteListener, PositionListener positionListener) {
         this.mContext = context;
         this.promoCodeFormArrayList = arrayListPromoCode;
         this.positionListener = positionListener;
         this.deletePromoCodeListener =deleteListener;
         this.editListener=editListener;
+        this.applyPromoCode=applyPromoCode;
 
     }
 
@@ -75,7 +79,7 @@ public class AdapterRVPromocode extends RecyclerView.Adapter<AdapterRVPromocode.
         }
         String price=promoCodeFormArrayList.get(i).getOfferPrice();
 
-        DateFormat inputFormat = new SimpleDateFormat("dd-MM-yyyy");
+        /*DateFormat inputFormat = new SimpleDateFormat("dd-MM-yyyy");
         DateFormat outputFormat = new SimpleDateFormat("dd MMM");
         String mFromDate=promoCodeFormArrayList.get(i).getFromDate();
         String mToDate=promoCodeFormArrayList.get(i).getToDate();
@@ -88,8 +92,8 @@ public class AdapterRVPromocode extends RecyclerView.Adapter<AdapterRVPromocode.
             e.printStackTrace();
         }
         String strFromDate = outputFormat.format(dateFrom);
-        String strToDate = outputFormat.format(dateTo);
-        itemViewHolder.tvDate.setText(strFromDate +" - "+strToDate);
+        String strToDate = outputFormat.format(dateTo);*/
+        itemViewHolder.tvDate.setText(promoCodeFormArrayList.get(i).getFromDate() +" - "+promoCodeFormArrayList.get(i).getToDate());
 
         itemViewHolder.tvOffer.setText(promoCodeFormArrayList.get(i).getOfferValue() + "" + price);
         itemViewHolder.tvDescription.setText(promoCodeFormArrayList.get(i).getOfferDescription());
@@ -103,6 +107,21 @@ public class AdapterRVPromocode extends RecyclerView.Adapter<AdapterRVPromocode.
                 PopupMenu popup = new PopupMenu(mContext, view);
                 //inflating menu from xml resource
                 popup.inflate(R.menu.menu_offer_items);
+
+
+                Menu popupMenu = popup.getMenu();
+                if(promoCodeFormArrayList.get(i).getOfferStatus()==1) {
+                    popupMenu.findItem(R.id.offer_display).setVisible(true);
+                    popupMenu.findItem(R.id.offer_edit).setVisible(false);
+                    popupMenu.findItem(R.id.offer_delete).setVisible(false);
+                    popupMenu.findItem(R.id.offer_apply).setVisible(false);
+                }
+                else {
+                    popupMenu.findItem(R.id.offer_display).setVisible(true);
+                    popupMenu.findItem(R.id.offer_edit).setVisible(true);
+                    popupMenu.findItem(R.id.offer_delete).setVisible(true);
+                    popupMenu.findItem(R.id.offer_apply).setVisible(true);
+                }
                 //adding click listener
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
@@ -138,7 +157,8 @@ public class AdapterRVPromocode extends RecyclerView.Adapter<AdapterRVPromocode.
                                 alert.show();
                                 return true;
                             case R.id.offer_apply:
-                                //handle menu3 click
+                                applyPromoCode.applyPromoCode(i);
+
                                 return true;
                             default:
                                 return false;

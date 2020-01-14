@@ -528,9 +528,11 @@ public interface ApiService {
     @POST("Offer_Promo.php?offerpromo=offerpromo_edit")
     @FormUrlEncoded
     Call<JsonObject> editPromoCode(@Field("Offer_Id") int offerId,
+                                   @Field("Coupon_Code") String Promocode,
                                    @Field("Offer_From") String offerFrom,
                                    @Field("Offer_To") String offerTo,
                                    @Field("Offer_Price") String offerPrice,
+                                   @Field("Offer_Desp") String offerDiscription,
                                    @Field("Hotel_Id") int hotelId);
 
     /*delete promoCode*/
@@ -539,9 +541,18 @@ public interface ApiService {
     Call<JsonObject> deleteOffer(@Field("Hotel_Id") int hotel_id,
                                  @Field("Offer_Id") int offerId);
 
+    /*apply promoCode*/
+    @POST("Offer_Promo.php?offerpromo=offerpromo_apply")
+    @FormUrlEncoded
+    Call<JsonObject> applyPromoCodeOffer(@Field("Hotel_Id") int hotel_id,
+                                 @Field("Offer_Id") int offerId);
+
+
+
+
 
     /*Add rushHours*/
-    @POST("Offer_Rush.php?offerrush=offerrush_add")
+    @POST(" Offer_Rush.php?offerrush=offerrush_add")
     @FormUrlEncoded
     Call<JsonObject> addRushHours(@Field("Offer_From") String offerFrom,
                                   @Field("Offer_To") String offerTo,

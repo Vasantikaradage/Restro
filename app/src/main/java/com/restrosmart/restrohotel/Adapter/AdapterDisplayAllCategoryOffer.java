@@ -57,15 +57,16 @@ public class AdapterDisplayAllCategoryOffer extends RecyclerView.Adapter<Adapter
 
     private ArrayList<Integer> counter = new ArrayList<Integer>();
     ArrayList<MenuDisplayForm>  arrayListMenu;
-    private  int winnerQty,buyQty,offerTypeId;
+    private  int winnerQty,buyQty,getQty,offerTypeId;
 
 
 
-    public AdapterDisplayAllCategoryOffer(Context activity, ArrayList<CategoryForm> arrayList, int winnerQty, int buyQty, int offerTypeId) {
+    public AdapterDisplayAllCategoryOffer(Context activity, ArrayList<CategoryForm> arrayList, int winnerQty, int buyQty, int getQty,int offerTypeId) {
         this.context = activity;
         this.arrayList = arrayList;
         this.winnerQty=winnerQty;
         this.buyQty=buyQty;
+        this.getQty=getQty;
         this.offerTypeId=offerTypeId;
 
         for (int i = 0; i < arrayList.size(); i++) {
@@ -94,7 +95,7 @@ public class AdapterDisplayAllCategoryOffer extends RecyclerView.Adapter<Adapter
              holder.rvMenu.setHasFixedSize(true);
              holder.rvMenu.setLayoutManager(linearLayoutManager);
 
-             AdapterDisplayAllMenusOffer displayAllMenus = new AdapterDisplayAllMenusOffer(context, arrayListMenu,winnerQty,buyQty,offerTypeId,arrayList.get(position).getCategory_Name());
+             AdapterDisplayAllMenusOffer displayAllMenus = new AdapterDisplayAllMenusOffer(context, arrayListMenu,winnerQty,buyQty,getQty,offerTypeId,arrayList.get(position).getCategory_Name());
              holder.rvMenu.setAdapter(displayAllMenus);
          }
          else

@@ -78,7 +78,9 @@ public class ActivitySelectMenu extends AppCompatActivity {
     private TextView tvToolBarTitle;
     private Toolbar mToolbar;
     private RequestQueue queue;
-    private int offerTypeId, offerId, winnerQty, buyQty;
+    private int offerTypeId, offerId, winnerQty, buyQty, getQty;
+    private ArrayList<MenuDisplayForm> menuDisplayFormArrayList;
+    Intent intentDaily;
 
 
     @Override
@@ -88,14 +90,15 @@ public class ActivitySelectMenu extends AppCompatActivity {
 
         init();
         setUpToolBar();
-        Intent intent = getIntent();
-        offerTypeId = intent.getIntExtra("offerTypeId", 0);
-        offerId = intent.getIntExtra("offerId", 0);
+        intentDaily = getIntent();
+        offerTypeId = intentDaily.getIntExtra("offerTypeId", 0);
+        offerId = intentDaily.getIntExtra("offerId", 0);
 
         if (offerTypeId == 2) {
-            winnerQty = intent.getIntExtra("winnerQty", 0);
+            winnerQty = intentDaily.getIntExtra("winnerQty", 0);
         } else if (offerTypeId == 1) {
-            buyQty = intent.getIntExtra("buyQty", 0);
+            buyQty = intentDaily.getIntExtra("buyCnt", 0);
+            getQty = intentDaily.getIntExtra("getCnt", 0);
 
         } else {
 
@@ -154,205 +157,224 @@ public class ActivitySelectMenu extends AppCompatActivity {
                     Toast.makeText(ActivitySelectMenu.this, "Selected Menu is more the winner people qty", Toast.LENGTH_SHORT).show();
 
                 }
-            } else if (offerTypeId == 1) {
-
-                if (menuDisplayFormArrayList == null) {
-                    Toast.makeText(ActivitySelectMenu.this, "Please Select Menu...", Toast.LENGTH_SHORT).show();
-
+            } else if (buyQty != 0) {
+                if (buyQty== menuDisplayFormArrayList.size()) {
+                    Intent intent = getIntent();
+                    intent.putExtra("menuListBuy", menuDisplayFormArrayList);
+                    setResult(200, intent);
+                    finish();
                 } else {
-                    if (buyQty == 0) {
-                        Intent intent = new Intent(ActivitySelectMenu.this, ActivityMenuCart.class);
-                        intent.putExtra("offerTypeId", offerTypeId);
-                        intent.putExtra("offerId", offerId);
-                        startActivity(intent);
-                    } else {
-                        Intent intent = new Intent(ActivitySelectMenu.this, ActivityMenuCart.class);
-                        intent.putExtra("offerTypeId", offerTypeId);
-                        intent.putExtra("offerId", offerId);
-                        intent.putExtra("buyQty", buyQty);
-                        startActivity(intent);
+                    Toast.makeText(ActivitySelectMenu.this, "Please select " + buyQty + " for this offer...", Toast.LENGTH_SHORT).show();
+
+                }
+
+            } else if (getQty != 0) {
+
+                if (menuDisplayFormArrayList.size() == getQty) {
+                    // menuDisplayFormArrayList = sessionmanager.getAddToMenuCartList(this);
+                    Intent intent = getIntent();
+                    intent.putExtra("menuListGet", menuDisplayFormArrayList);
+                    setResult(300, intent);
+                    finish();
+                } else {
+                    Toast.makeText(ActivitySelectMenu.this, "Please select " + getQty + " for this offer...", Toast.LENGTH_SHORT).show();
+
+                    //  }
+                }
+            } else if ((buyQty == 0) && (getQty == 0)) {
+                if (menuDisplayFormArrayList.size() == 1) {
+                    Intent intent = new Intent(ActivitySelectMenu.this, ActivityMenuCart.class);
+                    intent.putExtra("offerTypeId", offerTypeId);
+                    intent.putExtra("offerId", offerId);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(ActivitySelectMenu.this, "Please select only one menu for this offer...", Toast.LENGTH_SHORT).show();
+                }
+            }
+            else {
+                Toast.makeText(ActivitySelectMenu.this, "Please Select Menu...", Toast.LENGTH_SHORT).show();
+
+            }
+        }
+
+            return super.onOptionsItemSelected(item);
+        }
+
+        private void setUpToolBar () {
+            tvToolBarTitle.setText("Select Menu");
+            setSupportActionBar(mToolbar);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
+        }
+
+        private void initRetrofitCallBackForCategory () {
+            mResultCallBack = new IResult() {
+                @Override
+                public void notifySuccess(int requestId, retrofit2.Response<JsonObject> response) {
+                    progressDialog.dismiss();
+                    JsonObject jsonObject = response.body();
+                    String category = jsonObject.toString();
+                    switch (requestId) {
+                        case PARENT_CATEGORY_WITH_SUBMENU:
+
+                            try {
+                                JSONObject object = new JSONObject(category);
+                                int status = object.getInt("status");
+                                if (status == 1) {
+
+                                    mFragmentTitleList.clear();
+                                    JSONArray jsonArray = object.getJSONArray("allmenu");
+
+                                    for (int i = 0; i < jsonArray.length(); i++) {
+
+                                        JSONObject jsonObject2 = jsonArray.getJSONObject(i);
+                                        JSONArray jsonArray1 = jsonObject2.getJSONArray("mainmenu");
+
+                                        ParentCategoryForm parentCategoryForm = new ParentCategoryForm();
+                                        parentCategoryForm.setPc_id(jsonObject2.getInt("Pc_Id"));
+                                        int pcId = jsonObject2.getInt("Pc_Id");
+                                        parentCategoryForm.setName(jsonObject2.getString("Name").toString());
+                                        mFragmentTitleList.add(parentCategoryForm);
+
+                                        fragmentCategoryModelArrayList = new ArrayList<>();
+                                        for (int in = 0; in < jsonArray1.length(); in++) {
+
+                                            Log.d("", "jsonArray1.length()" + jsonArray1.length());
+                                            JSONObject jsonObject3 = jsonArray1.getJSONObject(in);
+
+                                            CategoryForm categoryForm = new CategoryForm();
+                                            categoryForm.setCategory_id(jsonObject3.getInt("Category_Id"));
+                                            categoryForm.setCategory_Name(jsonObject3.getString("Category_Name"));
+                                            categoryForm.setC_Image_Name(jsonObject3.getString("C_Image_Name"));
+                                            categoryForm.setPc_Id(jsonObject2.getInt("Pc_Id"));
+                                            // categoryForm.setDefault_image(jsonObject2.getString("Image_Name"));
+
+
+                                            //menudisplay
+                                            JSONArray menuArray = jsonObject3.getJSONArray("submenu");
+
+                                            arrayListMenu = new ArrayList<>();
+                                            for (int im = 0; im < menuArray.length(); im++) {
+                                                JSONObject menuObject = menuArray.getJSONObject(im);
+
+                                                MenuDisplayForm menuForm = new MenuDisplayForm();
+                                                menuForm.setMenu_Id(menuObject.getString("Menu_Id"));
+                                                menuForm.setMenu_Name(menuObject.getString("Menu_Name"));
+                                                menuForm.setNon_Ac_Rate(menuObject.getInt("Non_Ac_Rate"));
+                                                menuForm.setPcId(jsonObject2.getInt("Pc_Id"));
+                                                menuForm.setCategoryName(jsonObject3.getString("Category_Name"));
+                                                menuForm.setMenu_Image_Name(menuObject.getString("Menu_Img"));
+                                                menuForm.setError("");
+                                                menuForm.setOffeerPrice("");
+                                                menuForm.setSelected(false);
+                                                arrayListMenu.add(menuForm);
+
+                                            }
+
+                                            categoryForm.setMenuDisplayFormArrayList(arrayListMenu);
+                                            fragmentCategoryModelArrayList.add(categoryForm);
+
+                                        }
+                                        arrayList.add(new ArrayList<CategoryForm>(fragmentCategoryModelArrayList));
+                                        AddParentCategoryinfoModel addParentCategoryinfoModel = new AddParentCategoryinfoModel();
+                                        addParentCategoryinfoModel.setFragment(new FragmentTabParentCategory());
+                                        addParentCategoryinfoModel.setWinnerQty(winnerQty);
+
+                                        addParentCategoryinfoModel.setBuyQty(buyQty);
+                                        addParentCategoryinfoModel.setGetQty(getQty);
+                                        //  addParentCategoryinfoModel.setFragment(new FragmentTabLiquoreCateogory());
+                                        addParentCategoryinfoModel.setCategoryForms(arrayList.get(i));
+                                        addParentCategoryinfoModels.add(addParentCategoryinfoModel);
+
+                                    }
+
+
+                                } else {
+                                    progressDialog.dismiss();
+                                }
+                                setupViewPager(viewPager);
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+
                     }
                 }
 
-            }
 
+                @Override
+                public void notifyError(int requestId, Throwable error) {
+                    progressDialog.dismiss();
+                    Toast.makeText(ActivitySelectMenu.this, "error" + error,
+                            Toast.LENGTH_SHORT).show();
+                }
+            };
         }
-        return super.onOptionsItemSelected(item);
-    }
 
+        private void setupViewPager (ViewPager viewPager){
+            tabLayout.setupWithViewPager(viewPager);
+            viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
-    private void setUpToolBar() {
-        tvToolBarTitle.setText("Select Menu");
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
-    }
-
-    private void initRetrofitCallBackForCategory() {
-        mResultCallBack = new IResult() {
-            @Override
-            public void notifySuccess(int requestId, retrofit2.Response<JsonObject> response) {
-                progressDialog.dismiss();
-                JsonObject jsonObject = response.body();
-                String category = jsonObject.toString();
-                switch (requestId) {
-                    case PARENT_CATEGORY_WITH_SUBMENU:
-
-                        try {
-                            JSONObject object = new JSONObject(category);
-                            int status = object.getInt("status");
-                            if (status == 1) {
-
-                                mFragmentTitleList.clear();
-                                JSONArray jsonArray = object.getJSONArray("allmenu");
-
-                                for (int i = 0; i < jsonArray.length(); i++) {
-
-                                    JSONObject jsonObject2 = jsonArray.getJSONObject(i);
-                                    JSONArray jsonArray1 = jsonObject2.getJSONArray("mainmenu");
-
-                                    ParentCategoryForm parentCategoryForm = new ParentCategoryForm();
-                                    parentCategoryForm.setPc_id(jsonObject2.getInt("Pc_Id"));
-                                    int pcId = jsonObject2.getInt("Pc_Id");
-                                    parentCategoryForm.setName(jsonObject2.getString("Name").toString());
-                                    mFragmentTitleList.add(parentCategoryForm);
-
-                                    fragmentCategoryModelArrayList = new ArrayList<>();
-                                    for (int in = 0; in < jsonArray1.length(); in++) {
-
-                                        Log.d("", "jsonArray1.length()" + jsonArray1.length());
-                                        JSONObject jsonObject3 = jsonArray1.getJSONObject(in);
-
-                                        CategoryForm categoryForm = new CategoryForm();
-                                        categoryForm.setCategory_id(jsonObject3.getInt("Category_Id"));
-                                        categoryForm.setCategory_Name(jsonObject3.getString("Category_Name"));
-                                        categoryForm.setC_Image_Name(jsonObject3.getString("C_Image_Name"));
-                                        categoryForm.setPc_Id(jsonObject2.getInt("Pc_Id"));
-                                        // categoryForm.setDefault_image(jsonObject2.getString("Image_Name"));
-
-
-                                        //menudisplay
-                                        JSONArray menuArray = jsonObject3.getJSONArray("submenu");
-
-                                        arrayListMenu = new ArrayList<>();
-                                        for (int im = 0; im < menuArray.length(); im++) {
-                                            JSONObject menuObject = menuArray.getJSONObject(im);
-
-                                            MenuDisplayForm menuForm = new MenuDisplayForm();
-                                            menuForm.setMenu_Id(menuObject.getString("Menu_Id"));
-                                            menuForm.setMenu_Name(menuObject.getString("Menu_Name"));
-                                            menuForm.setNon_Ac_Rate(menuObject.getInt("Non_Ac_Rate"));
-                                            menuForm.setPcId(jsonObject2.getInt("Pc_Id"));
-                                            menuForm.setCategoryName(jsonObject3.getString("Category_Name"));
-                                            menuForm.setMenu_Image_Name(menuObject.getString("Menu_Img"));
-                                            menuForm.setError("");
-                                            menuForm.setOffeerPrice("");
-                                            menuForm.setSelected(false);
-                                            arrayListMenu.add(menuForm);
-
-                                        }
-
-                                        categoryForm.setMenuDisplayFormArrayList(arrayListMenu);
-                                        fragmentCategoryModelArrayList.add(categoryForm);
-
-                                    }
-                                    arrayList.add(new ArrayList<CategoryForm>(fragmentCategoryModelArrayList));
-                                    AddParentCategoryinfoModel addParentCategoryinfoModel = new AddParentCategoryinfoModel();
-                                    addParentCategoryinfoModel.setFragment(new FragmentTabParentCategory());
-                                    addParentCategoryinfoModel.setWinnerQty(winnerQty);
-                                    //  addParentCategoryinfoModel.setFragment(new FragmentTabLiquoreCateogory());
-                                    addParentCategoryinfoModel.setCategoryForms(arrayList.get(i));
-                                    addParentCategoryinfoModels.add(addParentCategoryinfoModel);
-
-                                }
-
-
-                            } else {
-                                progressDialog.dismiss();
-                            }
-                            setupViewPager(viewPager);
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
+            viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int i, float v, int i1) {
 
                 }
-            }
+
+                @Override
+                public void onPageSelected(int i) {
+                    mPcId = mFragmentTitleList.get(i).getPc_id();
+                    Toast.makeText(ActivitySelectMenu.this, "id" + mPcId, Toast.LENGTH_LONG).show();
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int i) {
+
+                }
+            });
+            categoryViewPagerAdapterOffer = new CategoryViewPagerAdapterOffer(getSupportFragmentManager(), mFragmentTitleList, addParentCategoryinfoModels, winnerQty, buyQty, getQty, offerTypeId);
+            categoryViewPagerAdapterOffer.notifyDataSetChanged();
+            viewPager.setAdapter(categoryViewPagerAdapterOffer);
+        }
 
 
-            @Override
-            public void notifyError(int requestId, Throwable error) {
-                progressDialog.dismiss();
-                Toast.makeText(ActivitySelectMenu.this, "error" + error,
-                        Toast.LENGTH_SHORT).show();
-            }
-        };
+        private void showProgressDialog () {
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            //Without this user can hide loader by tapping outside screen
+            progressDialog.setCancelable(false);
+            progressDialog.setCanceledOnTouchOutside(false);
+            progressDialog.setTitle(getResources().getString(R.string.app_name));
+            progressDialog.setMessage("Uploading Menu");
+            progressDialog.show();
+        }
+
+        private void init () {
+            mToolbar = findViewById(R.id.toolbar);
+            tvToolBarTitle = findViewById(R.id.tx_title);
+            queue = Volley.newRequestQueue(this);
+
+
+            tabLayout = findViewById(R.id.tablayout);
+            viewPager = findViewById(R.id.viewPager);
+            tabLayout.setupWithViewPager(viewPager);
+            llNoCategoryData = findViewById(R.id.llNoCategoryData);
+            tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+
+
+            mFragmentTitleList = new ArrayList<>();
+            fragmentCategoryModelArrayList = new ArrayList<>();
+            addParentCategoryinfoModels = new ArrayList<>();
+            arrayList = new ArrayList<>();
+            arrayListUserCategory = new ArrayList<>();
+            arrayListMenu = new ArrayList<>();
+            arrayListToppings = new ArrayList<>();
+        }
+
+        @Override
+        public boolean onSupportNavigateUp () {
+            finish();
+            return true;
+        }
     }
-
-    private void setupViewPager(ViewPager viewPager) {
-        tabLayout.setupWithViewPager(viewPager);
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-
-        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int i, float v, int i1) {
-
-            }
-
-            @Override
-            public void onPageSelected(int i) {
-                mPcId = mFragmentTitleList.get(i).getPc_id();
-                Toast.makeText(ActivitySelectMenu.this, "id" + mPcId, Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int i) {
-
-            }
-        });
-        categoryViewPagerAdapterOffer = new CategoryViewPagerAdapterOffer(getSupportFragmentManager(), mFragmentTitleList, addParentCategoryinfoModels, winnerQty, buyQty, offerTypeId);
-        categoryViewPagerAdapterOffer.notifyDataSetChanged();
-        viewPager.setAdapter(categoryViewPagerAdapterOffer);
-    }
-
-
-    private void showProgressDialog() {
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        //Without this user can hide loader by tapping outside screen
-        progressDialog.setCancelable(false);
-        progressDialog.setCanceledOnTouchOutside(false);
-        progressDialog.setTitle(getResources().getString(R.string.app_name));
-        progressDialog.setMessage("Uploading Menu");
-        progressDialog.show();
-    }
-
-    private void init() {
-        mToolbar = findViewById(R.id.toolbar);
-        tvToolBarTitle = findViewById(R.id.tx_title);
-        queue = Volley.newRequestQueue(this);
-
-
-        tabLayout = findViewById(R.id.tablayout);
-        viewPager = findViewById(R.id.viewPager);
-        tabLayout.setupWithViewPager(viewPager);
-        llNoCategoryData = findViewById(R.id.llNoCategoryData);
-        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-
-
-        mFragmentTitleList = new ArrayList<>();
-        fragmentCategoryModelArrayList = new ArrayList<>();
-        addParentCategoryinfoModels = new ArrayList<>();
-        arrayList = new ArrayList<>();
-        arrayListUserCategory = new ArrayList<>();
-        arrayListMenu = new ArrayList<>();
-        arrayListToppings = new ArrayList<>();
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        finish();
-        return true;
-    }
-}

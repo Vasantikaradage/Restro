@@ -86,7 +86,7 @@ public class ActivityDisplayDailyOffer extends AppCompatActivity {
     private ImageView flImage;
     private Toolbar mToolbar;
     private Calendar mcurrentDate;
-    private String fromDate, toDate, imageName, mFinalImageName,getStartDate,seletedStartDate,seletedEndDate;
+    private String fromDate, toDate, imageName, mFinalImageName, getStartDate, seletedStartDate, seletedEndDate;
     private RetrofitService mRetrofitService;
     private IResult mResultCallBack;
     private RadioGroup radioGroup;
@@ -96,8 +96,8 @@ public class ActivityDisplayDailyOffer extends AppCompatActivity {
     private TextView tvAmt;
     private SpinKitView skLoading;
     private LinearLayout llNoData;
-    private  int offerId,editItemPosition;
-    private  String fromDateOut,toDateOut;
+    private int offerId, editItemPosition;
+    private String fromDateOut, toDateOut;
 
 
     @Override
@@ -119,6 +119,7 @@ public class ActivityDisplayDailyOffer extends AppCompatActivity {
         flAddDailyOffer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                offerId = 0;
                 AddEditOffer();
 
             }
@@ -157,7 +158,7 @@ public class ActivityDisplayDailyOffer extends AppCompatActivity {
         llGet = dialoglayout.findViewById(R.id.linear_layout_get);
 
 
-        statusType=1;
+        statusType = 1;
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -169,6 +170,7 @@ public class ActivityDisplayDailyOffer extends AppCompatActivity {
                         llBuy.setVisibility(View.GONE);
                         llGet.setVisibility(View.GONE);
                         tvAmt.setVisibility(View.VISIBLE);
+                        tvAmt.setVisibility(View.VISIBLE);
                         break;
 
                     case R.id.btn_radio_percent:
@@ -177,6 +179,7 @@ public class ActivityDisplayDailyOffer extends AppCompatActivity {
                         llBuy.setVisibility(View.GONE);
                         llGet.setVisibility(View.GONE);
                         tvAmt.setVisibility(View.VISIBLE);
+                        tvAmt.setVisibility(View.VISIBLE);
                         break;
 
                     case R.id.btn_radio_str:
@@ -184,6 +187,7 @@ public class ActivityDisplayDailyOffer extends AppCompatActivity {
                         etPrice.setVisibility(View.GONE);
                         tvAmt.setVisibility(View.GONE);
                         llBuy.setVisibility(View.VISIBLE);
+                        tvAmt.setVisibility(View.GONE);
                         llGet.setVisibility(View.VISIBLE);
                         break;
                 }
@@ -205,7 +209,7 @@ public class ActivityDisplayDailyOffer extends AppCompatActivity {
                         myCalendar.set(Calendar.YEAR, selectedyear);
                         myCalendar.set(Calendar.MONTH, selectedmonth);
                         myCalendar.set(Calendar.DAY_OF_MONTH, selectedday);
-                        String myFormat = "yyyy-MM-dd hh:mm:ss a";
+                        String myFormat = "yyyy-MM-dd h:mm:ss a";
 
                         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.ENGLISH);
                         getStartDate = sdf.format(myCalendar.getTime());
@@ -246,7 +250,7 @@ public class ActivityDisplayDailyOffer extends AppCompatActivity {
                             myCalendar.set(Calendar.YEAR, selectedyear);
                             myCalendar.set(Calendar.MONTH, selectedmonth);
                             myCalendar.set(Calendar.DAY_OF_MONTH, selectedday);
-                            String myFormat = "yyyy-MM-dd hh:mm:ss a"; //Change as you need
+                            String myFormat = "yyyy-MM-dd h:mm:ss a"; //Change as you need
                             SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.ENGLISH);
 
                             Date startDate = null, endDate = null;
@@ -292,7 +296,7 @@ public class ActivityDisplayDailyOffer extends AppCompatActivity {
             }
         });
 
-        if(offerId!=0) {
+        if (offerId != 0) {
             btnSave.setVisibility(View.GONE);
             btnUpdate.setVisibility(View.VISIBLE);
             tvTitleAdd.setText((R.string.edit_daily_offer));
@@ -303,22 +307,27 @@ public class ActivityDisplayDailyOffer extends AppCompatActivity {
             etBuyCnt.setText(String.valueOf(dailyOfferFormArrayList.get(editItemPosition).getBuyCnt()));
             etGetCnt.setText(String.valueOf(dailyOfferFormArrayList.get(editItemPosition).getGetCnt()));
 
-            int dailyState=dailyOfferFormArrayList.get(editItemPosition).getOfferPriceStatus();
-            if(dailyState==1)
-            {
-                statusType=1;
-                radioBtnRs.isChecked();
+            int dailyState = dailyOfferFormArrayList.get(editItemPosition).getOfferPriceStatus();
+            if (dailyState == 1) {
+                statusType = 1;
+                radioBtnRs.setChecked(true);
+                etPrice.setVisibility(View.VISIBLE);
+                llBuy.setVisibility(View.GONE);
+                llGet.setVisibility(View.GONE);
 
-            }
-            else  if(dailyState==2)
-            {
-                statusType=2;
-                radioBtnPerc.isChecked();
-            }
-            else
-            {
-                statusType=3;
-                radioBtnBuyGet.isChecked();
+            } else if (dailyState == 2) {
+                statusType = 2;
+                radioBtnPerc.setChecked(true);
+                etPrice.setVisibility(View.VISIBLE);
+                llBuy.setVisibility(View.GONE);
+                llGet.setVisibility(View.GONE);
+
+            } else {
+                statusType = 3;
+                radioBtnBuyGet.setChecked(true);
+                etPrice.setVisibility(View.GONE);
+                llGet.setVisibility(View.VISIBLE);
+                llBuy.setVisibility(View.VISIBLE);
             }
 
             DateFormat inputFormat = new SimpleDateFormat("dd-MM-yyyy");
@@ -344,27 +353,26 @@ public class ActivityDisplayDailyOffer extends AppCompatActivity {
                     .resize(500, 500)
                     .into(flImage);
 
+            mFinalImageName = dailyOfferFormArrayList.get(editItemPosition).getOfferImg().substring(dailyOfferFormArrayList.get(editItemPosition).getOfferImg().lastIndexOf("/") + 1);
+            ;
+            flImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(ActivityDisplayDailyOffer.this, ActivityBannerImage.class);
+                    startActivityForResult(intent, IMAGE_RESULT_OK);
 
-            if (imageName == null) {
-                imageName = dailyOfferFormArrayList.get(editItemPosition).getOfferImg();
-                Picasso.with(dialoglayout.getContext())
-                        .load(dailyOfferFormArrayList.get(editItemPosition).getOfferImg())
-                        .resize(500, 500)
-                        .into(flImage);
-                mFinalImageName = imageName.substring(imageName.lastIndexOf("/") + 1);
+                }
+            });
 
-            } else {
-                mFinalImageName = imageName.substring(imageName.lastIndexOf("/") + 1);
-                Picasso.with(dialoglayout.getContext())
-                        .load(imageName)
-                        .resize(500, 500)
-                        .into(flImage);
-
-            }
 
             btnUpdate.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if(imageName!=null)
+                    {
+                        mFinalImageName = imageName.substring(imageName.lastIndexOf("/") + 1);
+                    }
+
                     if (isValidData()) {
                         skLoading.setVisibility(View.VISIBLE);
                         initRetrofitCallback();
@@ -381,17 +389,17 @@ public class ActivityDisplayDailyOffer extends AppCompatActivity {
                                 statusType,
                                 (etBuyCnt.getText().toString()),
                                 (etGetCnt.getText().toString())));
+
+                        editItemPosition = 0;
+                        offerId = 0;
                     }
 
                 }
             });
 
 
-
-
-        }else {
+        } else {
             tvTitleAdd.setText(R.string.add_daily_offer);
-
             btnSave.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -402,7 +410,6 @@ public class ActivityDisplayDailyOffer extends AppCompatActivity {
                     }
 
                     if (isValidData()) {
-
                         skLoading.setVisibility(View.VISIBLE);
                         initRetrofitCallback();
                         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
@@ -427,6 +434,8 @@ public class ActivityDisplayDailyOffer extends AppCompatActivity {
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                editItemPosition = 0;
+                offerId = 0;
                 dialog.dismiss();
             }
         });
@@ -456,11 +465,11 @@ public class ActivityDisplayDailyOffer extends AppCompatActivity {
                 return false;
             }
         } else {
-            if (etBuyCnt.getText().toString().equalsIgnoreCase("")) {
+            if ((etBuyCnt.getText().toString().equalsIgnoreCase("") || (etBuyCnt.getText().toString().equals("0")))) {
                 Toast.makeText(ActivityDisplayDailyOffer.this, "Please enter buy count", Toast.LENGTH_SHORT).show();
                 return false;
-            } else if (etBuyCnt.getText().toString().equalsIgnoreCase("")) {
-                Toast.makeText(ActivityDisplayDailyOffer.this, "Please enter buy count", Toast.LENGTH_SHORT).show();
+            } else if ((etGetCnt.getText().toString().equalsIgnoreCase("") || (etGetCnt.getText().toString().equals("0")))) {
+                Toast.makeText(ActivityDisplayDailyOffer.this, "Please enter get count", Toast.LENGTH_SHORT).show();
                 return false;
             }
 
@@ -555,12 +564,12 @@ public class ActivityDisplayDailyOffer extends AppCompatActivity {
                                         @Override
                                         public void getEditListenerPosition(int position) {
 
-                                            offerId=dailyOfferFormArrayList.get(position).getOfferId();
-                                            editItemPosition=position;
+                                            offerId = dailyOfferFormArrayList.get(position).getOfferId();
+                                            editItemPosition = position;
                                             AddEditOffer();
 
                                         }
-                                    },dailyOfferFormArrayList, new PositionListener() {
+                                    }, dailyOfferFormArrayList, new PositionListener() {
                                         @Override
                                         public void positionListern(int position) {
 
@@ -571,26 +580,13 @@ public class ActivityDisplayDailyOffer extends AppCompatActivity {
                                                 startActivity(intent);
                                             } else {
                                                 itemPosition = position;
-                                                LayoutInflater li = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                                                dialoglayout = li.inflate(R.layout.bottom_dailyoffer_apply, null);
-                                                dialog = new BottomSheetDialog(ActivityDisplayDailyOffer.this);
-                                                dialog.setContentView(dialoglayout);
 
-                                                Button btnBuyMenu = dialoglayout.findViewById(R.id.btn_select_buy_menu);
-                                                Button btnGetMenu = dialoglayout.findViewById(R.id.btn_select_get_menu);
-
-                                                btnBuyMenu.setOnClickListener(new View.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(View v) {
-                                                        Intent intent = new Intent(ActivityDisplayDailyOffer.this, ActivitySelectMenu.class);
-                                                        intent.putExtra("offerTypeId", offerTypeId);
-                                                        intent.putExtra("offerId", dailyOfferFormArrayList.get(itemPosition).getOfferId());
-                                                        intent.putExtra("buyQty", dailyOfferFormArrayList.get(itemPosition).getBuyCnt());
-                                                        startActivity(intent);
-
-                                                    }
-                                                });
-                                                dialog.show();
+                                                Intent intent = new Intent(ActivityDisplayDailyOffer.this, ActivityDaliyBuyGetoffer.class);
+                                                intent.putExtra("offerTypeId", offerTypeId);
+                                                intent.putExtra("buyCnt", dailyOfferFormArrayList.get(itemPosition).getBuyCnt());
+                                                intent.putExtra("getCnt", dailyOfferFormArrayList.get(itemPosition).getGetCnt());
+                                                intent.putExtra("offerId", dailyOfferFormArrayList.get(itemPosition).getOfferId());
+                                                startActivity(intent);
                                             }
                                         }
                                     }, new DeleteListener() {
@@ -618,8 +614,11 @@ public class ActivityDisplayDailyOffer extends AppCompatActivity {
                                             RecyclerView rvMenuItemBuy = dialoglayout.findViewById(R.id.rv_menu_item_buy);
                                             TextView tvOfferPrice = dialoglayout.findViewById(R.id.tv_offer_price);
                                             TextView tvMenuPrice = dialoglayout.findViewById(R.id.tv_menu_price);
+                                            LinearLayout linearLayoutMenu=dialoglayout.findViewById(R.id.menu_llayout);
+                                            TextView tvMenuName=dialoglayout.findViewById(R.id.tv_menu);
+                                            TextView tvMenuPriceSingle=dialoglayout.findViewById(R.id.tv_menu_amt);
 
-                                            ImageButton btnCancel=dialoglayout.findViewById(R.id.btn_cancel);
+                                            ImageButton btnCancel = dialoglayout.findViewById(R.id.btn_cancel);
 
                                             TextView tvTitle = dialoglayout.findViewById(R.id.tv_menu_title);
                                             LinearLayout linearLayout = dialoglayout.findViewById(R.id.linear_layout_menu);
@@ -639,42 +638,71 @@ public class ActivityDisplayDailyOffer extends AppCompatActivity {
                                             if ((dailyOfferFormArrayList.get(itemPosition).getBuyCnt() == 0) && (dailyOfferFormArrayList.get(itemPosition).getGetCnt() == 0)) {
                                                 tvMenuPrice.setText(dailyOfferFormArrayList.get(itemPosition).getPrice());
                                                 tvOfferPrice.setText(dailyOfferFormArrayList.get(pos).getOfferPrice());
-                                            }
+                                                linearLayoutMenu.setVisibility(View.VISIBLE);
 
-                                            if (offerMenuForms.size() > 0 && offerMenuForms != null) {
-                                                tvTitle.setVisibility(View.VISIBLE);
-                                                viewline.setVisibility(View.VISIBLE);
-                                                if (dailyOfferFormArrayList.get(pos).getPrice().equals("0.00")) {
-                                                    tvBuy.setVisibility(View.VISIBLE);
-                                                } else {
-                                                    tvBuy.setVisibility(View.GONE);
+                                                for(int i=0;i<offerMenuForms.size() ;i++)
+                                                {
+                                                    tvMenuName.setText(offerMenuForms.get(i).getMenu_Name());
+                                                   tvMenuPriceSingle.setText("\u20B9 "+(offerMenuForms.get(i).getMenu_Ori_Price()));
+                                                    //Toast.makeText(ActivityDisplayDailyOffer.this, offerMenuForms.get(i).getMenu_Name(), Toast.LENGTH_SHORT).show();
                                                 }
-
-                                                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ActivityDisplayDailyOffer.this);
-                                                rvMenuItemBuy.setHasFixedSize(true);
-                                                rvMenuItemBuy.setLayoutManager(linearLayoutManager);
-                                                AdapterRVDailyOfferMenu adapterRVDailyOfferMenu = new AdapterRVDailyOfferMenu(getApplicationContext(), offerMenuForms);
-                                                rvMenuItemBuy.setAdapter(adapterRVDailyOfferMenu);
-                                            } else {
-                                                tvTitle.setVisibility(View.GONE);
-                                                viewline.setVisibility(View.GONE);
                                             }
-
-                                            if (offerSubMenuForms.size() > 0 && offerSubMenuForms != null) {
+                                            else
+                                            {
                                                 tvTitle.setVisibility(View.VISIBLE);
                                                 viewline.setVisibility(View.VISIBLE);
                                                 tvGet.setVisibility(View.VISIBLE);
                                                 rvMenuItemGet.setVisibility(View.VISIBLE);
+                                            }
 
-                                                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ActivityDisplayDailyOffer.this);
-                                                rvMenuItemGet.setLayoutManager(linearLayoutManager);
-                                                AdapterRVDailyOfferMenu adapterRVDailyOfferMenu = new AdapterRVDailyOfferMenu(getApplicationContext(), offerSubMenuForms);
-                                                rvMenuItemGet.setAdapter(adapterRVDailyOfferMenu);
+                                            if(offerMenuForms.size() > 0 && offerMenuForms != null &&offerSubMenuForms.size() > 0 && offerSubMenuForms != null) {
 
-                                            } else {
+                                                linearLayoutMenu.setVisibility(View.GONE);
+                                                if (offerMenuForms.size() > 0 && offerMenuForms != null) {
+                                                    tvTitle.setVisibility(View.VISIBLE);
+                                                    viewline.setVisibility(View.VISIBLE);
+                                                    if (dailyOfferFormArrayList.get(pos).getBuyCnt() != 0) {
+                                                        tvBuy.setVisibility(View.VISIBLE);
+                                                    } else {
+                                                        tvBuy.setVisibility(View.GONE);
+                                                    }
+
+                                                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ActivityDisplayDailyOffer.this);
+                                                    rvMenuItemBuy.setHasFixedSize(true);
+                                                    rvMenuItemBuy.setLayoutManager(linearLayoutManager);
+                                                    AdapterRVDailyOfferMenu adapterRVDailyOfferMenu = new AdapterRVDailyOfferMenu(getApplicationContext(), offerMenuForms);
+                                                    rvMenuItemBuy.setAdapter(adapterRVDailyOfferMenu);
+                                                } else {
+                                                    //tvTitle.setVisibility(View.GONE);
+                                                    // viewline.setVisibility(View.GONE);
+                                                    rvMenuItemBuy.setVisibility(View.GONE);
+                                                    tvBuy.setVisibility(View.GONE);
+                                                    tvGet.setVisibility(View.GONE);
+                                                    rvMenuItemGet.setVisibility(View.GONE);
+                                                }
+
+                                                if (offerSubMenuForms.size() > 0 && offerSubMenuForms != null) {
+                                                    tvTitle.setVisibility(View.VISIBLE);
+                                                    viewline.setVisibility(View.VISIBLE);
+                                                    tvGet.setVisibility(View.VISIBLE);
+                                                    rvMenuItemGet.setVisibility(View.VISIBLE);
+
+                                                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ActivityDisplayDailyOffer.this);
+                                                    rvMenuItemGet.setLayoutManager(linearLayoutManager);
+                                                    AdapterRVDailyOfferMenu adapterRVDailyOfferMenu = new AdapterRVDailyOfferMenu(getApplicationContext(), offerSubMenuForms);
+                                                    rvMenuItemGet.setAdapter(adapterRVDailyOfferMenu);
+
+                                                } else {
+                                                    tvGet.setVisibility(View.GONE);
+                                                    rvMenuItemGet.setVisibility(View.GONE);
+                                                }
+                                            }
+                                            else
+                                            {
+                                                rvMenuItemBuy.setVisibility(View.GONE);
+                                                tvBuy.setVisibility(View.GONE);
                                                 tvGet.setVisibility(View.GONE);
                                                 rvMenuItemGet.setVisibility(View.GONE);
-
                                             }
                                             btnCancel.setOnClickListener(new View.OnClickListener() {
                                                 @Override
@@ -731,7 +759,10 @@ public class ActivityDisplayDailyOffer extends AppCompatActivity {
                                 Toast.makeText(ActivityDisplayDailyOffer.this, object.getString("message"), Toast.LENGTH_LONG).show();
                             }
                             skLoading.setVisibility(View.GONE);
+
                             dialog.dismiss();
+                            imageName=null;
+                            mFinalImageName=null;
                             getDailyOfferInfo();
                         } catch (JSONException e) {
                             e.printStackTrace();
