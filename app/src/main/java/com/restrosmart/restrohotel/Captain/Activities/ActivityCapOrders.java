@@ -157,8 +157,8 @@ public class ActivityCapOrders extends AppCompatActivity {
                             if (status == 1) {
 
                                 // Parcel Orders
-                              /*  if (jsonObjectOrder.has("Parcelorder")) {
-                                    JSONArray jsonArrayOrder = jsonObjectOrder.getJSONArray("Parcelorder");
+                                if (jsonObjectOrder.has("takeaway")) {
+                                    JSONArray jsonArrayOrder = jsonObjectOrder.getJSONArray("takeaway");
                                     arrayListParcelAllOrder.clear();
 
                                     for (int i = 0; i < jsonArrayOrder.length(); i++) {
@@ -218,7 +218,7 @@ public class ActivityCapOrders extends AppCompatActivity {
                                         allOrderModel.setCapOrderModelArrayList(arrayListParcelOrder);
                                         arrayListParcelAllOrder.add(allOrderModel);
                                     }
-                                }*/
+                                }
 
                                 // Table order
                                 if (jsonObjectOrder.has("Havinghere")) {
