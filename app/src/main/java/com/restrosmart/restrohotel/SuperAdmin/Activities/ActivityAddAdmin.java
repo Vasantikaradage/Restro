@@ -74,10 +74,10 @@ import static com.restrosmart.restrohotel.ConstantVariables.REQUEST_PERMISSION;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.EMP_ID;
 
 
-public class ActivityAddAdmin  extends AppCompatActivity {
+public class ActivityAddAdmin extends AppCompatActivity {
 
     private EditText etvName, etMob, etEmail, etUsername, etAdhar, etPass, etConPass, etAddress;
-    private  TextView tvEmpRole;
+    private TextView tvEmpRole;
 
     private CircleImageView imageView;
     private Spinner spHotel;
@@ -98,25 +98,24 @@ public class ActivityAddAdmin  extends AppCompatActivity {
     private TextInputLayout txPass, txConPass;
     private LinearLayout llPassword, llConPassword, llHotel;
     private FrameLayout flImage;
-    private String selectedFilePath, extension, selectedData, selectedImage,subString;
+    private String selectedFilePath, extension, selectedData, selectedImage, subString;
     private File selectedFile;
     private Bitmap bitmapImage;
     private String imageOldName;
     private EmployeeSAForm employeeSAForm;
 
     private LinearLayout llDesignation;
-    private  View viewline;
-    private  HashMap<String, String> superAdminInfo;
-    private  ArrayList<HotelForm> hotelFormArrayList;
+    private View viewline;
+    private HashMap<String, String> superAdminInfo;
+    private ArrayList<HotelForm> hotelFormArrayList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_new_employee);
+        setContentView(R.layout.activity_add_new_admin);
 
         init();
-        llDesignation.setVisibility(View.GONE);
-        viewline.setVisibility(View.GONE);
         // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Toolbar mTopToolbar = (Toolbar) findViewById(R.id.toolbar);
         TextView toolBarTitle = (TextView) mTopToolbar.findViewById(R.id.tx_title);
@@ -136,104 +135,120 @@ public class ActivityAddAdmin  extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
 
-            getHotelDetails();
+
             employeeSAForm = bundle.getParcelable("Emp_detail");
 
-         //  llHotel.setVisibility(View.GONE);
-           llConPassword.setVisibility(View.GONE);
-           llPassword.setVisibility(View.GONE);
+            //  llHotel.setVisibility(View.GONE);
+            llConPassword.setVisibility(View.GONE);
+            llPassword.setVisibility(View.GONE);
 
             btnSave.setVisibility(View.GONE);
             btnUpdate.setVisibility(View.VISIBLE);
 
 
-          //  if (emp_id == employeeSAForm.getEmpId()) {
-                toolBarTitle.setText("Edit Employee");
-                emp_id=employeeSAForm.getEmpId();
-                etvName.setText(employeeSAForm.getEmpName());
-                etUsername.setText(employeeSAForm.getUserName());
-                etAddress.setText(employeeSAForm.getEmpAddress());
-                etAdhar.setText(employeeSAForm.getEmpAdharId());
-                etEmail.setText(employeeSAForm.getEmpEmail());
-                etMob.setText(employeeSAForm.getEmpMob());
-                etPass.setText(employeeSAForm.getPassword());
-                etConPass.setText(employeeSAForm.getPassword());
-                etUsername.setFocusable(false);
+            //  if (emp_id == employeeSAForm.getEmpId()) {
+            toolBarTitle.setText("Edit Employee");
+            emp_id = employeeSAForm.getEmpId();
+            etvName.setText(employeeSAForm.getEmpName());
+            etUsername.setText(employeeSAForm.getUserName());
+            etAddress.setText(employeeSAForm.getEmpAddress());
+            etAdhar.setText(employeeSAForm.getEmpAdharId());
+            etEmail.setText(employeeSAForm.getEmpEmail());
+            etMob.setText(employeeSAForm.getEmpMob());
+            etPass.setText(employeeSAForm.getPassword());
+            etConPass.setText(employeeSAForm.getPassword());
+            etUsername.setFocusable(false);
 
-                desginagtionSelId = employeeSAForm.getRole_Id();
+            desginagtionSelId = employeeSAForm.getRole_Id();
             //    branchSelId = employeeDetails.get(i).getBranch_Id();
-                password = employeeSAForm.getPassword();
-                hotelId=employeeSAForm.getHotelId();
-                imageOldName = employeeSAForm.getEmpName();
-
-                //branchInfo = employeeDetails.get(i).getBranch_Id();
-                Picasso.with(ActivityAddAdmin.this)
-                        .load(imageOldName)
-                        .resize(500, 500)
-                        .into(imageView);
+            password = employeeSAForm.getPassword();
+            hotelId = employeeSAForm.getHotelId();
+            imageOldName = employeeSAForm.getEmpImg();
+           // getHotelDetails();
+          //  spHotel.setSelection(2);
 
 
-               // retrofitArrayDesignationCall();
-                btnUpdate.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        String image = imageOldName.substring(imageOldName.lastIndexOf("/") + 1);
-                        if ((selectedData==null)) {
-                            if (image.equals("def_user.png")) {
-                                selectedImage = "";
-                                extension = "";
-                                image="";
+            //branchInfo = employeeDetails.get(i).getBranch_Id();
+            Picasso.with(ActivityAddAdmin.this)
+                    .load(imageOldName)
+                    .resize(500, 500)
+                    .into(imageView);
 
-                            } else {
-                                selectedImage = "";
-                                extension= "";
-                            }
-                            Picasso.with(ActivityAddAdmin.this)
-                                    .load(imageOldName)
-                                    .resize(500, 500)
-                                    .into(imageView);
+            flImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (checkPermission()) {
+                        Intent imageIntent = new Intent();
+                        imageIntent.setType("image/*");
+                        imageIntent.setAction(Intent.ACTION_GET_CONTENT);
+                        startActivityForResult(Intent.createChooser(imageIntent, "Select Image"), PICK_GALLERY_IMAGE);
+                    } else {
+                        requestPermission();
+                    }
+                }
+            });
+
+
+            // retrofitArrayDesignationCall();
+            btnUpdate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String image = imageOldName.substring(imageOldName.lastIndexOf("/") + 1);
+                    String imageExtention=image.substring((image.lastIndexOf(".")+1));
+                    if ((selectedData == null)) {
+                        if (image.equals("def_user.png")) {
+                            selectedImage = "";
+                            extension = "";
+                            image = "";
 
                         } else {
-                            selectedImage = selectedData;
+                            selectedImage = image;
+                            extension = imageExtention;
                         }
+                        Picasso.with(ActivityAddAdmin.this)
+                                .load(imageOldName)
+                                .resize(500, 500)
+                                .into(imageView);
 
-                        if (isValidEmpUpdate()) {
-
-                            String name = etvName.getText().toString();
-                            String mob = etMob.getText().toString();
-                            String username = etUsername.getText().toString();
-                            String address = etAddress.getText().toString();
-                            String email = etEmail.getText().toString();
-                            String adhar=etAdhar.getText().toString();
-
-
-                            initRetrofitCallback();
-                            ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
-                            mRetrofitService = new RetrofitService(mResultCallBack, ActivityAddAdmin.this);
-                            mRetrofitService.retrofitData(ADMIN_EMP_EDIT, (service.
-                                    adminEditEmployeeDetail(emp_id,
-                                            name,
-                                            selectedImage,
-                                            image,
-                                            extension,
-                                            mob,
-                                            email,
-                                            address,
-                                            username,
-                                            adhar,
-                                            1,
-                                            hotelId)));
-                           // showProgrssDailog();
-                        }
+                    } else {
+                        selectedImage = selectedData;
                     }
-                });
-           // }
+
+                    if (isValidEmpUpdate()) {
+
+                        String name = etvName.getText().toString();
+                        String mob = etMob.getText().toString();
+                        String username = etUsername.getText().toString();
+                        String address = etAddress.getText().toString();
+                        String email = etEmail.getText().toString();
+                        String adhar = etAdhar.getText().toString();
+
+                      //  spHotel.setSelection(position);
+                        initRetrofitCallback();
+                        ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
+                        mRetrofitService = new RetrofitService(mResultCallBack, ActivityAddAdmin.this);
+                        mRetrofitService.retrofitData(ADMIN_EMP_EDIT, (service.
+                                adminEditEmployeeDetail(emp_id,
+                                        name,
+                                        selectedImage,
+                                        image,
+                                        extension,
+                                        mob,
+                                        email,
+                                        address,
+                                        username,
+                                        adhar,
+                                        1,
+                                        hotelId)));
+                        // showProgrssDailog();
+                    }
+                }
+            });
+            // }
 
 
-        }
-        else
-        {
-           // llHotel.setVisibility(View.VISIBLE);
+        } else {
+            // llHotel.setVisibility(View.VISIBLE);
             llConPassword.setVisibility(View.VISIBLE);
             llPassword.setVisibility(View.VISIBLE);
 
@@ -242,7 +257,17 @@ public class ActivityAddAdmin  extends AppCompatActivity {
 
         }
 
+        spHotel.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                hotelId = hotelFormArrayList.get(position).getHotelId();
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
 
         flImage.setOnClickListener(new View.OnClickListener() {
@@ -268,7 +293,7 @@ public class ActivityAddAdmin  extends AppCompatActivity {
                     signup.put("Emp_Name", etvName.getText().toString());
                     signup.put("Emp_Mob", etMob.getText().toString().trim());
 
-                    if (selectedData==null) {
+                    if (selectedData == null) {
                         signup.put("Emp_Img", "");
                         signup.put("Img_Type", "");
                     } else {
@@ -286,16 +311,17 @@ public class ActivityAddAdmin  extends AppCompatActivity {
                     signup.put("Active_Status", "1");
                     signup.put("Hotel_Id", String.valueOf(hotelId));
                     signup.put("Emp_Address", etAddress.getText().toString().trim());
-                    signup.put("Admin_Id",(superAdminInfo.get(EMP_ID)));
+                    signup.put("Admin_Id", (superAdminInfo.get(EMP_ID)));
 
                     initRetrofitCallback();
                     ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
                     mRetrofitService = new RetrofitService(mResultCallBack, ActivityAddAdmin.this);
                     mRetrofitService.retrofitData(ADD_NEW_EMPLOYEE, (service.AddEmployee(signup)));
                 }
+
+
             }
         });
-
     }
 
     private boolean isValidEmpUpdate() {
@@ -319,8 +345,7 @@ public class ActivityAddAdmin  extends AppCompatActivity {
         } else if (!etEmail.getText().toString().matches(emailPattern)) {
             Toast.makeText(this, "Please enter valid email id", Toast.LENGTH_SHORT).show();
             return false;
-        }
-        else if (etAdhar.getText().toString().equalsIgnoreCase("")) {
+        } else if (etAdhar.getText().toString().equalsIgnoreCase("")) {
             Toast.makeText(ActivityAddAdmin.this, "Please enter adhar no", Toast.LENGTH_SHORT).show();
             return false;
         } else if (etAdhar.getText().toString().length() < 12) {
@@ -331,13 +356,13 @@ public class ActivityAddAdmin  extends AppCompatActivity {
             return false;
         }
 
-        return  true;
+        return true;
     }
 
     private void getHotelDetails() {
         initRetrofitCallback();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
-        mRetrofitService = new RetrofitService(mResultCallBack,ActivityAddAdmin.this);
+        mRetrofitService = new RetrofitService(mResultCallBack, ActivityAddAdmin.this);
         mRetrofitService.retrofitData(GET_SA_ALL_HOTEL, (service.getSAHotelDetails(Integer.parseInt(superAdminInfo.get(EMP_ID)))));
     }
 
@@ -351,7 +376,7 @@ public class ActivityAddAdmin  extends AppCompatActivity {
         } else if (etUsername.getText().toString().equalsIgnoreCase("")) {
             Toast.makeText(ActivityAddAdmin.this, "Please enter User Name..", Toast.LENGTH_SHORT).show();
             return false;
-        } else if (etMob.getText().toString().length()==0) {
+        } else if (etMob.getText().toString().length() == 0) {
             Toast.makeText(ActivityAddAdmin.this, "Please enter Mobile No..", Toast.LENGTH_SHORT).show();
             return false;
         } else if (etMob.getText().toString().length() < 10) {
@@ -363,8 +388,7 @@ public class ActivityAddAdmin  extends AppCompatActivity {
         } else if (!(etEmail.getText().toString().trim()).matches(emailPattern)) {
             Toast.makeText(this, "Please enter valid email id", Toast.LENGTH_SHORT).show();
             return false;
-        }
-        else if (etAdhar.getText().toString().length()==0) {
+        } else if (etAdhar.getText().toString().length() == 0) {
             Toast.makeText(ActivityAddAdmin.this, "Please enter adhar no", Toast.LENGTH_SHORT).show();
             return false;
         } else if (etAdhar.getText().toString().length() < 12) {
@@ -419,16 +443,16 @@ public class ActivityAddAdmin  extends AppCompatActivity {
         btnSave = (Button) findViewById(R.id.btn_save);
         btnUpdate = findViewById(R.id.btn_update);
 
-        tvEmpRole=findViewById(R.id.tv_emp_role);
-        //spHotel = (Spinner) findViewById(R.id.sp_branch);
+        tvEmpRole = findViewById(R.id.tv_emp_role);
+        spHotel = (Spinner) findViewById(R.id.sp_hotel);
 
         select_image = (FrameLayout) findViewById(R.id.iv_select_image);
         llPassword = findViewById(R.id.llPassword);
         llConPassword = findViewById(R.id.llConPass);
         llHotel = findViewById(R.id.llHotel);
-        llDesignation=findViewById(R.id.llDesignation);
-        viewline=findViewById(R.id.view_line);
-        hotelFormArrayList=new ArrayList<>();
+        llDesignation = findViewById(R.id.llHotel);
+        viewline = findViewById(R.id.view_line);
+        hotelFormArrayList = new ArrayList<>();
     }
 
     private void initRetrofitCallback() {
@@ -476,25 +500,22 @@ public class ActivityAddAdmin  extends AppCompatActivity {
                                     hotelFormArrayList.add(hotelForm);
                                 }
 
-                                getSelectedHotel(hotelFormArrayList);
-                                spHotel.setSelection(0);
+                                // getSelectedHotel(hotelFormArrayList);
+                                // spHotel.setSelection(0);
 
                                 if (hotelId != 0) {
                                     for (position = 0; position < hotelFormArrayList.size(); position++)
-                                        if (hotelFormArrayList.get(position).getHotelId()== hotelId) {
+                                        if (hotelFormArrayList.get(position).getHotelId() == hotelId) {
                                             break;
                                         }
-                                    spHotel.setSelection(position);
                                 }
-                            }
-                            else
-                            {
+
 
                             }
-
                             ArrayAdapter<HotelForm> stringArrayAdapter = new ArrayAdapter<HotelForm>(ActivityAddAdmin.this, android.R.layout.simple_spinner_item, hotelFormArrayList);
                             stringArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             spHotel.setAdapter(stringArrayAdapter);
+                            spHotel.setSelection(position);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -511,7 +532,6 @@ public class ActivityAddAdmin  extends AppCompatActivity {
                             if (status == 1) {
                                 Toast.makeText(ActivityAddAdmin.this, jsonObject.getString("message"), Toast.LENGTH_LONG).show();
                                 finish();
-
                             } else {
                                 Toast.makeText(ActivityAddAdmin.this, jsonObject.getString("message"), Toast.LENGTH_LONG).show();
                             }
@@ -522,27 +542,18 @@ public class ActivityAddAdmin  extends AppCompatActivity {
                 }
             }
 
-                    @Override
-                    public void notifyError ( int requestId, Throwable error){
-                        Log.d("", "VolleyError" + error);
-                        Log.d("", "requestId" + requestId);
-                    }
-                } ;
-            }
-
-    private void getSelectedHotel(final ArrayList<HotelForm> hotelFormArrayList1) {
-        spHotel.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                hotelId=hotelFormArrayList1.get(position).getHotelId();
+            public void notifyError(int requestId, Throwable error) {
+                Log.d("", "VolleyError" + error);
+                Log.d("", "requestId" + requestId);
             }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+        };
     }
+
+    // private void getSelectedHotel(final ArrayList<HotelForm> hotelFormArrayList1) {
+
+
+    // }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -668,7 +679,7 @@ public class ActivityAddAdmin  extends AppCompatActivity {
         finish();
         return true;
     }
-        }
+}
 
 
 

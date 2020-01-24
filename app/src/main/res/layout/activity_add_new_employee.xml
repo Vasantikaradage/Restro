@@ -379,7 +379,7 @@
                                 android:id="@+id/sp_designation"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:autofillHints="Designation"
+                                android:autofillHints="Select Hotel"
                                 android:textColor="@color/colorAccent"
                                 android:textSize="@dimen/font_large" />
 

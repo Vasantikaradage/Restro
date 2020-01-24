@@ -10,15 +10,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
@@ -59,7 +55,7 @@ public class FragmentTabDailyReport extends Fragment {
     private LinearLayout llPlacementNoData;
     // private ProgressBar progressBar;
     private ArrayList<DailyReportForm> arrayListDailyreport;
-    private Button btnSelectDate;
+    private TextView tvSelectDate;
     private Calendar mcurrentDate;
     private String getStartDate;
 
@@ -85,7 +81,7 @@ public class FragmentTabDailyReport extends Fragment {
         llPlacementNoData.setVisibility(View.GONE);
         spinKitView.setVisibility(View.GONE);
 
-        btnSelectDate.setOnClickListener(new View.OnClickListener() {
+        tvSelectDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mcurrentDate = Calendar.getInstance();
@@ -105,7 +101,7 @@ public class FragmentTabDailyReport extends Fragment {
                         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.ENGLISH);
                         SimpleDateFormat sdf1 = new SimpleDateFormat(format, Locale.ENGLISH);
                         getStartDate = sdf.format(myCalendar.getTime());
-                        btnSelectDate.setText(sdf1.format(myCalendar.getTime()));
+                        tvSelectDate.setText(sdf1.format(myCalendar.getTime()));
 
                         initRetrofitCallback();
                         spinKitView.setVisibility(View.VISIBLE);
@@ -116,17 +112,6 @@ public class FragmentTabDailyReport extends Fragment {
                     }
                 }, mYear, mMonth, mDay);
                 mDatePicker.setTitle("Select date");
-
-                Date c = Calendar.getInstance().getTime();
-                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-                String formattedDate = df.format(c);
-                try {
-                    Date d = df.parse(formattedDate);
-                    mDatePicker.getDatePicker().setMinDate(d.getTime());
-
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
                 mDatePicker.show();
             }
         });
@@ -222,7 +207,7 @@ public class FragmentTabDailyReport extends Fragment {
     private void init() {
         entries = new ArrayList<>();
         labels = new ArrayList<>();
-        btnSelectDate = view.findViewById(R.id.tv_dp_select_date);
+        tvSelectDate = view.findViewById(R.id.tv_dp_select_date);
 
         pieChartDailyReport = view.findViewById(R.id.piechart);
         llPlacementNoData = view.findViewById(R.id.llDailyReportNoData);

@@ -39,6 +39,7 @@ public class ActivityInvoice  extends AppCompatActivity {
                 final ImageView ivCard= dialog.findViewById(R.id.iv_card_icon);
                 RelativeLayout tvActive = dialog.findViewById(R.id.tvActive);
                 RelativeLayout tvInActive = dialog.findViewById(R.id.tvInActive);
+                Button btnOk=dialog.findViewById(R.id.btn_ok);
 
                 tvActive.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -46,7 +47,7 @@ public class ActivityInvoice  extends AppCompatActivity {
                         //statusListener.statusListern(position,0);
                         ivCash.setVisibility(View.VISIBLE);
                         ivCard.setVisibility(View.GONE);
-                        dialog.dismiss();
+
                     }
                 });
 
@@ -54,11 +55,17 @@ public class ActivityInvoice  extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                        // statusListener.statusListern(position,1);
-
                         ivCash.setVisibility(View.GONE);
                         ivCard.setVisibility(View.VISIBLE);
-                        dialog.dismiss();
 
+
+                    }
+                });
+
+                btnOk.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
                     }
                 });
 

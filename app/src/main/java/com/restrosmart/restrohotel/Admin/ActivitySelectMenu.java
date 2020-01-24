@@ -158,7 +158,10 @@ public class ActivitySelectMenu extends AppCompatActivity {
 
                 }
             } else if (buyQty != 0) {
-                if (buyQty== menuDisplayFormArrayList.size()) {
+                if (menuDisplayFormArrayList == null) {
+                    Toast.makeText(ActivitySelectMenu.this, "Please Select Menu...", Toast.LENGTH_SHORT).show();
+                }
+               else   if (buyQty== menuDisplayFormArrayList.size()) {
                     Intent intent = getIntent();
                     intent.putExtra("menuListBuy", menuDisplayFormArrayList);
                     setResult(200, intent);
@@ -169,8 +172,10 @@ public class ActivitySelectMenu extends AppCompatActivity {
                 }
 
             } else if (getQty != 0) {
-
-                if (menuDisplayFormArrayList.size() == getQty) {
+                if (menuDisplayFormArrayList == null) {
+                    Toast.makeText(ActivitySelectMenu.this, "Please Select Menu...", Toast.LENGTH_SHORT).show();
+                }
+                else if (menuDisplayFormArrayList.size() == getQty) {
                     // menuDisplayFormArrayList = sessionmanager.getAddToMenuCartList(this);
                     Intent intent = getIntent();
                     intent.putExtra("menuListGet", menuDisplayFormArrayList);
@@ -182,7 +187,10 @@ public class ActivitySelectMenu extends AppCompatActivity {
                     //  }
                 }
             } else if ((buyQty == 0) && (getQty == 0)) {
-                if (menuDisplayFormArrayList.size() == 1) {
+                if (menuDisplayFormArrayList == null) {
+                    Toast.makeText(ActivitySelectMenu.this, "Please Select Menu...", Toast.LENGTH_SHORT).show();
+                }
+                else if (menuDisplayFormArrayList.size() == 1) {
                     Intent intent = new Intent(ActivitySelectMenu.this, ActivityMenuCart.class);
                     intent.putExtra("offerTypeId", offerTypeId);
                     intent.putExtra("offerId", offerId);

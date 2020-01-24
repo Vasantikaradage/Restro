@@ -41,7 +41,7 @@
                 </FrameLayout>
 
                 <TextView
-                    android:id="@+id/tv_offer_name"
+                    android:id="@+id/tv_promocode"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif"
@@ -61,7 +61,7 @@
 
             </RelativeLayout>
             <TextView
-                android:id="@+id/tv_offer_desc"
+                android:id="@+id/tv_offer_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="NA"

@@ -7,13 +7,17 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.restrosmart.restrohotel.R;
 import com.restrosmart.restrohotel.SuperAdmin.Activities.ActivitySaAdminProfile;
 import com.restrosmart.restrohotel.SuperAdmin.Models.EmployeeSAForm;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public  class EmployeeSADetailRVAdapter  extends RecyclerView.Adapter<EmployeeSADetailRVAdapter.ItemViewHolder> {
     private Context mContext;
@@ -37,6 +41,16 @@ public  class EmployeeSADetailRVAdapter  extends RecyclerView.Adapter<EmployeeSA
         itemViewHolder.tvEmpName.setText(employeeSAFormArrayList.get(i).getEmpName());
         itemViewHolder.tvEmpEmail.setText(employeeSAFormArrayList.get(i).getEmpEmail());
         itemViewHolder.tvEmpPhone.setText(employeeSAFormArrayList.get(i).getEmpMob());
+        Picasso.with(mContext).load(employeeSAFormArrayList.get(i).getEmpImg()).into(itemViewHolder.mCircularImageView);
+
+        if(employeeSAFormArrayList.get(i).getActiveStatus()==1)
+        {
+            itemViewHolder.mSwitch.setChecked(true);
+        }
+        else
+        {
+            itemViewHolder.mSwitch.setChecked(false);
+        }
 
     }
 
@@ -47,12 +61,17 @@ public  class EmployeeSADetailRVAdapter  extends RecyclerView.Adapter<EmployeeSA
 
     public class ItemViewHolder extends RecyclerView.ViewHolder {
         private TextView tvEmpName, tvEmpEmail,tvEmpPhone;
+        private Switch mSwitch;
+        private CircleImageView mCircularImageView;
 
         public ItemViewHolder(@NonNull View itemView) {
             super(itemView);
             tvEmpName=itemView.findViewById(R.id.tv_emp_name);
             tvEmpEmail =itemView.findViewById(R.id.tv_emp_email);
             tvEmpPhone=itemView.findViewById(R.id.tv_emp_phone);
+            mSwitch=itemView.findViewById(R.id.switch_status);
+            mCircularImageView=itemView.findViewById(R.id.civ_emp_profile);
+
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

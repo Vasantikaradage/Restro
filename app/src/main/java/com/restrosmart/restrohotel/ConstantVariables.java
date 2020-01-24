@@ -151,6 +151,12 @@ public class ConstantVariables {
     public  static  final  int IMAGE5=1014;
     public  static  final  int IMAGE6=1015;
     public   static  final  int GET_SA_PROFILE=1016;
+    public  static  final  int DAILY_SA_REPORT=1017;
+    public  static  final  int MONTHLY_SA_REPORT=1018;
+    public  static  final  int YEARLY_SA_REPORT=1019;
+    public  static  final  int WEEKLY_SA_REPORT=1020;
+    public  static  final  int WEEKLY_REPORT=1021;
+    public  static  final int EDIT_HOTEL=1022;
 
 
 

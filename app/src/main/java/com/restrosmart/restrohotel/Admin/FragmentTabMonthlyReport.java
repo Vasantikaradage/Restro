@@ -1,7 +1,9 @@
 package com.restrosmart.restrohotel.Admin;
 
 import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,7 +11,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
+import android.widget.DatePicker;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -20,17 +24,34 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
-import com.github.mikephil.charting.utils.ColorTemplate;
+import com.github.ybq.android.spinkit.SpinKitView;
+import com.google.gson.JsonObject;
+import com.restrosmart.restrohotel.Interfaces.ApiService;
+import com.restrosmart.restrohotel.Interfaces.IResult;
+import com.restrosmart.restrohotel.Model.MonthlyReportForm;
 import com.restrosmart.restrohotel.R;
+import com.restrosmart.restrohotel.RetrofitClientInstance;
+import com.restrosmart.restrohotel.RetrofitService;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Calendar;
+import java.util.Locale;
+
+import retrofit2.Response;
+
+import static com.restrosmart.restrohotel.ConstantVariables.ORDER_DETAILS;
 
 @SuppressLint("ValidFragment")
 public class FragmentTabMonthlyReport extends Fragment {
 
     private LineChart lineChartMonthlyReport;
-    private ProgressBar progressBar;
+
+    private TextView tvSelectMonth;
 
     XAxis xAxis;
     YAxis yVals1,yVals2;
@@ -48,6 +69,14 @@ public class FragmentTabMonthlyReport extends Fragment {
     private  String[] nonVeg={"200","500","600","500"};
     private  String[] Liquors={"100","400","700","200"};
     private  String[] hotCold={"600","500","600","800"};
+    private    Calendar calendar;
+    private  String dateinfo;
+    private  RetrofitService mRetrofitService;
+    private IResult mResultCallBack;
+    private  ArrayList<MonthlyReportForm> arrayLisMonthlyreport;
+    private SpinKitView skLoading;
+    private LinearLayout llNodata;
+
 
 
 
@@ -63,14 +92,105 @@ public class FragmentTabMonthlyReport extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         init();
-        
-        getMonthlyReport();
+        skLoading.setVisibility(View.GONE);
+
+        tvSelectMonth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Calendar c = Calendar.getInstance();
+                int year = c.get(Calendar.YEAR);
+                int month = c.get(Calendar.MONTH);
+                int day = c.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog dp = new DatePickerDialog(getActivity(), android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                        new DatePickerDialog.OnDateSetListener() {
+
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                //Check if selected month/year is in future of today.
+
+                                Calendar myCalendar = Calendar.getInstance();
+                                myCalendar.set(Calendar.YEAR, year);
+                                myCalendar.set(Calendar.MONTH, monthOfYear);
+                                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+                                String myFormat = "MMM - yyyy";
+
+                                //Date date = dayOfMonth + monthOfYear + monthOfYear;
+
+                                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.ENGLISH);
+                                dateinfo = sdf.format(myCalendar.getTime());
+                                tvSelectMonth.setText(dateinfo);
+
+                                initRetrofitCallback();
+                                skLoading.setVisibility(View.VISIBLE);
+                                ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
+                                mRetrofitService = new RetrofitService(mResultCallBack, getActivity());
+                                mRetrofitService.retrofitData(ORDER_DETAILS, (service.Order(1)));
+
+                            }
+
+                        }, year, month, day);
+
+                dp.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dp.setTitle("Set Monthly Overview");
+                dp.show();
+
+
+            }
+        });
     }
 
-    private void getMonthlyReport() {
-        progressBar.setVisibility(View.GONE);
+    private void initRetrofitCallback() {
+        mResultCallBack=new IResult() {
+            @Override
+            public void notifySuccess(int requestId, Response<JsonObject> response) {
+                JsonObject jsonObject = response.body();
+                skLoading.setVisibility(View.GONE);
+                // String strObject=jsonObject.toString();
+                llNodata.setVisibility(View.GONE);
+                String strObject = "{\"status\":\"1\",\"MonthlyReport\":[{\"Cat_Veg\":\"50\",\"Cat_Non_Veg\":\"45\",\"Cat_Liquors\":\"20\",\"Cat_Refresher\":\"70\",\"Week\":\"1 week\"},{\"Cat_Veg\":\"30\",\"Cat_Non_Veg\":\"48\",\"Cat_Liquors\":\"60\",\"Cat_Refresher\":\"30\",\"Week\":\"2 week\"},{\"Cat_Veg\":\"50\",\"Cat_Non_Veg\":\"16\",\"Cat_Liquors\":\"34\",\"Cat_Refresher\":\"90\",\"Week\":\"3 week\"},{\"Cat_Veg\":\"100\",\"Cat_Non_Veg\":\"20\",\"Cat_Liquors\":\"60\",\"Cat_Refresher\":\"20\",\"Week\":\"4 week\"}]}";
+                try {
+                    JSONObject object = new JSONObject(strObject);
+                    int status = object.getInt("status");
 
+                    if (status == 1) {
+                        JSONArray jsonArray = object.getJSONArray("MonthlyReport");
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject monthlyReportObj = jsonArray.getJSONObject(i);
+                            MonthlyReportForm monthlyReportForm = new MonthlyReportForm();
+                            monthlyReportForm.setCat_Veg(monthlyReportObj.getString("Cat_Veg"));
+                            monthlyReportForm.setCat_Non_Veg(monthlyReportObj.getString("Cat_Non_Veg"));
+                            monthlyReportForm.setCat_Liquors(monthlyReportObj.getString("Cat_Liquors"));
+                            monthlyReportForm.setCat_Refresher(monthlyReportObj.getString("Cat_Refresher"));
+                            monthlyReportForm.setWeek(monthlyReportObj.getString("Week"));
+                            arrayLisMonthlyreport.add(monthlyReportForm);
+                        }
+                        getMonthlyReport(arrayLisMonthlyreport);
+                    } else {
+                        llNodata.setVisibility(View.VISIBLE);
+                    }
+                    skLoading.setVisibility(View.GONE);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+
+            @Override
+            public void notifyError(int requestId, Throwable error) {
+                Log.d("", "requestId" + requestId);
+                Log.d("", "retrofitError" + error);
+            }
+        };
+    }
+
+    private void getMonthlyReport(ArrayList<MonthlyReportForm> monthlyReportFormArrayList) {
+      //  progressBar.setVisibility(View.GONE);
+        skLoading.setVisibility(View.GONE);
         LineDataSet set1, set2;
+        lineChartMonthlyReport.setVisibility(View.VISIBLE);
 
       /*  Legend legend = lineChartMonthlyReport.getLegend();
         legend.setYOffset(40);
@@ -81,32 +201,31 @@ public class FragmentTabMonthlyReport extends Fragment {
         lineChartMonthlyReport.invalidate();*/
 
         entries.clear();
-        for (int x = 0; x < veg.length; x++) {
-            entries.add(new Entry(Float.parseFloat(x + "f"), Float.parseFloat(veg[x])));
+        for (int x = 0; x < monthlyReportFormArrayList.size(); x++) {
+            entries.add(new Entry(Float.parseFloat(x + "f"), Float.parseFloat(monthlyReportFormArrayList.get(x).getCat_Veg())));
         }
 
         data.clear();
-        for (int x = 0; x < nonVeg.length; x++) {
-            data.add(new Entry(Float.parseFloat(x + "f"), Float.parseFloat(nonVeg[x])));
+        for (int x = 0; x < monthlyReportFormArrayList.size(); x++) {
+            data.add(new Entry(Float.parseFloat(x + "f"), Float.parseFloat(monthlyReportFormArrayList.get(x).getCat_Non_Veg())));
         }
 
         liquorsArray.clear();
-        for (int x = 0; x < Liquors.length; x++) {
-            liquorsArray.add(new Entry(Float.parseFloat(x + "f"), Float.parseFloat(Liquors[x])));
+        for (int x = 0; x < monthlyReportFormArrayList.size(); x++) {
+            liquorsArray.add(new Entry(Float.parseFloat(x + "f"), Float.parseFloat(monthlyReportFormArrayList.get(x).getCat_Liquors())));
         }
 
 
         hotColdArray.clear();
-        for (int x = 0; x < hotCold.length; x++) {
-            hotColdArray.add(new Entry(Float.parseFloat(x + "f"), Float.parseFloat(hotCold[x])));
+        for (int x = 0; x < monthlyReportFormArrayList.size(); x++) {
+            hotColdArray.add(new Entry(Float.parseFloat(x + "f"), Float.parseFloat(monthlyReportFormArrayList.get(x).getCat_Refresher())));
         }
 
 
         labels.clear();
-        for (int x = 0; x < months.length; x++) {
-            labels.add(months[x]);
+        for (int x = 0; x <monthlyReportFormArrayList.size(); x++) {
+            labels.add(monthlyReportFormArrayList.get(x).getWeek());
         }
-
 
         XAxis xAxis = lineChartMonthlyReport.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -186,8 +305,9 @@ public class FragmentTabMonthlyReport extends Fragment {
         data=new ArrayList<>();
         hotColdArray=new ArrayList<>();
         liquorsArray=new ArrayList<>();
-        progressBar=getView().findViewById(R.id.progressBar);
-
+        llNodata=getView().findViewById(R.id.llMonthlyReportNoData);
+        arrayLisMonthlyreport=new ArrayList<>();
+        skLoading=getView().findViewById(R.id.skLoading);
+        tvSelectMonth =getView().findViewById(R.id.tv_monthly_report);
     }
-
 }

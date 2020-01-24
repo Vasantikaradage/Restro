@@ -184,6 +184,7 @@ public class ActivityNewAddEmployee extends AppCompatActivity {
                         @Override
                         public void onClick(View view) {
                             String image = imageOldName.substring(imageOldName.lastIndexOf("/") + 1);
+                            String imageExtention=image.substring((image.lastIndexOf(".")+1));
                             if ((selectedData==null)) {
                                 if (image.equals("def_user.png")) {
                                     selectedImage = "";
@@ -191,8 +192,8 @@ public class ActivityNewAddEmployee extends AppCompatActivity {
                                     image="";
 
                                 } else {
-                                    selectedImage = "";
-                                    extension= "";
+                                    selectedImage = image;
+                                    extension= imageExtention;
                                 }
                                 Picasso.with(ActivityNewAddEmployee.this)
                                         .load(imageOldName)

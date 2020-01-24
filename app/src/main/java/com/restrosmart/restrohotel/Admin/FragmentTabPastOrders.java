@@ -57,8 +57,8 @@ public class FragmentTabPastOrders extends Fragment {
             AdapterPastOrder adapterPastOrder = new AdapterPastOrder(getActivity(), arraylistOrderCompleted);
             recyclerView.setAdapter(adapterPastOrder);
         } else {
-            skloding.setVisibility(View.GONE);
-            llNodata.setVisibility(View.VISIBLE);
+           // skloding.setVisibility(View.GONE);
+          //  llNodata.setVisibility(View.VISIBLE);
         }
 
     }

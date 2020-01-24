@@ -11,7 +11,7 @@ public class HotelForm implements Parcelable {
     hoteltype,hotelRating,hotelCgst,hotelSgst,hotelRegDate,hotelVisitCnt,hotelRanking,hotelStatus,hotelTableCount,
     hotelStartTime,hotelEndTime;
 
-    private  int hotelId,superAdminId;
+    private  int hotelId,superAdminId,countryId,cityId,stateId,hotelTypeId;
 
 
     private ArrayList<CuisineForm>  cuisineFormArrayList;
@@ -52,6 +52,10 @@ public class HotelForm implements Parcelable {
         hotelEndTime = in.readString();
         hotelId = in.readInt();
         superAdminId = in.readInt();
+        countryId=in.readInt();
+        stateId=in.readInt();
+        cityId=in.readInt();
+        hotelTypeId=in.readInt();
     }
 
     public static final Creator<HotelForm> CREATOR = new Creator<HotelForm>() {
@@ -299,6 +303,43 @@ public class HotelForm implements Parcelable {
         this.hotelPhone = hotelPhone;
     }
 
+
+    public int getCountryId() {
+        return countryId;
+    }
+
+    public void setCountryId(int countryId) {
+        this.countryId = countryId;
+    }
+
+    public int getCityId() {
+        return cityId;
+    }
+
+    public void setCityId(int cityId) {
+        this.cityId = cityId;
+    }
+
+    public int getStateId() {
+        return stateId;
+    }
+
+    public void setStateId(int stateId) {
+        this.stateId = stateId;
+    }
+
+    public int getHotelTypeId() {
+        return hotelTypeId;
+    }
+
+    public void setHotelTypeId(int hotelTypeId) {
+        this.hotelTypeId = hotelTypeId;
+    }
+
+    public static Creator<HotelForm> getCREATOR() {
+        return CREATOR;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -332,6 +373,11 @@ public class HotelForm implements Parcelable {
         dest.writeString(hotelEndTime);
         dest.writeInt(hotelId);
         dest.writeInt(superAdminId);
+        dest.writeInt(countryId);
+        dest.writeInt(stateId);
+        dest.writeInt(cityId);
+        dest.writeInt(hotelTypeId);
+
     }
 
     @Override

@@ -95,8 +95,9 @@ public class AdapterRVPromocode extends RecyclerView.Adapter<AdapterRVPromocode.
         String strToDate = outputFormat.format(dateTo);*/
         itemViewHolder.tvDate.setText(promoCodeFormArrayList.get(i).getFromDate() +" - "+promoCodeFormArrayList.get(i).getToDate());
 
-        itemViewHolder.tvOffer.setText(promoCodeFormArrayList.get(i).getOfferValue() + "" + price);
-        itemViewHolder.tvDescription.setText(promoCodeFormArrayList.get(i).getOfferDescription());
+        itemViewHolder.tvOffer.setText(promoCodeFormArrayList.get(i).getOfferValue()+ price);
+        itemViewHolder.tvPromoCode.setText(promoCodeFormArrayList.get(i).getOfferValue());
+        itemViewHolder.tvDescription.setText(promoCodeFormArrayList.get(i).getOfferName());
         itemViewHolder.tvTime.setText(promoCodeFormArrayList.get(i).getOfferFromTime()+" "+promoCodeFormArrayList.get(i).getOfferToTime());
 
         itemViewHolder.textViewOptions.setOnClickListener(new View.OnClickListener() {
@@ -107,8 +108,6 @@ public class AdapterRVPromocode extends RecyclerView.Adapter<AdapterRVPromocode.
                 PopupMenu popup = new PopupMenu(mContext, view);
                 //inflating menu from xml resource
                 popup.inflate(R.menu.menu_offer_items);
-
-
                 Menu popupMenu = popup.getMenu();
                 if(promoCodeFormArrayList.get(i).getOfferStatus()==1) {
                     popupMenu.findItem(R.id.offer_display).setVisible(true);
@@ -189,7 +188,7 @@ public class AdapterRVPromocode extends RecyclerView.Adapter<AdapterRVPromocode.
 
 
     public class ItemViewHolder extends RecyclerView.ViewHolder {
-        private TextView tvDate, tvOffer,tvTime,textViewOptions,tvDescription;
+        private TextView tvDate, tvOffer,tvTime,textViewOptions,tvDescription,tvPromoCode;
         private CardView imgBtn;
         private LinearLayout linearLayout;
         private ImageView imageActive,imageInActive;
@@ -202,7 +201,8 @@ public class AdapterRVPromocode extends RecyclerView.Adapter<AdapterRVPromocode.
             imageActive=itemView.findViewById(R.id.img_active);
             imageInActive=itemView.findViewById(R.id.img_inactive);
             textViewOptions=itemView.findViewById(R.id.textViewOptions);
-            tvDescription=itemView.findViewById(R.id.tv_offer_desc);
+            tvDescription=itemView.findViewById(R.id.tv_offer_name);
+            tvPromoCode=itemView.findViewById(R.id.tv_promocode);
 
           //  imgBtn = itemView.findViewById(R.id.cardview_add);
           //  linearLayout = itemView.findViewById(R.id.linear);

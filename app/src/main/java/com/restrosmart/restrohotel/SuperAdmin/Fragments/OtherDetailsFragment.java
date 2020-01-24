@@ -6,6 +6,7 @@ import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -33,6 +34,8 @@ import com.restrosmart.restrohotel.SuperAdmin.Interfaces.CuisineListener;
 import com.restrosmart.restrohotel.SuperAdmin.Interfaces.TagListener;
 import com.restrosmart.restrohotel.SuperAdmin.Models.CityForm;
 import com.restrosmart.restrohotel.SuperAdmin.Models.CuisineForm;
+import com.restrosmart.restrohotel.SuperAdmin.Models.HotelForm;
+import com.restrosmart.restrohotel.SuperAdmin.Models.HotelImageForm;
 import com.restrosmart.restrohotel.SuperAdmin.Models.HotelTypeForm;
 import com.restrosmart.restrohotel.SuperAdmin.Models.StateForm;
 import com.restrosmart.restrohotel.SuperAdmin.Models.TagsForm;
@@ -65,8 +68,8 @@ public class OtherDetailsFragment extends Fragment {
     private ArrayList<StateForm> stateFormArrayList;
     private ArrayList<CityForm> cityFormArrayList;
     private RecyclerView rvCuisine, rvTags;
-    private ArrayList<CuisineForm> cuisineFormArrayList;
-    private ArrayList<TagsForm> tagsFormArrayList;
+    private ArrayList<CuisineForm> cuisineFormArrayList,cuisineFormArrayListSelected;
+    private ArrayList<TagsForm> tagsFormArrayList,tagsFormArrayListSelected;
 
     private JSONArray cuisineArray, tagArray;
     private ArrayList<CuisineForm> arrayListCheckedCuisine;
@@ -77,6 +80,10 @@ public class OtherDetailsFragment extends Fragment {
     private ArrayList<TagsForm> arrayListCheckedTags;
     private   Bundle bundle;
     private SpinKitView skLoading;
+    private HotelForm hotelForm;
+    private ArrayList<HotelImageForm> hotelImageFormArrayList;
+    private  int hotelTypeSelectedId;
+
 
     private  int getHoteltypeId;
     private  int i;
@@ -86,21 +93,24 @@ public class OtherDetailsFragment extends Fragment {
 
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_other_details, container, false);
-
-       bundle = getArguments();
-
-       /* if (bundle != null) {
-
-            hotelId = bundle.getInt("hotelId");
-        }*/
-
         init();
-       /* initRetrofitCallBack();
-        ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
-        mRetrofitService = new RetrofitService(mResultCallBack, getActivity());
-        mRetrofitService.retrofitData(HOTEL_TYPE, (service.getSAHotelType()));
-        mRetrofitService.retrofitData(HOTEL_CUISINE, (service.getCuisine()));
-        mRetrofitService.retrofitData(HOTEL_TAGS, (service.getTags()));*/
+
+        bundle =getArguments();
+        if (bundle != null) {
+
+            hotelForm = bundle.getParcelable("hotelInfo");
+            hotelImageFormArrayList = bundle.getParcelableArrayList("hotelImags");
+            cuisineFormArrayListSelected = bundle.getParcelableArrayList("CuisineList");
+            tagsFormArrayListSelected = bundle.getParcelableArrayList("TagsList");
+
+            if(hotelForm!=null) {
+                hotelTypeSelectedId = hotelForm.getHotelTypeId();
+
+                // String tableCnt=hotelForm.getHotelTableCount();
+                //  Toast.makeText(getActivity(), hotelForm.getHotelTableCount(), Toast.LENGTH_SHORT).show();
+                etvHotelTableCount.setText(hotelForm.getHotelTableCount());
+            }
+        }
 
 
         spHotelType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -129,6 +139,8 @@ public class OtherDetailsFragment extends Fragment {
                 bundle.putInt("tableCount", Integer.parseInt(etvHotelTableCount.getText().toString()));
                 bundle.putString("mCuisine", cuisineArray.toString());
                 bundle.putString("mTags", tagArray.toString());
+                bundle.putParcelableArrayList("hotelImags", hotelImageFormArrayList);
+                bundle.putParcelable("hotelInfo", hotelForm);
 
 
                 accountDetailsFragment.setArguments(bundle);
@@ -202,6 +214,15 @@ public class OtherDetailsFragment extends Fragment {
                                 typeFormArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                                 spHotelType.setAdapter(typeFormArrayAdapter);
 
+                                if (hotelTypeSelectedId != 0) {
+                                    for (i = 0; i < hotelTypeFormArrayList.size(); i++) {
+                                        if (hotelTypeSelectedId == hotelTypeFormArrayList.get(i).getHotelTypeId())
+                                            break;
+
+                                    }
+                                    spHotelType.setSelection(hotelTypeSelectedId);
+                                }
+
                                 if (getGetHoteltypeId() != 0) {
                                     for (i = 0; i < hotelTypeFormArrayList.size(); i++) {
                                         if (getGetHoteltypeId() == hotelTypeFormArrayList.get(i).getHotelTypeId())
@@ -233,16 +254,30 @@ public class OtherDetailsFragment extends Fragment {
                                     CuisineForm   cuisineForm = new CuisineForm();
                                     cuisineForm.setCuisineId(object1.getInt("Cuisine_Id"));
                                     cuisineForm.setCuisineName(object1.getString("Cuisine_Name"));
-                                    cuisineForm.setSelected(false);
+                                  /*  if(cuisineFormArrayListSelected.size()!=0) {
+
+                                        for (int j = 0; j < cuisineFormArrayListSelected.size(); i++) {
+                                            if (object1.getInt("Cuisine_Id") == cuisineFormArrayListSelected.get(j).getCuisineId()) {
+                                                cuisineForm.setSelected(true);
+                                            } else {
+                                                cuisineForm.setSelected(false);
+                                            }
+                                        }
+                                    }else
+                                    {*/
+                                        cuisineForm.setSelected(false);
+                                    //}
+
                                     cuisineFormArrayList.add(cuisineForm);
                                 }
 
                                 if (cuisineFormArrayList != null && cuisineFormArrayList.size() > 0) {
-                                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+                                    GridLayoutManager layoutManager =
+                                            new GridLayoutManager(getActivity(), 2,LinearLayoutManager.VERTICAL, false);
                                     rvCuisine.setHasFixedSize(true);
-                                    rvCuisine.setLayoutManager(linearLayoutManager);
+                                    rvCuisine.setLayoutManager(layoutManager);
 
-                                    RVCuisineAdapter rvCuisineAdapter = new RVCuisineAdapter(getActivity(), cuisineFormArrayList, arrayListCheckedCuisine,getArrayListCheckedCuisinePos,new CuisineListener() {
+                                    RVCuisineAdapter rvCuisineAdapter = new RVCuisineAdapter(getActivity(),cuisineFormArrayListSelected, cuisineFormArrayList, arrayListCheckedCuisine,getArrayListCheckedCuisinePos,new CuisineListener() {
 
                                         @Override
                                         public void getCuisineListenerPosition(ArrayList<CuisineForm> arrayList) {
@@ -306,10 +341,11 @@ public class OtherDetailsFragment extends Fragment {
                                 }
 
                                 if (tagsFormArrayList != null && tagsFormArrayList.size() > 0) {
-                                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+                                    GridLayoutManager layoutManager =
+                                            new GridLayoutManager(getActivity(), 2,LinearLayoutManager.VERTICAL, false);
                                     rvTags.setHasFixedSize(true);
-                                    rvTags.setLayoutManager(linearLayoutManager);
-                                    RVTagsAdapter rvTagsAdapter = new RVTagsAdapter(getActivity(), tagsFormArrayList, new TagListener() {
+                                    rvTags.setLayoutManager(layoutManager);
+                                    RVTagsAdapter rvTagsAdapter = new RVTagsAdapter(getActivity(), tagsFormArrayList,tagsFormArrayListSelected, new TagListener() {
 
                                         @Override
                                         public void getTagListenerPosition(ArrayList<TagsForm> arrayList) {
@@ -320,11 +356,7 @@ public class OtherDetailsFragment extends Fragment {
                                                         arrayListCheckedTags.add(arrayList.get(i));
                                                     }
                                                 }
-//                                                for (int i = 0; i < arrayList.size(); i++) {
-//                                                    TagsForm tagsForm = new TagsForm();
-//                                                    tagsForm.setTagId(arrayList.get(i).getTagId());
-//                                                    arrayListCheckedTags.add(tagsForm);
-//                                                }
+
                                             }
                                             tagArray = new JSONArray();
                                             for (int x = 0; x < arrayListCheckedTags.size(); x++) {
@@ -357,7 +389,7 @@ public class OtherDetailsFragment extends Fragment {
                             int status = otherDetailsJsonObj.getInt("status");
                             if (status == 1) {
                                 Toast.makeText(getActivity(), "Hotel Other Details Added Successfully..", Toast.LENGTH_SHORT).show();
-                                AccountDetailsFragment accountDetailsFragment = new AccountDetailsFragment();
+                              /*  AccountDetailsFragment accountDetailsFragment = new AccountDetailsFragment();
                                 Bundle bundle = new Bundle();
 //                bundle.putInt("hoteltypeId", hoteltypeId);
 //                bundle.putInt("stateId", stateId);
@@ -383,7 +415,7 @@ public class OtherDetailsFragment extends Fragment {
                                 fragmentTransaction.addToBackStack(null);
 
                                 // Commit the Fragment replace action.
-                                fragmentTransaction.commit();
+                                fragmentTransaction.commit();*/
 
                             } else {
                                 Toast.makeText(getActivity(), otherDetailsJsonObj.getString("message"), Toast.LENGTH_SHORT).show();
@@ -429,8 +461,6 @@ public class OtherDetailsFragment extends Fragment {
         outState.putInt("hoteltypeId", hoteltypeId);
         outState.putInt("tableCount", Integer.parseInt(etvHotelTableCount.getText().toString()));
         outState.putInt("hotelType",spHotelType.getSelectedItemPosition());
-      //  outState.putString("cuisineArray", cuisineArray.toString());
-       // outState.putString("tagArray", tagArray.toString());
     }
 
     @Override
@@ -447,44 +477,20 @@ public class OtherDetailsFragment extends Fragment {
 
             String table = String.valueOf(tableCount);
             etvHotelTableCount.setText(table);
-
-
-           /* etvHotelName.setText(mHotelName);
-            etvHotelEmail.setText(mHotelEmail);
-            etvHotelMob.setText(mHotelMob);
-            etvHotelPhone.setText(mHotelPhone);
-            etvHotelAddress.setText(mHotelAddress);*/
-
         }
     }
 
 
     private void init() {
-       // cuisineArray=new JSONArray();
-      //  tagArray=new JSONArray();
         spHotelType = view.findViewById(R.id.sp_hotel_type);
-        //  spState = view.findViewById(R.id.sp_state);
-
-        //  spCity = view.findViewById(R.id.sp_city);
-        //  etvLattitude = view.findViewById(R.id.edt_hotel_lattitude);
-        // etvLongitude = view.findViewById(R.id.edt_hotel_longitude);
-        //   etvArea=view.findViewById(R.id.edt_hotel_area);
         btnNext = view.findViewById(R.id.btn_basic_other_details);
         etvHotelTableCount = view.findViewById(R.id.edt_hotel_table_count);
         rvTags = view.findViewById(R.id.rv_tags);
-
-        // etvHotelAddress=view.findViewById(R.id.edt_hotel_address);
-
         hotelTypeFormArrayList = new ArrayList<>();
         rvCuisine = view.findViewById(R.id.rv_cuisine);
         cuisineFormArrayList = new ArrayList<>();
         tagsFormArrayList = new ArrayList<>();
-        //  stateFormArrayList=new ArrayList<>();
-        // cityFormArrayList=new ArrayList<>();
-
         arrayListCheckedCuisine = new ArrayList<>();
-       //getArrayListCheckedCuisinePos=new ArrayList<>();
-
         arrayListCheckedTags = new ArrayList<>();
         skLoading = view.findViewById(R.id.skLoading);
     }

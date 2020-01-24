@@ -20,7 +20,7 @@ import retrofit2.http.POST;
  */
 
 public interface ApiService {
-    String BASE_URL = "http://192.168.2.220:8080/NewRestroSmart/";
+    String BASE_URL = "http://192.168.2.221:8080/NewRestroSmart/";
 
     /*parent category display*/
     @POST("Category.php?category=cate_disp")
@@ -517,6 +517,7 @@ public interface ApiService {
     @FormUrlEncoded
     Call<JsonObject> addPromoCode(@Field("Offer_Type_Id") int offerId,
                                   @Field("Offer_Price") String offerPrice,
+                                  @Field("Offer_Name") String offerName,
                                   @Field("Coupon_Code") String promoCode,
                                   @Field("Offer_Desp") String offerDesp,
                                   @Field("Offer_From") String offerFrom,
@@ -529,6 +530,7 @@ public interface ApiService {
     @FormUrlEncoded
     Call<JsonObject> editPromoCode(@Field("Offer_Id") int offerId,
                                    @Field("Coupon_Code") String Promocode,
+                                   @Field("Offer_Name") String offerName,
                                    @Field("Offer_From") String offerFrom,
                                    @Field("Offer_To") String offerTo,
                                    @Field("Offer_Price") String offerPrice,
@@ -545,10 +547,7 @@ public interface ApiService {
     @POST("Offer_Promo.php?offerpromo=offerpromo_apply")
     @FormUrlEncoded
     Call<JsonObject> applyPromoCodeOffer(@Field("Hotel_Id") int hotel_id,
-                                 @Field("Offer_Id") int offerId);
-
-
-
+                                         @Field("Offer_Id") int offerId);
 
 
     /*Add rushHours*/
@@ -978,7 +977,9 @@ public interface ApiService {
 
                                        @Field("Hotel_Gstinno") String gstn,
                                        @Field("Hotel_CGST") String cgst,
-                                       @Field("Hotel_SGST") String sgst);
+                                       @Field("Hotel_SGST") String sgst,
+                                       @Field("Start_Time") String startTime,
+                                       @Field("End_Time") String endTime);
 
     /*Fetching image details*/
     @POST("SA_Hotel_Reg.php?sahotel=hotel_img")
@@ -1001,5 +1002,24 @@ public interface ApiService {
     @POST("SA_Emp.php?saemp=SA_Disp")
     @FormUrlEncoded
     Call<JsonObject> getSuperAdminProfile(@Field("SA_Id") int saId);
+
+
+    ///*Hotel edit*/
+    @POST("SA_Hotel_Reg.php?sahotel=hotel_edit")
+    @FormUrlEncoded
+    Call<JsonObject> editHotel(@Field("Hotel_Id") int Hotel_Id,
+                               @Field("Hotel_Mob") String Hotel_Mob,
+                               @Field("Hotel_Phone") String Hotel_Phone,
+                               @Field("Hotel_Email") String Hotel_Email,
+                               @Field("Hotel_CGST") String Hotel_CGST,
+                               @Field("Hotel_SGST") String Hotel_SGST,
+                               @Field(" Hotel_Gstinno") String Hotel_Gstinno,
+                               @Field("Start_Time") String startTime,
+                               @Field("End_Time") String endTime,
+                               @Field("Hotel_Address") String hotelAddress,
+                               @Field("cusisinearray") String cusisinearray,
+                               @Field("tagsarray") String tagsarray);
+
+
 }
 

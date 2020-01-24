@@ -7,7 +7,7 @@ import com.github.mikephil.charting.utils.ViewPortHandler;
 
 import java.text.DecimalFormat;
 
-class MyValueFormatter implements ValueFormatter {
+public  class MyValueFormatter implements ValueFormatter {
 
     private final DecimalFormat mFormat;
     private String suffix;

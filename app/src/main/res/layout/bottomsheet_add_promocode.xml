@@ -47,6 +47,29 @@
 
         android:orientation="vertical">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/offer_name"
+            android:padding="5dp"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"/>
+
+        <EditText
+            android:id="@+id/et_offer_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/texview_outline_black"
+            android:layout_marginStart="10dp"
+            android:layout_below="@+id/tx_category"
+            android:padding="10dp"
+            android:inputType="text"
+            android:singleLine="true"
+            android:hint="Enter Offer Name"/>
+
+
 
         <TextView
             android:layout_width="match_parent"

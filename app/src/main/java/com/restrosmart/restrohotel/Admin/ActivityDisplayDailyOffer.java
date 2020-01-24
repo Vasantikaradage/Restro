@@ -368,8 +368,7 @@ public class ActivityDisplayDailyOffer extends AppCompatActivity {
             btnUpdate.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(imageName!=null)
-                    {
+                    if (imageName != null) {
                         mFinalImageName = imageName.substring(imageName.lastIndexOf("/") + 1);
                     }
 
@@ -461,6 +460,9 @@ public class ActivityDisplayDailyOffer extends AppCompatActivity {
         }
         if (statusType == 1 || statusType == 2) {
             if (etPrice.getText().toString().equalsIgnoreCase("")) {
+                Toast.makeText(ActivityDisplayDailyOffer.this, "Please enter amount", Toast.LENGTH_SHORT).show();
+                return false;
+            } else if (etPrice.getText().toString().equals("0")) {
                 Toast.makeText(ActivityDisplayDailyOffer.this, "Please enter amount", Toast.LENGTH_SHORT).show();
                 return false;
             }
@@ -614,9 +616,9 @@ public class ActivityDisplayDailyOffer extends AppCompatActivity {
                                             RecyclerView rvMenuItemBuy = dialoglayout.findViewById(R.id.rv_menu_item_buy);
                                             TextView tvOfferPrice = dialoglayout.findViewById(R.id.tv_offer_price);
                                             TextView tvMenuPrice = dialoglayout.findViewById(R.id.tv_menu_price);
-                                            LinearLayout linearLayoutMenu=dialoglayout.findViewById(R.id.menu_llayout);
-                                            TextView tvMenuName=dialoglayout.findViewById(R.id.tv_menu);
-                                            TextView tvMenuPriceSingle=dialoglayout.findViewById(R.id.tv_menu_amt);
+                                            LinearLayout linearLayoutMenu = dialoglayout.findViewById(R.id.menu_llayout);
+                                            TextView tvMenuName = dialoglayout.findViewById(R.id.tv_menu);
+                                            TextView tvMenuPriceSingle = dialoglayout.findViewById(R.id.tv_menu_amt);
 
                                             ImageButton btnCancel = dialoglayout.findViewById(R.id.btn_cancel);
 
@@ -635,75 +637,86 @@ public class ActivityDisplayDailyOffer extends AppCompatActivity {
                                             tvDesc.setText(dailyOfferFormArrayList.get(pos).getDescription());
 
                                             Picasso.with(dialoglayout.getContext()).load(dailyOfferFormArrayList.get(itemPosition).getOfferImg()).resize(500, 500).into(bannerImageView);
-                                            if ((dailyOfferFormArrayList.get(itemPosition).getBuyCnt() == 0) && (dailyOfferFormArrayList.get(itemPosition).getGetCnt() == 0)) {
-                                                tvMenuPrice.setText(dailyOfferFormArrayList.get(itemPosition).getPrice());
-                                                tvOfferPrice.setText(dailyOfferFormArrayList.get(pos).getOfferPrice());
-                                                linearLayoutMenu.setVisibility(View.VISIBLE);
 
-                                                for(int i=0;i<offerMenuForms.size() ;i++)
-                                                {
-                                                    tvMenuName.setText(offerMenuForms.get(i).getMenu_Name());
-                                                   tvMenuPriceSingle.setText("\u20B9 "+(offerMenuForms.get(i).getMenu_Ori_Price()));
-                                                    //Toast.makeText(ActivityDisplayDailyOffer.this, offerMenuForms.get(i).getMenu_Name(), Toast.LENGTH_SHORT).show();
-                                                }
-                                            }
-                                            else
-                                            {
-                                                tvTitle.setVisibility(View.VISIBLE);
-                                                viewline.setVisibility(View.VISIBLE);
-                                                tvGet.setVisibility(View.VISIBLE);
-                                                rvMenuItemGet.setVisibility(View.VISIBLE);
-                                            }
-
-                                            if(offerMenuForms.size() > 0 && offerMenuForms != null &&offerSubMenuForms.size() > 0 && offerSubMenuForms != null) {
-
+                                            if (dailyOfferFormArrayList.get(pos).getStatus() == 0) {
                                                 linearLayoutMenu.setVisibility(View.GONE);
-                                                if (offerMenuForms.size() > 0 && offerMenuForms != null) {
-                                                    tvTitle.setVisibility(View.VISIBLE);
-                                                    viewline.setVisibility(View.VISIBLE);
-                                                    if (dailyOfferFormArrayList.get(pos).getBuyCnt() != 0) {
-                                                        tvBuy.setVisibility(View.VISIBLE);
-                                                    } else {
-                                                        tvBuy.setVisibility(View.GONE);
+                                                rvMenuItemBuy.setVisibility(View.GONE);
+                                                tvBuy.setVisibility(View.GONE);
+                                                tvGet.setVisibility(View.GONE);
+                                                rvMenuItemGet.setVisibility(View.GONE);
+                                                tvTitle.setVisibility(View.GONE);
+                                                viewline.setVisibility(View.GONE);
+                                            } else {
+                                                linearLayoutMenu.setVisibility(View.VISIBLE);
+                                                if ((dailyOfferFormArrayList.get(itemPosition).getBuyCnt() == 0) && (dailyOfferFormArrayList.get(itemPosition).getGetCnt() == 0)) {
+
+                                                    tvMenuPrice.setText(dailyOfferFormArrayList.get(itemPosition).getPrice());
+                                                    tvOfferPrice.setText(dailyOfferFormArrayList.get(pos).getOfferPrice());
+                                                    linearLayoutMenu.setVisibility(View.VISIBLE);
+
+                                                    for (int i = 0; i < offerMenuForms.size(); i++) {
+                                                        tvMenuName.setText(offerMenuForms.get(i).getMenu_Name());
+                                                        tvMenuPriceSingle.setText("\u20B9 " + (offerMenuForms.get(i).getMenu_Ori_Price()));
+                                                        //Toast.makeText(ActivityDisplayDailyOffer.this, offerMenuForms.get(i).getMenu_Name(), Toast.LENGTH_SHORT).show();
                                                     }
 
-                                                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ActivityDisplayDailyOffer.this);
-                                                    rvMenuItemBuy.setHasFixedSize(true);
-                                                    rvMenuItemBuy.setLayoutManager(linearLayoutManager);
-                                                    AdapterRVDailyOfferMenu adapterRVDailyOfferMenu = new AdapterRVDailyOfferMenu(getApplicationContext(), offerMenuForms);
-                                                    rvMenuItemBuy.setAdapter(adapterRVDailyOfferMenu);
                                                 } else {
-                                                    //tvTitle.setVisibility(View.GONE);
-                                                    // viewline.setVisibility(View.GONE);
-                                                    rvMenuItemBuy.setVisibility(View.GONE);
-                                                    tvBuy.setVisibility(View.GONE);
-                                                    tvGet.setVisibility(View.GONE);
-                                                    rvMenuItemGet.setVisibility(View.GONE);
-                                                }
-
-                                                if (offerSubMenuForms.size() > 0 && offerSubMenuForms != null) {
                                                     tvTitle.setVisibility(View.VISIBLE);
                                                     viewline.setVisibility(View.VISIBLE);
                                                     tvGet.setVisibility(View.VISIBLE);
                                                     rvMenuItemGet.setVisibility(View.VISIBLE);
 
-                                                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ActivityDisplayDailyOffer.this);
-                                                    rvMenuItemGet.setLayoutManager(linearLayoutManager);
-                                                    AdapterRVDailyOfferMenu adapterRVDailyOfferMenu = new AdapterRVDailyOfferMenu(getApplicationContext(), offerSubMenuForms);
-                                                    rvMenuItemGet.setAdapter(adapterRVDailyOfferMenu);
-
-                                                } else {
-                                                    tvGet.setVisibility(View.GONE);
-                                                    rvMenuItemGet.setVisibility(View.GONE);
                                                 }
-                                            }
-                                            else
-                                            {
-                                                rvMenuItemBuy.setVisibility(View.GONE);
-                                                tvBuy.setVisibility(View.GONE);
-                                                tvGet.setVisibility(View.GONE);
-                                                rvMenuItemGet.setVisibility(View.GONE);
-                                            }
+                                                    if (offerMenuForms.size() > 0 && offerMenuForms != null && offerSubMenuForms.size() > 0 && offerSubMenuForms != null) {
+
+                                                        linearLayoutMenu.setVisibility(View.GONE);
+                                                        if (offerMenuForms.size() > 0 && offerMenuForms != null) {
+                                                            tvTitle.setVisibility(View.VISIBLE);
+                                                            viewline.setVisibility(View.VISIBLE);
+                                                            if (dailyOfferFormArrayList.get(pos).getBuyCnt() != 0) {
+                                                                tvBuy.setVisibility(View.VISIBLE);
+                                                            } else {
+                                                                tvBuy.setVisibility(View.GONE);
+                                                            }
+
+                                                            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ActivityDisplayDailyOffer.this);
+                                                            rvMenuItemBuy.setHasFixedSize(true);
+                                                            rvMenuItemBuy.setLayoutManager(linearLayoutManager);
+                                                            AdapterRVDailyOfferMenu adapterRVDailyOfferMenu = new AdapterRVDailyOfferMenu(getApplicationContext(), offerMenuForms);
+                                                            rvMenuItemBuy.setAdapter(adapterRVDailyOfferMenu);
+                                                        } else {
+                                                            //tvTitle.setVisibility(View.GONE);
+                                                            // viewline.setVisibility(View.GONE);
+                                                            rvMenuItemBuy.setVisibility(View.GONE);
+                                                            tvBuy.setVisibility(View.GONE);
+                                                            tvGet.setVisibility(View.GONE);
+                                                            rvMenuItemGet.setVisibility(View.GONE);
+                                                        }
+
+                                                        if (offerSubMenuForms.size() > 0 && offerSubMenuForms != null) {
+                                                            tvTitle.setVisibility(View.VISIBLE);
+                                                            viewline.setVisibility(View.VISIBLE);
+                                                            tvGet.setVisibility(View.VISIBLE);
+                                                            rvMenuItemGet.setVisibility(View.VISIBLE);
+
+                                                            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ActivityDisplayDailyOffer.this);
+                                                            rvMenuItemGet.setLayoutManager(linearLayoutManager);
+                                                            AdapterRVDailyOfferMenu adapterRVDailyOfferMenu = new AdapterRVDailyOfferMenu(getApplicationContext(), offerSubMenuForms);
+                                                            rvMenuItemGet.setAdapter(adapterRVDailyOfferMenu);
+
+                                                        } else {
+                                                            tvGet.setVisibility(View.GONE);
+                                                            rvMenuItemGet.setVisibility(View.GONE);
+                                                        }
+                                                    } else {
+                                                        rvMenuItemBuy.setVisibility(View.GONE);
+                                                        tvBuy.setVisibility(View.GONE);
+                                                        tvGet.setVisibility(View.GONE);
+                                                        rvMenuItemGet.setVisibility(View.GONE);
+                                                    }
+                                                }
+
+
                                             btnCancel.setOnClickListener(new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View v) {
@@ -761,8 +774,8 @@ public class ActivityDisplayDailyOffer extends AppCompatActivity {
                             skLoading.setVisibility(View.GONE);
 
                             dialog.dismiss();
-                            imageName=null;
-                            mFinalImageName=null;
+                            imageName = null;
+                            mFinalImageName = null;
                             getDailyOfferInfo();
                         } catch (JSONException e) {
                             e.printStackTrace();

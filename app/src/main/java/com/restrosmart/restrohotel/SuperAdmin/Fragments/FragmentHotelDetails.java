@@ -37,23 +37,24 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import retrofit2.Response;
+
 import static com.restrosmart.restrohotel.ConstantVariables.GET_SA_ALL_HOTEL;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.EMP_ID;
 
 public class FragmentHotelDetails extends Fragment {
     private View view;
     private FrameLayout btnAddHotel;
-    private  RetrofitService mRetrofitService;
+    private RetrofitService mRetrofitService;
     private SpinKitView skLoading;
     private IResult mResultCallBack;
-    private  RecyclerView rvHotelDetails;
-    private  ArrayList<HotelForm> hotelFormArrayList;
-    private   RVHotelDeatailAdapter rvHotelDeatailAdapter;
+    private RecyclerView rvHotelDetails;
+    private ArrayList<HotelForm> hotelFormArrayList;
+    private RVHotelDeatailAdapter rvHotelDeatailAdapter;
     private Sessionmanager sessionmanager;
     private HashMap<String, String> superAdminInfo;
-    private  ArrayList<CuisineForm> cuisineFormArrayList;
-    private  ArrayList<TagsForm> tagsFormArrayList;
-    private  ArrayList<HotelImageForm> hotelImageFormArrayList;
+    private ArrayList<CuisineForm> cuisineFormArrayList;
+    private ArrayList<TagsForm> tagsFormArrayList;
+    private ArrayList<HotelImageForm> hotelImageFormArrayList;
     private LinearLayout llNoHotelData;
 
 
@@ -78,12 +79,22 @@ public class FragmentHotelDetails extends Fragment {
         rvHotelDetails = (RecyclerView) view.findViewById(R.id.recycler_hotel_details);
         btnAddHotel = (FrameLayout) view.findViewById(R.id.btn_add_hotel);
         hotelFormArrayList = new ArrayList<>();
-        sessionmanager=new Sessionmanager(getActivity());
-        cuisineFormArrayList=new ArrayList<>();
-        tagsFormArrayList=new ArrayList<>();
-        hotelImageFormArrayList=new ArrayList<>();
-        skLoading=view.findViewById(R.id.skLoading);
-        llNoHotelData=view.findViewById(R.id.llNoHotelData);
+        sessionmanager = new Sessionmanager(getActivity());
+        cuisineFormArrayList = new ArrayList<>();
+        tagsFormArrayList = new ArrayList<>();
+        hotelImageFormArrayList = new ArrayList<>();
+        skLoading = view.findViewById(R.id.skLoading);
+        llNoHotelData = view.findViewById(R.id.llNoHotelData);
+    }
+
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        retrofitCallBack();
+        ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
+        mRetrofitService = new RetrofitService(mResultCallBack, getActivity());
+        mRetrofitService.retrofitData(GET_SA_ALL_HOTEL, (service.getSAHotelDetails(Integer.parseInt(superAdminInfo.get(EMP_ID)))));
     }
 
     @Override
@@ -96,27 +107,26 @@ public class FragmentHotelDetails extends Fragment {
     }
 
     private void retrofitCallBack() {
-        mResultCallBack=new IResult() {
+        mResultCallBack = new IResult() {
             @Override
             public void notifySuccess(int requestId, Response<JsonObject> response) {
-                JsonObject jsonObject=response.body();
-                String objectInfo=jsonObject.toString();
+                JsonObject jsonObject = response.body();
+                String objectInfo = jsonObject.toString();
 
                 try {
-                    JSONObject object=new JSONObject(objectInfo);
-                    int status=object.getInt("status");
-                    if(status==1){
+                    JSONObject object = new JSONObject(objectInfo);
+                    int status = object.getInt("status");
+                    if (status == 1) {
 
-                        JSONArray jsonArray=object.getJSONArray("Hotellist");
+                        JSONArray jsonArray = object.getJSONArray("Hotellist");
 
                         hotelFormArrayList.clear();
                         hotelImageFormArrayList.clear();
                         cuisineFormArrayList.clear();
                         tagsFormArrayList.clear();
-                        for(int i=0;i<jsonArray.length();i++)
-                        {
-                            JSONObject hotelObject=jsonArray.getJSONObject(i);
-                            HotelForm hotelForm=new HotelForm();
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject hotelObject = jsonArray.getJSONObject(i);
+                            HotelForm hotelForm = new HotelForm();
                             hotelForm.setHotelName(hotelObject.getString("Hotel_Name"));
                             hotelForm.setHotelAddress(hotelObject.getString("Hotel_Address"));
                             hotelForm.setHotelMob(hotelObject.getString("Hotel_Mob"));
@@ -127,36 +137,41 @@ public class FragmentHotelDetails extends Fragment {
                             hotelForm.setHotelCountry(hotelObject.getString("Hotel_Country"));
                             hotelForm.setHotelState(hotelObject.getString("Hotel_State"));
                             hotelForm.setHotelPhone(hotelObject.getString("Hotel_Phone"));
+                            hotelForm.setCountryId(hotelObject.getInt("Country_Id"));
+                            hotelForm.setStateId(hotelObject.getInt("State_Id"));
+                            hotelForm.setCityId(hotelObject.getInt("City_Id"));
+                            hotelForm.setHotelTypeId(hotelObject.getInt("Hotel_Type_Id"));
+                            hotelForm.setHotelStartTime(hotelObject.getString("Start_Time"));
+                            hotelForm.setHotelEndTime(hotelObject.getString("End_Time"));
+                            hotelForm.setHotelId(hotelObject.getInt("Hotel_Id"));
 
-                            JSONArray cuisineArray=hotelObject.getJSONArray("cusines");
-                            cuisineFormArrayList=new ArrayList<>();
-                            for(int c=0; c<cuisineArray.length(); c++)
-                            {
-                                JSONObject cuisineObject=cuisineArray.getJSONObject(c);
-                                CuisineForm cuisineForm=new CuisineForm();
+
+                            JSONArray cuisineArray = hotelObject.getJSONArray("cusines");
+                            cuisineFormArrayList = new ArrayList<>();
+                            for (int c = 0; c < cuisineArray.length(); c++) {
+                                JSONObject cuisineObject = cuisineArray.getJSONObject(c);
+                                CuisineForm cuisineForm = new CuisineForm();
                                 cuisineForm.setCuisineId(cuisineObject.getInt("Cuisine_Id"));
                                 cuisineForm.setCuisineName(cuisineObject.getString("Cuisine_Name"));
                                 cuisineFormArrayList.add(cuisineForm);
                             }
                             hotelForm.setCuisineFormArrayList(cuisineFormArrayList);
-                            JSONArray tagsArray=hotelObject.getJSONArray("tags");
-                            tagsFormArrayList=new ArrayList<>();
-                            for (int t=0;t<tagsArray.length(); t++)
-                            {
-                                JSONObject  tagObject=tagsArray.getJSONObject(t);
-                                TagsForm tagsForm=new TagsForm();
+                            JSONArray tagsArray = hotelObject.getJSONArray("tags");
+                            tagsFormArrayList = new ArrayList<>();
+                            for (int t = 0; t < tagsArray.length(); t++) {
+                                JSONObject tagObject = tagsArray.getJSONObject(t);
+                                TagsForm tagsForm = new TagsForm();
                                 tagsForm.setTagId(tagObject.getInt("Tag_Id"));
                                 tagsForm.setTagName(tagObject.getString("Tag_Name"));
                                 tagsFormArrayList.add(tagsForm);
                             }
 
-                            JSONArray imageArray=hotelObject.getJSONArray("images");
+                            JSONArray imageArray = hotelObject.getJSONArray("images");
                             hotelForm.setTagsFormArrayList(tagsFormArrayList);
-                            hotelImageFormArrayList=new ArrayList<>();
-                            for(int x=0; x<imageArray.length(); x++)
-                            {
-                                JSONObject imageObject=imageArray.getJSONObject(x);
-                                HotelImageForm hotelImageForm=new HotelImageForm();
+                            hotelImageFormArrayList = new ArrayList<>();
+                            for (int x = 0; x < imageArray.length(); x++) {
+                                JSONObject imageObject = imageArray.getJSONObject(x);
+                                HotelImageForm hotelImageForm = new HotelImageForm();
                                 hotelImageForm.setHotelImageId(imageObject.getInt("Hotel_Img_Id"));
                                 hotelImageForm.setHotelImageName(imageObject.getString("Hotel_Img"));
                                 hotelImageFormArrayList.add(hotelImageForm);
@@ -177,7 +192,7 @@ public class FragmentHotelDetails extends Fragment {
 
                         }
 
-                        if(hotelFormArrayList.size()!=0 ) {
+                        if (hotelFormArrayList.size() != 0) {
                             llNoHotelData.setVisibility(View.GONE);
                             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
                             rvHotelDetails.setLayoutManager(linearLayoutManager);
@@ -188,9 +203,7 @@ public class FragmentHotelDetails extends Fragment {
                         }
 
 
-                    }
-                    else
-                    {
+                    } else {
                         llNoHotelData.setVisibility(View.VISIBLE);
 
                     }
@@ -204,8 +217,8 @@ public class FragmentHotelDetails extends Fragment {
 
             @Override
             public void notifyError(int requestId, Throwable error) {
-                Log.d("","RequestId"+requestId);
-                Log.d("","RetrofitError"+error);
+                Log.d("", "RequestId" + requestId);
+                Log.d("", "RetrofitError" + error);
             }
         };
     }

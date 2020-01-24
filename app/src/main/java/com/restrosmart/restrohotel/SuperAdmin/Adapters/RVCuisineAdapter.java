@@ -2,7 +2,6 @@ package com.restrosmart.restrohotel.SuperAdmin.Adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,18 +16,20 @@ import com.restrosmart.restrohotel.SuperAdmin.Models.CuisineForm;
 
 import java.util.ArrayList;
 
-public class RVCuisineAdapter  extends RecyclerView.Adapter<RVCuisineAdapter.ViewHolder>{
-    private  Context mContext;
-    private  ArrayList<CuisineForm> cuisineFormArrayList;
-  private  ArrayList<CuisineForm> cuisineCheckedFormArrayList;
-    private  CuisineListener cuisineListener;
+public class RVCuisineAdapter extends RecyclerView.Adapter<RVCuisineAdapter.ViewHolder> {
+    private Context mContext;
+    private ArrayList<CuisineForm> cuisineFormArrayList, cuisineFormArrayListEdit;
+    private ArrayList<CuisineForm> cuisineCheckedFormArrayList;
+    private CuisineListener cuisineListener;
 
 
-    public RVCuisineAdapter(Context context, ArrayList<CuisineForm> cuisineFormArrayList, ArrayList<CuisineForm> arrayListCheckedCuisine, ArrayList<CuisineForm> getArrayListCheckedCuisinePos, CuisineListener cuisineListener) {
-        this.mContext=context;
-        this.cuisineFormArrayList=cuisineFormArrayList;
-        this.cuisineListener=cuisineListener;
-        this.cuisineCheckedFormArrayList=getArrayListCheckedCuisinePos;
+    public RVCuisineAdapter(Context context, ArrayList<CuisineForm> cuisineFormArrayListEdit, ArrayList<CuisineForm> cuisineFormArrayList, ArrayList<CuisineForm> arrayListCheckedCuisine, ArrayList<CuisineForm> getArrayListCheckedCuisinePos, CuisineListener cuisineListener) {
+        this.mContext = context;
+        this.cuisineFormArrayListEdit = cuisineFormArrayListEdit;
+        this.cuisineFormArrayList = cuisineFormArrayList;
+        this.cuisineListener = cuisineListener;
+        this.cuisineCheckedFormArrayList = getArrayListCheckedCuisinePos;
+
     }
 
     @NonNull
@@ -42,27 +43,25 @@ public class RVCuisineAdapter  extends RecyclerView.Adapter<RVCuisineAdapter.Vie
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
         viewHolder.tvCuisine.setText(cuisineFormArrayList.get(i).getCuisineName());
-        /*if (cuisineCheckedFormArrayList == null || cuisineCheckedFormArrayList.size() == 0) {
+        //viewHolder.checkBox.setChecked(cuisineFormArrayList.get(i).isSelected());
+
+
+        if (cuisineFormArrayListEdit == null || cuisineFormArrayListEdit.size() == 0) {
             viewHolder.checkBox.setChecked(cuisineFormArrayList.get(i).isSelected());
         } else {
-            for (int position = 0; position < cuisineCheckedFormArrayList.size(); position++) {
-                if (cuisineCheckedFormArrayList.get(i).getCuisineId() == cuisineCheckedFormArrayList.get(position).getCuisineId())
-                    {
-                        viewHolder.checkBox.setChecked(true);
+            for (int position = 0; position < cuisineFormArrayListEdit.size(); position++) {
+                if (cuisineFormArrayListEdit.get(position).getCuisineId() == cuisineFormArrayList.get(i).getCuisineId()) {
+                    viewHolder.checkBox.setChecked(true);
                     break;
 
                 } else {
-                  //  ((ItemViewHolder) viewHolder).cbSelect.setChecked(arrayListToppings.get(i - 1).isSelected());
+                    //  ((ItemViewHolder) viewHolder).cbSelect.setChecked(arrayListToppings.get(i - 1).isSelected());
                     viewHolder.checkBox.setChecked(cuisineFormArrayList.get(i).isSelected());
 
                 }
-            }*/
+            }
+        }
     }
-
-
-
-
-
 
 
     @Override
@@ -73,10 +72,11 @@ public class RVCuisineAdapter  extends RecyclerView.Adapter<RVCuisineAdapter.Vie
     public class ViewHolder extends RecyclerView.ViewHolder {
         private CheckBox checkBox;
         private TextView tvCuisine;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            checkBox=itemView.findViewById(R.id.checkbox_cuisine);
-            tvCuisine=itemView.findViewById(R.id.tv_cuisine);
+            checkBox = itemView.findViewById(R.id.checkbox_cuisine);
+            tvCuisine = itemView.findViewById(R.id.tv_cuisine);
             checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
 

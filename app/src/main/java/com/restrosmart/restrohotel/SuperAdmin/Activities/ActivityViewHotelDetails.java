@@ -1,5 +1,6 @@
 package com.restrosmart.restrohotel.SuperAdmin.Activities;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -10,6 +11,8 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -126,6 +129,43 @@ public class ActivityViewHotelDetails extends AppCompatActivity {
 
         }
     }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.hotel_detail_edit, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.edit_hotel) {
+            Intent intent = new Intent(ActivityViewHotelDetails.this, ActivityAddHotel.class);
+            Bundle bundle = new Bundle();
+            // bundle.putSerializable("hotelInfo", (hotelForm));
+            bundle.putParcelableArrayList("hotelImags",hotelImageFormArrayList);
+            bundle.putParcelableArrayList("CuisineList",cuisineFormArrayList);
+            bundle.putParcelableArrayList("TagsList",tagsFormArrayList);
+            intent.putExtras(bundle);
+            intent.putExtra("hotelInfo", (hotelForm));
+            startActivity(intent);
+            finish();
+            return true;
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+
+
 
     private void setUpToolBar() {
         toolBarText.setText("Hotel Details");

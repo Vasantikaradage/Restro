@@ -1,7 +1,7 @@
 package com.restrosmart.restrohotel.Model;
 
 public class PromoCodeForm {
-    private  String offerValue,offerPrice,fromDate,toDate,offerDescription,offerFromTime,offerToTime;
+    private  String offerValue,offerPrice,fromDate,toDate,offerDescription,offerFromTime,offerToTime,offerName;
     private  int offerId,offerStatus;
 
     public int getOfferStatus() {
@@ -74,5 +74,13 @@ public class PromoCodeForm {
 
     public void setOfferToTime(String offerToTime) {
         this.offerToTime = offerToTime;
+    }
+
+    public String getOfferName() {
+        return offerName;
+    }
+
+    public void setOfferName(String offerName) {
+        this.offerName = offerName;
     }
 }

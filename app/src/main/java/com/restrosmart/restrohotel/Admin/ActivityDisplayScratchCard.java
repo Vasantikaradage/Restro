@@ -86,7 +86,7 @@ public class ActivityDisplayScratchCard extends AppCompatActivity {
     private int offerTypeId, editedItemPosition, itemPosition, offerId;
     private Calendar mcurrentDate;
     private ArrayList<OfferMenuForm> offerMenuFormArrayList;
-    private String fromDateOut, toDateOut,getStartDate,seletedStartDate,seletedEndDate;
+    private String fromDateOut, toDateOut, getStartDate, seletedStartDate, seletedEndDate;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -303,26 +303,19 @@ public class ActivityDisplayScratchCard extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     if (isValidData()) {
-                        if (etTotPplCount.getText().toString().length() >
-                                etTotWinnerCnt.getText().toString().length()) {
+                        spinKitView.setVisibility(View.VISIBLE);
+                        initRetrofitCallBack();
+                        ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
+                        mRetrofitService = new RetrofitService(mResultCallBack, dialoglayout.getContext());
+                        mRetrofitService.retrofitData(ADD_SCRATCHCARD, service.addScratchcard(offerTypeId,
+                                etOfferName.getText().toString(),
+                                etDescription.getText().toString(),
+                                etFromDate.getText().toString(),
+                                etToDate.getText().toString(),
+                                etTotPplCount.getText().toString(),
+                                etTotWinnerCnt.getText().toString(),
+                                mHotelId));
 
-                            spinKitView.setVisibility(View.VISIBLE);
-                            initRetrofitCallBack();
-                            ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
-                            mRetrofitService = new RetrofitService(mResultCallBack, dialoglayout.getContext());
-                            mRetrofitService.retrofitData(ADD_SCRATCHCARD, service.addScratchcard(offerTypeId,
-                                    etOfferName.getText().toString(),
-                                    etDescription.getText().toString(),
-                                    etFromDate.getText().toString(),
-                                    etToDate.getText().toString(),
-                                    etTotPplCount.getText().toString(),
-                                    etTotWinnerCnt.getText().toString(),
-                                    mHotelId));
-
-
-                        } else {
-                            Toast.makeText(ActivityDisplayScratchCard.this, "Winner Count is less than Total People Count", Toast.LENGTH_SHORT).show();
-                        }
                     }
 
                 }
@@ -361,13 +354,16 @@ public class ActivityDisplayScratchCard extends AppCompatActivity {
         } else if (etTotWinnerCnt.getText().toString().equalsIgnoreCase("")) {
             Toast.makeText(ActivityDisplayScratchCard.this, "Please enter winner count", Toast.LENGTH_SHORT).show();
             return false;
-        }
-        else if ((etTotWinnerCnt.getText().toString()).equals("0")) {
+        } else if ((etTotWinnerCnt.getText().toString()).equals("0")) {
             Toast.makeText(ActivityDisplayScratchCard.this, "Please enter winner count", Toast.LENGTH_SHORT).show();
             return false;
 
-        }else if (Integer.parseInt(etTotWinnerCnt.getText().toString())>=Integer.parseInt(etTotPplCount.getText().toString())) {
-            Toast.makeText(ActivityDisplayScratchCard.this, "winner people count should be  less than total people count", Toast.LENGTH_SHORT).show();
+        } else if ((etTotPplCount.getText().toString()).equals("0")) {
+            Toast.makeText(ActivityDisplayScratchCard.this, "Please enter People count", Toast.LENGTH_SHORT).show();
+            return false;
+
+        } else if ((Integer.parseInt(etTotWinnerCnt.getText().toString())) > (Integer.parseInt(etTotPplCount.getText().toString()))) {
+            Toast.makeText(ActivityDisplayScratchCard.this, "winner people count should be  less than or equal total people count", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
@@ -516,7 +512,7 @@ public class ActivityDisplayScratchCard extends AppCompatActivity {
                                             RecyclerView rvMenuItem = dialoglayout.findViewById(R.id.rv_menu_item);
                                             TextView tvTitle = dialoglayout.findViewById(R.id.tv_menu_title);
                                             TextView tvWinnerPplCnt = dialoglayout.findViewById(R.id.tv_ppl_winner_cnt);
-                                            TextView tvTotalPeopleCnt=dialoglayout.findViewById(R.id.tv_ppl_total_cnt);
+                                            TextView tvTotalPeopleCnt = dialoglayout.findViewById(R.id.tv_ppl_total_cnt);
                                             LinearLayout linearLayout = dialoglayout.findViewById(R.id.linear_layout_menu);
                                             ImageView btnCancel = dialoglayout.findViewById(R.id.btn_cancel);
                                             View viewline = dialoglayout.findViewById(R.id.view_line);
@@ -572,9 +568,7 @@ public class ActivityDisplayScratchCard extends AppCompatActivity {
                                     llNodata.setVisibility(View.VISIBLE);
                                     spinKitView.setVisibility(View.GONE);
                                 }
-                            }
-                            else
-                            {
+                            } else {
                                 llNodata.setVisibility(View.VISIBLE);
                                 spinKitView.setVisibility(View.GONE);
                             }

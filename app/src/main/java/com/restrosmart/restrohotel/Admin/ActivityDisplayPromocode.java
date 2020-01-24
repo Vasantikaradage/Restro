@@ -89,7 +89,7 @@ public class ActivityDisplayPromocode extends AppCompatActivity {
 
     private View dialoglayout;
     private BottomSheetDialog dialog;
-    private EditText etPrice, etDescription, etPromoCode, etFromDate, etToDate;
+    private EditText etPrice, etDescription, etPromoCode, etFromDate, etToDate, etOfferName;
     private TextView tvTitleAdd;
 
     private RetrofitService mRetrofitService;
@@ -170,6 +170,7 @@ public class ActivityDisplayPromocode extends AppCompatActivity {
                                     promoCodeForm.setOfferFromTime(promoCodeObject.getString("FromTime"));
                                     promoCodeForm.setOfferToTime(promoCodeObject.getString("ToTime"));
                                     promoCodeForm.setOfferStatus(promoCodeObject.getInt("Status"));
+                                    promoCodeForm.setOfferName(promoCodeObject.getString("Offer_Name"));
                                     arrayListPromoCode.add(promoCodeForm);
                                 }
 
@@ -210,8 +211,10 @@ public class ActivityDisplayPromocode extends AppCompatActivity {
                                             TextView promoCode = dialoglayout.findViewById(R.id.tv_promocode);
                                             TextView date = dialoglayout.findViewById(R.id.tv_Promodate);
                                             ImageButton btnCancel = dialoglayout.findViewById(R.id.btn_cancel);
+                                            TextView tvOfferName = dialoglayout.findViewById(R.id.tv_offername);
 
                                             TextView promoCodeDesription = dialoglayout.findViewById(R.id.tv_description);
+                                            tvOfferName.setText(arrayListPromoCode.get(position).getOfferName());
                                             String strPrice = arrayListPromoCode.get(position).getOfferPrice();
                                             promoCode.setText(arrayListPromoCode.get(position).getOfferValue() + " " + strPrice);
                                             date.setText(arrayListPromoCode.get(position).getFromDate() + " - " + arrayListPromoCode.get(position).getToDate());
@@ -296,7 +299,7 @@ public class ActivityDisplayPromocode extends AppCompatActivity {
         etPromoCode = dialoglayout.findViewById(R.id.et_promocode);
         etFromDate = dialoglayout.findViewById(R.id.et_from_date);
         etToDate = dialoglayout.findViewById(R.id.et_to_date);
-
+        etOfferName = dialoglayout.findViewById(R.id.et_offer_name);
         btnSave = dialoglayout.findViewById(R.id.btnSave);
         btnCancel = dialoglayout.findViewById(R.id.btnCancel);
         btnUpdate = dialoglayout.findViewById(R.id.btnUpdate);
@@ -406,6 +409,7 @@ public class ActivityDisplayPromocode extends AppCompatActivity {
             etPrice.setText(arrayListPromoCode.get(editedItemPosition).getOfferPrice());
             etPromoCode.setText(arrayListPromoCode.get(editedItemPosition).getOfferValue());
             etDescription.setText(arrayListPromoCode.get(editedItemPosition).getOfferDescription());
+            etOfferName.setText(arrayListPromoCode.get(editedItemPosition).getOfferName());
 
             DateFormat inputFormat = new SimpleDateFormat("dd-MM-yyyy");
             DateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -436,6 +440,7 @@ public class ActivityDisplayPromocode extends AppCompatActivity {
                         mRetrofitService = new RetrofitService(mResultCallBack, dialoglayout.getContext());
                         mRetrofitService.retrofitData(EDIT_PROMOCODE, service.editPromoCode(offerId,
                                 etPromoCode.getText().toString(),
+                                etOfferName.getText().toString(),
                                 etFromDate.getText().toString(),
                                 etToDate.getText().toString(),
                                 etPrice.getText().toString(),
@@ -475,6 +480,7 @@ public class ActivityDisplayPromocode extends AppCompatActivity {
                         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
                         mRetrofitService = new RetrofitService(mResultCallBack, dialoglayout.getContext());
                         mRetrofitService.retrofitData(ADD_PROMOCODE, service.addPromoCode(offerTypeId, etPrice.getText().toString(),
+                                etOfferName.getText().toString(),
                                 etPromoCode.getText().toString(),
                                 etDescription.getText().toString(),
                                 etFromDate.getText().toString(),
@@ -500,8 +506,10 @@ public class ActivityDisplayPromocode extends AppCompatActivity {
     }
 
     private boolean validData() {
-
-        if (etPrice.getText().toString().equals("0")) {
+        if (etOfferName.getText().toString().equalsIgnoreCase("")) {
+            Toast.makeText(this, "Please enter offer name", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (etPrice.getText().toString().equals("0")) {
             Toast.makeText(ActivityDisplayPromocode.this, "Please enter amount", Toast.LENGTH_SHORT).show();
             return false;
         } else if (etPrice.getText().toString().equalsIgnoreCase("")) {
@@ -510,10 +518,10 @@ public class ActivityDisplayPromocode extends AppCompatActivity {
         } else if (etPromoCode.getText().toString().equalsIgnoreCase("")) {
             Toast.makeText(this, "Please enter Promo Code", Toast.LENGTH_SHORT).show();
             return false;
-        } else if (etPromoCode.getText().toString().length()<=4) {
+        } else if ((etPromoCode.getText().toString().length()) != 4) {
             Toast.makeText(this, "Please enter Promo Code upto 4 character", Toast.LENGTH_SHORT).show();
-            return false;}
-        else if (etDescription.getText().toString().equalsIgnoreCase("")) {
+            return false;
+        } else if (etDescription.getText().toString().equalsIgnoreCase("")) {
             Toast.makeText(ActivityDisplayPromocode.this, "Please enter Description..", Toast.LENGTH_SHORT).show();
             return false;
         } else if (etFromDate.getText().toString().equalsIgnoreCase("")) {

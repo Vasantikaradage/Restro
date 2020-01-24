@@ -24,7 +24,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CompoundButton;
+
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -39,9 +39,13 @@ import com.restrosmart.restrohotel.Interfaces.IResult;
 import com.restrosmart.restrohotel.R;
 import com.restrosmart.restrohotel.RetrofitClientInstance;
 import com.restrosmart.restrohotel.RetrofitService;
+import com.restrosmart.restrohotel.SuperAdmin.Models.HotelForm;
+import com.restrosmart.restrohotel.SuperAdmin.Models.HotelImageForm;
 import com.restrosmart.restrohotel.Utils.FilePath;
 import com.restrosmart.restrohotel.Utils.ImageFilePath;
 import com.restrosmart.restrohotel.Utils.Sessionmanager;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -49,6 +53,7 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import retrofit2.Response;
@@ -56,6 +61,7 @@ import retrofit2.Response;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static android.app.Activity.RESULT_OK;
+import static com.restrosmart.restrohotel.ConstantVariables.EDIT_HOTEL;
 import static com.restrosmart.restrohotel.ConstantVariables.HOTEL_ADD_PHOTO;
 import static com.restrosmart.restrohotel.ConstantVariables.HOTEL_REGISTRATION;
 import static com.restrosmart.restrohotel.ConstantVariables.IMAGE1;
@@ -64,16 +70,15 @@ import static com.restrosmart.restrohotel.ConstantVariables.IMAGE3;
 import static com.restrosmart.restrohotel.ConstantVariables.IMAGE4;
 import static com.restrosmart.restrohotel.ConstantVariables.IMAGE5;
 import static com.restrosmart.restrohotel.ConstantVariables.IMAGE6;
-import static com.restrosmart.restrohotel.ConstantVariables.PICK_GALLERY_IMAGE;
 import static com.restrosmart.restrohotel.ConstantVariables.REQUEST_PERMISSION;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.EMP_ID;
 
 public class AccountDetailsFragment extends Fragment implements View.OnClickListener {
 
-    private String mGstnNo, mHotelCgst, mHotelSgst, mHotelName, mHotelMob, mHotelPhone, mHotelAddress, mHotelEmail, mCuisine, mTags, mGstn, mCgst, mSgst, mArea;
+    private String mGstnNo, mHotelCgst, mHotelSgst, mHotelName, mHotelMob, mHotelPhone, mHotelAddress, mHotelEmail, mCuisine, mTags, mGstn, mCgst, mSgst, mArea, mStartTime, mEndTime;
     private int countryId, stateId, cityId, hoteltypeId, tableCount;
     private View view;
-    private Button btnSave;
+    private Button btnSave, btnUpdate;
     private TextInputEditText edtGstnNo, edtHotelCgst, edtHotelSgst;
     private RadioButton radioButtonYes, radioButtonNo;
     private RadioGroup radioGroupGstn;
@@ -90,9 +95,12 @@ public class AccountDetailsFragment extends Fragment implements View.OnClickList
     private Bitmap bitmapImage;
     private ImageView imageView1, imageView2, imageView3, imageView4, imageView5, imageView6;
     private Drawable drawable;
-    private String image1Data,image2Data,image3Data,image4Data,image5Data,image6Data;
-    private  String image1Ext,image2Ext,image3Ext,image4Ext,image5Ext,image6Ext;
+    private String image1Data, image2Data, image3Data, image4Data, image5Data, image6Data;
+    private String image1Ext, image2Ext, image3Ext, image4Ext, image5Ext, image6Ext;
     private SpinKitView skLoading;
+    private HotelForm hotelForm;
+    private ArrayList<HotelImageForm> hotelImageFormArrayList;
+
 
     @Nullable
     @Override
@@ -122,17 +130,50 @@ public class AccountDetailsFragment extends Fragment implements View.OnClickList
             cityId = bundle.getInt("cityId");
             mArea = bundle.getString("area");
             tableCount = bundle.getInt("tableCount");
+            mStartTime = bundle.getString("startTime");
+            mEndTime = bundle.getString("endTime");
 
-            /*   Toast.makeText(getActivity(), "hoteltypeId"+hoteltypeId, Toast.LENGTH_SHORT).show();
-            Toast.makeText(getActivity(), "mCuisine"+mCuisine, Toast.LENGTH_SHORT).show();
-            Toast.makeText(getActivity(), "mTags"+mTags, Toast.LENGTH_SHORT).show();
-            Toast.makeText(getActivity(), "countryId"+countryId, Toast.LENGTH_SHORT).show();
-            Toast.makeText(getActivity(), "stateId"+stateId, Toast.LENGTH_SHORT).show();
-            Toast.makeText(getActivity(), "cityId"+cityId, Toast.LENGTH_SHORT).show();
-            Toast.makeText(getActivity(), "mArea"+mArea, Toast.LENGTH_SHORT).show();
+            hotelForm = bundle.getParcelable("hotelInfo");
+            hotelImageFormArrayList = bundle.getParcelableArrayList("hotelImags");
 
-            Toast.makeText(getActivity(), "tableCount"+tableCount, Toast.LENGTH_SHORT).show();
-*/
+            if (hotelForm != null) {
+                btnUpdate.setVisibility(View.VISIBLE);
+                btnSave.setVisibility(View.GONE);
+                edtGstnNo.setVisibility(View.VISIBLE);
+                edtHotelCgst.setVisibility(View.VISIBLE);
+                edtHotelSgst.setVisibility(View.VISIBLE);
+                linearLayout.setVisibility(View.VISIBLE);
+                edtGstnNo.setText(hotelForm.getGstnNo());
+                edtHotelCgst.setText(hotelForm.getHotelCgst());
+                edtHotelSgst.setText(hotelForm.getHotelSgst());
+
+                btnUpdate.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        skLoading.setVisibility(View.VISIBLE);
+
+                        initRetrofitCallBack();
+                        ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
+                        mRetrofitService = new RetrofitService(mResultCallBack, getActivity());
+                        mRetrofitService.retrofitData(EDIT_HOTEL, (service.editHotel(hotelForm.getHotelId(),
+                                mHotelMob,
+                                mHotelPhone,
+                                mHotelEmail,
+                                edtHotelCgst.getText().toString(),
+                                edtHotelSgst.getText().toString(),
+                                edtGstnNo.getText().toString(), mStartTime, mEndTime,
+                                mHotelAddress,
+                                mCuisine,
+                                mTags
+                        )));
+
+                    }
+                });
+            } else {
+                btnUpdate.setVisibility(View.GONE);
+                btnSave.setVisibility(View.VISIBLE);
+            }
+
         }
 
         radioGroupGstn.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -143,18 +184,13 @@ public class AccountDetailsFragment extends Fragment implements View.OnClickList
                     edtHotelCgst.setVisibility(View.VISIBLE);
                     edtHotelSgst.setVisibility(View.VISIBLE);
                     linearLayout.setVisibility(View.VISIBLE);
-                    // mGstn=edtGstnNo.getText().toString();
-                    //   mCgst=edtHotelCgst.getText().toString();
-                    //  mSgst=edtHotelSgst.getText().toString();
+
 
                 } else {
                     edtGstnNo.setVisibility(View.GONE);
                     edtHotelCgst.setVisibility(View.GONE);
                     edtHotelSgst.setVisibility(View.GONE);
                     linearLayout.setVisibility(View.GONE);
-                    // mGstn="null";
-                    // mCgst="null";
-                    //  mSgst="null";
                 }
 
             }
@@ -167,20 +203,44 @@ public class AccountDetailsFragment extends Fragment implements View.OnClickList
         frameLayout5.setOnClickListener(this);
         frameLayout6.setOnClickListener(this);
 
+        if (hotelImageFormArrayList != null) {
 
+            for (int i = 0; i < hotelImageFormArrayList.size(); i++) {
+                if (i == 0) {
+                    Picasso.with(getActivity()).load(hotelImageFormArrayList.get(i).getHotelImageName())
+                            .memoryPolicy(MemoryPolicy.NO_CACHE)
+                            .memoryPolicy(MemoryPolicy.NO_STORE)
+                            .into(imageView1);
+                } else if (i == 1) {
+                    Picasso.with(getActivity()).load(hotelImageFormArrayList.get(i).getHotelImageName())
+                            .memoryPolicy(MemoryPolicy.NO_CACHE)
+                            .memoryPolicy(MemoryPolicy.NO_STORE)
+                            .into(imageView2);
 
+                } else if (i == 2) {
+                    Picasso.with(getActivity()).load(hotelImageFormArrayList.get(i).getHotelImageName())
+                            .memoryPolicy(MemoryPolicy.NO_CACHE)
+                            .memoryPolicy(MemoryPolicy.NO_STORE)
+                            .into(imageView3);
 
-      /*  frameLayout1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (checkPermission()) {
-                    openFileChooser();
-                } else {
-                    requestPermission();
+                } else if (i == 3) {
+                    Picasso.with(getActivity()).load(hotelImageFormArrayList.get(i).getHotelImageName())
+                            .memoryPolicy(MemoryPolicy.NO_CACHE)
+                            .memoryPolicy(MemoryPolicy.NO_STORE)
+                            .into(imageView4);
+                } else if (i == 4) {
+                    Picasso.with(getActivity()).load(hotelImageFormArrayList.get(i).getHotelImageName())
+                            .memoryPolicy(MemoryPolicy.NO_CACHE)
+                            .memoryPolicy(MemoryPolicy.NO_STORE)
+                            .into(imageView5);
+                } else if (i == 5) {
+                    Picasso.with(getActivity()).load(hotelImageFormArrayList.get(i).getHotelImageName())
+                            .memoryPolicy(MemoryPolicy.NO_CACHE)
+                            .memoryPolicy(MemoryPolicy.NO_STORE)
+                            .into(imageView6);
                 }
-
             }
-        });*/
+        }
 
 
         btnSave.setOnClickListener(new View.OnClickListener() {
@@ -188,7 +248,6 @@ public class AccountDetailsFragment extends Fragment implements View.OnClickList
             @Override
             public void onClick(View v) {
                 skLoading.setVisibility(View.VISIBLE);
-
                 initRetrofitCallBack();
                 ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
                 mRetrofitService = new RetrofitService(mResultCallBack, getActivity());
@@ -208,7 +267,7 @@ public class AccountDetailsFragment extends Fragment implements View.OnClickList
                         mTags,
                         edtGstnNo.getText().toString(),
                         edtHotelCgst.getText().toString(),
-                        edtHotelSgst.getText().toString())));
+                        edtHotelSgst.getText().toString(), mStartTime, mEndTime)));
 
             }
         });
@@ -267,44 +326,44 @@ public class AccountDetailsFragment extends Fragment implements View.OnClickList
                         case IMAGE1:
                             frameLayout1.setBackground(drawable);
                             imageView1.setVisibility(View.GONE);
-                            image1Data=selectedData;
-                            image1Ext=extension;
+                            image1Data = selectedData;
+                            image1Ext = extension;
                             break;
 
                         case IMAGE2:
                             frameLayout2.setBackground(drawable);
                             imageView2.setVisibility(View.GONE);
-                            image2Data=selectedData;
-                            image2Ext=extension;
+                            image2Data = selectedData;
+                            image2Ext = extension;
                             break;
 
                         case IMAGE3:
                             frameLayout3.setBackground(drawable);
                             imageView3.setVisibility(View.GONE);
-                            image3Data=selectedData;
-                            image3Ext=extension;
+                            image3Data = selectedData;
+                            image3Ext = extension;
                             break;
 
                         case IMAGE4:
                             frameLayout4.setBackground(drawable);
                             imageView4.setVisibility(View.GONE);
-                            image4Data=selectedData;
-                            image4Ext=extension;
+                            image4Data = selectedData;
+                            image4Ext = extension;
                             break;
 
                         case IMAGE5:
                             frameLayout5.setBackground(drawable);
                             imageView5.setVisibility(View.GONE);
-                            image5Data=selectedData;
-                            image5Ext=extension;
+                            image5Data = selectedData;
+                            image5Ext = extension;
 
                             break;
 
                         case IMAGE6:
                             frameLayout6.setBackground(drawable);
                             imageView6.setVisibility(View.GONE);
-                            image6Data=selectedData;
-                            image6Ext=extension;
+                            image6Data = selectedData;
+                            image6Ext = extension;
                             break;
                     }
 
@@ -320,16 +379,20 @@ public class AccountDetailsFragment extends Fragment implements View.OnClickList
     }
 
     private void retrofitCall() {
+        addPhoto();
+        getActivity().finish();
+    }
+
+    private void addPhoto() {
         initRetrofitCallBack();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, getActivity());
-        mRetrofitService.retrofitData(HOTEL_ADD_PHOTO, (service.saveHotelImage(hotelId,image1Data,image1Ext)));
-        mRetrofitService.retrofitData(HOTEL_ADD_PHOTO, (service.saveHotelImage(hotelId,image2Data,image2Ext)));
-        mRetrofitService.retrofitData(HOTEL_ADD_PHOTO, (service.saveHotelImage(hotelId,image3Data,image3Ext)));
-        mRetrofitService.retrofitData(HOTEL_ADD_PHOTO, (service.saveHotelImage(hotelId,image4Data,image4Ext)));
-        mRetrofitService.retrofitData(HOTEL_ADD_PHOTO, (service.saveHotelImage(hotelId,image5Data,image5Ext)));
-        mRetrofitService.retrofitData(HOTEL_ADD_PHOTO, (service.saveHotelImage(hotelId,image6Data,image6Ext)));
-
+        mRetrofitService.retrofitData(HOTEL_ADD_PHOTO, (service.saveHotelImage(hotelId, image1Data, image1Ext)));
+        mRetrofitService.retrofitData(HOTEL_ADD_PHOTO, (service.saveHotelImage(hotelId, image2Data, image2Ext)));
+        mRetrofitService.retrofitData(HOTEL_ADD_PHOTO, (service.saveHotelImage(hotelId, image3Data, image3Ext)));
+        mRetrofitService.retrofitData(HOTEL_ADD_PHOTO, (service.saveHotelImage(hotelId, image4Data, image4Ext)));
+        mRetrofitService.retrofitData(HOTEL_ADD_PHOTO, (service.saveHotelImage(hotelId, image5Data, image5Ext)));
+        mRetrofitService.retrofitData(HOTEL_ADD_PHOTO, (service.saveHotelImage(hotelId, image6Data, image6Ext)));
     }
 
     private Bitmap exifInterface(String filePath, Bitmap bitmap) {
@@ -452,14 +515,17 @@ public class AccountDetailsFragment extends Fragment implements View.OnClickList
                                 Toast.makeText(getActivity(), object.getString("message"), Toast.LENGTH_SHORT).show();
                                 hotelId = object.getInt("Hotel_Id");
                                 retrofitCall();
+                                //   getActivity().finish();
 
                             } else {
                                 Toast.makeText(getActivity(), object.getString("message"), Toast.LENGTH_SHORT).show();
+                                //    getActivity().finish();
                             }
 
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+
                         break;
 
                     case HOTEL_ADD_PHOTO:
@@ -468,8 +534,10 @@ public class AccountDetailsFragment extends Fragment implements View.OnClickList
                             int status = object.getInt("status");
                             if (status == 1) {
                                 Toast.makeText(getActivity(), object.getString("message"), Toast.LENGTH_SHORT).show();
+
                             } else {
                                 Toast.makeText(getActivity(), object.getString("message"), Toast.LENGTH_SHORT).show();
+                                //getActivity().finish();
                             }
                             skLoading.setVisibility(View.GONE);
                         } catch (JSONException e) {
@@ -477,8 +545,26 @@ public class AccountDetailsFragment extends Fragment implements View.OnClickList
                         }
                         break;
 
-                }
+                    case EDIT_HOTEL:
+                        try {
+                            JSONObject object = new JSONObject(objectInfo);
+                            int status = object.getInt("status");
+                            if (status == 1) {
+                                Toast.makeText(getActivity(), object.getString("message"), Toast.LENGTH_SHORT).show();
+                                retrofitCall();
+                            } else {
+                                Toast.makeText(getActivity(), object.getString("message"), Toast.LENGTH_SHORT).show();
+                            }
+                            skLoading.setVisibility(View.GONE);
+                            // getActivity().getFragmentManager().popBackStack();
+                            getActivity().finish();
 
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                }
             }
 
             @Override
@@ -554,7 +640,9 @@ public class AccountDetailsFragment extends Fragment implements View.OnClickList
         imageView4 = view.findViewById(R.id.image4);
         imageView5 = view.findViewById(R.id.image5);
         imageView6 = view.findViewById(R.id.image6);
-        skLoading=view.findViewById(R.id.skLoading);
+        skLoading = view.findViewById(R.id.skLoading);
+
+        btnUpdate = view.findViewById(R.id.btn_account_hotel_update);
 
 
     }
