@@ -820,6 +820,12 @@ public class ActivityDisplayDailyOffer extends AppCompatActivity {
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
     }
 
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        getDailyOfferInfo();
+    }
+
     private void init() {
         mSessionManager = new Sessionmanager(ActivityDisplayDailyOffer.this);
         dailyOfferFormArrayList = new ArrayList<>();

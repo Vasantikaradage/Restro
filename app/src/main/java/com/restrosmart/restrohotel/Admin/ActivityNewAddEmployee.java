@@ -192,8 +192,8 @@ public class ActivityNewAddEmployee extends AppCompatActivity {
                                     image="";
 
                                 } else {
-                                    selectedImage = image;
-                                    extension= imageExtention;
+                                    selectedImage = "";
+                                    extension= "";
                                 }
                                 Picasso.with(ActivityNewAddEmployee.this)
                                         .load(imageOldName)

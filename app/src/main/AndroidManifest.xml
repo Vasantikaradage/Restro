@@ -89,7 +89,7 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Admin.ActivityProfile"
+            android:name=".Admin.ActivityAdminProfile"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait" />
         <activity android:name=".Admin.ActivityImageTopping" />
@@ -175,6 +175,8 @@
 
         <activity android:name=".Admin.ActivityDaliyBuyGetoffer"/>
         <activity android:name=".Admin.ActivityInvoice"/>
+
+        <activity android:name=".Admin.ActivityHelpSupport"/>
         
     </application>
 

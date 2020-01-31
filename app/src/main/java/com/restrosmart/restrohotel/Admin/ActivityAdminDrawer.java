@@ -54,7 +54,6 @@ import static com.restrosmart.restrohotel.ConstantVariables.DISPLAY_WATER_BOTTLE
 import static com.restrosmart.restrohotel.ConstantVariables.EDIT_WATER_BOTTLE;
 import static com.restrosmart.restrohotel.ConstantVariables.GET_ALL_EMPLOYEE;
 import static com.restrosmart.restrohotel.ConstantVariables.SAVE_WATER_BOTTLE;
-import static com.restrosmart.restrohotel.Utils.Sessionmanager.BRANCH_ID;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.EMP_ID;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.HOTEL_ID;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.ROLE_ID;
@@ -218,7 +217,7 @@ public class ActivityAdminDrawer extends AppCompatActivity
         linearLayoutHeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intentProfile = new Intent(ActivityAdminDrawer.this, ActivityProfile.class);
+                Intent intentProfile = new Intent(ActivityAdminDrawer.this, ActivityAdminProfile.class);
                 intentProfile.putParcelableArrayListExtra("employeeList", (ArrayList<? extends Parcelable>) arrayListEmployee);
                 intentProfile.putExtra("empId", Integer.parseInt(empId));
                 startActivity(intentProfile);

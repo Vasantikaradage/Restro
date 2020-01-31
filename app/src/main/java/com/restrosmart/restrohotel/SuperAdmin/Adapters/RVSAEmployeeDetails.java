@@ -87,10 +87,10 @@ public class RVSAEmployeeDetails extends RecyclerView.Adapter<RVSAEmployeeDetail
             myHolder.rvEmplyoeeDetails.setItemAnimator(new DefaultItemAnimator());
             myHolder.rvEmplyoeeDetails.setAdapter(employeeSADetailRVAdapter);
         }
-        else
+        /*else
         {
             Toast.makeText(context, "Record not found", Toast.LENGTH_SHORT).show();
-        }
+        }*/
       //  myHolder.mDesignation.setText(arrayListSAEmployees.get(position).getRole());
         //status1 = (arrayListSAEmployees.get(position).getActiveStatus());
 

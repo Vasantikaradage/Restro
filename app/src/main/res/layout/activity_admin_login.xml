@@ -82,19 +82,24 @@
                     android:textSize="16sp"
                     app:backgroundTint="@color/white" />
 
+
                 <EditText
                     android:id="@+id/edtAdminPassword"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:layout_marginTop="20dp"
-                    android:drawableLeft="@drawable/ic_lock_outline_white_24dp"
+                    android:drawableStart="@drawable/ic_lock_outline_white_24dp"
                     android:drawablePadding="@dimen/dimen_10dp"
                     android:hint="Password"
+                    android:drawableEnd="@drawable/ic_pass_hide"
                     android:inputType="textPassword"
                     android:textColor="@color/white"
                     android:textColorHint="@color/white"
                     android:textSize="16sp"
-                    app:backgroundTint="@color/white" />
+                    app:backgroundTint="@color/white"
+                    app:passwordToggleEnabled="true"
+                    app:passwordToggleTint="@android:color/white"
+                    tools:ignore="MissingPrefix" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

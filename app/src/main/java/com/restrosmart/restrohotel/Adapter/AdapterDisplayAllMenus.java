@@ -254,7 +254,7 @@ public class AdapterDisplayAllMenus extends RecyclerView.Adapter<AdapterDisplayA
                                         intent.putExtra("MenuDiscription", arrayListMenu.get(position).getMenu_Descrip());
                                         intent.putExtra("MenuTaste", arrayListMenu.get(position).getMenu_Test());
                                         intent.putExtra("categoryId", arrayListMenu.get(position).getCategory_Id());
-                                        intent.putExtra("pc_Id", pcId);
+                                        intent.putExtra("pc_Id",pcId);
                                         intent.putParcelableArrayListExtra("ArrayListToppings", arrayListMenu.get(position).getArrayListtoppings());
                                         context.startActivity(intent);
                                     }

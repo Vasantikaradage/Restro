@@ -154,9 +154,11 @@ public class ActivitySelectMenu extends AppCompatActivity {
                     intent.putExtra("winnerQty", winnerQty);
                     startActivity(intent);
                 } else {
-                    Toast.makeText(ActivitySelectMenu.this, "Selected Menu is more the winner people qty", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ActivitySelectMenu.this, "Selected menu Count should be same or less than winner people quantity", Toast.LENGTH_SHORT).show();
 
                 }
+
+
             } else if (buyQty != 0) {
                 if (menuDisplayFormArrayList == null) {
                     Toast.makeText(ActivitySelectMenu.this, "Please Select Menu...", Toast.LENGTH_SHORT).show();

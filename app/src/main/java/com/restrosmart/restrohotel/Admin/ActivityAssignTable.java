@@ -1,5 +1,6 @@
 package com.restrosmart.restrohotel.Admin;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +41,7 @@ import java.util.HashMap;
 import retrofit2.Response;
 
 import static com.restrosmart.restrohotel.ConstantVariables.ALLOCATE_TABLE_CAPTAIN;
+import static com.restrosmart.restrohotel.ConstantVariables.ASSIGN_TABLE_UPDATE;
 import static com.restrosmart.restrohotel.ConstantVariables.GET_ALL_EMPLOYEE;
 import static com.restrosmart.restrohotel.ConstantVariables.TABLE_DETAILS;
 import static com.restrosmart.restrohotel.Utils.Sessionmanager.BRANCH_ID;
@@ -49,7 +52,7 @@ public class ActivityAssignTable extends AppCompatActivity {
     private IResult mResultCallBack;
     private Sessionmanager sessionmanager;
     private int hotelId, branchId;
-    private SearchableSpinner spEmployee, spArea;
+    private Spinner spEmployee, spArea;
     private RecyclerView rvTableDetails;
     private Button btnSave, btnCancel, btnUpdate;
     private RetrofitService mRetrofitService;
@@ -59,11 +62,12 @@ public class ActivityAssignTable extends AppCompatActivity {
     private RVAdminAssignTable rvAdminAssignTable;
 
     private ArrayList<EmployeeForm> employeeFormArrayList;
-    private ArrayList<TableFormId> selectedTableArrayList;
+    private ArrayList<TableFormId> selectedTableArrayList,editedTableArrayList;
     private ArrayList<TableForm> areaArrayList;
     private ArrayList<TableFormId> arrayListtTableId;
 
     private LinearLayout linearLayoutNoData;
+    private  int editAreaId,editEmpId,position;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -78,13 +82,48 @@ public class ActivityAssignTable extends AppCompatActivity {
         hotelId = Integer.parseInt(stringHashMap.get(HOTEL_ID));
 
 
+        Intent intent=getIntent();
         getEmployeeDetails();
         getAreaDetails();
+        editAreaId=intent.getIntExtra("editAreaId",0);
+        editEmpId=intent.getIntExtra("editEmpId",0);
+
+
+        if(editEmpId!=0 && editAreaId!=0)
+        {
+            editedTableArrayList=intent.getParcelableArrayListExtra("tables");
+            getEmployeeDetails();
+            getAreaDetails();
+
+            btnSave.setVisibility(View.GONE);
+            btnUpdate.setVisibility(View.VISIBLE);
+
+            btnUpdate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String tableList = getTableList();
+                    retrofitCallBack();
+                    ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
+                    mRetrofitService = new RetrofitService(mResultCallBack, ActivityAssignTable.this);
+                    mRetrofitService.retrofitData(ASSIGN_TABLE_UPDATE, service.assignTableUpdate(hotelId,editAreaId,editEmpId,tableList));
+
+                }
+            });
+
+
+        }
+        else
+        {
+            btnUpdate.setVisibility(View.GONE);
+            btnSave.setVisibility(View.VISIBLE);
+        }
 
         spEmployee.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 employeeId = employeeFormArrayList.get(i).getEmpId();
+
+
             }
 
             @Override
@@ -142,8 +181,6 @@ public class ActivityAssignTable extends AppCompatActivity {
             Toast.makeText(ActivityAssignTable.this, "Please Select Area..", Toast.LENGTH_SHORT).show();
             return false;
         }
-
-
         return true;
     }
 
@@ -200,6 +237,16 @@ public class ActivityAssignTable extends AppCompatActivity {
                                     ArrayAdapter<EmployeeForm> employeeFormArrayAdapter = new ArrayAdapter<EmployeeForm>(ActivityAssignTable.this, android.R.layout.simple_spinner_item, employeeFormArrayList);
                                     employeeFormArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                                     spEmployee.setAdapter(employeeFormArrayAdapter);
+                                    spArea.setSelection(0);
+
+
+                                    if (editEmpId != 0) {
+                                        for (position = 0; position < employeeFormArrayList.size(); position++)
+                                            if (employeeFormArrayList.get(position).getEmpId() == editEmpId)
+                                                break;
+
+                                    }
+                                    spEmployee.setSelection(position);
                                 }
                             } else {
                                 linearLayoutNoData.setVisibility(View.VISIBLE);
@@ -244,10 +291,16 @@ public class ActivityAssignTable extends AppCompatActivity {
                                     ArrayAdapter<TableForm> employeeFormArrayAdapter = new ArrayAdapter<TableForm>(ActivityAssignTable.this, android.R.layout.simple_spinner_item, areaArrayList);
                                     employeeFormArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                                     spArea.setAdapter(employeeFormArrayAdapter);
+                                    spArea.setSelection(0);
 
+                                    if (editAreaId != 0) {
+                                        for (position = 0; position < areaArrayList.size(); position++)
+                                            if (areaArrayList.get(position).getAreaId() == editAreaId)
+                                                break;
 
+                                    }
+                                    spArea.setSelection(position);
                                 }
-
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -255,6 +308,24 @@ public class ActivityAssignTable extends AppCompatActivity {
 
                         break;
                     case ALLOCATE_TABLE_CAPTAIN:
+                        try {
+                            JSONObject object1 = new JSONObject(objectInfo);
+                            int status = object1.getInt("status");
+                            String msg = object1.getString("message");
+                            if (status == 1) {
+                                Toast.makeText(ActivityAssignTable.this, msg, Toast.LENGTH_SHORT).show();
+                                finish();
+                            } else {
+                                Toast.makeText(ActivityAssignTable.this, msg, Toast.LENGTH_SHORT).show();
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        break;
+
+                    case ASSIGN_TABLE_UPDATE:
+
                         try {
                             JSONObject object1 = new JSONObject(objectInfo);
                             int status = object1.getInt("status");
@@ -289,7 +360,7 @@ public class ActivityAssignTable extends AppCompatActivity {
             rvTableDetails.setLayoutManager(gridLayoutManager);
             rvTableDetails.setHasFixedSize(true);
             rvTableDetails.getLayoutManager().setMeasurementCacheEnabled(false);
-            rvAdminAssignTable = new RVAdminAssignTable(this, arrayTableFormIds, new SelectTableListerner() {
+            rvAdminAssignTable = new RVAdminAssignTable(this, arrayTableFormIds, editedTableArrayList,new SelectTableListerner() {
 
                 @Override
                 public void tableListerner(ArrayList<TableFormId> arrayList) {

@@ -149,7 +149,7 @@
             android:drawableLeft="@drawable/ic_watch"
             android:drawablePadding="5dp"
             android:padding="5dp"
-            android:text="Timeing Details"
+            android:text="Timing Details"
             android:textColor="@color/colorPrimary" />
 
         <android.support.v7.widget.CardView
@@ -168,6 +168,8 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:text="Start Time"
+                android:layout_gravity="center"
+                android:gravity="center"
                 android:textColor="@color/gray"
                 android:layout_weight="1"/>
 
@@ -182,6 +184,8 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:text="End Time"
+                android:layout_gravity="center"
+                android:gravity="center"
                 android:textColor="@color/gray"
                 android:layout_weight="1"/>
 
@@ -196,7 +200,7 @@
             android:drawableLeft="@drawable/ic_placeholder"
             android:drawablePadding="5dp"
             android:padding="5dp"
-            android:text="Loaction Details"
+            android:text="Location Details"
             android:textColor="@color/colorPrimary" />
 
         <android.support.v7.widget.CardView
@@ -247,9 +251,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="30dp"
-            android:background="@color/colorAccent"
+            android:background="@drawable/button_outline_dark"
+            android:textColor="@color/colorPrimary"
             android:text="Next"
-            android:textColor="@android:color/white"
             android:textSize="16sp" />
 
 

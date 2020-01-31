@@ -188,6 +188,11 @@
     <string name="veg">Veg</string>
     <string name="novveg">Non Veg</string>
     <string name="liquore">Liqoure</string>
+    <string name="new_password">New Password</string>
+    <string name="btn_submit">Submit</string>
+    <string name="assist_you">How can we assist you?</string>
+    <string name="email_id">Email Id</string>
+    <string name="name">Name</string>
 
 
 </resources>

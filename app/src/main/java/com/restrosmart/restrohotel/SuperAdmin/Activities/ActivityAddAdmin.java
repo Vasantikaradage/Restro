@@ -202,8 +202,8 @@ public class ActivityAddAdmin extends AppCompatActivity {
                             image = "";
 
                         } else {
-                            selectedImage = image;
-                            extension = imageExtention;
+                            selectedImage = "";
+                            extension = "";
                         }
                         Picasso.with(ActivityAddAdmin.this)
                                 .load(imageOldName)
@@ -371,19 +371,19 @@ public class ActivityAddAdmin extends AppCompatActivity {
                 + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
         String mobilePattern = "(0/91)?[7-9][0-9]{9}";
         if (etvName.getText().toString().equalsIgnoreCase("")) {
-            Toast.makeText(ActivityAddAdmin.this, "Please enter Full Name..", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ActivityAddAdmin.this, "Please enter full name..", Toast.LENGTH_SHORT).show();
             return false;
         } else if (etUsername.getText().toString().equalsIgnoreCase("")) {
-            Toast.makeText(ActivityAddAdmin.this, "Please enter User Name..", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ActivityAddAdmin.this, "Please enter user name..", Toast.LENGTH_SHORT).show();
             return false;
         } else if (etMob.getText().toString().length() == 0) {
-            Toast.makeText(ActivityAddAdmin.this, "Please enter Mobile No..", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ActivityAddAdmin.this, "Please enter mobile no..", Toast.LENGTH_SHORT).show();
             return false;
         } else if (etMob.getText().toString().length() < 10) {
             Toast.makeText(this, "Please enter valid mobile no", Toast.LENGTH_SHORT).show();
             return false;
         } else if (etEmail.getText().toString().equalsIgnoreCase("")) {
-            Toast.makeText(ActivityAddAdmin.this, "Please enter Email Id..", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ActivityAddAdmin.this, "Please enter email id..", Toast.LENGTH_SHORT).show();
             return false;
         } else if (!(etEmail.getText().toString().trim()).matches(emailPattern)) {
             Toast.makeText(this, "Please enter valid email id", Toast.LENGTH_SHORT).show();
@@ -395,21 +395,21 @@ public class ActivityAddAdmin extends AppCompatActivity {
             Toast.makeText(this, "Please enter valid adhar no", Toast.LENGTH_SHORT).show();
             return false;
         } else if (etAddress.getText().toString().equalsIgnoreCase("")) {
-            Toast.makeText(ActivityAddAdmin.this, "Please enter Address..", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ActivityAddAdmin.this, "Please enter address..", Toast.LENGTH_SHORT).show();
             return false;
         } else if (etPass.getText().toString().equalsIgnoreCase("")) {
             Toast.makeText(ActivityAddAdmin.this, "Please enter password", Toast.LENGTH_SHORT).show();
             return false;
         } else if (etConPass.getText().toString().equalsIgnoreCase("")) {
-            Toast.makeText(ActivityAddAdmin.this, "Please enter conform password", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ActivityAddAdmin.this, "Please enter confirm password", Toast.LENGTH_SHORT).show();
             return false;
         } else if (!(etPass.getText().toString()).equals(etConPass.getText().toString())) {
-            Toast.makeText(ActivityAddAdmin.this, "Password Does not match..", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ActivityAddAdmin.this, "Password does not match..", Toast.LENGTH_SHORT).show();
             return false;
-        }  /*else if (branchInfo == 0) {
-            Toast.makeText(ActivityNewAddEmployee.this, "Please Select Branch", Toast.LENGTH_SHORT).show();
+        }  else if (hotelId == 0) {
+            Toast.makeText(ActivityAddAdmin.this, "Please Select hotel", Toast.LENGTH_SHORT).show();
             return false;
-        }*/
+        }
 
 
         return true;
@@ -531,7 +531,8 @@ public class ActivityAddAdmin extends AppCompatActivity {
                             int status = jsonObject.getInt("status");
                             if (status == 1) {
                                 Toast.makeText(ActivityAddAdmin.this, jsonObject.getString("message"), Toast.LENGTH_LONG).show();
-                                finish();
+                               finish();
+                              //  ActivityCompat.finishAffinity(ActivityAddAdmin.this);
                             } else {
                                 Toast.makeText(ActivityAddAdmin.this, jsonObject.getString("message"), Toast.LENGTH_LONG).show();
                             }

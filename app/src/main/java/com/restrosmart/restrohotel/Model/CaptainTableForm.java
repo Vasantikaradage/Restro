@@ -11,6 +11,8 @@ public class CaptainTableForm implements Parcelable {
     private  String captainName;
     private  String Area_Name;
     private  int Area_Status;
+    private  int captainId;
+
     private ArrayList<TableFormId> arrayTableFormIds;
 
     public String getArea_Name() {
@@ -30,6 +32,7 @@ public class CaptainTableForm implements Parcelable {
         captainName = in.readString();
         Area_Status = in.readInt();
         Area_Name=in.readString();
+        captainId=in.readInt();
         arrayTableFormIds = in.createTypedArrayList(TableFormId.CREATOR);
     }
 
@@ -85,6 +88,14 @@ public class CaptainTableForm implements Parcelable {
         this.arrayTableFormIds = arrayTableFormIds;
     }
 
+    public int getCaptainId() {
+        return captainId;
+    }
+
+    public void setCaptainId(int captainId) {
+        this.captainId = captainId;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -98,5 +109,6 @@ public class CaptainTableForm implements Parcelable {
         parcel.writeInt(Area_Status);
         parcel.writeTypedList(arrayTableFormIds);
         parcel.writeString(Area_Name);
+        parcel.writeInt(captainId);
     }
 }

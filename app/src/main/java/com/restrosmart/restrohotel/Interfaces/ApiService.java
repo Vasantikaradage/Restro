@@ -256,6 +256,14 @@ public interface ApiService {
     @FormUrlEncoded
     Call<JsonObject> tableDisplay(@Field("Hotel_Id") int Hotel_Id);
 
+    //assign table update
+    @POST("Admin_Table.php?table=allocate_table_edit")
+    @FormUrlEncoded
+    Call<JsonObject> assignTableUpdate(@Field("Hotel_Id") int Hotel_Id,
+                                       @Field("Area_Id") int areaId,
+                                       @Field("Emp_Id") int empId,
+                                       @Field("Tableidarray") String tableIdArray);
+
     //update Area
     @POST("Admin_Table.php?table=Area_edit")
     @FormUrlEncoded
@@ -1019,6 +1027,14 @@ public interface ApiService {
                                @Field("Hotel_Address") String hotelAddress,
                                @Field("cusisinearray") String cusisinearray,
                                @Field("tagsarray") String tagsarray);
+
+    @POST("SA_Hotel_Reg.php?sahotel=hotel_img_edit")
+    @FormUrlEncoded
+    Call<JsonObject> editHotelImage(@Field("Hotel_Id") int hotelId,
+                                    @Field("Old_Img_Name") String oldImageName,
+                                    @Field("Hotel_Img") String hotelImage,
+                                    @Field("Img_Ext") String imageExe,
+                                    @Field("Hotel_Img_Id") int hotelImageId);
 
 
 }

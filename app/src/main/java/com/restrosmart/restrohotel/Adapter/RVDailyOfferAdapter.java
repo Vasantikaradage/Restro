@@ -7,6 +7,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,6 +72,20 @@ public class RVDailyOfferAdapter  extends RecyclerView.Adapter<RVDailyOfferAdapt
                     //inflating menu from xml resource
                     popup.inflate(R.menu.menu_offer_items);
                     //adding click listener
+
+                    Menu popupMenu = popup.getMenu();
+                    if(dailyOfferFormArrayList.get(getAdapterPosition()).getStatus()==1) {
+                        popupMenu.findItem(R.id.offer_display).setVisible(true);
+                        popupMenu.findItem(R.id.offer_edit).setVisible(false);
+                        popupMenu.findItem(R.id.offer_delete).setVisible(false);
+                        popupMenu.findItem(R.id.offer_apply).setVisible(false);
+                    }
+                    else {
+                        popupMenu.findItem(R.id.offer_display).setVisible(true);
+                        popupMenu.findItem(R.id.offer_edit).setVisible(true);
+                        popupMenu.findItem(R.id.offer_delete).setVisible(true);
+                        popupMenu.findItem(R.id.offer_apply).setVisible(true);
+                    }
                     popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                         @Override
                         public boolean onMenuItemClick(MenuItem item) {

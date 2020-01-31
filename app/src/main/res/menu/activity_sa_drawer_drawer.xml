@@ -26,7 +26,7 @@
             android:id="@+id/nav_add_sa_employee"
             android:icon="@drawable/ic_chef_toque_and_mustache"
             android:checkable="true"
-            android:title="Employee Details" />
+            android:title="Admin Details" />
     </group>
 
 

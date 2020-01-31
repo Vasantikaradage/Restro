@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import com.google.gson.JsonObject;
 import com.restrosmart.restrohotel.Adapter.RVAssignTableDetails;
 import com.restrosmart.restrohotel.Interfaces.ApiService;
+import com.restrosmart.restrohotel.Interfaces.EditListener;
 import com.restrosmart.restrohotel.Interfaces.IResult;
 import com.restrosmart.restrohotel.Model.CaptainTableForm;
 import com.restrosmart.restrohotel.Model.TableForm;
@@ -57,6 +58,7 @@ public class FragmentAssignDetails extends Fragment {
     private ArrayList<CaptainTableForm> arrayListTable;
  
     private ArrayList<TableFormId> arrayListtTableId;
+    private  int editAreaId,editEmpId;
 
 
     @Nullable
@@ -131,7 +133,9 @@ public class FragmentAssignDetails extends Fragment {
                                     JSONObject jsonObject1 = jsonArray.getJSONObject(i);
                                     CaptainTableForm captainTableForm = new CaptainTableForm();
                                     captainTableForm.setCaptainName(jsonObject1.getString("Emp_Name"));
+                                    captainTableForm.setCaptainId(jsonObject1.getInt("Emp_Id"));
                                     captainTableForm.setArea_Name(jsonObject1.getString("Area_Name").toString());
+                                    captainTableForm.setAreaId(jsonObject1.getInt("Area_Id"));
                                     JSONArray array = jsonObject1.getJSONArray("table");
 
                                     arrayListtTableId = new ArrayList<>();
@@ -177,7 +181,20 @@ public class FragmentAssignDetails extends Fragment {
         rvTableDetails.setLayoutManager(linearLayoutManager);
         rvTableDetails.setHasFixedSize(true);
         rvTableDetails.getLayoutManager().setMeasurementCacheEnabled(false);
-        RVAssignTableDetails rvAssignTableDetails=new RVAssignTableDetails(getActivity(),arrayListTable);
+        RVAssignTableDetails rvAssignTableDetails=new RVAssignTableDetails(getActivity(),arrayListTable, new EditListener() {
+            @Override
+            public void getEditListenerPosition(int position) {
+                editAreaId=arrayListTable.get(position).getAreaId();
+                editEmpId=arrayListTable.get(position).getCaptainId();
+
+                Intent intent = new Intent(getActivity(), ActivityAssignTable.class);
+                intent.putExtra("editAreaId",editAreaId);
+                intent.putExtra("editEmpId",editEmpId);
+                intent.putExtra("tables",arrayListTable.get(position).getArrayTableFormIds());
+                startActivity(intent);
+
+            }
+        });
         rvTableDetails.setAdapter(rvAssignTableDetails);
     }
 

@@ -255,7 +255,7 @@ public class ActivityMenuCart extends AppCompatActivity {
 
                         } else {
                             // pojoArrayList.clear();
-                            Toast.makeText(ActivityMenuCart.this, "Selected quantity is more than winner people quantity", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ActivityMenuCart.this, "Selected menu Count should be same as winner people quantity", Toast.LENGTH_SHORT).show();
                         }
                     }
 

@@ -1,6 +1,7 @@
 package com.restrosmart.restrohotel.Admin;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,12 +11,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import com.restrosmart.restrohotel.Interfaces.ApiService;
 import com.restrosmart.restrohotel.R;
 
 public class FragmentAdminSettings extends Fragment {
 
     private  View view;
     private RelativeLayout changePassword, privacyPolicy, termsAndCondition, userGuide,helpSupport;
+    private ApiService apiService;
+
+
 
     // ImageButton btn_change_password,btn_privacy_policy,btn_terms_of_use,btn_logout;
 
@@ -44,30 +49,33 @@ public class FragmentAdminSettings extends Fragment {
         privacyPolicy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // Intent i = new Intent(getActivity(), ActivityCategoryMenu.class);
-               // startActivity(i);
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(apiService.BASE_URL+"Privacy_Policy.html"));
+                startActivity(browserIntent);
             }
         });
 
         userGuide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-/*
-                Intent i = new Intent(getActivity(), ActivityLogin.class);
-                startActivity(i);*/
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(apiService.BASE_URL+"User_Guide.html"));
+                startActivity(browserIntent);
             }
         });
 
         termsAndCondition.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(apiService.BASE_URL+"Terms_of_Services.html"));
+                startActivity(browserIntent);
             }
         });
         
         helpSupport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(apiService.BASE_URL+"Help_Support.html"));
+                // Intent browserIntent = new Intent(getActivity(),ActivityHelpSupport.class);
+                startActivity(browserIntent);
                 
             }
         });

@@ -2,11 +2,14 @@ package com.restrosmart.restrohotel.Admin;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
@@ -40,27 +43,22 @@ public class ActivityChangePassword extends AppCompatActivity {
     private IResult mResultCallBack;
     private Sessionmanager sessionmanager;
     private String Emp_Id, branchId, hotelId;
-    private EditText mOld_pass, mNew_pass, mCon_pass;
+    private TextInputEditText mOld_pass, mNew_pass, mCon_pass;
     private Button btnChangePassword;
+    private TextView tvTitle;
+    private Toolbar mToolbar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_password);
         init();
-    }
-
-    private void init() {
-        mOld_pass = findViewById(R.id.et_old_pass);
-        mNew_pass = findViewById(R.id.et_pass);
-        mCon_pass = findViewById(R.id.et_cpass);
-        btnChangePassword = (Button) findViewById(R.id.save_change_password);
+        setUpToolBar();
 
         sessionmanager = new Sessionmanager(ActivityChangePassword.this);
         HashMap<String, String> name_info = sessionmanager.getHotelDetails();
         Emp_Id = name_info.get(ROLE_ID);
         hotelId = name_info.get(HOTEL_ID);
-
 
         btnChangePassword.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,6 +73,22 @@ public class ActivityChangePassword extends AppCompatActivity {
                         Integer.parseInt(hotelId)));
             }
         });
+    }
+
+    private void setUpToolBar() {
+        tvTitle.setText("Change Password");
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
+    }
+
+    private void init() {
+        mOld_pass = findViewById(R.id.et_old_pass);
+        mNew_pass = findViewById(R.id.et_pass);
+        mCon_pass = findViewById(R.id.et_cpass);
+        btnChangePassword = (Button) findViewById(R.id.save_change_password);
+        mToolbar = findViewById(R.id.toolbar);
+        tvTitle = mToolbar.findViewById(R.id.tx_title);
     }
 
     private void initRetrofitCallBack() {

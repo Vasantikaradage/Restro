@@ -132,33 +132,42 @@ public class OtherDetailsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 skLoading.setVisibility(View.VISIBLE);
+                if (isValid()) {
 
-                AccountDetailsFragment accountDetailsFragment = new AccountDetailsFragment();
+                    AccountDetailsFragment accountDetailsFragment = new AccountDetailsFragment();
 
-                bundle.putInt("hoteltypeId", hoteltypeId);
-                bundle.putInt("tableCount", Integer.parseInt(etvHotelTableCount.getText().toString()));
-                bundle.putString("mCuisine", cuisineArray.toString());
-                bundle.putString("mTags", tagArray.toString());
-                bundle.putParcelableArrayList("hotelImags", hotelImageFormArrayList);
-                bundle.putParcelable("hotelInfo", hotelForm);
+                    bundle.putInt("hoteltypeId", hoteltypeId);
+                    bundle.putInt("tableCount", Integer.parseInt(etvHotelTableCount.getText().toString()));
+
+                    if(cuisineArray!=null || tagArray!=null || hotelImageFormArrayList!=null) {
+                        bundle.putString("mCuisine", cuisineArray.toString());
+                        bundle.putString("mTags", tagArray.toString());
+                        bundle.putParcelableArrayList("hotelImags", hotelImageFormArrayList);
+                    }else {
+                        bundle.putString("mCuisine",null);
+                        bundle.putString("mTags",null);
+                        bundle.putParcelableArrayList("hotelImags", null);
+                    }
+
+                    bundle.putParcelable("hotelInfo", hotelForm);
 
 
-                accountDetailsFragment.setArguments(bundle);
-                Toast.makeText(getActivity(), "success2", Toast.LENGTH_SHORT).show();
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                    accountDetailsFragment.setArguments(bundle);
+                    Toast.makeText(getActivity(), "success2", Toast.LENGTH_SHORT).show();
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
 
-                // Begin Fragment transaction.
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    // Begin Fragment transaction.
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-                // Replace the layout holder with the required Fragment object.
-                fragmentTransaction.replace(R.id.flContainer, accountDetailsFragment);
+                    // Replace the layout holder with the required Fragment object.
+                    fragmentTransaction.replace(R.id.flContainer, accountDetailsFragment);
 
-                // To get back again
-                fragmentTransaction.addToBackStack(null);
+                    // To get back again
+                    fragmentTransaction.addToBackStack(null);
 
-                // Commit the Fragment replace action.
-                fragmentTransaction.commit();
-                skLoading.setVisibility(View.GONE);
+                    // Commit the Fragment replace action.
+                    fragmentTransaction.commit();
+                    skLoading.setVisibility(View.GONE);
 
 
 //                initRetrofitCallBack();
@@ -169,9 +178,25 @@ public class OtherDetailsFragment extends Fragment {
 //                        hotelId,
 //                        cuisineArray.toString(),
 //                        tagArray.toString())));
+                }
             }
         });
         return view;
+    }
+
+    private boolean isValid() {
+        if (hoteltypeId==0) {
+            Toast.makeText(getActivity(), "Please  select hotel type..", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (etvHotelTableCount.getText().toString().equalsIgnoreCase("")) {
+            Toast.makeText(getActivity(), "Please enter table count ..", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        else if (etvHotelTableCount.getText().toString().equalsIgnoreCase("0")) {
+            Toast.makeText(getActivity(), "Please enter table count ..", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
 
     public ArrayList<CuisineForm> getGetArrayListCheckedCuisinePos() {

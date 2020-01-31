@@ -168,11 +168,6 @@ public class ActivityMenu extends AppCompatActivity {
         txEditTitle.setVisibility(View.GONE);
 
         etvMenu.setText("");
-        Picasso.with(ActivityMenu.this)
-                .load(imageName)
-                .resize(500, 500)
-                .into(mCircularViewMenu);
-
 
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override

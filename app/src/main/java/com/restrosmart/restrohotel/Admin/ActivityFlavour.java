@@ -111,7 +111,7 @@ public class ActivityFlavour extends AppCompatActivity {
         intent = getIntent();
 
         flavourDisplay();
-        skLoading.setVisibility(View.VISIBLE);
+
         frameLayoutBtnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -121,6 +121,7 @@ public class ActivityFlavour extends AppCompatActivity {
     }
 
     private void flavourDisplay() {
+        skLoading.setVisibility(View.VISIBLE);
         initRetrofitCall();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, ActivityFlavour.this);
@@ -168,10 +169,10 @@ public class ActivityFlavour extends AppCompatActivity {
             }
         });
 
-        Picasso.with(dialoglayout.getContext())
+       /* Picasso.with(dialoglayout.getContext())
                 .load(image_result)
                 .resize(500, 500)
-                .into(circleImageView);
+                .into(circleImageView);*/
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -357,6 +358,7 @@ public class ActivityFlavour extends AppCompatActivity {
                                 linearLayoutNodata.setVisibility(View.VISIBLE);
 
                             }
+                            skLoading.setVisibility(View.GONE);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -524,6 +526,7 @@ public class ActivityFlavour extends AppCompatActivity {
         bottomSheetDialog.show();
 
         etflavourName.setText(arrayListFlavour.get(position).getFlavourName());
+       // jsonArray=arrayListFlavour.get(position).getArrayListUnits();
 
         // callTableLayout();
         btnCamera.setOnClickListener(new View.OnClickListener() {
@@ -557,7 +560,7 @@ public class ActivityFlavour extends AppCompatActivity {
             }
         });
 
-        arrayListUnit = (arrayListFlavour.get(position).getArrayListUnits());
+
         tvAddUnit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -618,7 +621,7 @@ public class ActivityFlavour extends AppCompatActivity {
 
             }
         });
-
+        arrayListUnit = (arrayListFlavour.get(position).getArrayListUnits());
         if (arrayListUnit.size() != 0) {
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ActivityFlavour.this, LinearLayoutManager.VERTICAL, false);
             rvUnit.setHasFixedSize(true);
@@ -640,7 +643,7 @@ public class ActivityFlavour extends AppCompatActivity {
                     alertDialog();
 
                 } else {
-
+                    arrayListUnit = (arrayListFlavour.get(position).getArrayListUnits());
                     arrayList.clear();
                     for (int i = 0; i < arrayListUnit.size(); i++) {
 
@@ -649,6 +652,8 @@ public class ActivityFlavour extends AppCompatActivity {
                         flavourUnitForm.setUnitPrice((arrayListUnit.get(i).getUnitPrice()));
                         arrayList.add(flavourUnitForm);
                     }
+
+
 
                     jsonArray = new JSONArray();
                     for (int x = 0; x < arrayList.size(); x++) {

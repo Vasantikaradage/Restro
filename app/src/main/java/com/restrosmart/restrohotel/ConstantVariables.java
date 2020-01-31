@@ -100,6 +100,7 @@ public class ConstantVariables {
     public  static  final  int  DISPLAY_DAILY_OFFER=919;
     public  static  final  int EDIT_DAILY_OFFER=920;
     public static  final  int APPLY_PROMOCODE=921;
+    public  static  final  int ASSIGN_TABLE_UPDATE=922;
 
     /*Captain*/
     public static final String UNIQUE_KEY = "!#3%75^@123";
@@ -157,6 +158,7 @@ public class ConstantVariables {
     public  static  final  int WEEKLY_SA_REPORT=1020;
     public  static  final  int WEEKLY_REPORT=1021;
     public  static  final int EDIT_HOTEL=1022;
+    public  static  final int EDIT_HOTEL_IMAGE=1023;
 
 
 

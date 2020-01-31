@@ -18,6 +18,7 @@ import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.CardView;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -30,6 +31,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.ybq.android.spinkit.SpinKitView;
@@ -41,6 +43,7 @@ import com.restrosmart.restrohotel.RetrofitClientInstance;
 import com.restrosmart.restrohotel.RetrofitService;
 import com.restrosmart.restrohotel.SuperAdmin.Models.HotelForm;
 import com.restrosmart.restrohotel.SuperAdmin.Models.HotelImageForm;
+import com.restrosmart.restrohotel.SuperAdmin.Models.ImageDataForm;
 import com.restrosmart.restrohotel.Utils.FilePath;
 import com.restrosmart.restrohotel.Utils.ImageFilePath;
 import com.restrosmart.restrohotel.Utils.Sessionmanager;
@@ -53,6 +56,7 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -62,6 +66,7 @@ import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static android.app.Activity.RESULT_OK;
 import static com.restrosmart.restrohotel.ConstantVariables.EDIT_HOTEL;
+import static com.restrosmart.restrohotel.ConstantVariables.EDIT_HOTEL_IMAGE;
 import static com.restrosmart.restrohotel.ConstantVariables.HOTEL_ADD_PHOTO;
 import static com.restrosmart.restrohotel.ConstantVariables.HOTEL_REGISTRATION;
 import static com.restrosmart.restrohotel.ConstantVariables.IMAGE1;
@@ -88,6 +93,7 @@ public class AccountDetailsFragment extends Fragment implements View.OnClickList
     private Sessionmanager sessionmanager;
     private HashMap<String, String> superAdminInfo;
     private Bundle bundle;
+    ArrayList<ImageDataForm> imageDataForms;
     private int hotelId;
     private FrameLayout frameLayout1, frameLayout2, frameLayout3, frameLayout4, frameLayout5, frameLayout6;
     private String selectedFilePath, extension, selectedData;
@@ -100,6 +106,9 @@ public class AccountDetailsFragment extends Fragment implements View.OnClickList
     private SpinKitView skLoading;
     private HotelForm hotelForm;
     private ArrayList<HotelImageForm> hotelImageFormArrayList;
+    int x = 1;
+    private TextView tvImageTitle;
+    private CardView cvHotelImages;
 
 
     @Nullable
@@ -143,9 +152,19 @@ public class AccountDetailsFragment extends Fragment implements View.OnClickList
                 edtHotelCgst.setVisibility(View.VISIBLE);
                 edtHotelSgst.setVisibility(View.VISIBLE);
                 linearLayout.setVisibility(View.VISIBLE);
+
+                tvImageTitle.setVisibility(View.GONE);
+                cvHotelImages.setVisibility(View.GONE);
+
+
+
+
+
                 edtGstnNo.setText(hotelForm.getGstnNo());
                 edtHotelCgst.setText(hotelForm.getHotelCgst());
                 edtHotelSgst.setText(hotelForm.getHotelSgst());
+
+
 
                 btnUpdate.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -172,6 +191,9 @@ public class AccountDetailsFragment extends Fragment implements View.OnClickList
             } else {
                 btnUpdate.setVisibility(View.GONE);
                 btnSave.setVisibility(View.VISIBLE);
+                tvImageTitle.setVisibility(View.VISIBLE);
+                cvHotelImages.setVisibility(View.VISIBLE);
+
             }
 
         }
@@ -203,7 +225,7 @@ public class AccountDetailsFragment extends Fragment implements View.OnClickList
         frameLayout5.setOnClickListener(this);
         frameLayout6.setOnClickListener(this);
 
-        if (hotelImageFormArrayList != null) {
+      /*  if (hotelImageFormArrayList != null) {
 
             for (int i = 0; i < hotelImageFormArrayList.size(); i++) {
                 if (i == 0) {
@@ -240,7 +262,7 @@ public class AccountDetailsFragment extends Fragment implements View.OnClickList
                             .into(imageView6);
                 }
             }
-        }
+        }*/
 
 
         btnSave.setOnClickListener(new View.OnClickListener() {
@@ -314,85 +336,80 @@ public class AccountDetailsFragment extends Fragment implements View.OnClickList
                 bitmapImage = exifInterface(picturePath, categoryBitmap);
                 selectedData = getImageString(bitmapImage);
 
+                ImageDataForm imageDataForm = new ImageDataForm();
+                imageDataForm.setImageExt(extension);
+                imageDataForm.setImageData(selectedData);
 
-                if (selectedFilePath != null && !selectedFilePath.equals("")) {
+                imageDataForms.add(imageDataForm);
+            }
 
-                    byte[] decodedString = Base64.decode(selectedData, Base64.DEFAULT);
-                    Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-                    drawable = new BitmapDrawable(decodedByte);
-                    Toast.makeText(getActivity(), "requestCode" + resultCode, Toast.LENGTH_SHORT).show();
 
-                    switch (requestCode) {
-                        case IMAGE1:
-                            frameLayout1.setBackground(drawable);
-                            imageView1.setVisibility(View.GONE);
-                            image1Data = selectedData;
-                            image1Ext = extension;
-                            break;
+            if (selectedFilePath != null && !selectedFilePath.equals("")) {
 
-                        case IMAGE2:
-                            frameLayout2.setBackground(drawable);
-                            imageView2.setVisibility(View.GONE);
-                            image2Data = selectedData;
-                            image2Ext = extension;
-                            break;
+                byte[] decodedString = Base64.decode(selectedData, Base64.DEFAULT);
+                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                drawable = new BitmapDrawable(decodedByte);
+                Toast.makeText(getActivity(), "requestCode" + resultCode, Toast.LENGTH_SHORT).show();
 
-                        case IMAGE3:
-                            frameLayout3.setBackground(drawable);
-                            imageView3.setVisibility(View.GONE);
-                            image3Data = selectedData;
-                            image3Ext = extension;
-                            break;
+                switch (requestCode) {
+                    case IMAGE1:
+                        frameLayout1.setBackground(drawable);
+                        imageView1.setVisibility(View.GONE);
+                        image1Data = selectedData;
+                        image1Ext = extension;
+                        break;
 
-                        case IMAGE4:
-                            frameLayout4.setBackground(drawable);
-                            imageView4.setVisibility(View.GONE);
-                            image4Data = selectedData;
-                            image4Ext = extension;
-                            break;
+                    case IMAGE2:
+                        frameLayout2.setBackground(drawable);
+                        imageView2.setVisibility(View.GONE);
+                        image2Data = selectedData;
+                        image2Ext = extension;
+                        break;
 
-                        case IMAGE5:
-                            frameLayout5.setBackground(drawable);
-                            imageView5.setVisibility(View.GONE);
-                            image5Data = selectedData;
-                            image5Ext = extension;
+                    case IMAGE3:
+                        frameLayout3.setBackground(drawable);
+                        imageView3.setVisibility(View.GONE);
+                        image3Data = selectedData;
+                        image3Ext = extension;
+                        break;
 
-                            break;
+                    case IMAGE4:
+                        frameLayout4.setBackground(drawable);
+                        imageView4.setVisibility(View.GONE);
+                        image4Data = selectedData;
+                        image4Ext = extension;
+                        break;
 
-                        case IMAGE6:
-                            frameLayout6.setBackground(drawable);
-                            imageView6.setVisibility(View.GONE);
-                            image6Data = selectedData;
-                            image6Ext = extension;
-                            break;
-                    }
+                    case IMAGE5:
+                        frameLayout5.setBackground(drawable);
+                        imageView5.setVisibility(View.GONE);
+                        image5Data = selectedData;
+                        image5Ext = extension;
 
-                    // tvStudyFileName.setText(selectedFilePath);
-                    //  alertDialog.dismiss();
-                } else {
-                    Toast.makeText(getContext(), R.string.cannot_upload_file, Toast.LENGTH_SHORT).show();
+                        break;
+
+                    case IMAGE6:
+                        frameLayout6.setBackground(drawable);
+                        imageView6.setVisibility(View.GONE);
+                        image6Data = selectedData;
+                        image6Ext = extension;
+                        break;
                 }
             } else {
-                Toast.makeText(getContext(), R.string.selected_image_size, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), R.string.cannot_upload_file, Toast.LENGTH_SHORT).show();
             }
+        } else {
+            Toast.makeText(getContext(), R.string.selected_image_size, Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void retrofitCall() {
-        addPhoto();
-        getActivity().finish();
-    }
-
-    private void addPhoto() {
+    private void addPhoto(String imageData, String imageExe) {
+        skLoading.setVisibility(View.VISIBLE);
         initRetrofitCallBack();
         ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
         mRetrofitService = new RetrofitService(mResultCallBack, getActivity());
-        mRetrofitService.retrofitData(HOTEL_ADD_PHOTO, (service.saveHotelImage(hotelId, image1Data, image1Ext)));
-        mRetrofitService.retrofitData(HOTEL_ADD_PHOTO, (service.saveHotelImage(hotelId, image2Data, image2Ext)));
-        mRetrofitService.retrofitData(HOTEL_ADD_PHOTO, (service.saveHotelImage(hotelId, image3Data, image3Ext)));
-        mRetrofitService.retrofitData(HOTEL_ADD_PHOTO, (service.saveHotelImage(hotelId, image4Data, image4Ext)));
-        mRetrofitService.retrofitData(HOTEL_ADD_PHOTO, (service.saveHotelImage(hotelId, image5Data, image5Ext)));
-        mRetrofitService.retrofitData(HOTEL_ADD_PHOTO, (service.saveHotelImage(hotelId, image6Data, image6Ext)));
+        mRetrofitService.retrofitData(HOTEL_ADD_PHOTO, (service.saveHotelImage(hotelId, imageData, imageExe)));
+
     }
 
     private Bitmap exifInterface(String filePath, Bitmap bitmap) {
@@ -514,8 +531,9 @@ public class AccountDetailsFragment extends Fragment implements View.OnClickList
                             if (status == 1) {
                                 Toast.makeText(getActivity(), object.getString("message"), Toast.LENGTH_SHORT).show();
                                 hotelId = object.getInt("Hotel_Id");
-                                retrofitCall();
-                                //   getActivity().finish();
+                                if (imageDataForms != null && imageDataForms.size() > 0) {
+                                    addPhoto(imageDataForms.get(0).getImageData(), imageDataForms.get(0).getImageExt());
+                                }
 
                             } else {
                                 Toast.makeText(getActivity(), object.getString("message"), Toast.LENGTH_SHORT).show();
@@ -532,12 +550,21 @@ public class AccountDetailsFragment extends Fragment implements View.OnClickList
                         try {
                             JSONObject object = new JSONObject(objectInfo);
                             int status = object.getInt("status");
+                            //  Toast.makeText(getActivity(), object.getString("message"), Toast.LENGTH_SHORT).show();
                             if (status == 1) {
-                                Toast.makeText(getActivity(), object.getString("message"), Toast.LENGTH_SHORT).show();
-
+                                //Toast.makeText(getActivity(), object.getString("message"), Toast.LENGTH_SHORT).show();
+                                if (imageDataForms != null && imageDataForms.size() > 0) {
+                                    if (x != imageDataForms.size()) {
+                                        addPhoto(imageDataForms.get(x).getImageData(), imageDataForms.get(x).getImageExt());
+                                        x++;
+                                    } else {
+                                        skLoading.setVisibility(View.GONE);
+                                        Toast.makeText(getActivity(), object.getString("message"), Toast.LENGTH_SHORT).show();
+                                        getActivity().finish();
+                                    }
+                                }
                             } else {
                                 Toast.makeText(getActivity(), object.getString("message"), Toast.LENGTH_SHORT).show();
-                                //getActivity().finish();
                             }
                             skLoading.setVisibility(View.GONE);
                         } catch (JSONException e) {
@@ -551,7 +578,12 @@ public class AccountDetailsFragment extends Fragment implements View.OnClickList
                             int status = object.getInt("status");
                             if (status == 1) {
                                 Toast.makeText(getActivity(), object.getString("message"), Toast.LENGTH_SHORT).show();
-                                retrofitCall();
+                                // retrofitCall();
+                               /* hotelId =hotelForm.getHotelId();
+                                if (imageDataForms != null && imageDataForms.size() > 0) {
+                                    editPhoto(imageDataForms.get(0).getImageData(), imageDataForms.get(0).getImageExt());
+                                }
+*/
                             } else {
                                 Toast.makeText(getActivity(), object.getString("message"), Toast.LENGTH_SHORT).show();
                             }
@@ -574,6 +606,15 @@ public class AccountDetailsFragment extends Fragment implements View.OnClickList
             }
         };
     }
+
+  /*  private void editPhoto(String imageData, String imageExt) {
+        skLoading.setVisibility(View.VISIBLE);
+        initRetrofitCallBack();
+        ApiService service = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
+        mRetrofitService = new RetrofitService(mResultCallBack, getActivity());
+        mRetrofitService.retrofitData(EDIT_HOTEL, (service.editHotelImage(hotelId,"", imageData,
+                imageExt,1)));
+    }*/
 
     @Override
     public void onResume() {
@@ -642,7 +683,10 @@ public class AccountDetailsFragment extends Fragment implements View.OnClickList
         imageView6 = view.findViewById(R.id.image6);
         skLoading = view.findViewById(R.id.skLoading);
 
+        imageDataForms = new ArrayList<>();
         btnUpdate = view.findViewById(R.id.btn_account_hotel_update);
+        tvImageTitle=view.findViewById(R.id.tv_hotel_image);
+        cvHotelImages=view.findViewById(R.id.card_hotel_images);
 
 
     }

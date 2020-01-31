@@ -15,15 +15,18 @@ import com.restrosmart.restrohotel.R;
 
 import java.util.ArrayList;
 
+import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK;
+
 public class RVAdminAssignTable extends RecyclerView.Adapter<RVAdminAssignTable.MyHolder> {
-    private ArrayList<TableFormId> tableFormIdArrayList;
+    private ArrayList<TableFormId> tableFormIdArrayList, editedTableArrayList;
     private Context mContext;
     private SelectTableListerner selectTableListerner;
 
 
-    public RVAdminAssignTable(Context mContext, ArrayList<TableFormId> arrayTableFormIds, SelectTableListerner selectPhotoListerner) {
+    public RVAdminAssignTable(Context mContext, ArrayList<TableFormId> arrayTableFormIds, ArrayList<TableFormId> editedTableArrayList, SelectTableListerner selectPhotoListerner) {
         this.mContext = mContext;
         this.tableFormIdArrayList = arrayTableFormIds;
+        this.editedTableArrayList = editedTableArrayList;
         this.selectTableListerner = selectPhotoListerner;
     }
 
@@ -36,19 +39,43 @@ public class RVAdminAssignTable extends RecyclerView.Adapter<RVAdminAssignTable.
 
     @Override
     public void onBindViewHolder(@NonNull final MyHolder myHolder, final int i) {
-        String id = String.valueOf(tableFormIdArrayList.get(i).getTableNo());
-        myHolder.tvTableNo.setText(id);
+
+
+        if( editedTableArrayList!=null && editedTableArrayList.size()!=0){
+
+        for (int j = 0; j < editedTableArrayList.size(); j++) {
+            String id = String.valueOf(tableFormIdArrayList.get(i).getTableNo());
+            myHolder.tvTableNo.setText(id);
+
+            if (editedTableArrayList.get(j).getTableStatus() == 1 || (editedTableArrayList.get(j).getTableId() == tableFormIdArrayList.get(i).getTableId())) {
+                myHolder.imageView.setBackgroundResource(R.drawable.ic_table_green);
+                tableFormIdArrayList.get(i).setSelected(true);
+                selectTableListerner.tableListerner(tableFormIdArrayList);
+                break;
+            } else {
+                myHolder.imageView.setBackgroundResource(R.drawable.ic_table_gray);
+                tableFormIdArrayList.get(i).setSelected(false);
+                selectTableListerner.tableListerner(tableFormIdArrayList);
+            }
+        }
+
+
+        }
+        else
+        {
+            String id = String.valueOf(tableFormIdArrayList.get(i).getTableNo());
+            myHolder.tvTableNo.setText(id);
+        }
 
         myHolder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(tableFormIdArrayList.get(i).isSelected()) {
+                if (tableFormIdArrayList.get(i).isSelected()) {
 
                     myHolder.imageView.setBackgroundResource(R.drawable.ic_table_gray);
                     tableFormIdArrayList.get(i).setSelected(false);
                     selectTableListerner.tableListerner(tableFormIdArrayList);
-                }else
-                {
+                } else {
                     myHolder.imageView.setBackgroundResource(R.drawable.ic_table_green);
                     tableFormIdArrayList.get(i).setSelected(true);
                     selectTableListerner.tableListerner(tableFormIdArrayList);

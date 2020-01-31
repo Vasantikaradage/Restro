@@ -2,8 +2,12 @@ package com.restrosmart.restrohotel.Admin;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -45,6 +49,7 @@ public class ActivityLogin extends AppCompatActivity {
     private IResult mResultCallBack;
     private RetrofitService mRetrofitService;
     private Sessionmanager sessionmanager;
+    private boolean oldFlag = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +84,35 @@ public class ActivityLogin extends AppCompatActivity {
             edtAdminUsername.setText(hashMap.get(REMEMBER_USER_NAME));
             edtAdminPassword.setText(hashMap.get(REMEMBER_PASSWORD));
         }
+
+        edtAdminPassword.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                final int DRAWABLE_LEFT = 0;
+                final int DRAWABLE_TOP = 1;
+                final int DRAWABLE_RIGHT = 2;
+                final int DRAWABLE_BOTTOM = 3;
+
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (event.getRawX() >= (edtAdminPassword.getRight() - edtAdminPassword.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                        // your action here
+                        if (oldFlag) {
+                            oldFlag = false;
+                            edtAdminPassword.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(ActivityLogin.this, R.drawable.ic_password), null,
+                                    ContextCompat.getDrawable(ActivityLogin.this, R.drawable.ic_pass_hide), null);
+                            edtAdminPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                        } else {
+                            oldFlag = true;
+                            edtAdminPassword.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(ActivityLogin.this, R.drawable.ic_password), null,
+                                    ContextCompat.getDrawable(ActivityLogin.this, R.drawable.ic_pass_show), null);
+                            edtAdminPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                        }
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
 
         tvAdminForgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -122,9 +122,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="30dp"
-            android:background="@color/colorAccent"
+            android:background="@drawable/button_outline_dark"
+            android:textColor="@color/colorPrimary"
             android:text="Next"
-            android:textColor="@android:color/white"
             android:textSize="16sp" />
     </LinearLayout>
 

@@ -81,7 +81,7 @@ public class ActivitySaAdminProfile  extends AppCompatActivity {
     }
 
     private void setUpToolBar() {
-        toolBarTitle.setText("Employee Profile");
+        toolBarTitle.setText("Admin Profile");
         setSupportActionBar(mTopToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
@@ -136,6 +136,7 @@ public class ActivitySaAdminProfile  extends AppCompatActivity {
             intent.putExtra("Emp_detail",  employeeSAForm);
           //  intent.putExtra("empId", emp_id);
             startActivity(intent);
+            finish();
             return true;
         }
         return super.onOptionsItemSelected(item);
